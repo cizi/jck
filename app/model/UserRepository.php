@@ -163,4 +163,39 @@ class UserRepository extends BaseRepository implements Nette\Security\IAuthentic
 		$query = ["update user set last_login = NOW() where id = %i", $id];
 		return $this->connection->query($query);
 	}
+
+	/**
+	 * @param int $id
+	 * @return UserEntity
+	 */
+	public function getUserByEmail($email) {
+		$query = ["select * from user where email = %s", $email];
+		$row = $this->connection->query($query)->fetch();
+		if ($row) {
+			$userEntity = new UserEntity();
+			$userEntity->hydrate($row->toArray());
+			return $userEntity;
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @return UserEntity
+	 */
+	public function resetUserPassword(UserEntity $userEntity) {
+		$input = 'abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$password = '';
+		for ($i = 0; $i < 8; $i++) {
+			$password .= $input[mt_rand(0, 60)];
+		}
+
+		$query = [
+			"update user set password = %s where email = %s",
+			Passwords::hash($password),
+			$userEntity->getEmail()
+		];
+		$this->connection->query($query);
+
+		return $password;
+	}
 }

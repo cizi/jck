@@ -13,6 +13,13 @@ define("ADMIN_LOGIN_EMAIL_PLACEHOLDER", 'Email');
 define("ADMIN_LOGIN_PASS_PLACEHOLDER", 'Heslo');
 define("ADMIN_LOGIN_FAILED", 'Neplatné jméno nebo heslo');
 define("ADMIN_LOGIN_UNLOGGED", 'Odhlášení proběhlo v pořádku.');
+define("ADMIN_LOGIN_FORGOTTEN_PASSWORD", 'Zapomenuté heslo?');
+define("ADMIN_LOGIN_RESET_PASSWORD", 'Obnovit heslo');
+define("ADMIN_LOGIN_RESET_PASSWORD_EMAIL_FAIL", 'Email nebyl nalezen v databázi.');
+define("ADMIN_LOGIN_RESET_SUCCESS", 'Heslo bylo úspěšně změněno a odesláno na email.');
+define("ADMIN_LOGIN_RESET_FAILED", 'Obnova hesla se nezdařila, opakujte později.');
+define("ADMIN_LOGIN_PASSWORD_CHANGED_EMAIL_SUBJECT", 'Změna hesla v systému %s');
+define("ADMIN_LOGIN_PASSWORD_CHANGED_EMAIL_BODY", "Dobrý den, <br />Vaše heslo do systému %s bylo úspěšně změněno. <br /><br /> Nové heslo je '%s'. <br /><br />");
 
 // položky menu
 define("MENU_TITLE", 'Hlavní nabídka');
@@ -75,7 +82,7 @@ define("USER_SEARCH_BUTTON",  "Hledat");
 
 // user roles - select
 define("USER_ROLE_LAYOUT_CHANGER", "Plná práva");
-define("USER_ROLE_CONTENT_CHANGER", "Uživatel může měnit obsah");
+define("USER_ROLE_CONTENT_CHANGER", "Editor");
 define("USER_ROLE_GUEST", "Host");
 define("USER_ROLE_ADMINISTRATOR", "Administrátor");
 

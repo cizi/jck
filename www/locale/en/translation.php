@@ -13,6 +13,13 @@ define("ADMIN_LOGIN_EMAIL_PLACEHOLDER", 'Email');
 define("ADMIN_LOGIN_PASS_PLACEHOLDER", 'Password');
 define("ADMIN_LOGIN_FAILED", 'Incorrect login name or password');
 define("ADMIN_LOGIN_UNLOGGED", 'You have been successfully logged out.');
+define("ADMIN_LOGIN_FORGOTTEN_PASSWORD", 'Forgotten password?');
+define("ADMIN_LOGIN_RESET_PASSWORD", 'Reset password');
+define("ADMIN_LOGIN_RESET_PASSWORD_EMAIL_FAIL", 'Email does not exist in database.');
+define("ADMIN_LOGIN_RESET_SUCCESS", 'Password has benn successfully changed and send to your email.');
+define("ADMIN_LOGIN_RESET_FAILED", 'Password reset failed. Try again later.');
+define("ADMIN_LOGIN_PASSWORD_CHANGED_EMAIL_SUBJECT", 'Password changed in %s');
+define("ADMIN_LOGIN_PASSWORD_CHANGED_EMAIL_BODY", "Hello, <br /> your password has been changed in %s. <br /><br /> New password is '%s'.<br /><br />");
 
 // položky menu
 define("MENU_TITLE", 'Main menu');
@@ -74,7 +81,7 @@ define("USER_SEARCH_BUTTON", "Search");
 
 // user roles - select
 define("USER_ROLE_LAYOUT_CHANGER", "Full access");
-define("USER_ROLE_CONTENT_CHANGER", "User can change content");
+define("USER_ROLE_CONTENT_CHANGER", "Editor");
 define("USER_ROLE_GUEST", "Host");
 define("USER_ROLE_ADMINISTRATOR", "Administrator");
 
