@@ -90,6 +90,8 @@ define("ARTICLE_MAIN_PIC", 'Hlavní obrázek');
 define("ARTICLE_URL", 'Odkaz na akci');
 define("ARTICLE_FB_URL", 'FB odkaz na akci');
 define("ARTICLE_YT_URL", 'Youtube odkaz na akci');
+define("ARTICLE_SAVE_FAILED", 'Nepovedlo se uložit příspěvek.');
+define("ARTICLE_CONTENT_CONFIRM", 'Uložit příspěvek');
 
 define("CHOSEN_PICKUP", 'Vyberte možnosti');
 define("CHOSEN_NO_MATCH", 'Žádná shoda');

@@ -24,7 +24,7 @@
 									<tr>
 										<td style="width: 100px"><img src="{!$pic->getPath()}" class="footerList"/><td>
 										<td>{* blockId goes from presenter *}
-											<a href="#" data-href={link Block:DeletePic, $blockId ,$pic->getId()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=BLOCK_SETTING_PIC_WILL_DELETE}><span class="glyphicon glyphicon-remove"></span></a>
+											<a href="#" data-href={link Article:DeletePic, $pic->getId()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=BLOCK_SETTING_PIC_WILL_DELETE}><span class="glyphicon glyphicon-remove"></span></a>
 											<pre style="width: 100%">{$pic->getPath()}</pre>
 										</td>
 									</tr>

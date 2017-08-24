@@ -47,7 +47,7 @@ class ArticleContentEntity {
 	 * @param int $article_id
 	 */
 	public function setArticleId($articleId) {
-		$this->article_id = $articleId;
+		$this->articleId = $articleId;
 	}
 
 	/**

@@ -90,7 +90,7 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
-		$form->addText("yb_url", ARTICLE_YT_URL)
+		$form->addText("yt_url", ARTICLE_YT_URL)
 			->setAttribute("placeholder", ARTICLE_YT_URL)
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
@@ -149,7 +149,7 @@ class ArticleForm extends Nette\Object {
 
 		$form->addHidden("id");
 
-		$form->addSubmit("confirm", BLOCK_SETTING_ITEM_CONTENT_CONFIRM)
+		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
 			->setAttribute("class","btn btn-primary menuItem alignRight")
 			->setAttribute("tabindex", $i+2);
 
