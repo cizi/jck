@@ -114,7 +114,6 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("tabindex", "3"); */
 
 		$languages = $this->langRepository->findLanguages();
-		$i = 4;
 		foreach ($languages as $lang) {
 			$container = $form->addContainer($lang);
 
@@ -127,17 +126,17 @@ class ArticleForm extends Nette\Object {
 			$container->addText("header", ARTICLE_CONTENT_HEADER)
 				->setAttribute("class", "form-control menuItem")
 				->setAttribute("placeholder", ARTICLE_CONTENT_HEADER)
-				->setAttribute("tabindex", $i);
+				->setAttribute("tabindex", $i+1);
 
 			$container->addTextArea("content", ARTICLE_CONTENT_CONTENT)
 				->setAttribute("class", "form-control menuItem mceBlockContent")
 				->setAttribute("placeholder", ARTICLE_CONTENT_CONTENT)
-				->setAttribute("tabindex", $i);
+				->setAttribute("tabindex", $i+1);
 
 			$container->addText("seo", ARTICLE_CONTENT_SEO)
 				->setAttribute("class", "form-control menuItem")
 				->setAttribute("placeholder", ARTICLE_CONTENT_SEO)
-				->setAttribute("tabindex", $i);
+				->setAttribute("tabindex", $i+1);
 
 			$container->addHidden("article_id");
 			$i++;
@@ -151,7 +150,7 @@ class ArticleForm extends Nette\Object {
 
 		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
 			->setAttribute("class","btn btn-primary menuItem alignRight")
-			->setAttribute("tabindex", $i+2);
+			->setAttribute("tabindex", $i+1);
 
 		return $form;
 	}
