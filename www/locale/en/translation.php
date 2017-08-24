@@ -70,6 +70,30 @@ define("ENUM_DELETE_SUCCESS", 'Whole enumeration has benn deleted.');
 define("ENUM_DELETE_FAIL", 'During whole enumeration failed. Probably any value of enumeration item is in used. ');
 define("ENUM_DELETE_ITEM_FAIL", 'Enumeration item deletation failed. Probably the value is in use. ');
 
+// příspěvky
+define("ARTICLE_HEADER", 'Articles');
+define("ARTICLE_HEADER_DETAIL", 'Article detail');
+define("ARTICLE_HEADER_INFO", 'In article section yu are able to add, edit or delete content of article. Each article is inserted in the category which means action or text plain article Article is text plain content, action has to have date or dates of taking place. ');
+define("ARTICLE_TYPE", 'Type of article');
+define("ARTICLE_CATEGORY", 'Category');
+define("ARTICLE_ACTIVE", 'Active');
+define("ARTICLE_BY", 'Inserted by');
+define("ARTICLE_TIMESTAMP", 'Inserted');
+define("ARTICLE_CONTENT", 'Content');
+define("ARTICLE_VALIDITY", 'Validity');
+define("ARTICLE_LOCATION", 'Location');
+define("ARTICLE_SUBLOCATION", 'Sublocation');
+define("ARTICLE_CONTENT_HEADER", 'Header');
+define("ARTICLE_CONTENT_CONTENT", 'Content');
+define("ARTICLE_CONTENT_SEO", 'SEO');
+define("ARTICLE_MAIN_PIC", 'Master pic');
+define("ARTICLE_URL", 'URL of action');
+define("ARTICLE_FB_URL", 'FB action URL');
+define("ARTICLE_YT_URL", 'Youtube URL');
+
+define("CHOSEN_PICKUP", 'Choose an option');
+define("CHOSEN_NO_MATCH", 'No match');
+
 // admin - users list
 define("USER_TITLE", 'Users');
 define("USER_INFO_TEXT", "Here you can manage users and their roles. Login name is their email addresses. It assures the unique user name (login).
@@ -291,7 +315,7 @@ define("BLOCK_SETTING_COLOR", 'Font colour');
 define("BLOCK_SETTING_EDIT_ITEM", 'Block editions');
 define("BLOCK_SETTING_DELETE_ITEM", 'Block deletions');
 define("BLOCK_SETTING_PICS", 'Available images');
-define("BLOCK_SETTING_WIDTH", 'Width of block');
+define("BLOCK_SETTING_WIDTH", 'Width');
 define("BLOCK_SETTING_PICS_INFO", 'Available images is possible to pasto to the page block. Just copy the url of the image and paste it in the text editor image wizard
 								then select resolution of this image and save the block content. <br />
  								<b>NOTE: </b> If you want to paste new image is necessary to save the image first and then you wil be able to paste them in to the content.');

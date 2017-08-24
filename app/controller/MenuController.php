@@ -17,6 +17,23 @@ class MenuController {
 	}
 
 	/**
+	 * @param string $lang
+	 * @return array
+	 */
+	public function findMenuCategoriesForSelect($lang) {
+		$cats = [];
+		$categories = $this->menuRepository->findAllItems();
+		/** @var MenuEntity $category */
+		foreach ($categories as $category) {
+			if ($category->getLang() == $lang) {
+				$cats[$category->getId()] = $category->getTitle();
+			}
+		}
+
+		return $cats;
+	}
+
+	/**
 	 * Recursively menu rendering in block content section
 	 *
 	 * @param Presenter $presenter

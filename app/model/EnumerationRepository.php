@@ -12,6 +12,9 @@ class EnumerationRepository extends BaseRepository {
 
 	/** @var int čísla číselní napříč aplikací */
 	const TYP_PRISPEVKU = 1;
+	const VALIDITA_PRISPEVKU = 2;
+	const LOKACE = 3;
+	const SUBLOKACE = 4;
 
 	/**
 	 * @param int $id

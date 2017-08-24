@@ -70,6 +70,30 @@ define("ENUM_DELETE_SUCCESS", 'Smazání číselníku proběhlo v pořádku.');
 define("ENUM_DELETE_FAIL", 'Během mazání celého číselníku došlo k chybě. Pravděpodobně je hodnota číselníku někde využívána.');
 define("ENUM_DELETE_ITEM_FAIL", 'Během mazání položky číselníku došlo k chybě. Pravděpodobně je hodnota číselníku někde využívána.');
 
+// příspěvky
+define("ARTICLE_HEADER", 'Příspěvky');
+define("ARTICLE_HEADER_DETAIL", 'Detail příspěvku');
+define("ARTICLE_HEADER_INFO", 'V sekci příspěvků je možné přidávat obsah do webové aplikace. Příspěvek je vždy zařazen do kategorie a může jím být buď článek, nebo to může být akce. Zatím co článek obsahuje v zásadě jen text, akce musí mít vplněné datum/data konání. ');
+define("ARTICLE_TYPE", 'Typ příspěvku');
+define("ARTICLE_CATEGORY", 'Kategorie');
+define("ARTICLE_ACTIVE", 'Aktivní');
+define("ARTICLE_BY", 'Vložil');
+define("ARTICLE_TIMESTAMP", 'Vloženo');
+define("ARTICLE_CONTENT", 'Obsah');
+define("ARTICLE_VALIDITY", 'Platnost');
+define("ARTICLE_LOCATION", 'Lokace');
+define("ARTICLE_SUBLOCATION", 'Sublokace');
+define("ARTICLE_CONTENT_HEADER", 'Nadpis');
+define("ARTICLE_CONTENT_CONTENT", 'Obsah');
+define("ARTICLE_CONTENT_SEO", 'SEO');
+define("ARTICLE_MAIN_PIC", 'Hlavní obrázek');
+define("ARTICLE_URL", 'Odkaz na akci');
+define("ARTICLE_FB_URL", 'FB odkaz na akci');
+define("ARTICLE_YT_URL", 'Youtube odkaz na akci');
+
+define("CHOSEN_PICKUP", 'Vyberte možnosti');
+define("CHOSEN_NO_MATCH", 'Žádná shoda');
+
 // admin - users list
 define("USER_TITLE", 'Uživatelé');
 define("USER_INFO_TEXT", "Zde je možné spravovat přístup uživatelů do systému. Je možmé uživatele přidávat, odebírat, aktivaovat nebo odebírat. <br /><br />
@@ -301,7 +325,7 @@ define("BLOCK_SETTING_COLOR", 'Barva textu');
 define("BLOCK_SETTING_EDIT_ITEM", 'Editovat blok');
 define("BLOCK_SETTING_DELETE_ITEM", 'Odstranit blok');
 define("BLOCK_SETTING_PICS", 'Dostupné obrázky');
-define("BLOCK_SETTING_WIDTH", 'Šířka bloku');
+define("BLOCK_SETTING_WIDTH", 'Šířka');
 define("BLOCK_SETTING_PICS_INFO", 'Dostuoné obrázky, které je možné vložit do obsahu bloku. Stačí zkopírovat adresu uloženou vedle obrázku a v editoru
  								textu tuto adresu opět zadat i s rozměry obrázku. Obrázek se následně zobrazí v editoru kde bude možné donastavit obtékání
  								textu a jiná nastavení. <br />
