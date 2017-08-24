@@ -31,6 +31,11 @@
 			</a>
 		</li>
 		<li>
+			<a href={link Article:Default} {if $item == "block"} style="color: white"{/if}>
+				<span class="glyphicon glyphicon-tasks menuItem"></span>{=MENU_ARTICLE}
+			</a>
+		</li>
+		<li>
 			<a href={link BlockContent:Default} {if $item == "blockContent"} style="color: white"{/if}>
 				<span class="glyphicon glyphicon-link menuItem"></span>{=MENU_MENU_BLOCK}
 			</a>
@@ -52,6 +57,11 @@
 		<li>
 			<a href="{link Webconfig:Default}" {if $item == "webconfig"} style="color: white" {/if}>
 				<span class="glyphicon glyphicon-cog menuItem"></span>{=MENU_SETTINGS}</a>
+		</li>
+		<li>
+			<a href="{link Enumeration:Default}" {if $item == "enumeration"} style="color: white" {/if}>
+				<span class="glyphicon glyphicon-list-alt menuItem"></span>{=MENU_ENUMERATION}
+			</a>
 		</li>
 		<li>
 			<a href="{link Lang:Default}" {if $item == "lang"} style="color: white" {/if}>
