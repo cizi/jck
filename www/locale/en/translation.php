@@ -20,6 +20,9 @@ define("ADMIN_LOGIN_RESET_SUCCESS", 'Password has benn successfully changed and 
 define("ADMIN_LOGIN_RESET_FAILED", 'Password reset failed. Try again later.');
 define("ADMIN_LOGIN_PASSWORD_CHANGED_EMAIL_SUBJECT", 'Password changed in %s');
 define("ADMIN_LOGIN_PASSWORD_CHANGED_EMAIL_BODY", "Hello, <br /> your password has been changed in %s. <br /><br /> New password is '%s'.<br /><br />");
+define("ADMIN_LOGIN_REAL_NAME", "Name and surname");
+define("ADMIN_LOGIN_REAL_NAME_REQ", "PLease, fill your real name!");
+define("ADMIN_LOGIN_PHONE", "Phone");
 
 // položky menu
 define("MENU_TITLE", 'Main menu');
@@ -34,6 +37,7 @@ define("MENU_CONTACT_FORM", 'Contact form');
 define("MENU_FOOTER", 'Page footer');
 define("MENU_USERS", 'Users');
 define("MENU_SETTINGS", 'Page setting');
+define("MENU_BANNER", 'Banners');
 define("MENU_ENUMERATION", 'Enumerations');
 define("MENU_LANG", 'Language setting');
 define("MENU_LOGOUT", 'Logout');

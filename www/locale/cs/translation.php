@@ -20,6 +20,9 @@ define("ADMIN_LOGIN_RESET_SUCCESS", 'Heslo bylo úspěšně změněno a odeslán
 define("ADMIN_LOGIN_RESET_FAILED", 'Obnova hesla se nezdařila, opakujte později.');
 define("ADMIN_LOGIN_PASSWORD_CHANGED_EMAIL_SUBJECT", 'Změna hesla v systému %s');
 define("ADMIN_LOGIN_PASSWORD_CHANGED_EMAIL_BODY", "Dobrý den, <br />Vaše heslo do systému %s bylo úspěšně změněno. <br /><br /> Nové heslo je '%s'. <br /><br />");
+define("ADMIN_LOGIN_REAL_NAME", "Jméno a přijmení");
+define("ADMIN_LOGIN_REAL_NAME_REQ", "Prosím, vyplňte Vaše jméno!");
+define("ADMIN_LOGIN_PHONE", "Telefon");
 
 // položky menu
 define("MENU_TITLE", 'Hlavní nabídka');
@@ -33,6 +36,7 @@ define("MENU_MENU_BLOCK", 'Nabídka vs bloky');
 define("MENU_CONTACT_FORM", 'Kontaktní formulář');
 define("MENU_FOOTER", 'Patička');
 define("MENU_USERS", 'Uživatelé');
+define("MENU_BANNER", 'Bannery');
 define("MENU_SETTINGS", 'Nastavení');
 define("MENU_ENUMERATION", 'Číselníky');
 define("MENU_LANG", 'Jazyková nastavení');

@@ -61,7 +61,7 @@
 		</div>
 	</div>
 
-	<script>
+	<script language="javascript">
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});
@@ -90,6 +90,22 @@
 			no_results_text: {=CHOSEN_NO_MATCH}
 		});
 
+		$("#frm-articleForm-pic_id > option").each(function() {
+			if (this.value != 0) {
+				//$(this).css("background-image", "url('" + this.text + "') no-repeat");
+				//$(this).css("padding-left", "20px");
+				$(this).attr("data-image",this.text);
+				// alert(this.text + ' ' + this.value);
+			}
+		});
+
+		$(document).ready(function(e) {
+			try {
+				$("#frm-articleForm-pic_id").msDropDown();
+			} catch(e) {
+				alert(e.message);
+			}
+		});
 
 		{*
 		$("#footerBackgroundColor").minicolors({

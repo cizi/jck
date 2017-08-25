@@ -129,6 +129,8 @@ class UserRepository extends BaseRepository implements Nette\Security\IAuthentic
 		} else {
 			$updateArray = $userEntity->extract();
 			unset($updateArray['id']);
+			unset($updateArray['register_timestamp']);
+			unset($updateArray['last_login']);
 			$query = ["update user set ", $updateArray, "where id=%i", $userEntity->getId()];
 		}
 

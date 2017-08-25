@@ -13,6 +13,12 @@ class UserEntity {
 	/** @var string */
 	private $password;
 
+	/** @var string */
+	private $realName;
+
+	/** @var string */
+	private $phone;
+
 	/** @var int */
 	private $role;
 
@@ -82,6 +88,34 @@ class UserEntity {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getRealName() {
+		return $this->realName;
+	}
+
+	/**
+	 * @param string $realName
+	 */
+	public function setRealName($realName) {
+		$this->realName = $realName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPhone() {
+		return $this->phone;
+	}
+
+	/**
+	 * @param string $phone
+	 */
+	public function setPhone($phone) {
+		$this->phone = $phone;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getRole() {
@@ -130,6 +164,8 @@ class UserEntity {
 		$this->id = (isset($data['id']) ? $data['id'] : null);
 		$this->email = (isset($data['email']) ? $data['email']: null);
 		$this->password = (isset($data['password']) ? $data['password'] : null);
+		$this->realName = (isset($data['real_name']) ? $data['real_name'] : null);
+		$this->phone = (isset($data['phone']) ? $data['phone'] : null);
 		$this->role = (isset($data['role']) ? $data['role'] : null);
 		$this->active = (isset($data['active']) ? $data['active'] : null);
 		$this->lastLogin = (isset($data['last_login']) ? $data['last_login'] : null);
@@ -144,6 +180,8 @@ class UserEntity {
 			'id' => $this->id,
 			'email' => $this->email,
 			'password' => $this->password,
+			'real_name' => $this->realName,
+			'phone' => $this->phone,
 			'role' => $this->role,
 			'active' => $this->active,
 			'last_login' => $this->lastLogin,

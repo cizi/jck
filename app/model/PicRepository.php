@@ -23,6 +23,22 @@ class PicRepository extends BaseRepository {
 	}
 
 	/**
+	 * Vrátí obrázky pro select
+	 *
+	 * @return array
+	 */
+	public function loadForSelect() {
+		$result[0] = EnumerationRepository::NOT_SELECTED;
+		$pics = $this->load();
+		foreach ($pics as $pic) {
+			$result[$pic->getId()] = $pic->getPath();
+		}
+
+		return $result;
+	}
+
+
+	/**
 	 * @param PicEntity $picEntity
 	 * @return \Dibi\Result|int
 	 */

@@ -22,6 +22,8 @@
 								<thead>
 									<tr>
 										<th>{=USER_TABLE_HEADER_LOGIN}</th>
+										<th>{=ADMIN_LOGIN_REAL_NAME}</th>
+										<th>{=ADMIN_LOGIN_PHONE}</th>
 										<th>{=USER_TABLE_HEADER_ROLE}</th>
 										<th>{=USER_TABLE_HEADER_ACTIVE}</th>
 										<th>{=USER_TABLE_HEADER_REGISTERED_DATE}</th>
@@ -37,6 +39,8 @@
 								{foreach $users as $user}
 									<tr>
 										<td>{$user->getEmail()}</td>
+										<td>{$user->getRealName()}</td>
+										<td>{$user->getPhone()}</td>
 										<td>
 											{if isset($roles[$user->getRole()])}
 											{$roles[$user->getRole()]}

@@ -77,12 +77,16 @@ class UserPresenter extends SignPresenter {
 		$userEntity = new UserEntity();
 		$userEntity->hydrate((array)$values);
 		$userEntity->setPassword(Passwords::hash($userEntity->getPassword()));
+		$isEditation = (isset($values['id']) && $values['id'] != "");
 
 		try {
-			$this->userRepository->saveUser($userEntity);
-			if (isset($values['id']) && $values['id'] != "") {
+			if ($isEditation) {	// pokud edituji tak prop�u jen heslo
+				$userCurrent = $this->userRepository->getUser($values['id']);	// u�ivatel kter�ho m�n�m
+				$userEntity->setPassword($userCurrent->getPassword());
+				$this->userRepository->saveUser($userEntity);
 				$this->flashMessage(USER_EDITED, "alert-success");
 			} else {
+				$this->userRepository->saveUser($userEntity);
 				$this->flashMessage(USER_ADDED, "alert-success");
 			}
 		} catch (\Exception $e) {
@@ -102,6 +106,12 @@ class UserPresenter extends SignPresenter {
 		if ($userEntity) {
 			$this['editForm']->addHidden('id', $userEntity->getId());
 			$this['editForm']['email']->setAttribute("readonly", "readonly");
+			$this['editForm']['password']->setAttribute("readonly", "readonly");	// pokud edituji tak heslo nem�n�m
+			$this['editForm']['passwordConfirm']->setAttribute("readonly", "readonly"); // pokud edituji tak heslo nem�n�m
+
+			$this['editForm']['passwordConfirm']->setAttribute("class", "form-control");
+			$this['editForm']['password']->setAttribute("class", "form-control");
+
 			$this['editForm']->setDefaults($userEntity->extract());
 		}
 	}

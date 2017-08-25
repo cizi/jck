@@ -286,3 +286,9 @@ div.colorExample {
 .paginatorBackend a:hover{
 	color: white;
 }
+/* dd  image size override */
+img.fnone {
+	width: 50px;
+	height: auto;
+}
+/* dd  image size override end */

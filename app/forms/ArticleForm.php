@@ -7,6 +7,7 @@ use App\Enum\WebWidthEnum;
 use App\Model\BlockRepository;
 use App\Model\EnumerationRepository;
 use App\Model\LangRepository;
+use App\Model\PicRepository;
 use Nette;
 use Nette\Application\UI\Form;
 
@@ -24,22 +25,29 @@ class ArticleForm extends Nette\Object {
 	/** @var MenuController */
 	private $menuController;
 
+	/** @var PicRepository */
+	private $picRepository;
+
 	/**
 	 * ArticleForm constructor.
 	 * @param FormFactory $factory
 	 * @param LangRepository $langRepository
 	 * @param EnumerationRepository $enumerationRepository
+	 * @param MenuController $menuController
+	 * @param PicRepository $picRepository
 	 */
 	public function __construct(
 		FormFactory $factory,
 		LangRepository $langRepository,
 		EnumerationRepository $enumerationRepository,
-		MenuController $menuController
+		MenuController $menuController,
+		PicRepository $picRepository
 	) {
 		$this->factory = $factory;
 		$this->langRepository = $langRepository;
 		$this->enumerationRepository = $enumerationRepository;
 		$this->menuController = $menuController;
+		$this->picRepository = $picRepository;
 	}
 
 	/**
@@ -75,7 +83,7 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
-		$picsSelect = [];	// select obrázků
+		$picsSelect = $this->picRepository->loadForSelect();
 		$form->addSelect("pic_id", ARTICLE_MAIN_PIC, $picsSelect)
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
