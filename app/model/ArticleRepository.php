@@ -45,6 +45,7 @@ class ArticleRepository extends BaseRepository {
 
 			$articleEntity = new ArticleEntity();
 			$articleEntity->hydrate($item->toArray());
+			$articleEntity->setId($item['aID']);
 			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
 
 			$articles[] = $articleEntity;
@@ -65,20 +66,53 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity = new ArticleEntity();
 			$articleEntity->hydrate($item->toArray());
 
-			$query = ["selct * from article_content where article_id = %i", $articleEntity->getId()];
-			$articleContents = $this->connection->query($query)->fetchAll();
-			$articleContentsEntity = [];
-			foreach ($articleContents as $content) {
-				$articleContentEntity = new ArticleContentEntity();
-				$articleContentEntity->hydrate($content->toArray());
-
-				$articleContentsEntity[$articleContentEntity->getLang()] = $articleContentEntity;
-			}
+			$articleContentsEntity = $this->findArticleContents($articleEntity->getId());
 			$articleEntity->setContents($articleContentsEntity);
 			$articles[] = $articleEntity;
 		}
 
 		return $articles;
+	}
+
+	/**
+	 * Vráté entitu Article podle ID včetně obsahů
+	 *
+	 * @param int $id
+	 * @return ArticleEntity
+	 */
+	public function getArticle($id) {
+		$query = ["select * from article where id = %i", $id];
+		$result = $this->connection->query($query)->fetch();
+		if ($result) {
+			$articleEntity = new ArticleEntity();
+			$articleEntity->hydrate($result->toArray());
+
+			$articleContentEntities = $this->findArticleContents($articleEntity->getId());
+			$articleEntity->setContents($articleContentEntities);
+
+			return $articleEntity;
+		}
+	}
+
+	/**
+	 * Vrátí pole pro editaci polořky příspěvku
+	 *
+	 * @param int $id
+	 * @return array
+	 */
+	public function getArticleForEdit($id) {
+		$result = [];
+		$articleEntity = $this->getArticle($id);
+		if ($articleEntity) {
+			$result = $articleEntity->extract();
+
+			$articleContentEntities = $this->findArticleContents($articleEntity->getId());
+			foreach ($articleContentEntities as $articleContentEntity) {
+				$result[$articleContentEntity->getLang()] = $articleContentEntity->extract();
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -89,6 +123,9 @@ class ArticleRepository extends BaseRepository {
 		$result = true;
 		try {
 			$this->connection->begin();
+			if ($articleEntity->getSublocation() == 0) {
+				$articleEntity->setSublocation(null);
+			}
 			$articleId = $this->saveArticleEntity($articleEntity, $userId);
 			if (empty($articleId)) {
 				throw new \Exception("Chybí ID příspěvku.");
@@ -101,12 +138,32 @@ class ArticleRepository extends BaseRepository {
 
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			dump($e); die;
+			echo $e->getMessage();
 			$this->connection->rollback();
 			$result = false;
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Vrátí pole obsahuů článku podle ID článku
+	 *
+	 * @param int $artickeId
+	 * @return ArticleContentEntity[] kde klíčem v poli je zkratka jazyka
+	 */
+	private function findArticleContents($artickeId) {
+		$query = ["select * from article_content where article_id = %i", $artickeId];
+		$articleContents = $this->connection->query($query)->fetchAll();
+		$articleContentsEntity = [];
+		foreach ($articleContents as $content) {
+			$articleContentEntity = new ArticleContentEntity();
+			$articleContentEntity->hydrate($content->toArray());
+
+			$articleContentsEntity[$articleContentEntity->getLang()] = $articleContentEntity;
+		}
+
+		return $articleContentsEntity;
 	}
 
 	/**
@@ -137,9 +194,12 @@ class ArticleRepository extends BaseRepository {
 		foreach ($articleContentEntities as $articleContentEntity) {
 			$articleContentEntity->setArticleId($articleId);
 			if ($result) {
-				$query = ["update article_content set ",  $articleContentEntity->extract(),
-						  "where `lang` = %s
+				$query = ["update article_content set header = %s, seo = %s, content = %s
+						  where `lang` = %s
 						  	and `article_id` = %i",
+					$articleContentEntity->getHeader(),
+					$articleContentEntity->getSeo(),
+					$articleContentEntity->getContent(),
 					$articleContentEntity->getLang(),
 					$articleId
 				];
@@ -148,5 +208,47 @@ class ArticleRepository extends BaseRepository {
 			}
 			$this->connection->query($query);
 		}
+	}
+
+	public function deleteArticle($id) {
+		$result = true;
+		try {
+			$this->connection->begin();
+
+			// nejdříve smažu obsahy
+			$query = ["delete from article_content where article_id = %i", $id];
+			$this->connection->query($query);
+
+			// TODO pak musím smazat položky kalendáře
+
+			// pak smažu samotný příspěvek
+			$query = ["delete from article where id = %i", $id];
+			$this->connection->query($query);
+
+			$this->connection->commit();
+		} catch (\Exception $e) {
+			$result = false;
+			$this->connection->rollback();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param int $id
+	 * @return \Dibi\Result|int
+	 */
+	public function setArticleActive($id) {
+		$query = ["update article set active = 1 where id = %i", $id];
+		return $this->connection->query($query);
+	}
+
+	/**
+	 * @param int $id
+	 * @return \Dibi\Result|int
+	 */
+	public function setArticleInactive($id) {
+		$query = ["update article set active = 0 where id = %i", $id];
+		return $this->connection->query($query);
 	}
 }

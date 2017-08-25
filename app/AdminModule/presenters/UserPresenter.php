@@ -107,7 +107,7 @@ class UserPresenter extends SignPresenter {
 	}
 
 	/**
-	 *
+	 * AJAX pro aktivace / deaktivace uživatele
 	 */
 	public function handleActiveSwitch() {
 		$data = $this->request->getParameters();

@@ -92,6 +92,11 @@ define("ARTICLE_FB_URL", 'FB odkaz na akci');
 define("ARTICLE_YT_URL", 'Youtube odkaz na akci');
 define("ARTICLE_SAVE_FAILED", 'Nepovedlo se uložit příspěvek.');
 define("ARTICLE_CONTENT_CONFIRM", 'Uložit příspěvek');
+define("ARTICLE_CALENDAR", 'Kalendář akce');
+define("ARTICLE_EDIT", 'Editovat příspěvek');
+define("ARTICLE_DELETE", 'Smazat příspěvek');
+define("ARTICLE_MODAL_HEADER", 'Smazání příspěvku');
+define("ARTICLE_MODAL_TEXT", 'Opravdu chcete smazat příspěvek včetně jeho jazykových mutací a záznamů kalendáře?');
 
 define("CHOSEN_PICKUP", 'Vyberte možnosti');
 define("CHOSEN_NO_MATCH", 'Žádná shoda');

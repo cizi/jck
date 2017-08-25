@@ -8,6 +8,7 @@ use App\Model\ArticleRepository;
 use App\Model\Entity\ArticleContentEntity;
 use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\PicEntity;
+use App\Model\EnumerationRepository;
 use App\Model\LangRepository;
 use App\Model\PicRepository;
 use Nette\Forms\Form;
@@ -28,21 +29,29 @@ class ArticlePresenter extends SignPresenter {
 	/** @var PicRepository */
 	private $picRepository;
 
+	/** @var EnumerationRepository */
+	private $enumerationRepository;
+
 	public function __construct(
 		ArticleRepository $articleRepository,
 		LangRepository $langRepository,
 		ArticleForm $articleForm,
-		PicRepository $picRepository
+		PicRepository $picRepository,
+		EnumerationRepository $enumerationRepository
 	) {
 		$this->articleRepository = $articleRepository;
 		$this->langRepository = $langRepository;
 		$this->articleForm = $articleForm;
 		$this->picRepository = $picRepository;
+		$this->enumerationRepository = $enumerationRepository;
 	}
 
 	public function actionDefault($id) {
 		$currentLang = $this->langRepository->getCurrentLang($this->session);
+		$this->template->currentLang = $currentLang;
+		$this->template->enumRepo = $this->enumerationRepository;
 		$this->template->articles = $this->articleRepository->findArticlesInLang($currentLang);
+		$this->template->typPrispevkuAkceOrder = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 	}
 
 	public function actionEdit($id, array $values = null) {
@@ -50,13 +59,27 @@ class ArticlePresenter extends SignPresenter {
 			$this['articleForm']->setDefaults($values);
 		}
 		if (!empty($id)) {
-			$defaults = $this->blockRepository->getEditArray($id);
+			$defaults = $this->articleRepository->getArticleForEdit($id);
 			$this['articleForm']['id']->setValue($id);
+			unset($defaults['inserted_by']);
+			unset($defaults['inserted_timestamp']);
 			$this['articleForm']->setDefaults($defaults);
 		}
 
 		$this->template->articleId = $id;
 		$this->template->blockPics = $this->picRepository->load();
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function actionDelete($id) {
+		$this->articleRepository->deleteArticle($id);
+		$this->redirect("default");
+	}
+
+	public function actionCalendar($id) {
+
 	}
 
 	public function createComponentArticleForm() {
@@ -126,6 +149,23 @@ class ArticlePresenter extends SignPresenter {
 			}
 		}
 		$this->redirect("default");
+	}
+
+	/**
+	 * AJAX pro aktivace / deaktivace uživatele
+	 */
+	public function handleActiveSwitch() {
+		$data = $this->request->getParameters();
+		$idArticle = $data['idArticle'];
+		$switchTo = (!empty($data['to']) && $data['to'] == "false" ? false : true);
+
+		if ($switchTo) {
+			$this->articleRepository->setArticleActive($idArticle);
+		} else {
+			$this->articleRepository->setArticleInactive($idArticle);
+		}
+
+		$this->terminate();
 	}
 
 	public function actionDeletePic($picId) {

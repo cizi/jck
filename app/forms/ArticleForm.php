@@ -70,7 +70,7 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
-		$sublocations = $this->enumerationRepository->findEnumItemsForSelect($currentLang, EnumerationRepository::SUBLOKACE);
+		$sublocations = $this->enumerationRepository->findEnumItemsForSelectWithEmpty($currentLang, EnumerationRepository::SUBLOKACE);
 		$form->addSelect("sublocation", ARTICLE_SUBLOCATION, $sublocations)
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
@@ -147,6 +147,7 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("tabindex", $i+1);
 
 		$form->addHidden("id");
+		$form->addHidden("active");
 
 		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
 			->setAttribute("class","btn btn-primary menuItem alignRight")

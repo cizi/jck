@@ -90,6 +90,13 @@ define("ARTICLE_MAIN_PIC", 'Master pic');
 define("ARTICLE_URL", 'URL of action');
 define("ARTICLE_FB_URL", 'FB action URL');
 define("ARTICLE_YT_URL", 'Youtube URL');
+define("ARTICLE_SAVE_FAILED", 'Article saved failed. ');
+define("ARTICLE_CONTENT_CONFIRM", 'Save article');
+define("ARTICLE_CALENDAR", 'Action calendar');
+define("ARTICLE_EDIT", 'Edit article');
+define("ARTICLE_DELETE", 'Delete article');
+define("ARTICLE_MODAL_HEADER", 'Article deletation');
+define("ARTICLE_MODAL_TEXT", 'Are you really want do delete article with its language mutations and schedule?');
 
 define("CHOSEN_PICKUP", 'Choose an option');
 define("CHOSEN_NO_MATCH", 'No match');

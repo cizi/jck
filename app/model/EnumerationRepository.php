@@ -16,6 +16,9 @@ class EnumerationRepository extends BaseRepository {
 	const LOKACE = 3;
 	const SUBLOKACE = 4;
 
+	/** @const konkrétní hodnota číselníku */
+	const TYP_PRISPEVKU_AKCE_ORDER = 1;
+
 	/**
 	 * @param int $id
 	 */
@@ -247,7 +250,7 @@ class EnumerationRepository extends BaseRepository {
 	 * @param int $enumHeaderId
 	 * @return array
 	 */
-	public function findEnumItemByOrder($lang, $order) {
+	public function getEnumItemByOrder($lang, $order) {
 		$result  = "";
 		if (!empty($order)) {
 			$query = ["select * from enum_item where lang = %s and `order` = %i", $lang, $order];

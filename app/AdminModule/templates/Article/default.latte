@@ -22,6 +22,7 @@
 								<table class="table table-striped">
 									<thead>
 									<tr>
+										<th>{=ARTICLE_CONTENT_HEADER}</th>
 										<th>{=ARTICLE_TYPE}</th>
 										<th>{=ARTICLE_CATEGORY}</th>
 										<th>{=ARTICLE_VALIDITY}</th>
@@ -30,7 +31,6 @@
 										<th>{=ARTICLE_ACTIVE}</th>
 										<th>{=ARTICLE_BY}</th>
 										<th>{=ARTICLE_TIMESTAMP}</th>
-										<th>{=ARTICLE_CONTENT}</th>
 										<th class="alignRight">
 											<button type="button" class="btn btn-success" onclick="window.location.assign({link Article:Edit});">
 												<span class="glyphicon glyphicon-plus"></span>	{=MENU_SETTINGS_ADD}
@@ -42,33 +42,49 @@
 										{foreach $articles as $articleEntity}
 											<tr>
 												<td>
+													{var content = $articleEntity->getContents()}
+													{if !empty($content)}
+														{var contentEntity = reset($content)}
+														{$contentEntity->getHeader()}
+													{/if}
 												</td>
 
-												<td>
-												</td>
+												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getType())}</td>
+
+												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getMenuOrder())}</td>
+
+												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getValidity())}</td>
+
+												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getLocation())}</td>
+
+												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getSublocation())}</td>
 
 												<td>
+													{if $articleEntity->isActive()}
+														<label class="checkbox-inline">
+															<input class="activeToggleEvent" user-data={$articleEntity->getId()} type="checkbox" checked data-toggle="toggle" data-height="25" data-width="50">
+														</label>
+													{else}
+														<label class="checkbox-inline">
+															<input class="activeToggleEvent" user-data={$articleEntity->getId()} type="checkbox" data-toggle="toggle" data-height="25" data-width="50">
+														</label>
+													{/if}
 												</td>
 
-												<td>
-												</td>
+												<td>{$articleEntity->getInsertedBy()}</td>
 
 												<td>
-												</td>
-
-												<td>
-												</td>
-
-												<td>
-												</td>
-
-												<td>
-												</td>
-
-												<td>
+													{if $articleEntity->getInsertedTimestamp() != null}
+													{$articleEntity->getInsertedTimestamp()->format("d.m.Y")}
+													{/if}
 												</td>
 
 												<td class="alignRight">
+													{if $articleEntity->getType() == $typPrispevkuAkceOrder}
+														<a href={link Article:Calendar, $articleEntity->getId()} title={=ARTICLE_CALENDAR}><span class="glyphicon glyphicon-calendar colorGrey"></span></a> &nbsp;&nbsp;
+													{/if}
+													<a href={link Article:Edit, $articleEntity->getId()} title={=ARTICLE_EDIT}><span class="glyphicon glyphicon-pencil"></span></a> &nbsp;&nbsp;
+													<a href="#" data-href={link Article:Delete, $articleEntity->getId()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=ARTICLE_DELETE}><span class="glyphicon glyphicon-remove"></span></a>
 												</td>
 											</tr>
 										{/foreach}
@@ -88,10 +104,10 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					{=BLOCK_SETTINGS_CONFIRM_MODAL_DELETE_TITLE}
+					{=ARTICLE_MODAL_HEADER}
 				</div>
 				<div class="modal-body">
-					{=BLOCK_SETTINGS_CONFIRM_MODAL_DELETE_MSG}
+					{=ARTICLE_MODAL_TEXT}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">{=BLOCK_SETTINGS_CONFIRM_MODAL_CANCEL}</button>
@@ -105,6 +121,26 @@
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});
+
+		$(function() {
+			$('.activeToggleEvent').change(function() {
+				var idArticle = $(this).attr("user-data");
+				var changeTo = (($(this).prop("checked") !== typeof undefined) && ($(this).prop("checked") !== false));
+				$.ajax({
+					url: {link activeSwitch!},
+					data: {
+						idArticle: idArticle,
+						to: changeTo
+					},
+					success: function() {
+
+					},
+					error: function() {
+						alert({=USER_ERROR_ACTIVE_SWITCH});
+					}
+				});
+			})
+		})
 
 		// modal for errors
 		function requiredFields() {
