@@ -101,9 +101,13 @@ define("ARTICLE_EDIT", 'Editovat příspěvek');
 define("ARTICLE_DELETE", 'Smazat příspěvek');
 define("ARTICLE_MODAL_HEADER", 'Smazání příspěvku');
 define("ARTICLE_MODAL_TEXT", 'Opravdu chcete smazat příspěvek včetně jeho jazykových mutací a záznamů kalendáře?');
+define("ARTICLE_VIEWS_COUNT", 'Počet zobrazení');
 
 define("CHOSEN_PICKUP", 'Vyberte možnosti');
 define("CHOSEN_NO_MATCH", 'Žádná shoda');
+define("USER_REQUEST_NOT_PRIV", 'K návštěvě této stránky nemáte dostatečná oprávnění.');
+define("PIC_NOT_POSSIBLE_DELETE", 'Obrázek nelze v tuto chvíli odstranit, pravděpodoně je někde použit. ');
+
 
 // admin - users list
 define("USER_TITLE", 'Uživatelé');

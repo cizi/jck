@@ -13,7 +13,7 @@
 					</div>
 
 					<div class="row">
-						<div class="col-lg-10 col-md-10 col-sm-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<h1>{=ARTICLE_HEADER}</h1>
 							<span>{!=ARTICLE_HEADER_INFO}</span>
 							<br /><br />
@@ -29,6 +29,7 @@
 										<th>{=ARTICLE_LOCATION}</th>
 										<th>{=ARTICLE_SUBLOCATION}</th>
 										<th>{=ARTICLE_ACTIVE}</th>
+										<th>{=ARTICLE_VIEWS_COUNT}</th>
 										<th>{=ARTICLE_BY}</th>
 										<th>{=ARTICLE_TIMESTAMP}</th>
 										<th class="alignRight">
@@ -71,7 +72,13 @@
 													{/if}
 												</td>
 
-												<td>{$articleEntity->getInsertedBy()}</td>
+												<td>{$articleEntity->getViewsCount()}</td>
+
+												<td>
+													{if $articleEntity->getInsertedBy() != null}
+														{$userRepo->getRealName($articleEntity->getInsertedBy())}
+													{/if}
+												</td>
 
 												<td>
 													{if $articleEntity->getInsertedTimestamp() != null}

@@ -3,6 +3,7 @@
 namespace App\AdminModule\Presenters;
 
 use App\Controller\MenuController;
+use App\Enum\UserRoleEnum;
 use App\Model\BlockRepository;
 use App\Model\Entity\BlockContentEntity;
 use App\Model\Entity\BlockEntity;
@@ -44,6 +45,18 @@ class BlockContentPresenter extends SignPresenter {
 		$this->blockRepository = $blockRepository;
 		$this->langRepository = $langRepository;
 		$this->webconfigRepository = $webconfigRepository;
+	}
+
+	public function startup() {
+		parent::startup();
+
+		$userRole = $this->getUser()->getRoles();
+		$adminRole = UserRoleEnum::USER_ROLE_ADMINISTRATOR;
+		$userRole = reset($userRole);
+		if ($userRole != $adminRole) {
+			$this->flashMessage(USER_REQUEST_NOT_PRIV, "alert-danger");
+			$this->redirect("Dashboard:Default");
+		}
 	}
 
 	public function actionDefault() {

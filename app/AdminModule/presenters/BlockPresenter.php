@@ -3,6 +3,7 @@
 namespace App\AdminModule\Presenters;
 
 use App\Controller\FileController;
+use App\Enum\UserRoleEnum;
 use App\Forms\BlockForm;
 use App\Model\BlockRepository;
 use App\Model\Entity\BlockContentEntity;
@@ -51,6 +52,18 @@ class BlockPresenter extends SignPresenter {
 		$this->langRepository = $langRepository;
 		$this->picRepository = $picRepository;
 		$this->webconfigRepository = $webconfigRepository;
+	}
+
+	public function startup() {
+		parent::startup();
+
+		$userRole = $this->getUser()->getRoles();
+		$adminRole = UserRoleEnum::USER_ROLE_ADMINISTRATOR;
+		$userRole = reset($userRole);
+		if ($userRole != $adminRole) {
+			$this->flashMessage(USER_REQUEST_NOT_PRIV, "alert-danger");
+			$this->redirect("Dashboard:Default");
+		}
 	}
 
 	public function actionDefault() {
@@ -107,7 +120,7 @@ class BlockPresenter extends SignPresenter {
 
 				$mutation[] = $blockContentEntity;
 			}
-			if (is_array($value)) {	// obrázky
+			if (is_array($value)) {	// obrï¿½zky
 				/** @var FileUpload $file */
 				foreach ($value as $file) {
 					if ($file->name != "") {

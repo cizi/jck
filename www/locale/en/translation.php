@@ -101,9 +101,12 @@ define("ARTICLE_EDIT", 'Edit article');
 define("ARTICLE_DELETE", 'Delete article');
 define("ARTICLE_MODAL_HEADER", 'Article deletation');
 define("ARTICLE_MODAL_TEXT", 'Are you really want do delete article with its language mutations and schedule?');
+define("ARTICLE_VIEWS_COUNT", 'Count of views');
 
 define("CHOSEN_PICKUP", 'Choose an option');
 define("CHOSEN_NO_MATCH", 'No match');
+define("USER_REQUEST_NOT_PRIV", 'Permission denied for this request.');
+define("PIC_NOT_POSSIBLE_DELETE", 'The picture is not possible to delete. The picture is probably in use. ');
 
 // admin - users list
 define("USER_TITLE", 'Users');

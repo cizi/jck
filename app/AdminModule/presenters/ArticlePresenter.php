@@ -11,6 +11,7 @@ use App\Model\Entity\PicEntity;
 use App\Model\EnumerationRepository;
 use App\Model\LangRepository;
 use App\Model\PicRepository;
+use App\Model\UserRepository;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 use Nette\Utils\ArrayHash;
@@ -32,23 +33,29 @@ class ArticlePresenter extends SignPresenter {
 	/** @var EnumerationRepository */
 	private $enumerationRepository;
 
+	/** @var UserRepository */
+	private $userRepository;
+
 	public function __construct(
 		ArticleRepository $articleRepository,
 		LangRepository $langRepository,
 		ArticleForm $articleForm,
 		PicRepository $picRepository,
-		EnumerationRepository $enumerationRepository
+		EnumerationRepository $enumerationRepository,
+		UserRepository $userRepository
 	) {
 		$this->articleRepository = $articleRepository;
 		$this->langRepository = $langRepository;
 		$this->articleForm = $articleForm;
 		$this->picRepository = $picRepository;
 		$this->enumerationRepository = $enumerationRepository;
+		$this->userRepository = $userRepository;
 	}
 
 	public function actionDefault($id) {
 		$currentLang = $this->langRepository->getCurrentLang($this->session);
 		$this->template->currentLang = $currentLang;
+		$this->template->userRepo = $this->userRepository;
 		$this->template->enumRepo = $this->enumerationRepository;
 		$this->template->articles = $this->articleRepository->findArticlesInLang($currentLang);
 		$this->template->typPrispevkuAkceOrder = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
@@ -168,8 +175,14 @@ class ArticlePresenter extends SignPresenter {
 		$this->terminate();
 	}
 
-	public function actionDeletePic($picId) {
-		// TODO
+	/**
+	 * @param int $picId
+	 */
+	public function actionDeletePic($articleId, $picId) {
+		if ($this->picRepository->delete($picId) == false) {
+			$this->flashMessage(PIC_NOT_POSSIBLE_DELETE, "alert-danger");
+		}
+		$this->redirect("edit", $articleId);
 	}
 
 }

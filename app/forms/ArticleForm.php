@@ -156,6 +156,7 @@ class ArticleForm extends Nette\Object {
 
 		$form->addHidden("id");
 		$form->addHidden("active");
+		$form->addHidden("views_count");
 
 		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
 			->setAttribute("class","btn btn-primary menuItem alignRight")

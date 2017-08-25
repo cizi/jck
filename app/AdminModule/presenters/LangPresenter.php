@@ -2,6 +2,7 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\Enum\UserRoleEnum;
 use App\Forms\LangForm;
 use App\Forms\LangItemForm;
 use App\Model\LangRepository;
@@ -26,6 +27,18 @@ class LangPresenter extends SignPresenter {
 		$this->langItemForm = $langItemForm;
 		$this->langRepository = $langRepository;
 		$this->webconfigRepository = $webconfigRepository;
+	}
+
+	public function startup() {
+		parent::startup();
+
+		$userRole = $this->getUser()->getRoles();
+		$adminRole = UserRoleEnum::USER_ROLE_ADMINISTRATOR;
+		$userRole = reset($userRole);
+		if ($userRole != $adminRole) {
+			$this->flashMessage(USER_REQUEST_NOT_PRIV, "alert-danger");
+			$this->redirect("Dashboard:Default");
+		}
 	}
 
 	public function renderDefault() {

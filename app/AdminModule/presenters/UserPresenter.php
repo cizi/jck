@@ -36,6 +36,18 @@ class UserPresenter extends SignPresenter {
 		$this->userFilterForm = $userFilterForm;
 	}
 
+	public function startup() {
+		parent::startup();
+
+		$userRole = $this->getUser()->getRoles();
+		$adminRole = UserRoleEnum::USER_ROLE_ADMINISTRATOR;
+		$userRole = reset($userRole);
+		if ($userRole != $adminRole) {
+			$this->flashMessage(USER_REQUEST_NOT_PRIV, "alert-danger");
+			$this->redirect("Dashboard:Default");
+		}
+	}
+
 	/**
 	 * @param int $id
 	 * @param string $filter

@@ -5,6 +5,7 @@ namespace App\Model;
 use App\Model\Entity\ArticleContentEntity;
 use App\Model\Entity\ArticleEntity;
 use Dibi\Connection;
+use Dibi\DateTime;
 
 class ArticleRepository extends BaseRepository {
 
@@ -126,6 +127,9 @@ class ArticleRepository extends BaseRepository {
 			if ($articleEntity->getSublocation() == 0) {
 				$articleEntity->setSublocation(null);
 			}
+			if ($articleEntity->getPicId() == 0) {
+				$articleEntity->setPicId(null);
+			}
 			$articleId = $this->saveArticleEntity($articleEntity, $userId);
 			if (empty($articleId)) {
 				throw new \Exception("Chybí ID příspěvku.");
@@ -138,7 +142,6 @@ class ArticleRepository extends BaseRepository {
 
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			echo $e->getMessage();
 			$this->connection->rollback();
 			$result = false;
 		}
@@ -173,8 +176,13 @@ class ArticleRepository extends BaseRepository {
 	private function saveArticleEntity(ArticleEntity $articleEntity, $userId) {
 		$articleEntity->setInsertedBy($userId);
 		if ($articleEntity->getId() == null) {
+			$articleEntity->setInsertedTimestamp(new DateTime());
 			$query = ["insert into article", $articleEntity->extract()];
 		} else {
+			$currentArticleEntity = $this->getArticle($articleEntity->getId());
+			$articleEntity->setInsertedTimestamp($currentArticleEntity->getInsertedTimestamp());
+			$articleEntity->setInsertedBy($currentArticleEntity->getInsertedBy());
+			$articleEntity->setViewsCount($currentArticleEntity->getViewsCount());
 			$query = ["update article set ", $articleEntity->extract(), "where id=%i", $articleEntity->getId()];
 		}
 		$this->connection->query($query);

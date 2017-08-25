@@ -182,6 +182,20 @@ class UserRepository extends BaseRepository implements Nette\Security\IAuthentic
 
 	/**
 	 * @param int $id
+	 * @return string
+	 */
+	public function getRealName($id) {
+		$realName = "";
+		$userEntity = $this->getUser($id);
+		if ($userEntity) {
+			$realName = $userEntity->getRealName();
+		}
+
+		return $realName;
+	}
+
+	/**
+	 * @param int $id
 	 * @return UserEntity
 	 */
 	public function resetUserPassword(UserEntity $userEntity) {

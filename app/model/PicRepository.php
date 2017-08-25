@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Model\Entity\PicEntity;
+use Dibi\Exception;
 
 class PicRepository extends BaseRepository {
 
@@ -52,8 +53,15 @@ class PicRepository extends BaseRepository {
 	 * @return \Dibi\Result|int
 	 */
 	public function delete($id) {
-		$query = ["delete from shared_pic where id = %i", $id];
-		return $this->connection->query($query);
+		$result = true;
+		try {
+			$query = ["delete from shared_pic where id = %i", $id];
+			$this->connection->query($query);
+		} catch (\Exception $e) {
+			$result = false;
+		}
+
+		return $result;
 	}
 
 	/**

@@ -54,6 +54,9 @@ class ArticleEntity {
 	/** @var string  */
 	private $ytUrl;
 
+	/** @var int */
+	private $viewsCount;
+
 	/** @var ArticleContentEntity[]  */
 	private $contents;
 
@@ -296,6 +299,20 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getViewsCount() {
+		return $this->viewsCount;
+	}
+
+	/**
+	 * @param int $viewsCount
+	 */
+	public function setViewsCount($viewsCount) {
+		$this->viewsCount = $viewsCount;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function extract() {
@@ -315,7 +332,8 @@ class ArticleEntity {
 			'fb_url' => $this->getFbUrl(),
 			'location' => $this->getLocation(),
 			'sublocation' => $this->getSublocation(),
-			'yt_url' => $this->getYtUrl()
+			'yt_url' => $this->getYtUrl(),
+			'views_count' => $this->getViewsCount()
 		];
 	}
 
@@ -339,5 +357,6 @@ class ArticleEntity {
 		$this->setLocation(isset($data['location']) ? $data['location'] : null);
 		$this->setSublocation(isset($data['sublocation']) ? $data['sublocation'] : null);
 		$this->setYtUrl(isset($data['yt_url']) ? $data['yt_url'] : null);
+		$this->setViewsCount(isset($data['views_count']) ? $data['views_count'] : null);
 	}
 }
