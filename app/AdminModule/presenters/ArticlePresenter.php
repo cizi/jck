@@ -5,13 +5,16 @@ namespace App\AdminModule\Presenters;
 use App\Controller\FileController;
 use App\Forms\ArticleForm;
 use App\Model\ArticleRepository;
+use App\Model\ArticleTimetableRepository;
 use App\Model\Entity\ArticleContentEntity;
 use App\Model\Entity\ArticleEntity;
+use App\Model\Entity\ArticleTimetableEntity;
 use App\Model\Entity\PicEntity;
 use App\Model\EnumerationRepository;
 use App\Model\LangRepository;
 use App\Model\PicRepository;
 use App\Model\UserRepository;
+use Kdyby\Replicator\Container;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 use Nette\Utils\ArrayHash;
@@ -36,13 +39,17 @@ class ArticlePresenter extends SignPresenter {
 	/** @var UserRepository */
 	private $userRepository;
 
+	/** @var ArticleTimetableRepository */
+	private $articleTimetableRepository;
+
 	public function __construct(
 		ArticleRepository $articleRepository,
 		LangRepository $langRepository,
 		ArticleForm $articleForm,
 		PicRepository $picRepository,
 		EnumerationRepository $enumerationRepository,
-		UserRepository $userRepository
+		UserRepository $userRepository,
+		ArticleTimetableRepository $articleTimetableRepository
 	) {
 		$this->articleRepository = $articleRepository;
 		$this->langRepository = $langRepository;
@@ -50,6 +57,7 @@ class ArticlePresenter extends SignPresenter {
 		$this->picRepository = $picRepository;
 		$this->enumerationRepository = $enumerationRepository;
 		$this->userRepository = $userRepository;
+		$this->articleTimetableRepository = $articleTimetableRepository;
 	}
 
 	public function actionDefault($id) {
@@ -67,14 +75,24 @@ class ArticlePresenter extends SignPresenter {
 		}
 		if (!empty($id)) {
 			$defaults = $this->articleRepository->getArticleForEdit($id);
+
 			$this['articleForm']['id']->setValue($id);
 			unset($defaults['inserted_by']);
 			unset($defaults['inserted_timestamp']);
 			$this['articleForm']->setDefaults($defaults);
+
+			$calendars = $this->articleTimetableRepository->findCalendars($id);
+			/** @var ArticleTimetableEntity $calendar */
+			foreach ($calendars as $calendar) {
+				$this['articleForm']['calendar']['calendar'][$calendar->getId()]->setDefaults($calendar->extractForm());
+			}
 		}
 
 		$this->template->articleId = $id;
 		$this->template->blockPics = $this->picRepository->load();
+		$this->template->articleTypeAction = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
+		$this->template->currentLang = $this->langRepository->getCurrentLang($this->session);
+		$this->template->articleTimeTableWrongTime = ARTICLE_TIMETABLE_TIME_WRONG_FORMAT;
 	}
 
 	/**
@@ -116,9 +134,19 @@ class ArticlePresenter extends SignPresenter {
 
 		$error = false;
 		$supportedFileFormats = ["jpg", "png", "doc"];
+		$calendars = [];
 		$mutation = [];
 		$pics = [];
 		foreach($values as $key => $value) {
+			if (($value instanceof ArrayHash) && ($key == 'calendar')) {    // timetable
+				foreach ($value as $calendarKey => $calendarData) {
+					foreach ($calendarData as $calendarItem) {
+						$articleTimetableEntity = new ArticleTimetableEntity();
+						$articleTimetableEntity->hydrate((array)$calendarItem);
+						$calendars[] = $articleTimetableEntity;
+					}
+				}
+			}
 			if ($value instanceof ArrayHash) {	// language mutation
 				$articleContentEntity = new ArticleContentEntity();
 				$articleContentEntity->hydrate((array)$value);
@@ -150,7 +178,7 @@ class ArticlePresenter extends SignPresenter {
 			$this->flashMessage($flashMessage, "alert-danger");
 			$this->redirect("edit", null, $values);
 		} else {
-			if ($this->articleRepository->saveCompleteArticle($articleEntity, $this->getUser()->getId(), $pics) == false) {
+			if ($this->articleRepository->saveCompleteArticle($articleEntity, $this->getUser()->getId(), $calendars, $pics) == false) {
 				$this->flashMessage(ARTICLE_SAVE_FAILED, "alert-danger");
 				$this->redirect("edit", null, $values);
 			}

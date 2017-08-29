@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Model\Entity\ArticleContentEntity;
 use App\Model\Entity\ArticleEntity;
+use App\Model\Entity\ArticleTimetableEntity;
 use Dibi\Connection;
 use Dibi\DateTime;
 
@@ -11,6 +12,9 @@ class ArticleRepository extends BaseRepository {
 
 	/** @var  PicRepository */
 	private $picRepository;
+
+	/** @var ArticleTimetableRepository */
+	private $articleTimetableRepository;
 
 	/** @var Connection */
 	protected $connection;
@@ -20,8 +24,9 @@ class ArticleRepository extends BaseRepository {
 	 * @param PicRepository $picRepository
 	 * @param Connection $connection
 	 */
-	public function __construct(PicRepository $picRepository, Connection $connection) {
+	public function __construct(PicRepository $picRepository, ArticleTimetableRepository $articleTimetableRepository, Connection $connection) {
 		parent::__construct($connection);
+		$this->articleTimetableRepository = $articleTimetableRepository;
 		$this->picRepository = $picRepository;
 	}
 
@@ -120,7 +125,7 @@ class ArticleRepository extends BaseRepository {
 	 * @param ArticleEntity $articleEntity
 	 * @return bool
 	 */
-	public function saveCompleteArticle(ArticleEntity $articleEntity, $userId, array $blockPicsEntities = []) {
+	public function saveCompleteArticle(ArticleEntity $articleEntity, $userId, $calendars, array $blockPicsEntities = []) {
 		$result = true;
 		try {
 			$this->connection->begin();
@@ -135,6 +140,9 @@ class ArticleRepository extends BaseRepository {
 				throw new \Exception("Chybí ID příspěvku.");
 			}
 
+			$this->articleTimetableRepository->deleteByArticleId($articleId);	// před uložením všechny smažu
+			$this->saveArticleTimetable($calendars, $articleId);	// následně uložím znovu
+
 			$this->saveArticleContent($articleEntity->getContents(), $articleId);
 			foreach ($blockPicsEntities as $picEnt) {
 				$this->picRepository->save($picEnt);
@@ -142,6 +150,7 @@ class ArticleRepository extends BaseRepository {
 
 			$this->connection->commit();
 		} catch (\Exception $e) {
+			// echo $e->getMessage(); die;
 			$this->connection->rollback();
 			$result = false;
 		}
@@ -191,6 +200,18 @@ class ArticleRepository extends BaseRepository {
 	}
 
 	/**
+	 * @param ArticleTimetableEntity[] $timetable
+	 * @param int $articleId
+	 */
+	private function saveArticleTimetable(array $timetables, $articleId) {
+		/** @var ArticleTimetableEntity $timetable */
+		foreach ($timetables as $timetable) {
+			$timetable->setArticleId($articleId);
+			$this->articleTimetableRepository->save($timetable);
+		}
+	}
+
+	/**
 	 * @param ArticleEntity[] $articleContentEntities
 	 * @param $articleId
 	 */
@@ -227,7 +248,8 @@ class ArticleRepository extends BaseRepository {
 			$query = ["delete from article_content where article_id = %i", $id];
 			$this->connection->query($query);
 
-			// TODO pak musím smazat položky kalendáře
+			// pak musím smazat položky kalendáře
+			$this->articleTimetableRepository->deleteByArticleId($id);
 
 			// pak smažu samotný příspěvek
 			$query = ["delete from article where id = %i", $id];

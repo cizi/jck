@@ -83,6 +83,14 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
+		$form->addCheckbox("active", " " . ARTICLE_ACTIVE)
+			->setAttribute("class","activeToggleEvent")
+			->setAttribute("data-toggle","toggle")
+			->setAttribute("data-height","25")
+			->setAttribute("data-width","50")
+			->setDefaultValue(true)
+			->setAttribute("tabindex", $i+1);
+
 		$picsSelect = $this->picRepository->loadForSelect();
 		$form->addSelect("pic_id", ARTICLE_MAIN_PIC, $picsSelect)
 			->setAttribute("class", "form-control")
@@ -150,12 +158,38 @@ class ArticleForm extends Nette\Object {
 			$i++;
 		}
 
+		// name, factory, default count
+		$calendar = $form->addContainer("calendar");
+		$calendarReplicator = $calendar->addDynamic('calendar', function (Nette\Forms\Container $container) {
+			$container->addText('date_from', ARTICLE_DATE_FROM)
+				->setAttribute("class", "form-control menuItem takingDate tinym_required_field")
+				->setAttribute("readonly", "readonly")
+				->setAttribute("validation", ARTICLE_TIMETABLE_START_DATE_MISSING);;
+
+			$container->addText('date_to', ARTICLE_DATE_FROM)
+				->setAttribute("class", "form-control menuItem takingDate")
+				->setAttribute("readonly", "readonly");
+
+			$container->addText('time', ARTICLE_START_TIME)
+				->setAttribute("class", "form-control menuItem takingTime tinym_required_field")
+				->setAttribute("validation", ARTICLE_TIMETABLE_TIME_WRONG_FORMAT);;
+				//->setAttribute("readonly", "readonly");
+
+			$container->addSubmit('removeTakingTime', ARTICLE_REMOVE_TIMETABLE)
+				->setAttribute("class", "btn btn-danger menuItem")
+				->addRemoveOnClick();
+		}, 0);
+
+		$calendarReplicator->addSubmit('addTakingTime', ARTICLE_ADD_TIMETABLE)
+			->setAttribute("class", "btn btn-primary menuItem")
+			->setAttribute("id", "addNextTakingTime")
+			->addCreateOnClick(true);
+
 		$form->addMultiUpload("pics")
 			->setAttribute("class", "form-control menuItem")
 			->setAttribute("tabindex", $i+1);
 
 		$form->addHidden("id");
-		$form->addHidden("active");
 		$form->addHidden("views_count");
 
 		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
@@ -164,5 +198,4 @@ class ArticleForm extends Nette\Object {
 
 		return $form;
 	}
-
 }

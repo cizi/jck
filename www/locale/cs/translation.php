@@ -102,6 +102,13 @@ define("ARTICLE_DELETE", 'Smazat příspěvek');
 define("ARTICLE_MODAL_HEADER", 'Smazání příspěvku');
 define("ARTICLE_MODAL_TEXT", 'Opravdu chcete smazat příspěvek včetně jeho jazykových mutací a záznamů kalendáře?');
 define("ARTICLE_VIEWS_COUNT", 'Počet zobrazení');
+define("ARTICLE_DATE_FROM", 'Datum počátku');
+define("ARTICLE_DATE_TO", 'Datum konce');
+define("ARTICLE_START_TIME", 'Čas');
+define("ARTICLE_ADD_TIMETABLE", 'Přidat čas konání');
+define("ARTICLE_REMOVE_TIMETABLE", 'Odebrat čas konání');
+define("ARTICLE_TIMETABLE_TIME_WRONG_FORMAT", 'Neplatný formát času!');
+define("ARTICLE_TIMETABLE_START_DATE_MISSING", 'Neplatný datum počátku!');
 
 define("CHOSEN_PICKUP", 'Vyberte možnosti');
 define("CHOSEN_NO_MATCH", 'Žádná shoda');
