@@ -292,3 +292,10 @@ img.fnone {
 	height: auto;
 }
 /* dd  image size override end */
+.bannerEditDivImg{
+	margin: 5px;
+}
+.bannerEditImg {
+	width: 300px;
+	height: auto;
+}

@@ -115,6 +115,29 @@ define("CHOSEN_NO_MATCH", 'Žádná shoda');
 define("USER_REQUEST_NOT_PRIV", 'K návštěvě této stránky nemáte dostatečná oprávnění.');
 define("PIC_NOT_POSSIBLE_DELETE", 'Obrázek nelze v tuto chvíli odstranit, pravděpodoně je někde použit. ');
 
+// bannery
+define("BANNER_TITLE", 'Nastavení bannerů');
+define("BANNER_TITLE_DETAIL", 'Detail nastavení banneru');
+define("BANNER_TITLE_INFO", 'Zde je možné spravovat bannery (reklamu) umístěné na webu. ');
+define("BANNER_TITLE_ITEM", 'Titulek');
+define("BANNER_TITLE_ITEM_REQ", 'Pole titulek nesmí být prázdné!');
+define("BANNER_TYPE", 'Type banneru');
+define("BANNER_CATEGORIES", 'Kategorie');
+define("BANNER_START_DATE", 'Datum od');
+define("BANNER_START_DATE_REQ", 'Datum od nesmí být prázdné!');
+define("BANNER_END_DATE", 'Datum do');
+define("BANNER_SHOW_MAIN_PAGE", 'Na hlavní stránce');
+define("BANNER_SHOW_COUNTER", 'Zobrazeno');
+define("BANNER_CLICK_COUNTER", 'Kliknuto');
+define("BANNER_CLICK_EDIT", 'Editovat banner');
+define("BANNER_CLICK_DELETE", 'Smazat banner');
+define("BANNER_CLICK_DELETE_MSG", 'Opravdu chcete smazat banner?');
+define("BANNER_EDIT_CONFIRM", 'Uložit banner');
+define("BANNER_IMAGE", 'Obrázek banneru');
+define("BANNER_ACTION_URL", 'Odkaz');
+define("BANNER_SAVED_FAILED", 'Nastavení banneru se nepodařilo uložit');
+define("BANNER_DELETE_OK", 'Banner byl úspěšně smazán');
+define("BANNER_DELETE_FAILED", 'Při mazání banneru došlo k chybě');
 
 // admin - users list
 define("USER_TITLE", 'Uživatelé');

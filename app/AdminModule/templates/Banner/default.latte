@@ -1,0 +1,144 @@
+{block content}
+	<div id="wrapper">
+		{include '../@menu.latte', item => 'banner'}
+		<a href="#menu-toggle" class="menuToggle" id="menu-toggle"><span class="glyphicon glyphicon-chevron-left">&nbsp;&nbsp;</span></a>
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-lg-1 col-md-1 col-sm-0">
+					</div>
+
+					<div class="row">
+						<div class="col-lg-11 col-md-11 col-sm-11">
+							<h1>{=BANNER_TITLE}</h1>
+							<span>{!=BANNER_TITLE_INFO}</span>
+							<br /><br />
+
+							<div class="container userTable">
+								<table class="table table-striped">
+									<thead>
+									<tr>
+										<th>{=BANNER_TITLE_ITEM}</th>
+										<th>{=BANNER_TYPE}</th>
+										<th>{=BANNER_CATEGORIES}</th>
+										<th>{=BANNER_START_DATE}</th>
+										<th>{=BANNER_END_DATE}</th>
+										<th>{=BANNER_SHOW_MAIN_PAGE}</th>
+										<th>{=BANNER_SHOW_COUNTER}</th>
+										<th>{=BANNER_CLICK_COUNTER}</th>
+										<th class="alignRight">
+											<button type="button" class="btn btn-success" onclick="window.location.assign({link Banner:Edit});">
+												<span class="glyphicon glyphicon-plus"></span>	{=MENU_SETTINGS_ADD}
+											</button>
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+										{foreach $banners as $bannerEntity}
+											<tr>
+												<td>{$bannerEntity->getTitle()}</td>
+
+												<td>{$enumRepo->getEnumItemByOrder($currentLang, $bannerEntity->getBannerType())}</td>
+
+												<td>
+													{foreach $bannerEntity->getCategories() as $categoryEntity}
+														{if isset($menuCategories[$categoryEntity->getMenuOrder()])}
+															{$menuCategories[$categoryEntity->getMenuOrder()]}<br />
+														{/if}
+													{/foreach}
+												</td>
+
+												<td>
+													{if $bannerEntity->getDateStart() != null}
+														{$bannerEntity->getDateStart()->format('d.m.Y')}
+													{/if}
+												</td>
+
+												<td>
+													{if $bannerEntity->getDateEnd() != null}
+														{$bannerEntity->getDateEnd()->format('d.m.Y')}
+													{/if}
+												</td>
+
+												<td>
+													{if $bannerEntity->isShowOnMainPage()}
+														<label class="checkbox-inline">
+															<input class="activeToggleEvent" user-data={$bannerEntity->getId()} type="checkbox" checked data-toggle="toggle" data-height="25" data-width="50">
+														</label>
+													{else}
+														<label class="checkbox-inline">
+															<input class="activeToggleEvent" user-data={$bannerEntity->getId()} type="checkbox" data-toggle="toggle" data-height="25" data-width="50">
+														</label>
+													{/if}
+												</td>
+
+												<td>{$bannerEntity->getShowCounter()}</td>
+												<td>{$bannerEntity->getClickCounter()}</td>
+
+												<td class="alignRight">
+													<a href='{link edit, $bannerEntity->getId()}' title={=BANNER_CLICK_EDIT}><span class='glyphicon glyphicon-pencil'></span></a> &nbsp;&nbsp;
+													<a href='#' data-href='{link delete, $bannerEntity->getId()}' class='colorRed' data-toggle='modal' data-target='#confirm-delete' title={=BANNER_CLICK_DELETE}><span class='glyphicon glyphicon-remove'></span></a>
+												</td>
+											</tr>
+										{/foreach}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					{=BANNER_CLICK_DELETE}
+				</div>
+				<div class="modal-body">
+					{=BANNER_CLICK_DELETE_MSG}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">{=BLOCK_SETTINGS_CONFIRM_MODAL_CANCEL}</button>
+					<a class="btn btn-danger btn-ok">{=BLOCK_SETTINGS_CONFIRM_MODAL_OK}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+		});
+
+		$(function() {
+			$('.activeToggleEvent').change(function() {
+				var bannerId = $(this).attr("user-data");
+				var changeTo = (($(this).prop("checked") !== typeof undefined) && ($(this).prop("checked") !== false));
+				$.ajax({
+					url: {link activeSwitch!},
+					data: {
+						idBanner: bannerId,
+						to: changeTo
+					},
+					success: function() {
+
+					},
+					error: function() {
+						alert({=USER_ERROR_ACTIVE_SWITCH});
+					}
+				});
+			})
+		});
+	</script>
+
+{/block}
+

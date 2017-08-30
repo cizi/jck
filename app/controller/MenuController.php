@@ -105,12 +105,12 @@ class MenuController {
 					<td>{$menuEntity->getAlt()}</td>
 					<td class='alignRight'>";
 					if ($counter != 0) {
-						$tableData .= "<a href='{$moveOrderUpLink}' title='" . MENU_SETTINGS_MOVE_ITEM_UP . "'><span class='glyphicon glyphicon-chevron-up colorGrey'></span></a> &nbsp;&nbsp;";
+						// $tableData .= "<a href='{$moveOrderUpLink}' title='" . MENU_SETTINGS_MOVE_ITEM_UP . "'><span class='glyphicon glyphicon-chevron-up colorGrey'></span></a> &nbsp;&nbsp;";
 					}
 					if (($counter + 1) == count($menuEntities)) {
 						$tableData .= "<div class='menuMoverPlaceholder'></div>";
 					} else {
-						$tableData .= "<a href='{$moveOrderDownLink}' title='" . MENU_SETTINGS_MOVE_ITEM_DOWN . "'><span class='glyphicon glyphicon-chevron-down colorGrey'></span></a> &nbsp;&nbsp;";
+						// $tableData .= "<a href='{$moveOrderDownLink}' title='" . MENU_SETTINGS_MOVE_ITEM_DOWN . "'><span class='glyphicon glyphicon-chevron-down colorGrey'></span></a> &nbsp;&nbsp;";
 					}
 
 			$tableData .= "<a href='{$linkAddSubmenu}' title='" . MENU_SETTINGS_ADD_SUBITEM . "'><span class='glyphicon glyphicon-plus colorGreen'></span></a> &nbsp;&nbsp;

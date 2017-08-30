@@ -18,15 +18,21 @@ class FileController {
 	 * @return bool
 	 */
 	public function upload(FileUpload $fileUpload, array $formats, $baseUrl) {
-		$suffix = pathinfo($fileUpload->name, PATHINFO_EXTENSION);
-		if (!in_array(strtolower($suffix), $formats)) {
-			return false;
+		$result = true;
+		try {
+			$suffix = pathinfo($fileUpload->name, PATHINFO_EXTENSION);
+			if (!in_array(strtolower($suffix), $formats)) {
+				return false;
+			}
+			$this->pathDb = $baseUrl . 'upload/' . date("Ymd-His") . "-" . $fileUpload->name;
+			$this->path = UPLOAD_PATH . '/' . date("Ymd-His") . "-" . $fileUpload->name;
+			$fileUpload->move($this->path);
+		} catch (\Exception $e) {
+			dump($e->getMessage());
+			$result = false;
 		}
-		$this->pathDb = $baseUrl . 'upload/' . date("Ymd-His") . "-" . $fileUpload->name;
-		$this->path = UPLOAD_PATH . '/' . date("Ymd-His") . "-" . $fileUpload->name;
-		$fileUpload->move($this->path);
 
-		return true;
+		return $result;
 	}
 
 	/**

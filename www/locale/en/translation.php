@@ -115,6 +115,30 @@ define("CHOSEN_NO_MATCH", 'No match');
 define("USER_REQUEST_NOT_PRIV", 'Permission denied for this request.');
 define("PIC_NOT_POSSIBLE_DELETE", 'The picture is not possible to delete. The picture is probably in use. ');
 
+// bannery
+define("BANNER_TITLE", 'Banners settings');
+define("BANNER_TITLE_DETAIL", 'Banner detail');
+define("BANNER_TITLE_INFO", 'Here you are able to manage banners. ');
+define("BANNER_TITLE_ITEM", 'Title');
+define("BANNER_TITLE_ITEM_REQ", 'Title field is mandatory!');
+define("BANNER_TYPE", 'Banner type');
+define("BANNER_CATEGORIES", 'Category');
+define("BANNER_START_DATE", 'Start date');
+define("BANNER_START_DATE_REQ", 'Start date is mandatory!');
+define("BANNER_END_DATE", 'Date from');
+define("BANNER_SHOW_MAIN_PAGE", 'Show on main page');
+define("BANNER_SHOW_COUNTER", 'Showed');
+define("BANNER_CLICK_COUNTER", 'Clicked');
+define("BANNER_CLICK_EDIT", 'Edit banner');
+define("BANNER_CLICK_DELETE", 'Delete banner');
+define("BANNER_CLICK_DELETE_MSG", 'Are you really want to delete the banner?');
+define("BANNER_EDIT_CONFIRM", 'Save banner');
+define("BANNER_IMAGE", 'Banner image');
+define("BANNER_ACTION_URL", 'Link');
+define("BANNER_SAVED_FAILED", 'Banner setting save failed');
+define("BANNER_DELETE_OK", 'Banner has been successfully deleted');
+define("BANNER_DELETE_FAILED", 'An error occurred during banner deletation');
+
 // admin - users list
 define("USER_TITLE", 'Users');
 define("USER_INFO_TEXT", "Here you can manage users and their roles. Login name is their email addresses. It assures the unique user name (login).

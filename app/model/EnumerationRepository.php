@@ -15,6 +15,7 @@ class EnumerationRepository extends BaseRepository {
 	const VALIDITA_PRISPEVKU = 2;
 	const LOKACE = 3;
 	const SUBLOKACE = 4;
+	const TYP_BANERU = 5;
 
 	/** @const konkrétní hodnota číselníku */
 	const TYP_PRISPEVKU_AKCE_ORDER = 1;

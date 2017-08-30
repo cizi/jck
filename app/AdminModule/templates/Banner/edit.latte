@@ -1,0 +1,72 @@
+{block content}
+	<div id="wrapper">
+		{include '../@menu.latte', item => 'banner'}
+		<a href="#menu-toggle" class="menuToggle" id="menu-toggle"><span class="glyphicon glyphicon-chevron-left">&nbsp;&nbsp;</span></a>
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="row">
+						<div class="col-lg-11 col-md-11 col-sm-11">
+							<h1 class="blockHeader">{=BANNER_TITLE_DETAIL}</h1>
+							<p class="blockHeader"></p>
+							<br />
+
+							<div class="form-group row">
+								{control bannerForm}
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-1 col-md-1 col-sm-1">
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<script language="javascript">
+		$("#frm-bannerForm-bannerCategories").chosen({
+			placeholder_text_multiple: {=CHOSEN_PICKUP},
+			no_results_text: {=CHOSEN_NO_MATCH}
+		});
+
+		$("#frm-bannerForm-date_start").datetimepicker({
+			format: 'yyyy-mm-dd',
+			language: {$currentLang},
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+		});
+
+		$("#frm-bannerForm-date_end").datetimepicker({
+			format: 'yyyy-mm-dd',
+			language: {$currentLang},
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+		});
+
+		$(document).ready(function(){
+			var bannerImg = $("#bannerImg");
+			if (bannerImg.val() !== "") {
+				$("#frm-bannerForm-imgSelector").parent().append(
+					"<div class='bannerEditDivImg'>" +
+						"<img class='bannerEditImg' src='" + bannerImg.val() + "'/ >" +
+					"</div>"
+				);
+			}
+		});
+	</script>
+{/block}
+
