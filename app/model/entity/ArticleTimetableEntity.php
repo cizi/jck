@@ -113,7 +113,7 @@ class ArticleTimetableEntity {
 			'article_id' => $this->getArticleId(),
 			'date_from' => ($this->getDateFrom() != null ? $this->getDateFrom()->format("Y-m-d") : ""),
 			'date_to' => ($this->getDateTo() != null ? $this->getDateTo()->format("Y-m-d") : ""),
-			'time' => ($this->getTime() != null ? $this->getTime()->format("%h:%i") : "")
+			'time' => ($this->getTime() != null ? $this->getTime()->format("%H:%I") : "")
 		];
 	}
 

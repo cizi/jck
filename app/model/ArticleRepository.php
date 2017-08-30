@@ -150,7 +150,7 @@ class ArticleRepository extends BaseRepository {
 
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			// echo $e->getMessage(); die;
+			echo $e->getMessage(); die;
 			$this->connection->rollback();
 			$result = false;
 		}

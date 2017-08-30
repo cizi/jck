@@ -161,6 +161,8 @@ class ArticleForm extends Nette\Object {
 		// name, factory, default count
 		$calendar = $form->addContainer("calendar");
 		$calendarReplicator = $calendar->addDynamic('calendar', function (Nette\Forms\Container $container) {
+			$container->addHidden("id");
+			$container->addHidden("article_id");
 			$container->addText('date_from', ARTICLE_DATE_FROM)
 				->setAttribute("class", "form-control menuItem takingDate tinym_required_field")
 				->setAttribute("readonly", "readonly")

@@ -102,6 +102,13 @@ define("ARTICLE_DELETE", 'Delete article');
 define("ARTICLE_MODAL_HEADER", 'Article deletation');
 define("ARTICLE_MODAL_TEXT", 'Are you really want do delete article with its language mutations and schedule?');
 define("ARTICLE_VIEWS_COUNT", 'Count of views');
+define("ARTICLE_DATE_FROM", 'Start date');
+define("ARTICLE_DATE_TO", 'End date');
+define("ARTICLE_START_TIME", 'Time');
+define("ARTICLE_ADD_TIMETABLE", 'Add new timetable');
+define("ARTICLE_REMOVE_TIMETABLE", 'Remove timetable');
+define("ARTICLE_TIMETABLE_TIME_WRONG_FORMAT", 'Invalid time format!');
+define("ARTICLE_TIMETABLE_START_DATE_MISSING", 'Invalid start date!');
 
 define("CHOSEN_PICKUP", 'Choose an option');
 define("CHOSEN_NO_MATCH", 'No match');
