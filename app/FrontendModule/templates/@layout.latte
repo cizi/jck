@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="{$basePath}/css/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="{$basePath}/css/jquery.timepicker.css">
 
-	<meta name="viewport" content="width=device-width">
+	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
 
 	{if isset($currentLink)}	{* probably any page absolutelly not root *}
 		{foreach $availableLinks as $li}
@@ -106,7 +106,7 @@
 	{/if}
 	{* static header end *}
 
-	<div style="{if $bodyWidth != ""}width: {!$bodyWidth};{/if} margin: 0 auto;">
+	<div class="webMenu" style="{if $bodyWidth != ""}width: {!$bodyWidth};{/if} margin: 0 auto;">
 
 		{* slider *}
 		{if sliderEnabled}
@@ -119,7 +119,7 @@
 		{*slider end  *}
 
 		{* menu *}
-		<nav class="navbar navbar-default" style="
+		<nav class="navbar navbar-default" style="margin-top: -10px;
 			{if $showMenu == false} display: none;{/if}
 			{if $menuColor != ""}background-color: {!$menuColor}; border: 2px solid {!$menuColor};{/if}
 		">
