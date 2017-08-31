@@ -139,6 +139,11 @@ define("BANNER_SAVED_FAILED", 'Nastavení banneru se nepodařilo uložit');
 define("BANNER_DELETE_OK", 'Banner byl úspěšně smazán');
 define("BANNER_DELETE_FAILED", 'Při mazání banneru došlo k chybě');
 
+// hledání
+define("MAIN_PAGE_SEARCH", 'Hledat');
+define("MAIN_PAGE_DESTINATION", 'Cíl cesty');
+define("MAIN_PAGE_SHARE", 'Sdílet');
+
 // admin - users list
 define("USER_TITLE", 'Uživatelé');
 define("USER_INFO_TEXT", "Zde je možné spravovat přístup uživatelů do systému. Je možmé uživatele přidávat, odebírat, aktivaovat nebo odebírat. <br /><br />

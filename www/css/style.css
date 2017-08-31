@@ -254,7 +254,8 @@ div.colorExample {
 .flagStrap{
 	height: 20px;
 	width: 35px;
-	margin-right: 15px;
+	margin-left: 15px;
+	margin-top: 20px;
 }
 
 .pageStaticHeader{
@@ -298,4 +299,19 @@ img.fnone {
 .bannerEditImg {
 	width: 300px;
 	height: auto;
+}
+div.mainPageSearch {
+	padding: 0 50px;
+	margin-bottom: 5px;
+}
+#share-buttons img {
+	width: 35px;
+	padding: 0 3px 5px 3px;
+	border: 0;
+	box-shadow: 0;
+	display: inline;
+}
+
+.floatRight{
+	float: right;
 }

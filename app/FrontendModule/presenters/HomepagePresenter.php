@@ -6,6 +6,7 @@ use App\AdminModule\Presenters\BlockContentPresenter;
 use App\Controller\FileController;
 use App\Controller\MenuController;
 use App\Forms\ContactForm;
+use App\Forms\SearchForm;
 use App\Model\BlockRepository;
 use App\Model\Entity\BlockContentEntity;
 use App\Model\Entity\MenuEntity;
@@ -48,6 +49,9 @@ class HomepagePresenter extends BasePresenter {
 	/** @var LangRepository */
 	private $langRepository;
 
+	/** @var SearchForm */
+	private $searchForm;
+
 	public function __construct(
 		WebconfigRepository $webconfigRepository,
 		SliderSettingRepository $sliderSettingRepository,
@@ -57,7 +61,8 @@ class HomepagePresenter extends BasePresenter {
 		MenuRepository $menuRepository,
 		FileController $fileController,
 		BlockRepository $blockRepository,
-		LangRepository $langRepository
+		LangRepository $langRepository,
+		SearchForm $searchForm
 	) {
 		$this->webconfigRepository = $webconfigRepository;
 		$this->sliderSettingRepository = $sliderSettingRepository;
@@ -68,6 +73,7 @@ class HomepagePresenter extends BasePresenter {
 		$this->fileController = $fileController;
 		$this->blockRepository = $blockRepository;
 		$this->langRepository = $langRepository;
+		$this->searchForm = $searchForm;
 	}
 
 	/**
@@ -131,6 +137,16 @@ class HomepagePresenter extends BasePresenter {
 
 			$this->template->userBlocks = $userBlocks;
 			$this->template->widthEnum = new WebWidthEnum();
+			$this->template->currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+	}
+
+	/**
+	 * @return Nette\Application\UI\Form
+	 */
+	public function createComponentSearchForm() {
+		$form = $this->searchForm->create($this->langRepository->getCurrentLang($this->session));
+
+		return $form;
 	}
 
 	/**

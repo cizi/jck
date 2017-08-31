@@ -67,9 +67,33 @@
 	{* language strap *}
 	{if ($languageStrapShow)}
 		<div class="langStrap" style="width: {!$languageStrapWidth}; background-color: {!$languageStrapBgColor}; color: {!$languageStrapFontColor}">
-			{foreach $languageStrapLanguages as $langShort => $langDetail}
-				<a href="{$langShort}"><img src="{$baseUrl}{$langDetail[$langFlagKey]}" class="flagStrap" title="{$langShort}" /></a>
-			{/foreach}
+			<div class="row mainPageSearch">
+				{form searchForm}
+					<div class="col-lg-1 col-md-1 col-sm-1"></div>
+					<div class="col-lg-2 col-md-2 col-sm-2">
+						{label search/} {input search}
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1"></div>
+					<div class="col-lg-2 col-md-2 col-sm-2">
+						{label destination/} {input destination}
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1"></div>
+					<div class="col-lg-2 col-md-2 col-sm-2">
+						<label>{=MAIN_PAGE_SHARE}</label>
+						{include '@share.latte'}
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1"></div>
+				{/form}
+					<div class="col-lg-1 col-md-1 col-sm-1">
+						<table cellpadding="0" cellspacing="0" align="right">
+							<tr>
+								{foreach $languageStrapLanguages as $langShort => $langDetail}
+									<td><a href={$langShort}><img src="{$baseUrl}{$langDetail[$langFlagKey]}" class="flagStrap" title={$langShort} /></a></td>
+								{/foreach}
+							</tr>
+						</table>
+					</div>
+			</div>
 		</div>
 	{/if}
 	{* language strap end *}

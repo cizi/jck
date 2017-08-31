@@ -139,6 +139,11 @@ define("BANNER_SAVED_FAILED", 'Banner setting save failed');
 define("BANNER_DELETE_OK", 'Banner has been successfully deleted');
 define("BANNER_DELETE_FAILED", 'An error occurred during banner deletation');
 
+// hledání
+define("MAIN_PAGE_SEARCH", 'Search');
+define("MAIN_PAGE_DESTINATION", 'Destination');
+define("MAIN_PAGE_SHARE", 'Share');
+
 // admin - users list
 define("USER_TITLE", 'Users');
 define("USER_INFO_TEXT", "Here you can manage users and their roles. Login name is their email addresses. It assures the unique user name (login).
