@@ -4,6 +4,7 @@ namespace App\Forms;
 
 use App\Controller\MenuController;
 use App\Enum\WebWidthEnum;
+use App\Model\ArticleRepository;
 use App\Model\BlockRepository;
 use App\Model\EnumerationRepository;
 use App\Model\LangRepository;
@@ -25,24 +26,29 @@ class BannerForm extends Nette\Object {
 	/** @var MenuController */
 	private $menuController;
 
+	/** @var ArticleRepository */
+	private $articleRepository;
+
 	/**
-	 * ArticleForm constructor.
+	 * BannerForm constructor.
 	 * @param FormFactory $factory
 	 * @param LangRepository $langRepository
 	 * @param EnumerationRepository $enumerationRepository
 	 * @param MenuController $menuController
-	 * @param PicRepository $picRepository
+	 * @param ArticleRepository $articleRepository
 	 */
 	public function __construct(
 		FormFactory $factory,
 		LangRepository $langRepository,
 		EnumerationRepository $enumerationRepository,
-		MenuController $menuController
+		MenuController $menuController,
+		ArticleRepository $articleRepository
 	) {
 		$this->factory = $factory;
 		$this->langRepository = $langRepository;
 		$this->enumerationRepository = $enumerationRepository;
 		$this->menuController = $menuController;
+		$this->articleRepository = $articleRepository;
 	}
 
 	/**
@@ -87,6 +93,11 @@ class BannerForm extends Nette\Object {
 		$form->addText("date_end", BANNER_START_DATE)
 			->setAttribute("class", "form-control")
 			->setAttribute("readonly", "readonly")
+			->setAttribute("tabindex", $i+1);
+
+		$articles = $this->articleRepository->findArticlesForSelect($currentLang);
+		$form->addSelect("article_id", MENU_ARTICLE, $articles)
+			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
 		$form->addCheckbox("show_on_main_page", " " . BANNER_SHOW_MAIN_PAGE)

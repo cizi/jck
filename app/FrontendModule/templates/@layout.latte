@@ -88,7 +88,7 @@
 						<table cellpadding="0" cellspacing="0" align="right">
 							<tr>
 								{foreach $languageStrapLanguages as $langShort => $langDetail}
-									<td><a href={$langShort}><img src="{$baseUrl}{$langDetail[$langFlagKey]}" class="flagStrap" title={$langShort} /></a></td>
+									<td><a href={link Homepage:Default $langShort}><img src="{$baseUrl}{$langDetail[$langFlagKey]}" class="flagStrap" title={$langShort} /></a></td>
 								{/foreach}
 							</tr>
 						</table>
@@ -101,25 +101,41 @@
 	{* static header *}
 	{if ($showHeader)}
 		<div class="pageStaticHeader" style="width: {!$headerWidth}; background-color: {!$headerBg}; color: {!$headerColor}; height: {!$headerHeight}px;">
-			{!$headerContent}
+			{* !$headerContent *}
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mainPageTitle">
+					<h1>JIZNICECHY<span>EVENTS</span>CALENDAR</h1>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 fullBanner">
+					{if $fullBanner != null}
+						{if ($fullBanner->getUrl() != null) && ($fullBanner->getUrl() != "")}
+							<a href={link Show:Banner $currentLang, $fullBanner->getId()} target="_blank">
+						{/if}
+						{if $fullBanner->getImg() != ""}<img alt={$fullBanner->getTitle()} src={$fullBanner->getImg()} /> {/if}
+						{if ($fullBanner->getUrl() != null) && ($fullBanner->getUrl() != "")}</a>{/if}
+					{/if}
+				</div>
+				{* <table style="width: 100%; height: 100%;">
+				<tbody>
+				<tr>
+					<td style="width: 50%;" align="center">
+						<h1 style="font-family: 'InterstateRegularCompressed',sans-serif; font-size: 52px; line-height: 44px; color: white; white-space: nowrap; letter-spacing: 0; font-weight: normal;">JIZNICECHY<span style="color: #e04b00;">EVENTS</span>CALENDAR</h1>
+					</td>
+					<td style="width: 50%;" align="center">
+						<h1 style="font-family: font-size: 54px; font-weight: bold; line-height: 44px; color: white; white-space: nowrap; letter-spacing: 0;">JIHO<span style="color: #e04b00;">ČESK&Yacute;</span>KALEND&Aacute;Ř.CZ</h1>
+					</td>
+				</tr>
+				</tbody>
+			</table> *}
+
+			</div>
 		</div>
 	{/if}
 	{* static header end *}
 
 	<div class="webMenu" style="{if $bodyWidth != ""}width: {!$bodyWidth};{/if} margin: 0 auto;">
-
-		{* slider *}
-		{if sliderEnabled}
-			<ul class="bxslider" style="opacity: 0;">
-				{foreach $sliderPics as $pic}
-					<li><img src="{$pic->getPath()}" /></li>
-				{/foreach}
-			</ul>
-		{/if}
-		{*slider end  *}
-
 		{* menu *}
-		<nav class="navbar navbar-default" style="margin-top: -10px;
+		<nav class="navbar navbar-default" style="
 			{if $showMenu == false} display: none;{/if}
 			{if $menuColor != ""}background-color: {!$menuColor}; border: 2px solid {!$menuColor};{/if}
 		">
@@ -152,6 +168,56 @@
 			</div><!-- /.container-fluid -->
 		</nav>
 		{* menu end *}
+
+		{* slider *}
+		{if $sliderEnabled}
+			<div class="row banners">
+				<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0"">
+					<ul class="bxslider" style="opacity: 0;">
+						{foreach $sliderPics as $pic}
+							<li>
+								<a href={link Show:Banner $currentLang, $pic->getId()} target="_blank">
+									<img alt={$pic->getTitle()} src="{$pic->getImg()}" />
+									{if $pic->getArticleId() != null}
+										{var article = $articleRepo->getArticle($pic->getArticleId())}
+										<div class="caption1">
+											<div class="caption2">
+												<a href={link Show:Article $currentLang, $article->getId()}>{$article->getContents()[$currentLang]->getHeader()}</a>
+											</div>
+											<span>
+												{if $article->getSublocation() != null}
+													{$this->enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
+												{else}
+													{$this->enumRepo->getEnumItemByOrder($currentLang, $article->getLocation())}
+												{/if}
+												<br /><br />
+											</span>
+										</div>
+									{/if}
+								</a>
+							</li>
+						{/foreach}
+					</ul>
+				</div>
+				<div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+					<div class="largeRectangle">
+						{if $largeRectangle != null}
+							<a href={link Show:Banner $currentLang, $largeRectangle->getId()} target="_blank">
+								<img alt={$largeRectangle->getTitle()} src="{$largeRectangle->getImg()}" />
+							</a>
+						{/if}
+					</div>
+					<div class="middleRectangle">
+						{if $middleRectangle != null}
+							<a href={link Show:Banner $currentLang, $middleRectangle->getId()} target="_blank">
+								<img alt={$middleRectangle->getTitle()} src="{$middleRectangle->getImg()}" />
+							</a>
+						{/if}
+					</div>
+				</div>
+			</div>
+		{/if}
+		{*slider end  *}
 
 		{block scripts}
 			<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -243,7 +309,8 @@
 					pause: {!$sliderSpeed},
 					randomStart: true,
 					pager: false,
-					controls: {$sliderControls}
+					controls: {$sliderControls},
+					captions: true
 				});
 				bxslider.css("opacity", "1.0");
 			});

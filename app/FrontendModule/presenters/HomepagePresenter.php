@@ -7,9 +7,12 @@ use App\Controller\FileController;
 use App\Controller\MenuController;
 use App\Forms\ContactForm;
 use App\Forms\SearchForm;
+use App\Model\ArticleRepository;
+use App\Model\BannerRepository;
 use App\Model\BlockRepository;
 use App\Model\Entity\BlockContentEntity;
 use App\Model\Entity\MenuEntity;
+use App\Model\EnumerationRepository;
 use App\Model\LangRepository;
 use App\Model\MenuRepository;
 use Nette;
@@ -17,7 +20,6 @@ use App\Enum\WebWidthEnum;
 use App\Model\SliderSettingRepository;
 use App\Model\SliderPicRepository;
 use App\Model\WebconfigRepository;
-use App\FrontendModule\Presenters;
 use Nette\Http\FileUpload;
 
 class HomepagePresenter extends BasePresenter {
@@ -52,6 +54,15 @@ class HomepagePresenter extends BasePresenter {
 	/** @var SearchForm */
 	private $searchForm;
 
+	/** @var BannerRepository */
+	private $bannerRepository;
+
+	/** @var ArticleRepository */
+	private $articleRepository;
+
+	/** @var EnumerationRepository */
+	private $enumerationRepository;
+
 	public function __construct(
 		WebconfigRepository $webconfigRepository,
 		SliderSettingRepository $sliderSettingRepository,
@@ -62,7 +73,10 @@ class HomepagePresenter extends BasePresenter {
 		FileController $fileController,
 		BlockRepository $blockRepository,
 		LangRepository $langRepository,
-		SearchForm $searchForm
+		SearchForm $searchForm,
+		BannerRepository $bannerRepository,
+		ArticleRepository $articleRepository,
+		EnumerationRepository $enumerationRepository
 	) {
 		$this->webconfigRepository = $webconfigRepository;
 		$this->sliderSettingRepository = $sliderSettingRepository;
@@ -74,6 +88,9 @@ class HomepagePresenter extends BasePresenter {
 		$this->blockRepository = $blockRepository;
 		$this->langRepository = $langRepository;
 		$this->searchForm = $searchForm;
+		$this->bannerRepository = $bannerRepository;
+		$this->articleRepository = $articleRepository;
+		$this->enumerationRepository = $enumerationRepository;
 	}
 
 	/**
@@ -93,6 +110,13 @@ class HomepagePresenter extends BasePresenter {
 		$this->template->currentLang = $lang;
 		$this->template->menuHtml = $this->menuController->renderMenuInFrontend($lang);
 		$this->template->contactFormId = BlockContentPresenter::CONTACT_FORM_ID_AS_BLOCK;
+		$this->template->currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER);
+		$this->template->largeRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_LARGE_RECTANGLE);
+		$this->template->middleRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_MIDDLE_RECTANGLE);
+
+		$this->template->articleRepo = $this->articleRepository;
+		$this->template->enumRepo = $this->enumerationRepository;
 	}
 
 	/**
@@ -137,7 +161,6 @@ class HomepagePresenter extends BasePresenter {
 
 			$this->template->userBlocks = $userBlocks;
 			$this->template->widthEnum = new WebWidthEnum();
-			$this->template->currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 	}
 
 	/**
@@ -279,7 +302,7 @@ class HomepagePresenter extends BasePresenter {
 		// slider and its pics
 		if ($this->sliderSettingRepository->getByKey(SliderSettingRepository::KEY_SLIDER_ON)) {
 			$this->template->sliderEnabled = true;
-			$this->template->sliderPics = $this->sliderPicRepository->findPics();
+			$this->template->sliderPics = $this->bannerRepository->findBannersByType(EnumerationRepository::TYP_BANNERU_BIG_BANNER);
 
 			$widthEnum = new WebWidthEnum();
 			$widthOption = $this->sliderSettingRepository->getByKey(SliderSettingRepository::KEY_SLIDER_WIDTH);

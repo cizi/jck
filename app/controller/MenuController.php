@@ -26,7 +26,7 @@ class MenuController {
 		/** @var MenuEntity $category */
 		foreach ($categories as $category) {
 			if ($category->getLang() == $lang) {
-				$cats[$category->getId()] = $category->getTitle();
+				$cats[$category->getOrder()] = $category->getTitle();
 			}
 		}
 

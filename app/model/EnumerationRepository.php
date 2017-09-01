@@ -19,6 +19,13 @@ class EnumerationRepository extends BaseRepository {
 
 	/** @const konkrétní hodnota číselníku */
 	const TYP_PRISPEVKU_AKCE_ORDER = 1;
+	const TYP_BANNERU_BIG_BANNER = 9;
+	const TYP_BANNERU_LARGE_RECTANGLE = 10;
+	const TYP_BANNERU_MIDDLE_RECTANGLE = 11;
+	const TYP_BANNERU_FULL_BANNER = 12;
+	const TYP_BANNERU_WALLPAPER = 13;
+	const TYP_BANNERU_HALFBANNER = 14;
+
 
 	/**
 	 * @param int $id

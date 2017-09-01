@@ -281,4 +281,20 @@ class ArticleRepository extends BaseRepository {
 		$query = ["update article set active = 0 where id = %i", $id];
 		return $this->connection->query($query);
 	}
+
+	/**
+	 * @param string $lang
+	 * @return array
+	 */
+	public function findArticlesForSelect($lang) {
+		$result[0] = EnumerationRepository::NOT_SELECTED;
+		$query = ["select a.*, ac.header from article as a left join article_content as ac on a.id = ac.article_id where lang = %s", $lang];
+		$queryResult = $this->connection->query($query)->fetchAll();
+
+		foreach ($queryResult as $item) {
+			$result[$item['id']] = $item['header'];
+		}
+
+		return $result;
+	}
 }

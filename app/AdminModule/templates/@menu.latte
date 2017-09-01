@@ -10,16 +10,16 @@
 				<span class="glyphicon glyphicon-dashboard menuItem"></span>{=MENU_DASHBOARD}
 			</a>
 		</li>
-		<li>
+		{* <li>
 			<a href={link Header:Default} {if $item == "header"} style="color: white" {/if}>
 				<span class="glyphicon glyphicon-bookmark menuItem"></span>{=MENU_HEADER}
 			</a>
-		</li>
-		{* <li>
+		</li> *}
+		<li>
 			<a href={link Slider:Default} {if $item == "slider"} style="color: white" {/if}>
 				<span class="glyphicon glyphicon-picture menuItem"></span>{=MENU_LOGO}
 			</a>
-		</li> *}
+		</li>
 		{if $userRole == $adminRole}
 			<li>
 				<a href={link Menu:Default} {if $item == "menu"} style="color: white"{/if}>

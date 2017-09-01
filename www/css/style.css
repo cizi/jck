@@ -8,6 +8,9 @@
 	.pageStaticHeader {
 		width: 100%!important;
 	}
+	.banners {
+		width: 100%!important;
+	}
 }
 
 @font-face {
@@ -24,6 +27,10 @@ body {
 
 h1 {
 	color: #3484D2;
+}
+
+.webMenu {
+	max-width: 1000px;
 }
 
 #ajax-spinner {
@@ -165,6 +172,37 @@ a.sliderPicDelete:hover{
 .navbar .navbar-collapse {
 	text-align: center;
 }
+.caption1{
+	position:absolute;
+	bottom: 0;
+	left:0;
+	z-index: 10;
+	width: 100%;
+	color:white;
+	background: none repeat scroll 0 0 rgba(80, 80, 80, 0.75);
+	background-color: #FFFFFF;
+	opacity: 0.8;
+	background-image: none;
+	background-repeat: repeat;
+	background-attachment: scroll;
+	background-position: 0 0;
+	background-clip: border-box;
+	background-origin: padding-box;
+	background-size: auto auto;
+}
+.caption1 span {
+	color: #0f0f0f;
+	font-size: 18px;
+	font-weight: bold;
+	padding-left: 15px;
+}
+.caption2 a{
+	font-size:28px;
+	color: #EE487A;
+	padding-left: 7px;
+	line-height: 44px;
+}
+
 /* navbar override end*/
 img.footerList{
 	width: auto;
@@ -276,6 +314,7 @@ div.colorExample {
 }
 
 .pageStaticHeader{
+	max-width: 1000px;
 	vertical-align: middle;
 	text-align: center;
 	margin: auto;
@@ -332,4 +371,48 @@ div.mainPageSearch {
 
 .floatRight{
 	float: right;
+}
+
+.mainPageTitle {
+
+}
+.mainPageTitle h1 {
+	font-family: 'InterstateRegularCompressed',sans-serif;
+	font-size: 52px;
+	line-height: 44px;
+	color: white;
+	white-space: nowrap;
+	letter-spacing: 0;
+	font-weight: normal;
+	padding-top: 20px;
+}
+
+.mainPageTitle h1 span {
+	color: #e04b00;
+}
+.fullBanner {
+	width: 468px;
+	padding-top: 30px;
+	display: inline;
+}
+.banners {
+	margin-top: -20px;
+	width: 1000px;
+	height: 438px;
+}
+
+.largeRectangle {
+	height: 280px;
+}
+
+.middleRectangle {
+	height: 158px;
+}
+
+.paddingRight0 {
+	padding-right: 0!important;
+}
+
+.paddingLeft0{
+	padding-left: 0!important;
 }

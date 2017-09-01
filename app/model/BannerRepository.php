@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Model\Entity\BannerCategoryEntity;
 use App\Model\Entity\BannerEntity;
+use Dibi\DateTime;
 
 class BannerRepository extends BaseRepository {
 
@@ -45,10 +46,102 @@ class BannerRepository extends BaseRepository {
 		return $return;
 	}
 
-	public function saveCompleteBanner(BannerEntity $bannerEntity, $userId) {
+	/**
+	 * @param int $bannerType
+	 * @param bool $showOnMainPage
+	 * @return BannerEntity
+	 */
+	public function getBannerByType($bannerType, $showOnMainPage = true) {
+		$query = [
+			"select * from banner 
+				where banner_type = %i and 
+					show_on_main_page = %i and 
+					(((date_start <= CURDATE()) and ((date_end is null) or (date_end = '0000-00-00'))) or ((date_start <= CURDATE()) and (date_end >= CURDATE()))) 
+				LIMIT 1",
+			$bannerType,
+			($showOnMainPage ? 1 : 0)
+		];	// TODO
+		$result = $this->connection->query($query)->fetch();
+
+		if ($result) {
+			$bannerEntity = new BannerEntity();
+			$bannerEntity->hydrate($result->toArray());
+			$bannerEntity->setCategories($this->findBannerCategories($bannerEntity->getId()));
+
+			$this->bannerShowed($bannerEntity->getId());
+
+			return $bannerEntity;
+		}
+	}
+
+	/**
+	 * @param int $bannerType
+	 * @param bool $showOnMainPage
+	 * @return BannerEntity[]
+	 */
+	public function findBannersByType($bannerType, $showOnMainPage = true) {
+		$query = [
+			"select * from banner 
+				where banner_type = %i and 
+					show_on_main_page = %i and 
+					(((date_start <= CURDATE()) and ((date_end is null) or (date_end = '0000-00-00'))) or ((date_start <= CURDATE()) and (date_end >= CURDATE())))",
+			$bannerType,
+			($showOnMainPage ? 1 : 0)
+		];	// TODO
+
+		$bannersOut = [];
+		$result = $this->connection->query($query)->fetchAll();
+
+		foreach ($result as $banner) {
+			$bannerEntity = new BannerEntity();
+			$bannerEntity->hydrate($banner->toArray());
+			$bannerEntity->setCategories($this->findBannerCategories($bannerEntity->getId()));
+
+			$this->bannerShowed($bannerEntity->getId());
+			$bannersOut[] = $bannerEntity;
+		}
+
+		return $bannersOut;
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function bannerShowed($id) {
+		$bannerEntity = $this->getBanner($id);
+		if ($bannerEntity != null) {
+			$showedTimes = $bannerEntity->getShowCounter() + 1;
+			$bannerEntity->setShowCounter($showedTimes);
+
+			$this->save($bannerEntity);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function bannerClicked($id) {
+		$bannerEntity = $this->getBanner($id);
+		if ($bannerEntity != null) {
+			$clickedTimes = $bannerEntity->getClickCounter() + 1;
+			$bannerEntity->setClickCounter($clickedTimes);
+
+			$this->save($bannerEntity);
+		}
+	}
+
+	/**
+	 * @param BannerEntity $bannerEntity
+	 * @param int $userId
+	 * @return bool
+	 */
+	public function saveCompleteBanner(BannerEntity $bannerEntity, $userId = 0) {
 		$result = true;
 		try {
 			$this->connection->begin();
+			if ($bannerEntity->getArticleId() == 0) {
+				$bannerEntity->setArticleId(null);
+			}
 			$bannerId = $this->save($bannerEntity, $userId);
 
 			$this->deleteCategories($bannerId);	// smažu kategorie
@@ -70,8 +163,10 @@ class BannerRepository extends BaseRepository {
 	 * @param BannerEntity $bannerEntity
 	 * @return int
 	 */
-	public function save(BannerEntity $bannerEntity, $userId) {
-		$bannerEntity->setUserId($userId);
+	public function save(BannerEntity $bannerEntity, $userId = 0) {
+		if ($userId != 0) {
+			$bannerEntity->setUserId($userId);
+		}
 		if ($bannerEntity->getId() == null) {
 			$query = ["insert into banner", $bannerEntity->extract()];
 		} else {
