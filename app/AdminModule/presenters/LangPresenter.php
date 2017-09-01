@@ -61,9 +61,7 @@ class LangPresenter extends SignPresenter {
 
 	public function saveLangCommon($form, $values) {
 		foreach ($values as $key => $value) {
-			if ($value != "") {
-				$this->webconfigRepository->save($key, $value, WebconfigRepository::KEY_LANG_FOR_COMMON);
-			}
+			$this->webconfigRepository->save($key, $value, WebconfigRepository::KEY_LANG_FOR_COMMON);
 		}
 	}
 
