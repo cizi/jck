@@ -6,6 +6,7 @@ use App\AdminModule\Presenters\BlockContentPresenter;
 use App\Controller\FileController;
 use App\Controller\MenuController;
 use App\Forms\ContactForm;
+use App\Forms\MainPageSearchForm;
 use App\Forms\SearchForm;
 use App\Model\ArticleRepository;
 use App\Model\BannerRepository;
@@ -63,6 +64,9 @@ class HomepagePresenter extends BasePresenter {
 	/** @var EnumerationRepository */
 	private $enumerationRepository;
 
+	/** @var MainPageSearchForm  */
+	private $mainPageSearchForm;
+
 	public function __construct(
 		WebconfigRepository $webconfigRepository,
 		SliderSettingRepository $sliderSettingRepository,
@@ -76,7 +80,8 @@ class HomepagePresenter extends BasePresenter {
 		SearchForm $searchForm,
 		BannerRepository $bannerRepository,
 		ArticleRepository $articleRepository,
-		EnumerationRepository $enumerationRepository
+		EnumerationRepository $enumerationRepository,
+		MainPageSearchForm $mainPageSearchForm
 	) {
 		$this->webconfigRepository = $webconfigRepository;
 		$this->sliderSettingRepository = $sliderSettingRepository;
@@ -91,6 +96,7 @@ class HomepagePresenter extends BasePresenter {
 		$this->bannerRepository = $bannerRepository;
 		$this->articleRepository = $articleRepository;
 		$this->enumerationRepository = $enumerationRepository;
+		$this->mainPageSearchForm = $mainPageSearchForm;
 	}
 
 	/**
@@ -170,8 +176,35 @@ class HomepagePresenter extends BasePresenter {
 	 */
 	public function createComponentSearchForm() {
 		$form = $this->searchForm->create($this->langRepository->getCurrentLang($this->session));
+		$form->onSuccess = $this->searchFormSubmit;
 
 		return $form;
+	}
+
+	/**
+	 * @param Nette\Forms\Form $form
+	 * @param $values
+	 */
+	public function searchFormSubmit(Nette\Forms\Form $form, $values) {
+
+	}
+
+	/**
+	 * @return Nette\Application\UI\Form
+	 */
+	public function createComponentMainPageSearchForm() {
+		$form = $this->mainPageSearchForm->create($this, $this->langRepository->getCurrentLang($this->session));
+		$form->onSuccess = $this->mainPageSearchFormSubmit;
+
+		return $form;
+	}
+
+	/**
+	 * @param Nette\Forms\Form $form
+	 * @param $values
+	 */
+	public function mainPageSearchFormSubmit(Nette\Forms\Form $form, $values) {
+
 	}
 
 	/**

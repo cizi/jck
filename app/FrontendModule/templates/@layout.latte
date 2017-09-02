@@ -50,7 +50,7 @@
 				color: {!$menuLinkColor}!important;
 			}
 			{if $menuColor != ""} {* if bg color for menu changed need to change submenu bgcolor *}
-				.dropdown-menu {
+				ul.dropdown-menu {
 					background-color: {!$menuColor}!important;
 				}
 				.divider {
@@ -118,19 +118,6 @@
 						{if ($fullBanner->getUrl() != null) && ($fullBanner->getUrl() != "")}</a>{/if}
 					{/if}
 				</div>
-				{* <table style="width: 100%; height: 100%;">
-				<tbody>
-				<tr>
-					<td style="width: 50%;" align="center">
-						<h1 style="font-family: 'InterstateRegularCompressed',sans-serif; font-size: 52px; line-height: 44px; color: white; white-space: nowrap; letter-spacing: 0; font-weight: normal;">JIZNICECHY<span style="color: #e04b00;">EVENTS</span>CALENDAR</h1>
-					</td>
-					<td style="width: 50%;" align="center">
-						<h1 style="font-family: font-size: 54px; font-weight: bold; line-height: 44px; color: white; white-space: nowrap; letter-spacing: 0;">JIHO<span style="color: #e04b00;">ČESK&Yacute;</span>KALEND&Aacute;Ř.CZ</h1>
-					</td>
-				</tr>
-				</tbody>
-			</table> *}
-
 			</div>
 		</div>
 	{/if}
@@ -151,10 +138,6 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-
-					{*if $showHomeButtonInMenu}
-						<a class="navbar-brand" href="{$baseUrl}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
-					{/if*}
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -175,7 +158,7 @@
 		{* slider *}
 		{if $sliderEnabled}
 			<div class="row banners">
-				<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0"">
+				<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0">
 					<ul class="bxslider" style="opacity: 0;">
 						{foreach $sliderPics as $pic}
 							<li>
@@ -239,14 +222,70 @@
 		{if $googleAnalytics != ""}
 			{!$googleAnalytics}
 		{/if}
-	</div>
 
-	<div class="container content" style="{if $bodyWidth != ""}width: {!$bodyWidth};{/if}">
-		{if isset($currentLink)}
+		<div class="row banners">
+			<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0"> {* filtr *}
+				{form mainPageSearchForm}
+					<div class="row">
+						<div class="col-lg-1 col-md-1"></div>
+						<div class="col-lg-3 col-md-3">
+							{label from/} {input from}
+						</div>
+						<div class="col-lg-3 col-md-3">
+							{label to/} {input to}
+						</div>
+						<div class="col-lg-4 col-md-4">
+							{label today/} {input today}
+							{label tomorrow/} {input tomorrow}
+							{label weekend/} {input weekend}
+						</div>
+						<div class="col-lg-1 col-md-1"></div>
+					</div>
+					<div class="row">
+						<div class="col-lg-1 col-md-1"></div>
+						<div class="col-lg-6 col-md-6">
+							{label search/} {input search}
+						</div>
+						<div class="col-lg-4 col-md-4">
+							{label searchSubmit/} {input searchSubmit}
+						</div>
+						<div class="col-lg-1 col-md-1"></div>
+					</div>
+				{/form}
+			</div>
+
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+
+			</div>
+
+			<script>
+				$("#frm-mainPageSearchForm-from").datetimepicker({
+					format: 'dd.mm.yyyy',
+					language: {$currentLang},
+					autoclose: 1,
+					todayHighlight: 1,
+					startView: 2,
+					minView: 2,
+					forceParse: 0
+				});
+
+				$("#frm-mainPageSearchForm-to").datetimepicker({
+					format: 'dd.mm.yyyy',
+					language: {$currentLang},
+					autoclose: 1,
+					todayHighlight: 1,
+					startView: 2,
+					minView: 2,
+					forceParse: 0
+				});
+			</script>
+		</div>
+
+		{* if isset($currentLink)}
 			{include content, pageKeywords => $currentLink->getTitle()}
 		{else}
 			{include content,  pageKeywords => ""}
-		{/if}
+		{/if *}
 	</div>
 
 	{if $showFooter}

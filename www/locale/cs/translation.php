@@ -42,6 +42,16 @@ define("MENU_ENUMERATION", 'Číselníky');
 define("MENU_LANG", 'Jazyková nastavení');
 define("MENU_LOGOUT", 'Odhlásit');
 
+// form hledání
+define("MAIN_SEARCH_FROM", 'Od');
+define("MAIN_SEARCH_FROM_REQ", 'Datum od musí být vyplněno!');
+define("MAIN_SEARCH_TO", 'Na');
+define("MAIN_SEARCH_TODAY", 'Dnes');
+define("MAIN_SEARCH_TOMORROW", 'Zítra');
+define("MAIN_SEARCH_WEEKEND", 'Víkend');
+define("MAIN_SEARCH_SEARCH", 'Hledat');
+define("MAIN_SEARCH_HEADER", 'Datum');
+
 // nastavení číselníků
 define("ENUM_TITLE", 'Nastavení číselníků v systému');
 define("ENUM_TITLE_DESCRIPTION", 'Zde je možné spravovat číselníky, které jsou napříč celým systémem. Správu by měl dělat jen administrátor,

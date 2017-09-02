@@ -38,4 +38,14 @@ class ShowPresenter extends BasePresenter {
 	public function actionArticle($lang, $id) {
 
 	}
+
+	/**
+	 * @param string $lang
+	 * @param string $from format d.m.Y
+	 * @param string [$to] format d.m.Y
+	 */
+	public function actionSearchDate($lang, $from, $to = "") {
+		dump($lang, $from,$to);
+		$this->terminate();
+	}
 }
