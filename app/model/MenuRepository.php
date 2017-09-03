@@ -102,6 +102,24 @@ class MenuRepository extends BaseRepository {
 	}
 
 	/**
+	 * @param string $lang
+	 * @param int $order
+	 * @return MenuEntity
+	 */
+	public function getMenuCategoryTitle($lang, $order) {
+		$desc = "";
+		$query = ["select * from menu_item where lang = %s and `order` = %i", $lang, $order];
+		$result = $this->connection->query($query)->fetch();
+		if ($result) {
+			$menuEntity = new MenuEntity();
+			$menuEntity->hydrate($result->toArray());
+			$desc = $menuEntity->getTitle();
+		}
+
+		return $desc;
+	}
+
+	/**
 	 * @param int $menuId
 	 * @param string $lang
 	 * @param int $level
@@ -368,7 +386,7 @@ class MenuRepository extends BaseRepository {
 			$query = ["select * from menu_item where lang = %s and link = %s", $menuItem->getLang(), $menuItem->getLink()];
 			$result = $this->connection->query($query)->fetchAll();
 			if ($result) {
-				throw new \Dibi\Exception("Duplicitní unikátní klíè");
+				throw new \Dibi\Exception("Duplicitnï¿½ unikï¿½tnï¿½ klï¿½ï¿½");
 			}
 			$query = [
 				"

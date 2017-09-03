@@ -175,7 +175,7 @@
 			{!$googleAnalytics}
 		{/if}
 
-
+		<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
 		{include content}
 
 		{* if isset($currentLink)}

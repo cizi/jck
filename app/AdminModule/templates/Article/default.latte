@@ -52,7 +52,7 @@
 
 												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getType())}</td>
 
-												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getMenuOrder())}</td>
+												<td>{$menuRepo->getMenuCategoryTitle($currentLang, $articleEntity->getMenuOrder())}</td>
 
 												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getValidity())}</td>
 

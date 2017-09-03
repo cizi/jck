@@ -9,25 +9,41 @@
 		<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 
 		<script>
-			$("#frm-mainPageSearchForm-from").datetimepicker({
-				format: 'dd.mm.yyyy',
-				language: {$currentLang},
-				autoclose: 1,
-				todayHighlight: 1,
-				startView: 2,
-				minView: 2,
-				forceParse: 0
+			$('.takingDate').each(function(){
+				$(this).datetimepicker({
+					format: 'yyyy-mm-dd',
+					language: {$currentLang},
+					autoclose: 1,
+					todayHighlight: 1,
+					startView: 2,
+					minView: 2,
+					forceParse: 0
+				});
 			});
 
-			$("#frm-mainPageSearchForm-to").datetimepicker({
-				format: 'dd.mm.yyyy',
-				language: {$currentLang},
-				autoclose: 1,
-				todayHighlight: 1,
-				startView: 2,
-				minView: 2,
-				forceParse: 0
+			$('.takingTime').each(function(){
+				$(this).focusout(function() {
+					validateHhMm($(this));
+				});
 			});
+
+			function validateHhMm(inputField) {
+				var isValid = /^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/.test(inputField.val());
+				if (isValid) {
+					inputField.css("background-color",'#bfa');
+					inputField.removeClass("tinym_required_field");
+					inputField.removeAttr("validation");
+				} else {
+					if(!inputField.hasClass("tinym_required_field")) {
+						inputField.addClass("tinym_required_field");
+						inputField.val("");
+						inputField.attr("validation", {$articleTimeTableWrongTime});
+					}
+					inputField.css("background-color",'#fba');
+				}
+
+				return isValid;
+			}
 		</script>
 	</div>
 

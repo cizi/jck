@@ -59,6 +59,11 @@ define("SUBMIT_OWN_EVENT_TEXT", 'Pro zvěřejnění vlatní události (akce), pr
    paměti, že tento formulář slouží jen pro zadání akce, nikoliv článku, místa apod. Pokud byste chtěli zvěřenit jiný typ příspěvku, ežli akci, použijte náš kontaktní formulář. 
    Po odeslání akce bude Váš požadavek schválen o čemž budete informování. ');
 define("SUBMIT_OWN_BUTTON", 'Odeslat ke schválení');
+define("SUBMIT_OWN_SAVED", 'Akce byla odeslána ke schválení');
+define("SUBMIT_OWN_FAILED", 'Akci se nepodařilo uložit, proísm, opakujte později');
+define("SUBMIT_OWN_MAIL_SUBJECT", 'JCK - byla vložena nová FREE akce');
+define("SUBMIT_OWN_MAIL_BODY", 'Dobrý den, <br /><br />byla vložena nová položka akce z webového formuláře. Po přihlášení do 
+	administrace můžete akci zobrazit zde %s . <br /><br /> Admin JCK');
 
 // nastavení číselníků
 define("ENUM_TITLE", 'Nastavení číselníků v systému');
@@ -106,7 +111,9 @@ define("ARTICLE_VALIDITY", 'Platnost');
 define("ARTICLE_LOCATION", 'Lokace');
 define("ARTICLE_SUBLOCATION", 'Sublokace');
 define("ARTICLE_CONTENT_HEADER", 'Nadpis');
+define("ARTICLE_CONTENT_HEADER_REQ", 'Nadpis příspěvku je povinná položka!');
 define("ARTICLE_CONTENT_CONTENT", 'Obsah');
+define("ARTICLE_CONTENT_CONTENT_REQ", 'Obsah příspěvku je povinná položka!');
 define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Hlavní obrázek');
 define("ARTICLE_MAIN_URL", 'Hlavní obrázek (660 x 443px)');

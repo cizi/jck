@@ -146,11 +146,13 @@ class ArticleForm extends Nette\Object {
 
 			$container->addText("header", ARTICLE_CONTENT_HEADER)
 				->setAttribute("class", "form-control menuItem tinym_required_field")
+				->setAttribute("validation", ARTICLE_CONTENT_HEADER_REQ)
 				->setAttribute("placeholder", ARTICLE_CONTENT_HEADER)
 				->setAttribute("tabindex", $i+1);
 
 			$container->addTextArea("content", ARTICLE_CONTENT_CONTENT)
 				->setAttribute("class", "form-control menuItem mceBlockContent tinym_required_field")
+				->setAttribute("validation",ARTICLE_CONTENT_CONTENT_REQ)
 				->setAttribute("placeholder", ARTICLE_CONTENT_CONTENT)
 				->setAttribute("tabindex", $i+1);
 

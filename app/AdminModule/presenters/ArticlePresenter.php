@@ -50,6 +50,7 @@ class ArticlePresenter extends SignPresenter {
 		$this->template->currentLang = $currentLang;
 		$this->template->userRepo = $this->userRepository;
 		$this->template->enumRepo = $this->enumerationRepository;
+		$this->template->menuRepo = $this->menuRepository;
 		$this->template->articles = $this->articleRepository->findArticlesInLang($currentLang);
 		$this->template->typPrispevkuAkceOrder = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 	}

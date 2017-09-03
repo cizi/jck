@@ -147,10 +147,10 @@ class ArticleRepository extends BaseRepository {
 			foreach ($blockPicsEntities as $picEnt) {
 				$this->picRepository->save($picEnt);
 			}
-
+			$articleEntity->setId($articleId);
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			// dump($e);
+			// dump($e->getMessage());
 			$this->connection->rollback();
 			$result = false;
 		}

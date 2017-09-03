@@ -58,6 +58,10 @@ define("SUBMIT_OWN_EVENT", 'Submit own event');
 define("SUBMIT_OWN_EVENT_TEXT", 'If you would like an event to be considered for inclusion, please fill in the form below, making sure you provide 
 all the information requested. This will be passed on to our editorial team. Please note this form is for events only. Any other content - such as 
 tours, airport facilities or attractions - should be submitted using our feedback form.');
+define("SUBMIT_OWN_SAVED", 'Action has benn send for submitting');
+define("SUBMIT_OWN_FAILED", 'Action saved failed, please try again later');
+define("SUBMIT_OWN_MAIL_SUBJECT", 'JCK - new FREE action has been inserted');
+define("SUBMIT_OWN_MAIL_BODY", 'Hello, <br /><br />new action has been inserted from web form. Please logni in the admin section for show this new action here %s . <br /><br /> Admin JCK');
 
 // číselníky
 define("ENUM_TITLE", 'Enumeration setting');
@@ -105,7 +109,9 @@ define("ARTICLE_VALIDITY", 'Validity');
 define("ARTICLE_LOCATION", 'Location');
 define("ARTICLE_SUBLOCATION", 'Sublocation');
 define("ARTICLE_CONTENT_HEADER", 'Header');
+define("ARTICLE_CONTENT_HEADER_REQ", 'Artcile content header is mandatory!');
 define("ARTICLE_CONTENT_CONTENT", 'Content');
+define("ARTICLE_CONTENT_CONTENT_REQ", 'Article content is mandatory!');
 define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Master pic');
 define("ARTICLE_MAIN_URL", 'Master pic (660 x 443px)');
