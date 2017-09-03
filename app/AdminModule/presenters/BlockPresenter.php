@@ -21,37 +21,19 @@ class BlockPresenter extends SignPresenter {
 	/** @var BlockForm  */
 	private $blockForm;
 
-	/** @var BlockRepository */
-	private $blockRepository;
-
-	/** @var LangRepository */
-	private $langRepository;
-
 	/** @var PicRepository */
 	private $picRepository;
 
-	/** @var WebconfigRepository */
-	private $webconfigRepository;
-
 	/**
 	 * @param BlockForm $blockForm
-	 * @param BlockRepository $blockRepository
-	 * @param LangRepository $langRepository
 	 * @param PicRepository $picRepository
-	 * @param WebconfigRepository $webconfigRepository
 	 */
 	public function __construct(
 		BlockForm $blockForm,
-		BlockRepository $blockRepository,
-		LangRepository $langRepository,
-		PicRepository $picRepository,
-		WebconfigRepository $webconfigRepository
+		PicRepository $picRepository
 	) {
 		$this->blockForm = $blockForm;
-		$this->blockRepository = $blockRepository;
-		$this->langRepository = $langRepository;
 		$this->picRepository = $picRepository;
-		$this->webconfigRepository = $webconfigRepository;
 	}
 
 	public function startup() {

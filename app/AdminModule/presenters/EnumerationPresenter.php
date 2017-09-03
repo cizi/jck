@@ -14,35 +14,23 @@ use Nette\Utils\ArrayHash;
 
 class EnumerationPresenter extends SignPresenter {
 
-	/** @var EnumerationRepository */
-	private $enumerationRepository;
-
 	/** @var  EnumerationForm */
 	private $enumerationForm;
 
 	/** @var  EnumerationItemForm */
 	private $enumerationItemForm;
 
-	/** @var @var LangRepositor  */
-	private $langRepository;
-
 	/**
 	 * EnumerationPresenter constructor.
-	 * @param EnumerationRepository $enumerationRepository
 	 * @param EnumerationForm $enumerationForm
 	 * @param EnumerationItemForm $enumerationItemForm
-	 * @param LangRepository $langRepository
 	 */
 	public function __construct(
-		EnumerationRepository $enumerationRepository,
 		EnumerationForm $enumerationForm,
-		EnumerationItemForm $enumerationItemForm,
-		LangRepository $langRepository
+		EnumerationItemForm $enumerationItemForm
 	) {
-		$this->enumerationRepository = $enumerationRepository;
 		$this->enumerationForm = $enumerationForm;
 		$this->enumerationItemForm = $enumerationItemForm;
-		$this->langRepository = $langRepository;
 	}
 
 	public function startup() {

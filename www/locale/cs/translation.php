@@ -52,6 +52,14 @@ define("MAIN_SEARCH_WEEKEND", 'Víkend');
 define("MAIN_SEARCH_SEARCH", 'Hledat');
 define("MAIN_SEARCH_HEADER", 'Datum');
 
+// vlastní akce
+define("SUBMIT_OWN_EVENT_HEADER", 'Zašlete svou akci');
+define("SUBMIT_OWN_EVENT", 'Zašlete návrh akce');
+define("SUBMIT_OWN_EVENT_TEXT", 'Pro zvěřejnění vlatní události (akce), prosíme, vyplňte formlář níže. Ujistěte se, že poskytujete všechny povinné informace. Mějte na 
+   paměti, že tento formulář slouží jen pro zadání akce, nikoliv článku, místa apod. Pokud byste chtěli zvěřenit jiný typ příspěvku, ežli akci, použijte náš kontaktní formulář. 
+   Po odeslání akce bude Váš požadavek schválen o čemž budete informování. ');
+define("SUBMIT_OWN_BUTTON", 'Odeslat ke schválení');
+
 // nastavení číselníků
 define("ENUM_TITLE", 'Nastavení číselníků v systému');
 define("ENUM_TITLE_DESCRIPTION", 'Zde je možné spravovat číselníky, které jsou napříč celým systémem. Správu by měl dělat jen administrátor,
@@ -101,6 +109,7 @@ define("ARTICLE_CONTENT_HEADER", 'Nadpis');
 define("ARTICLE_CONTENT_CONTENT", 'Obsah');
 define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Hlavní obrázek');
+define("ARTICLE_MAIN_URL", 'Hlavní obrázek (660 x 443px)');
 define("ARTICLE_URL", 'Odkaz na akci');
 define("ARTICLE_FB_URL", 'FB odkaz na akci');
 define("ARTICLE_YT_URL", 'Youtube odkaz na akci');

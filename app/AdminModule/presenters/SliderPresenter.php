@@ -15,20 +15,10 @@ class SliderPresenter extends SignPresenter {
 	/** @var SliderForm  */
 	private $sliderForm ;
 
-	/** SliderPicRepository  */
-	private $sliderPicRepository;
-
-	/** @var SliderSettingRepository */
-	private $sliderSettingRepository;
-
 	public function __construct(
-		SliderForm $sliderForm,
-		SliderPicRepository $sliderPicRepository,
-		SliderSettingRepository $sliderSettingRepository
+		SliderForm $sliderForm
 	) {
 		$this->sliderForm = $sliderForm;
-		$this->sliderPicRepository = $sliderPicRepository;
-		$this->sliderSettingRepository = $sliderSettingRepository;
 	}
 
 	public function actionDefault() {

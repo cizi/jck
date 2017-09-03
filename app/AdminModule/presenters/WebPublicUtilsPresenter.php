@@ -8,16 +8,6 @@ use App\Model\MenuRepository;
 
 class WebPublicUtilsPresenter extends BasePresenter {
 
-	/** @var MenuRepository */
-	private $menuRepository;
-
-	/**
-	 * @param MenuRepository $menuRepository
-	 */
-	public function __construct(MenuRepository $menuRepository) {
-		$this->menuRepository = $menuRepository;
-	}
-
 	/**
 	 * generates sitemap.xml in the root of the web
 	 *

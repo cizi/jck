@@ -17,33 +17,13 @@ use Nette\Utils\ArrayHash;
 
 class BannerPresenter extends SignPresenter {
 
-	/** @var BannerRepository */
-	private $bannerRepository;
-
-	/** @var EnumerationRepository */
-	private $enumerationRepository;
-
-	/** @var LangRepository */
-	private $langRepository;
-
 	/** @var BannerForm */
 	private $bannerForm;
 
-	/** @var MenuController */
-	private $menuController;
-
 	public function __construct(
-		BannerRepository $bannerRepository,
-		EnumerationRepository $enumerationRepository,
-		LangRepository $langRepository,
-		BannerForm $bannerForm,
-		MenuController $menuController
+		BannerForm $bannerForm
 	) {
-		$this->bannerRepository = $bannerRepository;
-		$this->enumerationRepository = $enumerationRepository;
-		$this->langRepository = $langRepository;
 		$this->bannerForm = $bannerForm;
-		$this->menuController = $menuController;
 	}
 
 	/**

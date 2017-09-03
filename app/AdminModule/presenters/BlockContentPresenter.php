@@ -18,35 +18,6 @@ class BlockContentPresenter extends SignPresenter {
 	 */
 	const CONTACT_FORM_ID_AS_BLOCK = -1;
 
-	/** @var MenuRepository  */
-	private $menuRepository;
-
-	/** @var MenuController */
-	private $menuController;
-
-	/** @var  BlockRepository */
-	private $blockRepository;
-
-	/** @var LangRepository */
-	private $langRepository;
-
-	/** @var WebconfigRepository */
-	private $webconfigRepository;
-
-	public function __construct(
-		MenuRepository $menuRepository,
-		MenuController $menuController,
-		BlockRepository $blockRepository,
-		LangRepository $langRepository,
-		WebconfigRepository $webconfigRepository
-	) {
-		$this->menuRepository = $menuRepository;
-		$this->menuController = $menuController;
-		$this->blockRepository = $blockRepository;
-		$this->langRepository = $langRepository;
-		$this->webconfigRepository = $webconfigRepository;
-	}
-
 	public function startup() {
 		parent::startup();
 

@@ -16,25 +16,10 @@ class MenuPresenter extends SignPresenter {
 	/** @var MenuPresenter  */
 	private $menuForm;
 
-	/** @var MenuRepository  */
-	private $menuRepository;
-
-	/** @var LangRepository */
-	private $langRepository;
-
-	/** @var MenuController */
-	private $menuController;
-
 	public function __construct(
-		MenuForm $menuForm,
-		MenuRepository $menuRepository,
-		LangRepository $langRepository,
-		MenuController $menuController
+		MenuForm $menuForm
 	) {
 		$this->menuForm = $menuForm;
-		$this->menuRepository = $menuRepository;
-		$this->langRepository = $langRepository;
-		$this->menuController = $menuController;
 	}
 
 	public function startup() {

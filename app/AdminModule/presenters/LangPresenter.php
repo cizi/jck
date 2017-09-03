@@ -16,17 +16,9 @@ class LangPresenter extends SignPresenter {
 	/** @var LangItemForm */
 	private $langItemForm;
 
-	/** @var LangRepository */
-	private $langRepository;
-
-	/** @var WebconfigRepository */
-	private $webconfigRepository;
-
-	public function __construct(LangForm $langForm, LangItemForm $langItemForm, LangRepository $langRepository, WebconfigRepository $webconfigRepository) {
+	public function __construct(LangForm $langForm, LangItemForm $langItemForm) {
 		$this->langForm = $langForm;
 		$this->langItemForm = $langItemForm;
-		$this->langRepository = $langRepository;
-		$this->webconfigRepository = $webconfigRepository;
 	}
 
 	public function startup() {

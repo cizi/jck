@@ -96,6 +96,11 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
+		$form->addUpload("picUrlUpload", ARTICLE_MAIN_URL)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
+		$form->addHidden("pic_url")->setAttribute("id", "articleMainImgUrl");
+
 		$form->addText("url", ARTICLE_URL)
 			->setAttribute("placeholder", ARTICLE_URL)
 			->setAttribute("class", "form-control")
@@ -140,12 +145,12 @@ class ArticleForm extends Nette\Object {
 				->setValue($lang);
 
 			$container->addText("header", ARTICLE_CONTENT_HEADER)
-				->setAttribute("class", "form-control menuItem")
+				->setAttribute("class", "form-control menuItem tinym_required_field")
 				->setAttribute("placeholder", ARTICLE_CONTENT_HEADER)
 				->setAttribute("tabindex", $i+1);
 
 			$container->addTextArea("content", ARTICLE_CONTENT_CONTENT)
-				->setAttribute("class", "form-control menuItem mceBlockContent")
+				->setAttribute("class", "form-control menuItem mceBlockContent tinym_required_field")
 				->setAttribute("placeholder", ARTICLE_CONTENT_CONTENT)
 				->setAttribute("tabindex", $i+1);
 

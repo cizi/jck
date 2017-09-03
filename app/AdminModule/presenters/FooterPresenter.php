@@ -17,34 +17,23 @@ class FooterPresenter extends SignPresenter {
 	/** @consts depends on language */
 	private $LANG_DEPENDS = [WebconfigRepository::KEY_FOOTER_CONTENT];
 
-	/** @var WebconfigRepository */
-	private $webconfigRepository;
-
 	/** @var FooterForm */
 	private $footerForm;
 
 	/** @var PicRepository */
 	private $picRepository;
 
-	/** @var LangRepository */
-	private $langRepository;
-
 	/**
-	 * @param WebconfigRepository $webconfigRepository
 	 * @param FooterForm $footerForm
 	 * @param PicRepository $picRepository
 	 * @param LangRepository $langRepository
 	 */
 	public function __construct(
-		WebconfigRepository $webconfigRepository,
 		FooterForm $footerForm,
-		PicRepository $picRepository,
-		LangRepository $langRepository
+		PicRepository $picRepository
 	) {
-		$this->webconfigRepository = $webconfigRepository;
 		$this->footerForm = $footerForm;
 		$this->picRepository = $picRepository;
-		$this->langRepository = $langRepository;
 	}
 
 	public function actionDefault() {

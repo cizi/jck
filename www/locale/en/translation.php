@@ -52,6 +52,13 @@ define("MAIN_SEARCH_WEEKEND", 'Weekend');
 define("MAIN_SEARCH_SEARCH", 'Search');
 define("MAIN_SEARCH_HEADER", 'Date');
 
+// vlastní akce
+define("SUBMIT_OWN_EVENT_HEADER", 'Submit own event');
+define("SUBMIT_OWN_EVENT", 'Submit own event');
+define("SUBMIT_OWN_EVENT_TEXT", 'If you would like an event to be considered for inclusion, please fill in the form below, making sure you provide 
+all the information requested. This will be passed on to our editorial team. Please note this form is for events only. Any other content - such as 
+tours, airport facilities or attractions - should be submitted using our feedback form.');
+
 // číselníky
 define("ENUM_TITLE", 'Enumeration setting');
 define("ENUM_TITLE_DESCRIPTION", 'Zde je možné spravovat číselníky, které jsou napříč celým systémem. Správu by měl dělat jen administrátor,
@@ -101,6 +108,7 @@ define("ARTICLE_CONTENT_HEADER", 'Header');
 define("ARTICLE_CONTENT_CONTENT", 'Content');
 define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Master pic');
+define("ARTICLE_MAIN_URL", 'Master pic (660 x 443px)');
 define("ARTICLE_URL", 'URL of action');
 define("ARTICLE_FB_URL", 'FB action URL');
 define("ARTICLE_YT_URL", 'Youtube URL');

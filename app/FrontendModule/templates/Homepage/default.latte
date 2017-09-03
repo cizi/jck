@@ -1,4 +1,117 @@
 {block content}
+	{* slider *}
+	{if $sliderEnabled}
+		<div class="row banners">
+			<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0">
+				<ul class="bxslider" style="opacity: 0;">
+					{foreach $sliderPics as $pic}
+						<li>
+							<a href={link Show:Banner $currentLang, $pic->getId()} target="_blank">
+								<img alt={$pic->getTitle()} src="{$pic->getImg()}" />
+								{if $pic->getArticleId() != null}
+									{var article = $articleRepo->getArticle($pic->getArticleId())}
+									<div class="caption1">
+										<div class="caption2">
+											<a href={link Show:Article $currentLang, $article->getId()}>{$article->getContents()[$currentLang]->getHeader()}</a>
+										</div>
+										<span>
+												{if $article->getSublocation() != null}
+													{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
+												{else}
+													{$enumRepo->getEnumItemByOrder($currentLang, $article->getLocation())}
+												{/if}
+											<br /><br />
+											</span>
+									</div>
+								{/if}
+							</a>
+						</li>
+					{/foreach}
+				</ul>
+			</div>
+			<div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+				<div class="largeRectangle">
+					{if $largeRectangle != null}
+						<a href={link Show:Banner $currentLang, $largeRectangle->getId()} target="_blank">
+							<img alt={$largeRectangle->getTitle()} src="{$largeRectangle->getImg()}" />
+						</a>
+					{/if}
+				</div>
+				<div class="middleRectangle">
+					{if $middleRectangle != null}
+						<a href={link Show:Banner $currentLang, $middleRectangle->getId()} target="_blank">
+							<img alt={$middleRectangle->getTitle()} src="{$middleRectangle->getImg()}" />
+						</a>
+					{/if}
+				</div>
+			</div>
+		</div>
+	{/if}
+	{*slider end  *}
+
+
+	<div class="row banners">
+		<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0"> {* filtr *}
+			{form mainPageSearchForm}
+				<div class="row">
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						{label from/} {input from}
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						{label to/} {input to}
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						{label today/} {input today}
+						{label tomorrow/} {input tomorrow}
+						{label weekend/} {input weekend}
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				</div>
+				<div class="row">
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+						{label search/} {input search}
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						{label searchSubmit/} {input searchSubmit}
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+				</div>
+			{/form}
+		</div>
+
+		<div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+			<a href={link Submit} class="submitAventButton">{=SUBMIT_OWN_EVENT_HEADER}</a>
+		</div>
+
+		<script>
+			$("#frm-mainPageSearchForm-from").datetimepicker({
+				format: 'dd.mm.yyyy',
+				language: {$currentLang},
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView: 2,
+				forceParse: 0
+			});
+
+			$("#frm-mainPageSearchForm-to").datetimepicker({
+				format: 'dd.mm.yyyy',
+				language: {$currentLang},
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView: 2,
+				forceParse: 0
+			});
+		</script>
+	</div>
+
+{/block}
+
+
+{* block content}
 	<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
 	{if count($flashes)}<br />{/if}
 	{foreach $userBlocks as $block}
@@ -14,4 +127,4 @@
 				{if ($iterator->getCounter()%2 == 0) && ($pageKeywords != "")}<em class="hidden">{$pageKeywords}</em>{/if}
 			{/if}
 	{/foreach}
-{/block}
+{/block *}

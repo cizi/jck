@@ -21,20 +21,11 @@ use Nette\Utils\ArrayHash;
 
 class ArticlePresenter extends SignPresenter {
 
-	/** @var ArticleRepository */
-	private $articleRepository;
-
-	/** @var LangRepository */
-	private $langRepository;
-
 	/** @var ArticleForm */
 	private $articleForm;
 
 	/** @var PicRepository */
 	private $picRepository;
-
-	/** @var EnumerationRepository */
-	private $enumerationRepository;
 
 	/** @var UserRepository */
 	private $userRepository;
@@ -43,19 +34,13 @@ class ArticlePresenter extends SignPresenter {
 	private $articleTimetableRepository;
 
 	public function __construct(
-		ArticleRepository $articleRepository,
-		LangRepository $langRepository,
 		ArticleForm $articleForm,
 		PicRepository $picRepository,
-		EnumerationRepository $enumerationRepository,
 		UserRepository $userRepository,
 		ArticleTimetableRepository $articleTimetableRepository
 	) {
-		$this->articleRepository = $articleRepository;
-		$this->langRepository = $langRepository;
 		$this->articleForm = $articleForm;
 		$this->picRepository = $picRepository;
-		$this->enumerationRepository = $enumerationRepository;
 		$this->userRepository = $userRepository;
 		$this->articleTimetableRepository = $articleTimetableRepository;
 	}
@@ -147,12 +132,24 @@ class ArticlePresenter extends SignPresenter {
 					}
 				}
 			}
-			if ($value instanceof ArrayHash) {	// language mutation
+			if (($value instanceof ArrayHash) && ($key != 'calendar')) {	// language mutation
 				$articleContentEntity = new ArticleContentEntity();
 				$articleContentEntity->hydrate((array)$value);
 				$articleContentEntity->setLang($key);
 
 				$mutation[] = $articleContentEntity;
+			}
+			if ($key == 'picUrlUpload') {	// jen jeden hlavní obrázek
+				/** @var FileUpload $file */
+				$file = $value;
+				if ($file->name != "") {
+					$fileController = new FileController();
+					if ($fileController->upload($file, $supportedFileFormats, $this->getHttpRequest()->getUrl()->getBaseUrl()) == false) {
+						$error = true;
+						break;
+					}
+					$articleEntity->setPicUrl($fileController->getPathDb());
+				}
 			}
 			if (is_array($value)) {	// obrázky
 				/** @var FileUpload $file */

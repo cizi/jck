@@ -151,6 +151,17 @@
 			return isValid;
 		}
 
+		$(document).ready(function(){
+			var bannerImg = $("#articleMainImgUrl");
+			if (bannerImg.val() !== "") {
+				$("#frm-articleForm-picUrlUpload").parent().append(
+					"<div class='bannerEditDivImg'>" +
+					"<img class='bannerEditImg' src='" + bannerImg.val() + "'/ >" +
+					"</div>"
+				);
+			}
+		});
+
 		{*
 		$("#footerBackgroundColor").minicolors({
 			control: $(this).attr('data-control') || 'hue',

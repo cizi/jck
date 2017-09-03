@@ -6,13 +6,6 @@ use App\Model\BannerRepository;
 
 class ShowPresenter extends BasePresenter {
 
-	/** @var BannerRepository  */
-	private $bannerRepository;
-
-	public function __construct(BannerRepository $bannerRepository) {
-		$this->bannerRepository = $bannerRepository;
-	}
-
 	/**
 	 * @param string $lang
 	 * @param int $id

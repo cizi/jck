@@ -40,6 +40,9 @@ class ArticleEntity {
 	private $picId;
 
 	/** @var string */
+	private $picUrl;
+
+	/** @var string */
 	private $url;
 
 	/** @var string */
@@ -313,6 +316,20 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getPicUrl() {
+		return $this->picUrl;
+	}
+
+	/**
+	 * @param string $picUrl
+	 */
+	public function setPicUrl($picUrl) {
+		$this->picUrl = $picUrl;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function extract() {
@@ -333,7 +350,8 @@ class ArticleEntity {
 			'location' => $this->getLocation(),
 			'sublocation' => $this->getSublocation(),
 			'yt_url' => $this->getYtUrl(),
-			'views_count' => $this->getViewsCount()
+			'views_count' => $this->getViewsCount(),
+			'pic_url' => $this->getPicUrl()
 		];
 	}
 
@@ -358,5 +376,6 @@ class ArticleEntity {
 		$this->setSublocation(isset($data['sublocation']) ? $data['sublocation'] : null);
 		$this->setYtUrl(isset($data['yt_url']) ? $data['yt_url'] : null);
 		$this->setViewsCount(isset($data['views_count']) ? $data['views_count'] : null);
+		$this->setPicUrl(isset($data['pic_url']) ? $data['pic_url'] : null);
 	}
 }

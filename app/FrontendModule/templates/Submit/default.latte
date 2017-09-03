@@ -1,0 +1,60 @@
+{block content}
+	<div class="row">
+		<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+		<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+			<h1 class="titles">{=SUBMIT_OWN_EVENT}</h1>
+			{=SUBMIT_OWN_EVENT_TEXT}<br /><br />
+				{control submitForm}
+		</div>
+		<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+
+		<script>
+			$("#frm-mainPageSearchForm-from").datetimepicker({
+				format: 'dd.mm.yyyy',
+				language: {$currentLang},
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView: 2,
+				forceParse: 0
+			});
+
+			$("#frm-mainPageSearchForm-to").datetimepicker({
+				format: 'dd.mm.yyyy',
+				language: {$currentLang},
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView: 2,
+				forceParse: 0
+			});
+		</script>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			$('.tinym_required_field').each(function() {
+				$(this).parent().parent().css("color", "red");
+			});
+		});
+	</script>
+{/block}
+
+
+{* block content}
+	<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
+	{if count($flashes)}<br />{/if}
+	{foreach $userBlocks as $block}
+			{if $block->getId() == $contactFormId}
+				<div style="margin: auto; padding: 10px 0; background-color: {!$block->getBackgroundColor()}; color: {!$block->getColor()}; width: {!$widthEnum->getValueByKey($block->getWidth())};">
+					{include "../contactForm.latte"}
+				</div>
+			{else}
+				<div class="contentRow" style="background-color: {!$block->getBackgroundColor()}; outline: 15px solid {!$block->getBackgroundColor()}; color: {!$block->getColor()}; width: {!$widthEnum->getValueByKey($block->getWidth())}">
+					{var text = str_replace("../../.", "",$block->getBlockContent()->getContentText(true))}
+					{!$text}
+				</div>
+				{if ($iterator->getCounter()%2 == 0) && ($pageKeywords != "")}<em class="hidden">{$pageKeywords}</em>{/if}
+			{/if}
+	{/foreach}
+{/block *}

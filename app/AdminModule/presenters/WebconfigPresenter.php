@@ -15,12 +15,6 @@ class WebconfigPresenter extends SignPresenter {
 	/** @consts depends on language */
 	private $LANG_DEPENDS = [WebconfigRepository::KEY_WEB_TITLE, WebconfigRepository::KEY_WEB_GOOGLE_ANALYTICS, WebconfigRepository::KEY_WEB_KEYWORDS];
 
-	/** @var WebconfigRepository */
-	private $webconfigRepository;
-
-	/** @var LangRepository */
-	private $langRepository;
-
 	/** @var WebconfigForm */
 	private $configForm;
 
@@ -33,13 +27,9 @@ class WebconfigPresenter extends SignPresenter {
 	 * @param LangRepository $langRepository
 	 */
 	public function __construct(
-		WebconfigRepository $webconfigRepository,
-		WebconfigForm $webconfigForm,
-		LangRepository $langRepository
+		WebconfigForm $webconfigForm
 	) {
-		$this->webconfigRepository = $webconfigRepository;
 		$this->configForm = $webconfigForm;
-		$this->langRepository = $langRepository;
 	}
 
 	public function startup() {

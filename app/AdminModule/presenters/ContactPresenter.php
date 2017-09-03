@@ -14,24 +14,15 @@ class ContactPresenter extends SignPresenter {
 	/** @consts depends on language */
 	private $LANG_DEPENDS = [WebconfigRepository::KEY_CONTACT_FORM_TITLE, WebconfigRepository::KEY_CONTACT_FORM_CONTENT];
 
-	/** @var WebconfigRepository */
-	private $webconfigRepository;
-
 	/** @var ContactSettingForm */
 	private $contactSettingForm;
-
-	/** @var LangRepository  */
-	private $langRepository;
 
 	/**
 	 * @param WebconfigRepository $webconfigRepository
 	 * @param ContactSettingForm $contactSettingForm
-	 * @param LangRepository $langRepository
 	 */
-	public function __construct(WebconfigRepository $webconfigRepository, ContactSettingForm $contactSettingForm, LangRepository $langRepository) {
-		$this->webconfigRepository = $webconfigRepository;
+	public function __construct(ContactSettingForm $contactSettingForm) {
 		$this->contactSettingForm = $contactSettingForm;
-		$this->langRepository = $langRepository;
 	}
 
 	public function startup() {

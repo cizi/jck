@@ -150,7 +150,7 @@ class ArticleRepository extends BaseRepository {
 
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			echo $e->getMessage(); die;
+			// dump($e);
 			$this->connection->rollback();
 			$result = false;
 		}
@@ -212,7 +212,7 @@ class ArticleRepository extends BaseRepository {
 	}
 
 	/**
-	 * @param ArticleEntity[] $articleContentEntities
+	 * @param ArticleContentEntity[] $articleContentEntities
 	 * @param $articleId
 	 */
 	private function saveArticleContent(array $articleContentEntities, $articleId) {

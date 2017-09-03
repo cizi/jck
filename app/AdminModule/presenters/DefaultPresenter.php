@@ -22,34 +22,23 @@ class DefaultPresenter extends BasePresenter {
 	/** @var UserRepository */
 	public $userRepository;
 
-	/** @var LangRepository $langRepository */
-	private $langRepository;
-
 	/** @var PasswordResetForm */
 	private $passwordResetForm;
-
-	/** @var WebconfigRepository */
-	private $webconfigRepository;
 
 	/**
 	 * DefaultPresenter constructor.
 	 * @param SignForm $signForm
 	 * @param UserRepository $userRepository
-	 * @param LangRepository $langRepository
 	 * @param PasswordResetForm $passwordResetForm
 	 */
 	public function __construct(
 		SignForm $signForm,
 		UserRepository $userRepository,
-		LangRepository $langRepository,
-		PasswordResetForm $passwordResetForm,
-		WebconfigRepository $webconfigRepository
+		PasswordResetForm $passwordResetForm
 	) {
 		$this->singInForm = $signForm;
 		$this->userRepository = $userRepository;
-		$this->langRepository = $langRepository;
 		$this->passwordResetForm = $passwordResetForm;
-		$this->webconfigRepository = $webconfigRepository;
 	}
 
 	/**
