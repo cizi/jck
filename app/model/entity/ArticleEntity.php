@@ -48,6 +48,9 @@ class ArticleEntity {
 	/** @var string */
 	private $fbUrl;
 
+	/** @var string */
+	private $address;
+
 	/** @var int */
 	private $location;
 
@@ -62,6 +65,9 @@ class ArticleEntity {
 
 	/** @var ArticleContentEntity[]  */
 	private $contents;
+
+	/** @var ArticleTimetableEntity[] */
+	private $timetables;
 
 	/**
 	 * @return int
@@ -260,6 +266,20 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getAddress() {
+		return $this->address;
+	}
+
+	/**
+	 * @param string $address
+	 */
+	public function setAddress($address) {
+		$this->address = $address;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getLocation() {
@@ -330,6 +350,20 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return ArticleTimetableEntity[]
+	 */
+	public function getTimetables() {
+		return $this->timetables;
+	}
+
+	/**
+	 * @param ArticleTimetableEntity[] $timetables
+	 */
+	public function setTimetables($timetables) {
+		$this->timetables = $timetables;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function extract() {
@@ -348,6 +382,7 @@ class ArticleEntity {
 			'url' => $this->getUrl(),
 			'fb_url' => $this->getFbUrl(),
 			'location' => $this->getLocation(),
+			'address' => $this->getAddress(),
 			'sublocation' => $this->getSublocation(),
 			'yt_url' => $this->getYtUrl(),
 			'views_count' => $this->getViewsCount(),
@@ -372,6 +407,7 @@ class ArticleEntity {
 		$this->setValidity(isset($data['validity']) ? $data['validity'] : null);
 		$this->setUrl(isset($data['url']) ? $data['url'] : null);
 		$this->setFbUrl(isset($data['fb_url']) ? $data['fb_url'] : null);
+		$this->setAddress(isset($data['address']) ? $data['address'] : null);
 		$this->setLocation(isset($data['location']) ? $data['location'] : null);
 		$this->setSublocation(isset($data['sublocation']) ? $data['sublocation'] : null);
 		$this->setYtUrl(isset($data['yt_url']) ? $data['yt_url'] : null);

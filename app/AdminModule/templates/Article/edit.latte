@@ -66,6 +66,19 @@
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});
 
+
+		var countries = [
+			{foreach $availableAddresses as $key => $value}
+				{ value: {$key}, data: {$value} }
+			{* value: 'Andorra', data: 'AD' },
+			{ value: 'Zimbabwe', data: 'ZZ' *}
+			{/foreach}
+		];
+
+		$('#frm-articleForm-address').autocomplete({
+			lookup: countries
+		});
+
 		tinymce.init({
 			selector:'.mceBlockContent',
 			toolbar: "image",

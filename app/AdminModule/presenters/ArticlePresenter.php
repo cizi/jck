@@ -79,6 +79,7 @@ class ArticlePresenter extends SignPresenter {
 		$this->template->articleTypeAction = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 		$this->template->currentLang = $this->langRepository->getCurrentLang($this->session);
 		$this->template->articleTimeTableWrongTime = ARTICLE_TIMETABLE_TIME_WRONG_FORMAT;
+		$this->template->availableAddresses = $this->articleRepository->findAddresses();
 	}
 
 	/**
@@ -89,7 +90,27 @@ class ArticlePresenter extends SignPresenter {
 		$this->redirect("default");
 	}
 
-	public function actionCalendar($id) {
+	/**
+	 * @param int $id
+	 */
+	public function actionCopyArticle($id) {
+		$article = $this->articleRepository->getArticle($id);
+		if ($article != null) {
+			$newArticle = clone($article);
+			$newArticle->setId(null);
+			foreach ($newArticle->getContents() as $content) {
+				$content->setId(null);
+			}
+			if ($this->articleRepository->saveCompleteArticle($newArticle, $this->getUser()->getId(), $newArticle->getTimetables()) == true) {
+				$this->flashMessage(ARTICLE_DUPLICATE_OK, "alert-success");
+				$this->redirect("edit", $newArticle->getId());
+			} else {
+				$this->flashMessage(ARTICLE_DUPLICATE_FAILED, "alert-danger");
+				$this->redirect("default");
+			}
+		} else {
+			$this->redirect("default");
+		}
 
 	}
 

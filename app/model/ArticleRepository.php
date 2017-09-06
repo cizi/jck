@@ -7,6 +7,7 @@ use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\ArticleTimetableEntity;
 use Dibi\Connection;
 use Dibi\DateTime;
+use Dibi\Row;
 
 class ArticleRepository extends BaseRepository {
 
@@ -36,7 +37,9 @@ class ArticleRepository extends BaseRepository {
 	 */
 	public function findArticlesInLang($lang) {
 		$query = ["
-			select *, a.id as aID, ac.article_id as acId from article as a left join article_content as ac on a.id = ac.article_id
+			select *, a.id as aID, ac.article_id as acId 
+			from article as a 
+				left join article_content as ac on a.id = ac.article_id
 			where ac.lang = %s
 			",
 			$lang
@@ -53,6 +56,8 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->hydrate($item->toArray());
 			$articleEntity->setId($item['aID']);
 			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 
 			$articles[] = $articleEntity;
 		}
@@ -74,6 +79,7 @@ class ArticleRepository extends BaseRepository {
 
 			$articleContentsEntity = $this->findArticleContents($articleEntity->getId());
 			$articleEntity->setContents($articleContentsEntity);
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articles[] = $articleEntity;
 		}
 
@@ -95,13 +101,14 @@ class ArticleRepository extends BaseRepository {
 
 			$articleContentEntities = $this->findArticleContents($articleEntity->getId());
 			$articleEntity->setContents($articleContentEntities);
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 
 			return $articleEntity;
 		}
 	}
 
 	/**
-	 * Vrátí pole pro editaci polořky příspěvku
+	 * Vrátí pole pro editaci položky příspěvku
 	 *
 	 * @param int $id
 	 * @return array
@@ -150,7 +157,7 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->setId($articleId);
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			// dump($e->getMessage());
+			dump($e); die;
 			$this->connection->rollback();
 			$result = false;
 		}
@@ -296,5 +303,13 @@ class ArticleRepository extends BaseRepository {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function findAddresses() {
+		$query = "select distinct address from article where address is not null";
+		return $this->connection->query($query)->fetchPairs('address', 'address');
 	}
 }

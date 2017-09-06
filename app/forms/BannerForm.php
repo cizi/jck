@@ -95,11 +95,6 @@ class BannerForm extends Nette\Object {
 			->setAttribute("readonly", "readonly")
 			->setAttribute("tabindex", $i+1);
 
-		$articles = $this->articleRepository->findArticlesForSelect($currentLang);
-		$form->addSelect("article_id", MENU_ARTICLE, $articles)
-			->setAttribute("class", "form-control")
-			->setAttribute("tabindex", $i+1);
-
 		$form->addCheckbox("show_on_main_page", " " . BANNER_SHOW_MAIN_PAGE)
 			->setAttribute("class","activeToggleEvent")
 			->setAttribute("data-toggle","toggle")

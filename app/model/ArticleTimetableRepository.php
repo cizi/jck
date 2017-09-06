@@ -17,7 +17,10 @@ class ArticleTimetableRepository extends BaseRepository {
 		) {
 
 			//if ($articleTimetableEntity->getId() == null) {
-			$articleTimetableEntity->setId(null);	// protože před ukládáním vždy z tété tabulky vše smažu tak vlastně neustále vkládám nové zázanym
+			$articleTimetableEntity->setId(null);	// protože před ukládáním vždy z té tabulky vše smažu tak vlastně neustále vkládám nové zázanym
+			if ($articleTimetableEntity->getTime() instanceof \DateInterval) {
+				$articleTimetableEntity->setTime($articleTimetableEntity->getTime()->format("%H:%I"));
+			}
 			$query = ["insert into article_timetable", $articleTimetableEntity->extract()];
 			/*} else {
 				$query = [
@@ -34,8 +37,8 @@ class ArticleTimetableRepository extends BaseRepository {
 					$articleTimetableEntity->getId()
 				];
 			}
-			dump($articleTimetableEntity);
-			$this->connection->test($query); */
+			 */
+			// dump($articleTimetableEntity); $this->connection->test($query); die;
 			$this->connection->query($query);
 		}
 

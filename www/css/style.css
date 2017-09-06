@@ -32,8 +32,7 @@ h1 {
 }
 
 .webMenu {
-	max-width: 1000px;
-}
+	max-width: 1000px;}
 
 #ajax-spinner {
 	margin: 15px 0 0 15px;
@@ -452,3 +451,11 @@ h1.titles {
 	-webkit-margin-before: 0.5em;
 	-webkit-margin-after: 0.5em;
 }
+/* autocomplete */
+.autocomplete-suggestions { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-no-suggestion { padding: 2px 5px;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #000; }
+.autocomplete-group { padding: 2px 5px; font-weight: bold; font-size: 16px; color: #000; display: block; border-bottom: 1px solid #000; }
+input { font-size: 28px; padding: 10px; border: 1px solid #CCC; display: block; margin: 20px 0; }

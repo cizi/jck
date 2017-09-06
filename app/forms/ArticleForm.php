@@ -73,6 +73,10 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
+		$form->addText("address", ARTICLE_ADDRESS)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
+
 		$locations = $this->enumerationRepository->findEnumItemsForSelect($currentLang, EnumerationRepository::LOKACE);
 		$form->addSelect("location", ARTICLE_LOCATION, $locations)
 			->setAttribute("class", "form-control")
@@ -192,6 +196,7 @@ class ArticleForm extends Nette\Object {
 		$calendarReplicator->addSubmit('addTakingTime', ARTICLE_ADD_TIMETABLE)
 			->setAttribute("class", "btn btn-primary menuItem")
 			->setAttribute("id", "addNextTakingTime")
+			->setAttribute("onclick", "tinyMCE.triggerSave();")
 			->addCreateOnClick(true);
 
 		$form->addMultiUpload("pics")

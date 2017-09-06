@@ -88,7 +88,7 @@
 
 												<td class="alignRight">
 													{if $articleEntity->getType() == $typPrispevkuAkceOrder}
-														<a href={link Article:Calendar, $articleEntity->getId()} title={=ARTICLE_CALENDAR}><span class="glyphicon glyphicon-calendar colorGrey"></span></a> &nbsp;&nbsp;
+														<a href={link Article:CopyArticle, $articleEntity->getId()} title={=ARTICLE_DUPLICATE}><span class="glyphicon glyphicon-duplicate colorGrey"></span></a> &nbsp;&nbsp;
 													{/if}
 													<a href={link Article:Edit, $articleEntity->getId()} title={=ARTICLE_EDIT}><span class="glyphicon glyphicon-pencil"></span></a> &nbsp;&nbsp;
 													<a href="#" data-href={link Article:Delete, $articleEntity->getId()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=ARTICLE_DELETE}><span class="glyphicon glyphicon-remove"></span></a>

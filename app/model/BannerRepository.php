@@ -139,9 +139,6 @@ class BannerRepository extends BaseRepository {
 		$result = true;
 		try {
 			$this->connection->begin();
-			if ($bannerEntity->getArticleId() == 0) {
-				$bannerEntity->setArticleId(null);
-			}
 			$bannerId = $this->save($bannerEntity, $userId);
 
 			$this->deleteCategories($bannerId);	// smažu kategorie

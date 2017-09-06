@@ -39,9 +39,6 @@ class BannerEntity {
 	/** @var int */
 	private $userId;
 
-	/** @var int */
-	private $article_id;
-
 	/** @var BannerCategoryEntity[] */
 	private $categories;
 
@@ -200,20 +197,6 @@ class BannerEntity {
 	}
 
 	/**
-	 * @return int
-	 */
-	public function getArticleId() {
-		return $this->article_id;
-	}
-
-	/**
-	 * @param int $article_id
-	 */
-	public function setArticleId($article_id) {
-		$this->article_id = $article_id;
-	}
-
-	/**
 	 * @return BannerCategoryEntity[]
 	 */
 	public function getCategories() {
@@ -242,8 +225,7 @@ class BannerEntity {
 			'show_on_main_page' => $this->isShowOnMainPage(),
 			'show_counter' => $this->getShowCounter(),
 			'click_counter' => $this->getClickCounter(),
-			'user_id' => $this->getUserId(),
-			'article_id' => $this->getArticleId()
+			'user_id' => $this->getUserId()
 		];
 	}
 
@@ -262,7 +244,6 @@ class BannerEntity {
 		$this->setShowCounter(isset($data['show_counter']) ? $data['show_counter'] : null);
 		$this->setClickCounter(isset($data['click_counter']) ? $data['click_counter'] : null);
 		$this->setUserId(isset($data['user_id']) ? $data['user_id'] : null);
-		$this->setArticleId(isset($data['article_id']) ? $data['article_id'] : null);
 	}
 
 }
