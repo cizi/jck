@@ -19,6 +19,7 @@ class EnumerationRepository extends BaseRepository {
 
 	/** @const konkrétní hodnota číselníku */
 	const TYP_PRISPEVKU_AKCE_ORDER = 1;
+	const TYP_PRISPEVKU_CLANEK_ORDER = 2;
 
 	const TYP_VALIDITY_FREE = 3;
 	const TYP_VALIDITY_TOP = 5;

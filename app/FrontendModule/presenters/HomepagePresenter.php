@@ -5,12 +5,28 @@ namespace App\FrontendModule\Presenters;
 use App\Controller\FileController;
 use App\Model\Entity\BlockContentEntity;
 use App\Model\Entity\MenuEntity;
+use App\Model\EnumerationRepository;
+use App\Model\PicRepository;
 use Nette;
 use App\Enum\WebWidthEnum;
 use App\Model\WebconfigRepository;
 use Nette\Http\FileUpload;
 
 class HomepagePresenter extends BasePresenter {
+
+	const MAX_TEXT_ARTICLES = 4;
+	const MAX_GALLERIES = 4;
+
+	/** @var PicRepository */
+	private $picRepository;
+
+	/**
+	 * HomepagePresenter constructor.
+	 * @param PicRepository $picRepository
+	 */
+	public function __construct(PicRepository $picRepository) {
+		$this->picRepository = $picRepository;
+	}
 
 	/**
 	 * @param string $lang
@@ -54,6 +70,10 @@ class HomepagePresenter extends BasePresenter {
 
 			$this->template->userBlocks = $userBlocks;
 			$this->template->widthEnum = new WebWidthEnum();
+			$this->template->textArticles = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
+			$this->template->picRepo = $this->picRepository;
+			$this->template->maxTextArticles = self::MAX_TEXT_ARTICLES;
+			$this->template->maxGalleries = self::MAX_GALLERIES;
 	}
 
 	/**

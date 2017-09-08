@@ -145,6 +145,10 @@ define("CHOSEN_NO_MATCH", 'Žádná shoda');
 define("USER_REQUEST_NOT_PRIV", 'K návštěvě této stránky nemáte dostatečná oprávnění.');
 define("PIC_NOT_POSSIBLE_DELETE", 'Obrázek nelze v tuto chvíli odstranit, pravděpodoně je někde použit. ');
 
+// homepage
+define("HP_ARTICLE_TEXT", 'Nejnovější články');
+define("HP_ARTICLE_GALLERY", 'Nejnovější galerie');
+
 // bannery
 define("BANNER_TITLE", 'Nastavení bannerů');
 define("BANNER_TITLE_DETAIL", 'Detail nastavení banneru');

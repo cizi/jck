@@ -6,6 +6,7 @@
 				{if count($sliderPics)}
 					<ul class="bxslider" style="opacity: 0;">
 						{foreach $sliderPics as $article}
+							{if !empty($article->getPicUrl())}
 							<li>
 								<a href={link Show:Article $currentLang, $article->getId()} target="_blank">
 									<img alt={$article->getContents()[$currentLang]->getHeader()} src="{$article->getPicUrl()}" />
@@ -31,6 +32,7 @@
 									</div>
 								</a>
 							</li>
+							{/if}
 						{/foreach}
 					</ul>
 				{/if}
@@ -56,7 +58,7 @@
 	{*slider end  *}
 
 
-	<div class="row banners">
+	<div class="row">
 		<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0"> {* filtr *}
 			{form mainPageSearchForm}
 				<div class="row">
@@ -112,6 +114,33 @@
 				forceParse: 0
 			});
 		</script>
+	</div>
+
+	<div class="row">
+		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class="title"><h2><a class="title" href="#">{=HP_ARTICLE_TEXT}</a></h2></div>
+			{for $i=0; $i< $maxTextArticles; $i++}
+				{if isset($textArticles[$i])}
+				{var article = $textArticles[$i]}
+					<div class="hp_2_cols">
+						<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
+						<a href="#"><h3>{$article->getContents()[$currentLang]->getHeader()}</h3></a>
+						{if $article->getPicId() != null}
+							{var picUrl = $picRepo->getById($article->getPicId())}
+							<a href="#"><img src={$picUrl->getPath()} /></a>
+						{/if}
+						<div>
+							{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
+						</div>
+					</div>
+				{/if}
+			{/for}
+		</div>
+
+		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class="title"><h2><a class="title" href="#">{=HP_ARTICLE_GALLERY}</a></h2></div>
+		</div>
+
 	</div>
 
 {/block}

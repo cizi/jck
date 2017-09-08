@@ -65,7 +65,10 @@
 
 <body style="
 	{if $bodyBackgroundColor != ""}background-color: {!$bodyBackgroundColor};{/if}
-	{if ($wallpaperBanner != null) && ($wallpaperBanner->getImg() != null) && ($wallpaperBanner->getImg() != "")} background-image: url('{!$wallpaperBanner->getImg()}')!important; {/if}
+	{if ($wallpaperBanner != null) && ($wallpaperBanner->getImg() != null) && ($wallpaperBanner->getImg() != "")}
+			background-image: url('{!$wallpaperBanner->getImg()}')!important;
+			background-attachment: fixed;
+	{/if}
 ">
 	<h1 class="hidden">{$title}{if isset($currentLink)} - {$currentLink->getTitle()}{/if}</h1>
 

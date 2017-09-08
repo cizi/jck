@@ -16,6 +16,7 @@ use App\Model\Entity\BlockContentEntity;
 use App\Model\EnumerationRepository;
 use App\Model\LangRepository;
 use App\Model\MenuRepository;
+use App\Model\PicRepository;
 use App\Model\SliderPicRepository;
 use App\Model\SliderSettingRepository;
 use App\Model\WebconfigRepository;

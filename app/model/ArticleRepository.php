@@ -38,14 +38,16 @@ class ArticleRepository extends BaseRepository {
 
 	/**
 	 * @param string $lang
+	 * @param null $type
 	 * @return array
 	 */
-	public function findArticlesInLang($lang) {
+	public function findArticlesInLang($lang, $type = null) {
 		$query = ["
 			select *, a.id as aID, ac.article_id as acId 
 			from article as a 
 				left join article_content as ac on a.id = ac.article_id
 			where ac.lang = %s
+			order by inserted_timestamp desc
 			",
 			$lang
 		];
@@ -64,17 +66,59 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 
-			$articles[] = $articleEntity;
+			if (($type == null) || (($type != null) && ($articleEntity->getType() == $type))) {
+				$articles[] = $articleEntity;
+			}
 		}
 
 		return $articles;
 	}
 
 	/**
+	 * @param string $lang
+	 * @param null $type
 	 * @return array
 	 */
-	public function findArticles() {
-		$query = ["select * from article"];
+	public function findActiveArticlesInLang($lang, $type = null) {
+		$query = ["
+			select *, a.id as aID, ac.article_id as acId 
+			from article as a 
+				left join article_content as ac on a.id = ac.article_id
+			where ac.lang = %s
+				and active = 1
+			order by inserted_timestamp desc
+			",
+			$lang
+		];
+
+		$result = $this->connection->query($query)->fetchAll();
+		$articles = [];
+		foreach ($result as $item) {
+			$articleContentEntity = new ArticleContentEntity();
+			$articleContentEntity->hydrate($item->toArray());
+			$articleContentEntity->setId($item['acId']);
+
+			$articleEntity = new ArticleEntity();
+			$articleEntity->hydrate($item->toArray());
+			$articleEntity->setId($item['aID']);
+			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
+
+			if (($type == null) || (($type != null) && ($articleEntity->getType() == $type))) {
+				$articles[] = $articleEntity;
+			}
+		}
+
+		return $articles;
+	}
+
+	/**
+	 * @param null $type
+	 * @return array
+	 */
+	public function findArticles($type = null) {
+		$query = ["select * from article order by inserted_timestamp desc"];
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
@@ -86,7 +130,36 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->setContents($articleContentsEntity);
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
-			$articles[] = $articleEntity;
+
+			if (($type == null) || (($type != null) && ($articleEntity->getType() == $type))) {
+				$articles[] = $articleEntity;
+			}
+		}
+
+		return $articles;
+	}
+
+	/**
+	 * @param null $type
+	 * @return array
+	 */
+	public function findActiveArticles($type = null) {
+		$query = ["select * from article where active = 1 order by inserted_timestamp desc"];
+
+		$result = $this->connection->query($query)->fetchAll();
+		$articles = [];
+		foreach ($result as $item) {
+			$articleEntity = new ArticleEntity();
+			$articleEntity->hydrate($item->toArray());
+
+			$articleContentsEntity = $this->findArticleContents($articleEntity->getId());
+			$articleEntity->setContents($articleContentsEntity);
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
+
+			if (($type == null) || (($type != null) && ($articleEntity->getType() == $type))) {
+				$articles[] = $articleEntity;
+			}
 		}
 
 		return $articles;
@@ -278,6 +351,10 @@ class ArticleRepository extends BaseRepository {
 		}
 	}
 
+	/**
+	 * @param int $id
+	 * @return bool
+	 */
 	public function deleteArticle($id) {
 		$result = true;
 		try {
@@ -289,6 +366,9 @@ class ArticleRepository extends BaseRepository {
 
 			// pak musím smazat položky kalendáře
 			$this->articleTimetableRepository->deleteByArticleId($id);
+
+			// pak smažu kategorie
+			$this->articleCategoryRepository->deleteByArticleId($id);
 
 			// pak smažu samotný příspěvek
 			$query = ["delete from article where id = %i", $id];
@@ -354,7 +434,7 @@ class ArticleRepository extends BaseRepository {
 		$query = [
 			"select distinct a.*, a.id as aid, `at`.id as atid, `at`.date_from, `at`.date_to, `at`.time from article as a 
 				left join article_timetable as `at` on a.id = `at`.article_id 
-				where a.validity = %i and (
+				where a.validity = %i and a.active = 1 and (
 					((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
 					or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
 				)",

@@ -460,3 +460,41 @@ h1.titles {
 .autocomplete-suggestions strong { font-weight: bold; color: #000; }
 .autocomplete-group { padding: 2px 5px; font-weight: bold; font-size: 16px; color: #000; display: block; border-bottom: 1px solid #000; }
 input { font-size: 28px; padding: 10px; border: 1px solid #CCC; display: block; margin: 20px 0; }
+
+div.title {
+	border-bottom: 1px solid lightgrey;
+}
+
+.title {
+	color: #e04b00;
+	font-size: 28px;
+	font-weight: bold;
+}
+.title:hover{
+	color: #e04b00;
+}
+.seo {
+	display: none;
+}
+
+.hp_2_cols{
+	border-bottom: 1px solid lightgrey;
+}
+
+.hp_2_cols h3{
+	font-size: 20px;
+	font-weight: bold;
+	color: #7d7d7d;
+}
+.hp_2_cols div{
+	font-size: 12px;
+	color: #7d7d7d;
+	margin-bottom: 15px;
+}
+.hp_2_cols img {
+	max-width: 480px;
+	margin-bottom: 15px;
+}
+.hp_2_cols a:hover {
+	color: #7d7d7d;
+}

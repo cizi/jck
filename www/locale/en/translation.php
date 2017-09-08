@@ -143,6 +143,10 @@ define("CHOSEN_NO_MATCH", 'No match');
 define("USER_REQUEST_NOT_PRIV", 'Permission denied for this request.');
 define("PIC_NOT_POSSIBLE_DELETE", 'The picture is not possible to delete. The picture is probably in use. ');
 
+// homepage
+define("HP_ARTICLE_TEXT", 'Lastest articles');
+define("HP_ARTICLE_GALLERY", 'Lastest galleries');
+
 // bannery
 define("BANNER_TITLE", 'Banners settings');
 define("BANNER_TITLE_DETAIL", 'Banner detail');
