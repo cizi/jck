@@ -6,6 +6,7 @@ use App\Controller\EmailController;
 use App\Controller\FileController;
 use App\Enum\WebWidthEnum;
 use App\Forms\ArticleForm;
+use App\Model\Entity\ArticleCategoryEntity;
 use App\Model\Entity\ArticleContentEntity;
 use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\ArticleTimetableEntity;
@@ -109,6 +110,7 @@ class SubmitPresenter extends BasePresenter {
 		$supportedFileFormats = ["jpg", "png", "doc"];
 		$calendars = [];
 		$mutation = [];
+		$categories = [];
 		$pics = [];
 		foreach($values as $key => $value) {
 			if (($value instanceof ArrayHash) && ($key == 'calendar')) {    // timetable
@@ -126,6 +128,13 @@ class SubmitPresenter extends BasePresenter {
 				$articleContentEntity->setLang($key);
 
 				$mutation[] = $articleContentEntity;
+			}
+			if ((is_array($value)) && ($key == 'menuOrders')) {    // language mutation
+				foreach	($value as $menuOrder) {
+					$articleCategoryEntity = new ArticleCategoryEntity();
+					$articleCategoryEntity->setMenuOrder($menuOrder);
+					$categories[] = $articleCategoryEntity;
+				}
 			}
 			if ($key == 'picUrlUpload') {	// jen jeden hlavní obrázek
 				/** @var FileUpload $file */
@@ -150,7 +159,7 @@ class SubmitPresenter extends BasePresenter {
 			$this->redirect("default", $this->langRepository->getCurrentLang($this->session), null, $values);
 		} else {
 			$insertedBy = ($this->getUser()->isLoggedIn() ? $this->getUser()->getId() : null);
-			if ($this->articleRepository->saveCompleteArticle($articleEntity, $insertedBy, $calendars, $pics) == false) {
+			if ($this->articleRepository->saveCompleteArticle($articleEntity, $insertedBy, $calendars, $categories, $pics) == false) {
 				$this->flashMessage(SUBMIT_OWN_FAILED, "alert-danger");
 				$this->redirect("default", $this->langRepository->getCurrentLang($this->session), null, $values);
 			} else {

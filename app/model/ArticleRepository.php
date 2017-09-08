@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Model\Entity\ArticleCategoryEntity;
 use App\Model\Entity\ArticleContentEntity;
 use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\ArticleTimetableEntity;
@@ -17,6 +18,9 @@ class ArticleRepository extends BaseRepository {
 	/** @var ArticleTimetableRepository */
 	private $articleTimetableRepository;
 
+	/** @var ArticleCategoryRepository */
+	private $articleCategoryRepository;
+
 	/** @var Connection */
 	protected $connection;
 
@@ -25,10 +29,11 @@ class ArticleRepository extends BaseRepository {
 	 * @param PicRepository $picRepository
 	 * @param Connection $connection
 	 */
-	public function __construct(PicRepository $picRepository, ArticleTimetableRepository $articleTimetableRepository, Connection $connection) {
+	public function __construct(PicRepository $picRepository, ArticleTimetableRepository $articleTimetableRepository, Connection $connection, ArticleCategoryRepository $articleCategoryRepository) {
 		parent::__construct($connection);
 		$this->articleTimetableRepository = $articleTimetableRepository;
 		$this->picRepository = $picRepository;
+		$this->articleCategoryRepository = $articleCategoryRepository;
 	}
 
 	/**
@@ -56,8 +61,8 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->hydrate($item->toArray());
 			$articleEntity->setId($item['aID']);
 			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
-
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 
 			$articles[] = $articleEntity;
 		}
@@ -80,6 +85,7 @@ class ArticleRepository extends BaseRepository {
 			$articleContentsEntity = $this->findArticleContents($articleEntity->getId());
 			$articleEntity->setContents($articleContentsEntity);
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 			$articles[] = $articleEntity;
 		}
 
@@ -102,6 +108,7 @@ class ArticleRepository extends BaseRepository {
 			$articleContentEntities = $this->findArticleContents($articleEntity->getId());
 			$articleEntity->setContents($articleContentEntities);
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 
 			return $articleEntity;
 		}
@@ -123,6 +130,11 @@ class ArticleRepository extends BaseRepository {
 			foreach ($articleContentEntities as $articleContentEntity) {
 				$result[$articleContentEntity->getLang()] = $articleContentEntity->extract();
 			}
+
+			$articleCategories = $this->articleCategoryRepository->findCategories($articleEntity->getId());
+			foreach ($articleCategories as $articleCategory) {
+				$result['menuOrders'][$articleCategory->getMenuOrder()] = $articleCategory->getMenuOrder();
+			}
 		}
 
 		return $result;
@@ -130,9 +142,13 @@ class ArticleRepository extends BaseRepository {
 
 	/**
 	 * @param ArticleEntity $articleEntity
+	 * @param $userId
+	 * @param array $calendars
+	 * @param array $categories
+	 * @param array $blockPicsEntities
 	 * @return bool
 	 */
-	public function saveCompleteArticle(ArticleEntity $articleEntity, $userId, $calendars, array $blockPicsEntities = []) {
+	public function saveCompleteArticle(ArticleEntity $articleEntity, $userId, array $calendars, array $categories, array $blockPicsEntities = []) {
 		$result = true;
 		try {
 			$this->connection->begin();
@@ -150,6 +166,9 @@ class ArticleRepository extends BaseRepository {
 			$this->articleTimetableRepository->deleteByArticleId($articleId);	// před uložením všechny smažu
 			$this->saveArticleTimetable($calendars, $articleId);	// následně uložím znovu
 
+			$this->articleCategoryRepository->deleteByArticleId($articleId);	// smažu všechny záznami
+			$this->saveArtcileCategory($categories, $articleId);	// následně uložím znovu
+
 			$this->saveArticleContent($articleEntity->getContents(), $articleId);
 			foreach ($blockPicsEntities as $picEnt) {
 				$this->picRepository->save($picEnt);
@@ -157,7 +176,7 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->setId($articleId);
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			dump($e); die;
+			// dump($e); die;
 			$this->connection->rollback();
 			$result = false;
 		}
@@ -198,7 +217,8 @@ class ArticleRepository extends BaseRepository {
 			$currentArticleEntity = $this->getArticle($articleEntity->getId());
 			$articleEntity->setInsertedTimestamp($currentArticleEntity->getInsertedTimestamp());
 			$articleEntity->setInsertedBy($currentArticleEntity->getInsertedBy());
-			$articleEntity->setViewsCount($currentArticleEntity->getViewsCount());
+			$articleEntity->setShowCounter($currentArticleEntity->getShowCounter());
+			$articleEntity->setClickCounter($currentArticleEntity->getClickCounter());
 			$query = ["update article set ", $articleEntity->extract(), "where id=%i", $articleEntity->getId()];
 		}
 		$this->connection->query($query);
@@ -215,6 +235,18 @@ class ArticleRepository extends BaseRepository {
 		foreach ($timetables as $timetable) {
 			$timetable->setArticleId($articleId);
 			$this->articleTimetableRepository->save($timetable);
+		}
+	}
+
+	/**
+	 * @param ArticleCategoryEntity[] $articleCategories
+	 * @param int $articleId
+	 */
+	private function saveArtcileCategory(array $articleCategories, $articleId) {
+		/** @var ArticleCategoryEntity $category */
+		foreach ($articleCategories as $category) {
+			$category->setArticleId($articleId);
+			$this->articleCategoryRepository->save($category);
 		}
 	}
 
@@ -311,5 +343,62 @@ class ArticleRepository extends BaseRepository {
 	public function findAddresses() {
 		$query = "select distinct address from article where address is not null";
 		return $this->connection->query($query)->fetchPairs('address', 'address');
+	}
+
+	/**
+	 * @param int $bannerType
+	 * @param bool $showOnMainPage
+	 * @return ArticleEntity[]
+	 */
+	public function findSliderPics($validity = EnumerationRepository::TYP_VALIDITY_TOP) {
+		$query = [
+			"select distinct a.*, a.id as aid, `at`.id as atid, `at`.date_from, `at`.date_to, `at`.time from article as a 
+				left join article_timetable as `at` on a.id = `at`.article_id 
+				where a.validity = %i and (
+					((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
+					or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
+				)",
+			$validity
+		];
+
+		$bannersOut = [];
+		$result = $this->connection->query($query)->fetchAll();
+
+		foreach ($result as $article) {
+			$articleEntity = new ArticleEntity();
+			$arr = $article->toArray();
+			$articleEntity->hydrate($article->toArray());
+			$articleEntity->setId(isset($arr['aid']) ? $arr['aid'] : null);
+
+			$articleTimeTable = new ArticleTimetableEntity();
+			$articleTimeTable->hydrate($arr);
+			$articleTimeTable->setId(isset($arr['atid']) ? $arr['atid'] : null);
+			$articleTimeTable->setArticleId(isset($arr['aid']) ? $arr['aid'] : null);
+
+			$articleEntity->setTimetables([$articleTimeTable]);
+			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
+			$this->articleShowed($articleEntity->getId());
+
+			$bannersOut[] = $articleEntity;
+		}
+
+		return $bannersOut;
+	}
+
+	/**
+	 * @param int $id
+	 */
+	public function articleClicked($id) {
+		$query = ["update article set click_counter = click_counter + 1 where id = %i", $id];
+		$this->connection->query($query);
+	}
+
+	/**
+	 * @param int $id
+	 */
+	private function articleShowed($id) {
+		$query = ["update article set show_counter = show_counter + 1 where id = %i", $id];
+		$this->connection->query($query);
 	}
 }

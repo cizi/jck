@@ -205,6 +205,7 @@ a.sliderPicDelete:hover{
 }
 .caption2 a{
 	font-size:28px;
+	font-weight: bold;
 	color: #EE487A;
 	padding-left: 7px;
 	line-height: 44px;

@@ -204,7 +204,7 @@ abstract class BasePresenter extends Presenter {
 		// slider and its pics
 		if ($this->sliderSettingRepository->getByKey(SliderSettingRepository::KEY_SLIDER_ON)) {
 			$this->template->sliderEnabled = true;
-			$this->template->sliderPics = $this->bannerRepository->findBannersByType(EnumerationRepository::TYP_BANNERU_BIG_BANNER);
+			$this->template->sliderPics = $this->articleRepository->findSliderPics();
 
 			$widthEnum = new WebWidthEnum();
 			$widthOption = $this->sliderSettingRepository->getByKey(SliderSettingRepository::KEY_SLIDER_WIDTH);

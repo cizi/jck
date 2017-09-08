@@ -69,7 +69,7 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("tabindex", $i+1);
 
 		$menuCategories = $this->menuController->findMenuCategoriesForSelect($currentLang);
-		$form->addSelect("menu_order", ARTICLE_CATEGORY, $menuCategories)
+		$form->addMultiSelect("menuOrders", ARTICLE_CATEGORY, $menuCategories)
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
@@ -204,10 +204,12 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("tabindex", $i+1);
 
 		$form->addHidden("id");
-		$form->addHidden("views_count");
+		$form->addHidden("show_counter");
+		$form->addHidden("click_counter");
 
 		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
 			->setAttribute("class","btn btn-primary menuItem alignRight")
+			->setAttribute("onclick", "tinyMCE.triggerSave();")
 			->setAttribute("tabindex", $i+1);
 
 		return $form;

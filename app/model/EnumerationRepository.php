@@ -21,6 +21,7 @@ class EnumerationRepository extends BaseRepository {
 	const TYP_PRISPEVKU_AKCE_ORDER = 1;
 
 	const TYP_VALIDITY_FREE = 3;
+	const TYP_VALIDITY_TOP = 5;
 
 	const TYP_BANNERU_BIG_BANNER = 9;
 	const TYP_BANNERU_LARGE_RECTANGLE = 10;

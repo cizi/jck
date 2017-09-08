@@ -15,9 +15,6 @@ class ArticleEntity {
 	/** @var int */
 	private $validity;
 
-	/** @var int */
-	private $menuOrder;
-
 	/** @var bool  */
 	private $active;
 
@@ -61,13 +58,19 @@ class ArticleEntity {
 	private $ytUrl;
 
 	/** @var int */
-	private $viewsCount;
+	private $showCounter;
+
+	/** @var int */
+	private $clickCounter;
 
 	/** @var ArticleContentEntity[]  */
 	private $contents;
 
 	/** @var ArticleTimetableEntity[] */
 	private $timetables;
+
+	/** @var  */
+	private $categories;
 
 	/**
 	 * @return int
@@ -95,20 +98,6 @@ class ArticleEntity {
 	 */
 	public function setType($type) {
 		$this->type = $type;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getMenuOrder() {
-		return $this->menuOrder;
-	}
-
-	/**
-	 * @param int $menuOrder
-	 */
-	public function setMenuOrder($menuOrder) {
-		$this->menuOrder = $menuOrder;
 	}
 
 	/**
@@ -324,15 +313,29 @@ class ArticleEntity {
 	/**
 	 * @return int
 	 */
-	public function getViewsCount() {
-		return $this->viewsCount;
+	public function getShowCounter() {
+		return $this->showCounter;
 	}
 
 	/**
-	 * @param int $viewsCount
+	 * @param int $showCounter
 	 */
-	public function setViewsCount($viewsCount) {
-		$this->viewsCount = $viewsCount;
+	public function setShowCounter($showCounter) {
+		$this->showCounter = $showCounter;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getClickCounter() {
+		return $this->clickCounter;
+	}
+
+	/**
+	 * @param int $clickCounter
+	 */
+	public function setClickCounter($clickCounter) {
+		$this->clickCounter = $clickCounter;
 	}
 
 	/**
@@ -364,13 +367,26 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function getCategories() {
+		return $this->categories;
+	}
+
+	/**
+	 * @param mixed $categories
+	 */
+	public function setCategories($categories) {
+		$this->categories = $categories;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function extract() {
 		return [
 			'id' => $this->getId(),
 			'type' => $this->getType(),
-			'menu_order' => $this->getMenuOrder(),
 			'active' => ($this->isActive() ? 1 : 0),
 			'background_color' => $this->getBackgroundColor(),
 			'color' => $this->getColor(),
@@ -385,7 +401,8 @@ class ArticleEntity {
 			'address' => $this->getAddress(),
 			'sublocation' => $this->getSublocation(),
 			'yt_url' => $this->getYtUrl(),
-			'views_count' => $this->getViewsCount(),
+			'show_counter' => $this->getShowCounter(),
+			'click_counter' => $this->getClickCounter(),
 			'pic_url' => $this->getPicUrl()
 		];
 	}
@@ -396,7 +413,6 @@ class ArticleEntity {
 	public function hydrate(array $data) {
 		$this->setId(isset($data['id']) ? $data['id'] : null);
 		$this->setType(isset($data['type']) ? $data['type'] : null);
-		$this->setMenuOrder(isset($data['menu_order']) ? $data['menu_order'] : null);
 		$this->setActive(isset($data['active']) ? $data['active'] : null);
 		$this->setBackgroundColor(isset($data['background_color']) ? $data['background_color'] : null);
 		$this->setColor(isset($data['color']) ? $data['color'] : null);
@@ -411,7 +427,8 @@ class ArticleEntity {
 		$this->setLocation(isset($data['location']) ? $data['location'] : null);
 		$this->setSublocation(isset($data['sublocation']) ? $data['sublocation'] : null);
 		$this->setYtUrl(isset($data['yt_url']) ? $data['yt_url'] : null);
-		$this->setViewsCount(isset($data['views_count']) ? $data['views_count'] : null);
+		$this->setShowCounter(isset($data['show_counter']) ? $data['show_counter'] : null);
+		$this->setClickCounter(isset($data['click_counter']) ? $data['click_counter'] : null);
 		$this->setPicUrl(isset($data['pic_url']) ? $data['pic_url'] : null);
 	}
 }

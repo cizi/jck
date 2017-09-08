@@ -52,6 +52,11 @@
 			$('.tinym_required_field').each(function() {
 				$(this).parent().parent().css("color", "red");
 			});
+
+			$("#frm-submitForm-menuOrders").chosen({
+				placeholder_text_multiple: {=CHOSEN_PICKUP},
+				no_results_text: {=CHOSEN_NO_MATCH}
+			});
 		});
 	</script>
 {/block}

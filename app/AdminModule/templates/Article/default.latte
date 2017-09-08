@@ -52,7 +52,11 @@
 
 												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getType())}</td>
 
-												<td>{$menuRepo->getMenuCategoryTitle($currentLang, $articleEntity->getMenuOrder())}</td>
+												<td>
+													{foreach $articleEntity->getCategories() as $categoryEntity}
+														{$menuRepo->getMenuCategoryTitle($currentLang, $categoryEntity->getMenuOrder())},
+													{/foreach}
+												</td>
 
 												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getValidity())}</td>
 
@@ -72,7 +76,7 @@
 													{/if}
 												</td>
 
-												<td>{$articleEntity->getViewsCount()}</td>
+												<td>{$articleEntity->getClickCounter()}</td>
 
 												<td>
 													{if $articleEntity->getInsertedBy() != null}

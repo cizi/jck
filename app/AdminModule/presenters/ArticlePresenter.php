@@ -6,6 +6,7 @@ use App\Controller\FileController;
 use App\Forms\ArticleForm;
 use App\Model\ArticleRepository;
 use App\Model\ArticleTimetableRepository;
+use App\Model\Entity\ArticleCategoryEntity;
 use App\Model\Entity\ArticleContentEntity;
 use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\ArticleTimetableEntity;
@@ -143,6 +144,7 @@ class ArticlePresenter extends SignPresenter {
 		$supportedFileFormats = ["jpg", "png", "doc"];
 		$calendars = [];
 		$mutation = [];
+		$categories = [];
 		$pics = [];
 		foreach($values as $key => $value) {
 			if (($value instanceof ArrayHash) && ($key == 'calendar')) {    // timetable
@@ -161,6 +163,13 @@ class ArticlePresenter extends SignPresenter {
 
 				$mutation[] = $articleContentEntity;
 			}
+			if ((is_array($value)) && ($key == 'menuOrders')) {    // language mutation
+				foreach	($value as $menuOrder) {
+					$articleCategoryEntity = new ArticleCategoryEntity();
+					$articleCategoryEntity->setMenuOrder($menuOrder);
+					$categories[] = $articleCategoryEntity;
+				}
+			}
 			if ($key == 'picUrlUpload') {	// jen jeden hlavní obrázek
 				/** @var FileUpload $file */
 				$file = $value;
@@ -173,7 +182,7 @@ class ArticlePresenter extends SignPresenter {
 					$articleEntity->setPicUrl($fileController->getPathDb());
 				}
 			}
-			if (is_array($value)) {	// obrázky
+			if (is_array($value) && ($key != 'menuOrders')) {	// obrázky
 				/** @var FileUpload $file */
 				foreach ($value as $file) {
 					if ($file->name != "") {
@@ -197,7 +206,7 @@ class ArticlePresenter extends SignPresenter {
 			$this->flashMessage($flashMessage, "alert-danger");
 			$this->redirect("edit", null, $values);
 		} else {
-			if ($this->articleRepository->saveCompleteArticle($articleEntity, $this->getUser()->getId(), $calendars, $pics) == false) {
+			if ($this->articleRepository->saveCompleteArticle($articleEntity, $this->getUser()->getId(), $calendars, $categories, $pics) == false) {
 				$this->flashMessage(ARTICLE_SAVE_FAILED, "alert-danger");
 				$this->redirect("edit", null, $values);
 			}

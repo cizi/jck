@@ -66,10 +66,17 @@
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});
 
+		$("#frm-articleForm-menuOrders").chosen({
+			placeholder_text_multiple: {=CHOSEN_PICKUP},
+			no_results_text: {=CHOSEN_NO_MATCH}
+		});
 
 		var countries = [
 			{foreach $availableAddresses as $key => $value}
-				{ value: {$key}, data: {$value} }
+				{if !empty($key) && !empty($value)}
+					{ value: {$key}, data: {$value} }
+					{if $iterator->isLast() == false}, {/if}
+				{/if}
 			{* value: 'Andorra', data: 'AD' },
 			{ value: 'Zimbabwe', data: 'ZZ' *}
 			{/foreach}

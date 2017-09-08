@@ -14,10 +14,10 @@ class ShowPresenter extends BasePresenter {
 		$banner = $this->bannerRepository->getBanner($id);
 		if ($banner != null) {
 			$this->bannerRepository->bannerClicked($banner->getId());
-			if (($banner->getUrl() != "") && ($banner->getUrl() != "")) {
+			if (($banner->getUrl() != null) && ($banner->getUrl() != "")) {
 				$httpResponse = $this->getHttpResponse();
 				$httpResponse->redirect($banner->getUrl());
-				 $this->terminate();
+				$this->terminate();
 			}
 		}
 
@@ -29,7 +29,16 @@ class ShowPresenter extends BasePresenter {
 	 * @param int $id
 	 */
 	public function actionArticle($lang, $id) {
-
+		$article = $this->articleRepository->getArticle($id);
+		if ($article != null) {
+			$this->articleRepository->articleClicked($article->getId());
+			$this->redirect("alekam?", $lang, $article->getId()); // todo
+			/* if (($article->getUrl() != null) && ($article->getUrl() != "")) {
+				$httpResponse = $this->getHttpResponse();
+				$httpResponse->redirect($article->getUrl());
+				$this->terminate();
+			} */
+		}
 	}
 
 	/**
@@ -38,7 +47,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param string [$to] format d.m.Y
 	 */
 	public function actionSearchDate($lang, $from, $to = "") {
-		dump($lang, $from,$to);
+		dump($lang, $from,$to);	// TODO
 		$this->terminate();
 	}
 }
