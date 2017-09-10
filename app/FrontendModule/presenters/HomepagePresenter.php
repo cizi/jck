@@ -17,17 +17,6 @@ class HomepagePresenter extends BasePresenter {
 	const MAX_TEXT_ARTICLES = 4;
 	const MAX_GALLERIES = 4;
 
-	/** @var PicRepository */
-	private $picRepository;
-
-	/**
-	 * HomepagePresenter constructor.
-	 * @param PicRepository $picRepository
-	 */
-	public function __construct(PicRepository $picRepository) {
-		$this->picRepository = $picRepository;
-	}
-
 	/**
 	 * @param string $lang
 	 * @param string $id
@@ -38,8 +27,6 @@ class HomepagePresenter extends BasePresenter {
 			$this->redirect("default", [ 'lang' => $lang, 'id' => $id]);
 		}
 
-		$userBlocks = [];
-		$availableLangs = $this->langRepository->findLanguages();
 		// what if link will have the same shortcut like language
 		if (isset($availableLangs[$lang]) && ($lang != $this->langRepository->getCurrentLang($this->session))) {
 			$this->langRepository->switchToLanguage($this->session, $lang);
@@ -59,7 +46,6 @@ class HomepagePresenter extends BasePresenter {
 			}
 			// because of sitemap.xml
 			$allWebLinks = $this->menuRepository->findAllItems();
-			$this->template->webAvailebleLangs = $availableLangs;
 			$this->template->availableLinks = $allWebLinks;
 			/** @var MenuEntity $menuLink */
 			foreach($allWebLinks as $menuLink) {
@@ -68,10 +54,8 @@ class HomepagePresenter extends BasePresenter {
 				}
 }			}
 
-			$this->template->userBlocks = $userBlocks;
 			$this->template->widthEnum = new WebWidthEnum();
 			$this->template->textArticles = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
-			$this->template->picRepo = $this->picRepository;
 			$this->template->maxTextArticles = self::MAX_TEXT_ARTICLES;
 			$this->template->maxGalleries = self::MAX_GALLERIES;
 	}

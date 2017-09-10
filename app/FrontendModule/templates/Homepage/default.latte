@@ -118,16 +118,20 @@
 
 	<div class="row">
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
-			<div class="title"><h2><a class="title" href="#">{=HP_ARTICLE_TEXT}</a></h2></div>
+			<div class="title"><h2><a class="title" href={link Show:Details $currentLang}>{=HP_ARTICLE_TEXT}</a></h2></div>
 			{for $i=0; $i< $maxTextArticles; $i++}
 				{if isset($textArticles[$i])}
 				{var article = $textArticles[$i]}
 					<div class="hp_2_cols">
 						<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
-						<a href="#"><h3>{$article->getContents()[$currentLang]->getHeader()}</h3></a>
+						{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+						{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
+						<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
+							<h3>{$article->getContents()[$currentLang]->getHeader()}</h3>
+						</a>
 						{if $article->getPicId() != null}
 							{var picUrl = $picRepo->getById($article->getPicId())}
-							<a href="#"><img src={$picUrl->getPath()} /></a>
+							<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}><img src={$picUrl->getPath()} /></a>
 						{/if}
 						<div>
 							{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}

@@ -2,9 +2,47 @@
 
 namespace App\FrontendModule\Presenters;
 
-use App\Model\BannerRepository;
+use App\Model\EnumerationRepository;
+use Nette\Utils\Paginator;
 
 class ShowPresenter extends BasePresenter {
+
+	const ARTICLE_DETAILS_PAGER = 10;
+
+	/**
+	 * @param string $lang
+	 * @param int $id
+	 * @param string $seoText
+	 */
+	public function actionDetail($lang, $id, $seoText) {
+		$articleEntity = $this->articleRepository->getArticle($id);
+		if ($articleEntity) {
+			$this->template->article = $articleEntity;
+		}
+	}
+
+	/**
+	 * @param string $lang
+	 * @param int $id
+	 * @param string $seoText
+	 */
+	public function actionDetails($lang, $page = 1) {
+		$articlesCount = $this->articleRepository->getActiveArticlesInLangCount($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
+
+		$paginator = new Paginator();
+		$paginator->setItemCount($articlesCount); // celkový počet článků
+		$paginator->setItemsPerPage(self::ARTICLE_DETAILS_PAGER); // počet položek na stránce
+		$paginator->setPage($page); // číslo aktuální stránky
+
+		$articleEntities = $this->articleRepository->findActiveArticlesInLang(
+			$lang,
+			EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER,
+			$paginator->getLength(),
+			$paginator->getOffset()
+		);
+		$this->template->paginator = $paginator;
+		$this->template->articles = $articleEntities;
+	}
 
 	/**
 	 * @param string $lang

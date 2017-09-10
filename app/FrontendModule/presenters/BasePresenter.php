@@ -70,6 +70,9 @@ abstract class BasePresenter extends Presenter {
 	/** @var LangRepository */
 	protected $langRepository;
 
+	/** @var PicRepository */
+	private $picRepository;
+
 	public function injectBase(
 		WebconfigRepository $webconfigRepository,
 		SliderSettingRepository $sliderSettingRepository,
@@ -84,7 +87,8 @@ abstract class BasePresenter extends Presenter {
 		BannerRepository $bannerRepository,
 		ArticleRepository $articleRepository,
 		EnumerationRepository $enumerationRepository,
-		MainPageSearchForm $mainPageSearchForm
+		MainPageSearchForm $mainPageSearchForm,
+		PicRepository $picRepository
 	) {
 		$this->webconfigRepository = $webconfigRepository;
 		$this->sliderSettingRepository = $sliderSettingRepository;
@@ -100,6 +104,7 @@ abstract class BasePresenter extends Presenter {
 		$this->articleRepository = $articleRepository;
 		$this->enumerationRepository = $enumerationRepository;
 		$this->mainPageSearchForm = $mainPageSearchForm;
+		$this->picRepository = $picRepository;
 	}
 
 	public function startup() {
@@ -122,6 +127,8 @@ abstract class BasePresenter extends Presenter {
 		$this->loadSliderConfig();
 		$this->loadFooterConfig();
 
+		$availableLangs = $this->langRepository->findLanguages();
+		$this->template->webAvailebleLangs = $availableLangs;
 		$this->template->currentLang = $lang;
 		$this->template->menuHtml = $this->menuController->renderMenuInFrontend($lang);
 		$this->template->contactFormId = BlockContentPresenter::CONTACT_FORM_ID_AS_BLOCK;
@@ -134,6 +141,7 @@ abstract class BasePresenter extends Presenter {
 
 		$this->template->articleRepo = $this->articleRepository;
 		$this->template->enumRepo = $this->enumerationRepository;
+		$this->template->picRepo = $this->picRepository;
 	}
 
 	/**

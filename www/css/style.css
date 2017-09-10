@@ -485,16 +485,44 @@ div.title {
 	font-size: 20px;
 	font-weight: bold;
 	color: #7d7d7d;
+	padding-left: 15px;
 }
 .hp_2_cols div{
 	font-size: 12px;
 	color: #7d7d7d;
 	margin-bottom: 15px;
+	padding-left: 15px;
 }
+.hp_2_cols div div {
+	padding-bottom: 5px;
+	margin-left:auto;
+	margin-right:0;
+}
+.hp_2_cols div div span{
+	display: inline-block;
+	margin-top: 10px;
+}
+
 .hp_2_cols img {
 	max-width: 480px;
 	margin-bottom: 15px;
 }
 .hp_2_cols a:hover {
 	color: #7d7d7d;
+}
+img.showDetail {
+	max-width: 480px;
+	float: left;
+	margin: 0 10px 10px 0;
+}
+
+img.detailsView {
+	max-width: 200px!important;
+	float: left;
+	margin: 0 10px 10px 10px;
+}
+
+.btnShowDetail{
+	float: right;
+	margin: 0 10px 10px 0;
 }

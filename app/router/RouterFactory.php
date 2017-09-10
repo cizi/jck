@@ -24,7 +24,7 @@ class RouterFactory {
 		));
 
 		/** po výběru jaky již používám tuto routu s jakykem */
-		$router[] = new Route('[<lang>]/<presenter>/<action>[/<id>]', array(
+		$router[] = new Route('[<lang>]/<presenter>/<action>[/<id>][/<seoText>]', array(
 			'module' => 'Frontend',
 			'presenter' => 'Homepage',
 			'action' => 'default',
@@ -34,7 +34,7 @@ class RouterFactory {
 
 		// frontend routing
 		/** router pro defaultní (první) návštěvu stránek kde ještě nebyl zvolen jazyk nebo pokud by v url jazyk chyběl */
-		$router[] = new Route('<presenter>/<action>[/<id>]', array(
+		$router[] = new Route('<presenter>/<action>[/<id>][/<seoText>]', array(
 			'module' => 'Frontend',
 			'presenter' => 'Homepage',
 			'action' => 'default',

@@ -1,0 +1,49 @@
+{block content}
+	<div class="row">
+		<div class="col-xl-9 col-lg-9 col-md-9 col-sm-6 col-xs-12">
+			{foreach $articles as $article}
+				<div class="hp_2_cols">
+					<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
+					{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+					{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
+					{if $article->getPicId() != null}
+						{var picUrl = $picRepo->getById($article->getPicId())}
+						<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
+					{/if}
+					<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
+						<h3>{$article->getContents()[$currentLang]->getHeader()}</h3>
+					</a>
+					<div>
+						{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
+						<div>
+							<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>
+							<button onclick="location.href='{link "Show:Detail", $currentLang, $article->getId(), $urlTitle}'" class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</button>
+						</div>
+					</div>
+				</div>
+			{/foreach}
+
+			<div class="pagination">
+				{if !$paginator->isFirst()}
+					<a n:href="details, $currentLang, 1">{=ARTICLE_PAGINATOR_FIRST}</a>
+					&nbsp;|&nbsp;
+					<a n:href="details, $currentLang, $paginator->page-1">{=ARTICLE_PAGINATOR_PREVIOUS}</a>
+					&nbsp;|&nbsp;
+				{/if}
+
+				{=ARTICLE_PAGINATOR_PAGE} {$paginator->page} {=ARTICLE_PAGINATOR_FROM} {$paginator->pageCount}
+
+				{if !$paginator->isLast()}
+					&nbsp;|&nbsp;
+					<a n:href="details, $currentLang, $paginator->page+1">{=ARTICLE_PAGINATOR_NEXT}</a>
+					&nbsp;|&nbsp;
+					<a n:href="details, $currentLang, $paginator->pageCount">{=ARTICLE_PAGINATOR_LAST}</a>
+				{/if}
+			</div>
+		</div>
+
+		<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+			<a href={link Submit} class="submitAventButton">{=SUBMIT_OWN_EVENT_HEADER}</a>
+		</div>
+	</div>
+{/block}

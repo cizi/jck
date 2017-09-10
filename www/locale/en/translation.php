@@ -137,6 +137,12 @@ define("ARTICLE_ADD_TIMETABLE", 'Add new timetable');
 define("ARTICLE_REMOVE_TIMETABLE", 'Remove timetable');
 define("ARTICLE_TIMETABLE_TIME_WRONG_FORMAT", 'Invalid time format!');
 define("ARTICLE_TIMETABLE_START_DATE_MISSING", 'Invalid start date!');
+define("ARTICLE_PAGINATOR_NEXT", 'Next');
+define("ARTICLE_PAGINATOR_PREVIOUS", 'Previous');
+define("ARTICLE_PAGINATOR_FIRST", 'First');
+define("ARTICLE_PAGINATOR_LAST", 'Last');
+define("ARTICLE_PAGINATOR_PAGE", 'Page');
+define("ARTICLE_PAGINATOR_FROM", 'from');
 
 define("CHOSEN_PICKUP", 'Choose an option');
 define("CHOSEN_NO_MATCH", 'No match');

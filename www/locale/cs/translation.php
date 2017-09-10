@@ -139,6 +139,13 @@ define("ARTICLE_ADD_TIMETABLE", 'Přidat čas konání');
 define("ARTICLE_REMOVE_TIMETABLE", 'Odebrat čas konání');
 define("ARTICLE_TIMETABLE_TIME_WRONG_FORMAT", 'Neplatný formát času!');
 define("ARTICLE_TIMETABLE_START_DATE_MISSING", 'Neplatný datum počátku!');
+define("ARTICLE_PAGINATOR_NEXT", 'Další');
+define("ARTICLE_PAGINATOR_PREVIOUS", 'Předchozí');
+define("ARTICLE_PAGINATOR_FIRST", 'První');
+define("ARTICLE_PAGINATOR_LAST", 'Poslední');
+define("ARTICLE_PAGINATOR_PAGE", 'Stránka');
+define("ARTICLE_PAGINATOR_FROM", 'z');
+define("ARTICLE_VIEW_DETAIL", 'Zobrazit detail');
 
 define("CHOSEN_PICKUP", 'Vyberte možnosti');
 define("CHOSEN_NO_MATCH", 'Žádná shoda');

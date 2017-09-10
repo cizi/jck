@@ -76,20 +76,48 @@ class ArticleRepository extends BaseRepository {
 
 	/**
 	 * @param string $lang
+	 * @return int
+	 */
+	public function getActiveArticlesInLangCount($lang, $type) {
+		$query = ["
+			select count(a.id) as articleCount
+			from article as a 
+				left join article_content as ac on a.id = ac.article_id
+			where ac.lang = %s
+				and active = 1
+				and a.type = %i
+			order by inserted_timestamp desc
+			",
+			$lang,
+			$type
+		];
+
+		return $this->connection->query($query)->fetchSingle();
+	}
+
+	/**
+	 * @param string $lang
 	 * @param null $type
+	 * @param int $paginatorLength
+	 * @param int $offset
 	 * @return array
 	 */
-	public function findActiveArticlesInLang($lang, $type = null) {
+	public function findActiveArticlesInLang($lang, $type = null, $paginatorLength = 0, $offset = 0) {
 		$query = ["
 			select *, a.id as aID, ac.article_id as acId 
 			from article as a 
 				left join article_content as ac on a.id = ac.article_id
 			where ac.lang = %s
-				and active = 1
-			order by inserted_timestamp desc
-			",
-			$lang
-		];
+				and active = 1", $lang];
+
+		if ($type != null) {
+			$query[] = sprintf(" and a.type = %d", $type);
+		}
+		$query[] = "order by inserted_timestamp desc";
+		if ($paginatorLength != 0 ) {
+			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
+
+		}
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
@@ -105,9 +133,7 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 
-			if (($type == null) || (($type != null) && ($articleEntity->getType() == $type))) {
-				$articles[] = $articleEntity;
-			}
+			$articles[] = $articleEntity;
 		}
 
 		return $articles;
