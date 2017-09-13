@@ -147,6 +147,26 @@ define("ARTICLE_PAGINATOR_PAGE", 'Stránka');
 define("ARTICLE_PAGINATOR_FROM", 'z');
 define("ARTICLE_VIEW_DETAIL", 'Zobrazit detail');
 
+// galerie
+define("GALLERY_TITLE", 'Galerie');
+define("GALLERY_TITLE_DESC", 'Správa galerií');
+define("GALLERY_ADD_NEW", 'Nová galerie');
+define("GALLERY_NAME", 'Název');
+define("GALLERY_NAME_REQ", 'Název je povinné pole!');
+define("GALLERY_DESC", 'Popis');
+define("GALLERY_DESC_REQ", 'Popis je povinné pole!');
+define("GALLERY_ACTIVE", 'Aktivní');
+define("GALLERY_PICS", 'Obrázky');
+define("GALLERY_PIC_COUNT", 'Počet obrázků');
+define("GALLERY_EDIT", 'Editovat galerii');
+define("GALLERY_EDITATION", 'Editace galerie');
+define("GALLERY_EDIT_PAGE", 'Editovat galerii');
+define("GALLERY_DELETE", 'Smazat galerii');
+define("GALLERY_DELETATION", 'Smazání gelarie');
+define("GALLERY_DELETATION_TEXT", 'Opravdu smazat galerii?');
+define("GALLERY_ADD_PICS_AND_BACK", 'Nahrát obrázky');
+define("GALLERY_SAVE_GALLERY", 'Uložit galerii');
+
 define("CHOSEN_PICKUP", 'Vyberte možnosti');
 define("CHOSEN_NO_MATCH", 'Žádná shoda');
 define("USER_REQUEST_NOT_PRIV", 'K návštěvě této stránky nemáte dostatečná oprávnění.');

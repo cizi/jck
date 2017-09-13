@@ -25,9 +25,6 @@ class ArticlePresenter extends SignPresenter {
 	/** @var ArticleForm */
 	private $articleForm;
 
-	/** @var PicRepository */
-	private $picRepository;
-
 	/** @var UserRepository */
 	private $userRepository;
 
@@ -36,12 +33,10 @@ class ArticlePresenter extends SignPresenter {
 
 	public function __construct(
 		ArticleForm $articleForm,
-		PicRepository $picRepository,
 		UserRepository $userRepository,
 		ArticleTimetableRepository $articleTimetableRepository
 	) {
 		$this->articleForm = $articleForm;
-		$this->picRepository = $picRepository;
 		$this->userRepository = $userRepository;
 		$this->articleTimetableRepository = $articleTimetableRepository;
 	}

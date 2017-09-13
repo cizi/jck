@@ -1,0 +1,115 @@
+{block content}
+	<div id="wrapper">
+		{include '../@menu.latte', item => 'gallery'}
+		<a href="#menu-toggle" class="menuToggle" id="menu-toggle"><span class="glyphicon glyphicon-chevron-left">&nbsp;&nbsp;</span></a>
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="col-lg-1 col-md-1 col-sm-0">
+					</div>
+
+					<div class="row">
+						<div class="col-lg-10 col-md-10 col-sm-12">
+							<h1>{=GALLERY_TITLE}</h1>
+							<span>{!=GALLERY_TITLE_DESC}</span>
+							<br /><br />
+
+							<div class="container userTable">
+								<table class="table table-striped">
+									<thead>
+									<tr>
+										<th>{=GALLERY_NAME}</th>
+										<th>{=GALLERY_DESC}</th>
+										<th>{=GALLERY_PIC_COUNT}</th>
+										<th>{=GALLERY_ACTIVE}</th>
+										<th class="alignRight">
+											<button type="button" class="btn btn-success" onclick="window.location.assign({link Gallery:Edit});">
+												<span class="glyphicon glyphicon-plus"></span>	{=GALLERY_ADD_NEW}
+											</button>
+										</th>
+									</tr>
+									</thead>
+									<tbody>
+										{foreach $galleries as $gellery}
+											<tr>
+												<td>{!$gellery->getContents()[$currentLang]->getHeader()}</td>
+												<td>{!$gellery->getContents()[$currentLang]->getDesc()}</td>
+												<td>{count($gellery->getPics())}</td>
+												<td>
+													{if $gellery->isActive()}
+														<label class="checkbox-inline">
+															<input class="activeToggleEvent" user-data={$gellery->getId()} type="checkbox" checked data-toggle="toggle" data-height="25" data-width="50">
+														</label>
+													{else}
+														<label class="checkbox-inline">
+															<input class="activeToggleEvent" user-data={$gellery->getId()} type="checkbox" data-toggle="toggle" data-height="25" data-width="50">
+														</label>
+													{/if}
+												</td>
+												<td class="alignRight">
+													<a href='{link edit, $gellery->getId()}' title={=GALLERY_EDIT}><span class='glyphicon glyphicon-pencil'></span></a> &nbsp;&nbsp;
+													<a href='#' data-href='{link delete, $gellery->getId()}' class='colorRed' data-toggle='modal' data-target='#confirm-delete' title={=GALLERY_DELETE}><span class='glyphicon glyphicon-remove'></span></a>
+												</td>
+											</tr>
+										{/foreach}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					{=GALLERY_DELETATION}
+				</div>
+				<div class="modal-body">
+					{=GALLERY_DELETATION_TEXT}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">{=BLOCK_SETTINGS_CONFIRM_MODAL_CANCEL}</button>
+					<a class="btn btn-danger btn-ok">{=BLOCK_SETTINGS_CONFIRM_MODAL_OK}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+		});
+
+		$(function() {
+			$('.activeToggleEvent').change(function() {
+				var galleryId = $(this).attr("user-data");
+				var changeTo = (($(this).prop("checked") !== typeof undefined) && ($(this).prop("checked") !== false));
+				$.ajax({
+					url: {link activeSwitch!},
+					data: {
+						idGallery: galleryId,
+						to: changeTo
+					},
+					success: function() {
+
+					},
+					error: function() {
+						alert({=USER_ERROR_ACTIVE_SWITCH});
+					}
+				});
+			})
+		})
+	</script>
+
+{/block}
+

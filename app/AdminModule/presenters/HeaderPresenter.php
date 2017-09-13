@@ -20,16 +20,11 @@ class HeaderPresenter extends SignPresenter {
 	/** @var HeaderForm */
 	private $headerForm;
 
-	/** @var PicRepository */
-	private $picRepository;
-
 	/**
 	 * @param HeaderForm $headerForm
-	 * @param PicRepository $picRepository
 	 */
 	public function __construct(HeaderForm $headerForm, PicRepository $picRepository) {
 		$this->headerForm = $headerForm;
-		$this->picRepository = $picRepository;
 	}
 
 	public function actionDefault() {

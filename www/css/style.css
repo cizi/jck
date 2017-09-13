@@ -526,3 +526,8 @@ img.detailsView {
 	float: right;
 	margin: 0 10px 10px 0;
 }
+
+.image_picker_image{
+	width: auto!important;
+	height: 100px!important;
+}

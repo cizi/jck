@@ -1,0 +1,93 @@
+{block content}
+	<div id="wrapper">
+		{include '../@menu.latte', item => 'gallery'}
+		<a href="#menu-toggle" class="menuToggle" id="menu-toggle"><span class="glyphicon glyphicon-chevron-left">&nbsp;&nbsp;</span></a>
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="row">
+						<div class="col-lg-10 col-md-10 col-sm-10">
+							<h1 class="blockHeader">{=GALLERY_EDITATION}</h1>
+							<br />
+
+							<div class="form-group row">
+								{control galleryForm}
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-1 col-md-1 col-sm-1">
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					{=BLOCK_SETTING_PIC_DELETE_TITLE}
+				</div>
+				<div class="modal-body">
+					{=BLOCK_SETTING_PIC_DELETE}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">{=BLOCK_SETTING_PIC_DELETE_CANCEL}</button>
+					<a class="btn btn-danger btn-ok">{=BLOCK_SETTING_PIC_DELETE_OK}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+		});
+
+		tinymce.init({
+			selector:'.mceBlockContent',
+			toolbar: "image",
+			plugins: "image imagetools",
+			relative_urls : false,
+			remove_script_host : false,
+			convert_urls : true
+		});
+
+		$("#footerBackgroundColor").minicolors({
+			control: $(this).attr('data-control') || 'hue',
+			defaultValue: $(this).attr('data-defaultValue') || '',
+			format: $(this).attr('data-format') || 'hex',
+			keywords: $(this).attr('data-keywords') || '',
+			inline: $(this).attr('data-inline') === 'true',
+			letterCase: $(this).attr('data-letterCase') || 'lowercase',
+			opacity: $(this).attr('data-opacity'),
+			position: $(this).attr('data-position') || 'bottom left',
+			swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+			theme: 'bootstrap'
+		});
+
+		$("#footerColor").minicolors({
+			control: $(this).attr('data-control') || 'hue',
+			defaultValue: $(this).attr('data-defaultValue') || '',
+			format: $(this).attr('data-format') || 'hex',
+			keywords: $(this).attr('data-keywords') || '',
+			inline: $(this).attr('data-inline') === 'true',
+			letterCase: $(this).attr('data-letterCase') || 'lowercase',
+			opacity: $(this).attr('data-opacity'),
+			position: $(this).attr('data-position') || 'bottom left',
+			swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+			theme: 'bootstrap'
+		});
+
+		$("#frm-galleryForm-selectedPics").imagepicker();
+	</script>
+{/block}
+

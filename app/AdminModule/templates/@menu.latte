@@ -26,7 +26,7 @@
 					<span class="glyphicon glyphicon-menu-hamburger menuItem"></span>{=MENU_MENU}
 				</a>
 			</li>
-			<li>
+			{* <li>
 				<a href={link Block:Default} {if $item == "block"} style="color: white"{/if}>
 					<span class="glyphicon glyphicon-th-large menuItem"></span>{=MENU_BLOCK}
 				</a>
@@ -35,7 +35,7 @@
 				<a href={link BlockContent:Default} {if $item == "blockContent"} style="color: white"{/if}>
 				<span class="glyphicon glyphicon-link menuItem"></span>{=MENU_MENU_BLOCK}
 				</a>
-			</li>
+			</li> *}
 			<li>
 				<a href={link Contact:Default} {if $item == "contact"} style="color: white"{/if}>
 				<span class="glyphicon glyphicon-envelope menuItem"></span>{=MENU_CONTACT_FORM}
@@ -45,6 +45,11 @@
 		<li>
 			<a href={link Article:Default} {if $item == "article"} style="color: white"{/if}>
 				<span class="glyphicon glyphicon-tasks menuItem"></span>{=MENU_ARTICLE}
+			</a>
+		</li>
+		<li>
+			<a href={link Gallery:Default} {if $item == "gallery"} style="color: white"{/if}>
+			<span class="glyphicon glyphicon-th menuItem"></span>{=GALLERY_TITLE}
 			</a>
 		</li>
 		<li>

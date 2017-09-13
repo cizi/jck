@@ -14,6 +14,7 @@ use App\Model\BannerRepository;
 use App\Model\BlockRepository;
 use App\Model\Entity\BlockContentEntity;
 use App\Model\EnumerationRepository;
+use App\Model\GalleryRepository;
 use App\Model\LangRepository;
 use App\Model\MenuRepository;
 use App\Model\PicRepository;
@@ -71,7 +72,10 @@ abstract class BasePresenter extends Presenter {
 	protected $langRepository;
 
 	/** @var PicRepository */
-	private $picRepository;
+	protected $picRepository;
+
+	/** @var GalleryRepository */
+	protected $galleryRepository;
 
 	public function injectBase(
 		WebconfigRepository $webconfigRepository,
@@ -88,7 +92,8 @@ abstract class BasePresenter extends Presenter {
 		ArticleRepository $articleRepository,
 		EnumerationRepository $enumerationRepository,
 		MainPageSearchForm $mainPageSearchForm,
-		PicRepository $picRepository
+		PicRepository $picRepository,
+		GalleryRepository $galleryRepository
 	) {
 		$this->webconfigRepository = $webconfigRepository;
 		$this->sliderSettingRepository = $sliderSettingRepository;
@@ -105,6 +110,7 @@ abstract class BasePresenter extends Presenter {
 		$this->enumerationRepository = $enumerationRepository;
 		$this->mainPageSearchForm = $mainPageSearchForm;
 		$this->picRepository = $picRepository;
+		$this->galleryRepository = $galleryRepository;
 	}
 
 	public function startup() {

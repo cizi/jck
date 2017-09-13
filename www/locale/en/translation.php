@@ -143,6 +143,27 @@ define("ARTICLE_PAGINATOR_FIRST", 'First');
 define("ARTICLE_PAGINATOR_LAST", 'Last');
 define("ARTICLE_PAGINATOR_PAGE", 'Page');
 define("ARTICLE_PAGINATOR_FROM", 'from');
+define("ARTICLE_VIEW_DETAIL", 'View detail');
+
+// galerie
+define("GALLERY_TITLE", 'Gallery');
+define("GALLERY_TITLE_DESC", 'Gallery management');
+define("GALLERY_ADD_NEW", 'New gallery');
+define("GALLERY_NAME", 'Title');
+define("GALLERY_NAME_REQ", 'Title is mandatory!');
+define("GALLERY_DESC", 'Description');
+define("GALLERY_DESC_REQ", 'Description is mandatory!');
+define("GALLERY_ACTIVE", 'Active');
+define("GALLERY_PICS", 'Images');
+define("GALLERY_PIC_COUNT", 'Image count');
+define("GALLERY_EDIT", 'Edit gallery');
+define("GALLERY_EDITATION", 'Gallery editation');
+define("GALLERY_EDIT_PAGE", 'Gallery edit');
+define("GALLERY_DELETE", 'Gallery delete');
+define("GALLERY_DELETATION", 'Gallery deletation');
+define("GALLERY_DELETATION_TEXT", 'Are you really want to delete the gallery?');
+define("GALLERY_ADD_PICS_AND_BACK", 'Upload images');
+define("GALLERY_SAVE_GALLERY", 'Save gallery');
 
 define("CHOSEN_PICKUP", 'Choose an option');
 define("CHOSEN_NO_MATCH", 'No match');

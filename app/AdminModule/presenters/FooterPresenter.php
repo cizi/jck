@@ -14,26 +14,17 @@ use Nette\Utils\ArrayHash;
 
 class FooterPresenter extends SignPresenter {
 
-	/** @consts depends on language */
+	/** @const depends on language */
 	private $LANG_DEPENDS = [WebconfigRepository::KEY_FOOTER_CONTENT];
 
 	/** @var FooterForm */
 	private $footerForm;
 
-	/** @var PicRepository */
-	private $picRepository;
-
 	/**
 	 * @param FooterForm $footerForm
-	 * @param PicRepository $picRepository
-	 * @param LangRepository $langRepository
 	 */
-	public function __construct(
-		FooterForm $footerForm,
-		PicRepository $picRepository
-	) {
+	public function __construct(FooterForm $footerForm) {
 		$this->footerForm = $footerForm;
-		$this->picRepository = $picRepository;
 	}
 
 	public function actionDefault() {
