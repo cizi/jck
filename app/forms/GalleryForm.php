@@ -57,9 +57,9 @@ class GalleryForm extends Nette\Object {
 				->setAttribute("tabindex", $i);
 
 			$container->addText("desc", GALLERY_DESC)
-				->setAttribute("class", "form-control menuItem tinym_required_field")
+				->setAttribute("class", "form-control menuItem")
 				->setAttribute("placeholder", GALLERY_DESC)
-				->setAttribute("validation", GALLERY_DESC_REQ)
+				//->setAttribute("validation", GALLERY_DESC_REQ)
 				->setAttribute("tabindex", $i);
 
 			$container->addHidden('id');

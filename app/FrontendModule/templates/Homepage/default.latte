@@ -142,7 +142,25 @@
 		</div>
 
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
-			<div class="title"><h2><a class="title" href="#">{=HP_ARTICLE_GALLERY}</a></h2></div>
+			<div class="title"><h2><a class="title" href={link Show:Galleries $currentLang}>{=HP_ARTICLE_GALLERY}</a></h2></div>
+			{for $i=0; $i < $maxGalleries; $i++}
+				{if isset($galleries[$i])}
+					{var gallery = $galleries[$i]}
+					{var urlTitle = Nette\Utils\Strings::webalize($gallery->getContents()[$currentLang]->getHeader())}
+					<div class="hp_2_cols">
+						<h1 class="seo">{$gallery->getContents()[$currentLang]->getHeader()}</h1>
+						<a href={link "Show:Gallery", $currentLang, $gallery->getId(), $urlTitle}>
+							<h3>{$gallery->getContents()[$currentLang]->getHeader()} ({count($gallery->getPics())})</h3>
+						</a>
+						{if count($gallery->getPics())}
+							{var images = $gallery->getPics()}
+							{var galleryImage = reset($images)}
+							{var picUrl = $picRepo->getById($galleryImage->getSharedPicId())}
+							<a href={link "Show:Gallery", $currentLang, $gallery->getId(), $urlTitle}><img class="gallery" src={$picUrl->getPath()} /></a>
+						{/if}
+					</div>
+				{/if}
+			{/for}
 		</div>
 
 	</div>

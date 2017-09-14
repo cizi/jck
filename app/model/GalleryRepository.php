@@ -28,6 +28,25 @@ class GalleryRepository extends BaseRepository {
 	}
 
 	/**
+	 * @param $lang
+	 * @return GalleryEntity[]
+	 */
+	public function findActiveGalleriesInLang($lang) {
+		$galleries = [];
+		$query = ["select * from gallery where `active` = 1 order by inserted_timestamp desc"];
+		$result = $this->connection->query($query)->fetchAll();
+		foreach ($result as $gallery) {
+			$galleryEntity = new GalleryEntity();
+			$galleryEntity->hydrate($gallery->toArray());
+			$galleryEntity->setContents($this->findGalleryContentsInLang($galleryEntity->getId(), $lang));
+			$galleryEntity->setPics($this->findGalleryPics($galleryEntity->getId()));
+			$galleries[] = $galleryEntity;
+		}
+
+		return $galleries;
+	}
+
+	/**
 	 * @param int $id
 	 * @return GalleryEntity
 	 */

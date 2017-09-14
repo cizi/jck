@@ -47,6 +47,22 @@ class ShowPresenter extends BasePresenter {
 	/**
 	 * @param string $lang
 	 * @param int $id
+	 * @param string $seoText
+	 */
+	public function actionGallery($lang, $id, $seoText) {
+		$galleryEntity = $this->galleryRepository->getGallery($id);
+		if ($galleryEntity != null) {
+			$this->template->gallery = $galleryEntity;
+		}
+	}
+
+	public function actionGalleries($lang) {
+		$this->template->galleries = $this->galleryRepository->findActiveGalleriesInLang($lang);
+	}
+
+	/**
+	 * @param string $lang
+	 * @param int $id
 	 */
 	public function actionBanner($lang, $id) {
 		$banner = $this->bannerRepository->getBanner($id);

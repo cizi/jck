@@ -28,21 +28,13 @@ class HomepagePresenter extends BasePresenter {
 		}
 
 		// what if link will have the same shortcut like language
+		$availableLangs = $this->langRepository->findLanguages();
 		if (isset($availableLangs[$lang]) && ($lang != $this->langRepository->getCurrentLang($this->session))) {
 			$this->langRepository->switchToLanguage($this->session, $lang);
 			$this->redirect("default", [ 'lang' => $lang, 'id' => $id ]);
 		} else {
 			if ((empty($id) || ($id == "")) && !empty($lang) && (!isset($availableLangs[$lang]))) {
 				$id = $lang;
-			}
-			if (empty($id) || ($id == "")) {    // try to find default
-				$userBlocks[] = $this->getDefaultBlock();
-			} else {
-				$userBlocks = $this->blockRepository->findAddedBlockFronted($id,
-					$this->langRepository->getCurrentLang($this->session));
-				if (empty($userBlocks)) {
-					$userBlocks[] = $this->getDefaultBlock();
-				}
 			}
 			// because of sitemap.xml
 			$allWebLinks = $this->menuRepository->findAllItems();
@@ -52,12 +44,14 @@ class HomepagePresenter extends BasePresenter {
 				if ($menuLink->getLink() == $id) {
 					$this->template->currentLink = $menuLink;
 				}
-}			}
+			}
+		}
 
-			$this->template->widthEnum = new WebWidthEnum();
-			$this->template->textArticles = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
-			$this->template->maxTextArticles = self::MAX_TEXT_ARTICLES;
-			$this->template->maxGalleries = self::MAX_GALLERIES;
+		$this->template->widthEnum = new WebWidthEnum();
+		$this->template->textArticles = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
+		$this->template->galleries = $this->galleryRepository->findActiveGalleriesInLang($lang);
+		$this->template->maxTextArticles = self::MAX_TEXT_ARTICLES;
+		$this->template->maxGalleries = self::MAX_GALLERIES;
 	}
 
 	/**

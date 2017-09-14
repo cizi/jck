@@ -1,0 +1,28 @@
+{block content}
+	<div class="row" style="padding: 0 10px 0 10px">
+		<div class="col-xl-1 col-lg-1 col-md-1 col-sm-1"></div>
+		<div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-12">
+			<h1 class="titles">{$gallery->getContents()[$currentLang]->getHeader()}</h1>
+
+			<ul class="row">
+				{foreach $gallery->getPics() as $pic}
+					{var picUrl = $picRepo->getById($pic->getSharedPicId())}
+					{* <a href={$picUrl->getPath()} rel="shadowbox[gallery]"><img class="img-fluid gallery" src={$picUrl->getPath()} /></a> *}
+					<li class="col-lg-4 col-md-4 col-sm-6">
+						<a href={$picUrl->getPath()} rel="shadowbox[gallery]">
+							<div class="img-responsive img-thumbnail ratio-4-3" style="background-image:url({$picUrl->getPath()})"></div>
+						</a>
+					</li>
+				{/foreach}
+			</ul>
+		</div>
+		<div class="col-xl-1 col-lg-1 col-md-1 col-sm-1"></div>
+	</div>
+
+{/block}
+
+<script>
+	$({
+		Shadowbox.init();
+	})
+</script>
