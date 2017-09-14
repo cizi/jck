@@ -516,7 +516,7 @@ img.gallery {
 	color: #7d7d7d;
 }
 img.showDetail {
-	max-width: 480px;
+	max-width: 380px;
 	float: left;
 	margin: 0 10px 10px 0;
 }
@@ -567,4 +567,27 @@ ul {
 }
 .galleriesTitle span {
 	color: gray;
+}
+.addressHeader {
+	font-weight: bold;
+	border-bottom: 1px dotted grey;
+	width: 95%;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.eventMainTitle{
+	margin-top: -20px;
+	margin-bottom: 15px;
+}
+.eventPlace {
+	color: #f95013;
+}
+.eventPlace:hover {
+	color: #f95013;
+}
+.eventTitle {
+	color: rgba(47, 47, 47, 0.82);
+	font-size: 24px;
+	font-weight: bold;
+	margin-top: -20px;
 }

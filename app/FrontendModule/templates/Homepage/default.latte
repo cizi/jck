@@ -8,11 +8,12 @@
 						{foreach $sliderPics as $article}
 							{if !empty($article->getPicUrl())}
 							<li>
-								<a href={link Show:Article $currentLang, $article->getId()} target="_blank">
+								{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+								<a href={link Show:Event $currentLang, $article->getId(), $urlTitle} target="_blank">
 									<img alt={$article->getContents()[$currentLang]->getHeader()} src="{$article->getPicUrl()}" />
 									<div class="caption1">
 										<div class="caption2">
-											<a href={link Show:Article $currentLang, $article->getId()}>{$article->getContents()[$currentLang]->getHeader()|upper}</a>
+											<a href={link Show:Event $currentLang, $article->getId(), $urlTitle}>{$article->getContents()[$currentLang]->getHeader()|upper}</a>
 										</div>
 										<span>
 											{if count($article->getTimetables())}
@@ -62,35 +63,36 @@
 		<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0"> {* filtr *}
 			{form mainPageSearchForm}
 				<div class="row">
-					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<div class="col-lg-1 col-md-1 col-sm-0 col-xs-12"></div>
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 						{label from/} {input from}
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 						{label to/} {input to}
 					</div>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 						{label today/} {input today}
 						{label tomorrow/} {input tomorrow}
 						{label weekend/} {input weekend}
 					</div>
-					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 				</div>
 				<div class="row">
-					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="col-lg-1 col-md-1 col-sm-0 col-xs-12"></div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						{label search/} {input search}
 					</div>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 						{label searchSubmit/} {input searchSubmit}
 					</div>
-					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
 				</div>
 			{/form}
+			<h2>TADY BUDOU TOP AKCE</h2>
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
 		</div>
 
 		<div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-			<a href={link Submit} class="submitAventButton">{=SUBMIT_OWN_EVENT_HEADER}</a>
+			{include '../@rightPanel.latte'}
 		</div>
 
 		<script>

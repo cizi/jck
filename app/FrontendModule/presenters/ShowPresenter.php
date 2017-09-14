@@ -82,16 +82,11 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $lang
 	 * @param int $id
 	 */
-	public function actionArticle($lang, $id) {
+	public function actionEvent($lang, $id, $seoText) {
 		$article = $this->articleRepository->getArticle($id);
 		if ($article != null) {
 			$this->articleRepository->articleClicked($article->getId());
-			$this->redirect("alekam?", $lang, $article->getId()); // todo
-			/* if (($article->getUrl() != null) && ($article->getUrl() != "")) {
-				$httpResponse = $this->getHttpResponse();
-				$httpResponse->redirect($article->getUrl());
-				$this->terminate();
-			} */
+			$this->template->article = $article;
 		}
 	}
 
