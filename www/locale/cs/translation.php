@@ -146,6 +146,21 @@ define("ARTICLE_PAGINATOR_LAST", 'Poslední');
 define("ARTICLE_PAGINATOR_PAGE", 'Stránka');
 define("ARTICLE_PAGINATOR_FROM", 'z');
 define("ARTICLE_VIEW_DETAIL", 'Zobrazit detail');
+define("ARTICLE_TOP_EVENTS", 'Top akce');
+
+// měsíce
+define("JANUARY", 'leden');
+define("FEBRUARY", 'únor');
+define("MARCH", 'březen');
+define("APRIL", 'duben');
+define("MAY", 'květen');
+define("JUNE", 'červen');
+define("JULY", 'červenvec');
+define("AUGUST", 'srpen');
+define("SEPTEMBER", 'září');
+define("OCTOBER", 'říjen');
+define("NOVEMBER", 'listopad');
+define("DEMEBER", 'prosinec');
 
 // galerie
 define("GALLERY_TITLE", 'Galerie');

@@ -50,6 +50,7 @@ class HomepagePresenter extends BasePresenter {
 		$this->template->widthEnum = new WebWidthEnum();
 		$this->template->textArticles = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
 		$this->template->galleries = $this->galleryRepository->findActiveGalleriesInLang($lang);
+		$this->template->topRandomEvents = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
 		$this->template->maxTextArticles = self::MAX_TEXT_ARTICLES;
 		$this->template->maxGalleries = self::MAX_GALLERIES;
 	}

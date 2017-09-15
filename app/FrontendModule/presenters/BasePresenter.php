@@ -148,6 +148,7 @@ abstract class BasePresenter extends Presenter {
 		$this->template->articleRepo = $this->articleRepository;
 		$this->template->enumRepo = $this->enumerationRepository;
 		$this->template->picRepo = $this->picRepository;
+		$this->template->months = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DEMEBER];
 	}
 
 	/**

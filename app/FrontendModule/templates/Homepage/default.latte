@@ -86,9 +86,41 @@
 					</div>
 				</div>
 			{/form}
-			<h2>TADY BUDOU TOP AKCE</h2>
-			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<h2 class="title">{=ARTICLE_TOP_EVENTS}</h2>
+			{var randArticles = array_slice ($topRandomEvents, 0, min(8, count($topRandomEvents)))}
+			{var rower = 0}
+			{foreach $randArticles as $article}
+				{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+				{if count($article->getTimetables())}
+					{if $rower % 2 == 0}<div class="row">{var zaviraciRowerVypsan = false}{/if}
+						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+							<div class="dottedBorderBottom">
+								<div class="date">
+									<span class="binds"></span>
+									<span class="month">{$months[$timetable->getDateFrom()->format('m') - 1]}</span>
+									<h1 class="day">{$timetable->getDateFrom()->format('d')}</h1>
+								</div>
 
+								<a class="eventCalendarEvent" href={link Show:Event $currentLang, $article->getId(), $urlTitle}>{$article->getContents()[$currentLang]->getHeader()|upper}</a><br />
+								<small class="calendar">
+									{var timetables = $article->getTimetables()}
+									{var timetable = reset($timetables)}
+									{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
+									{if ($timetable->getDateFrom() != null) && ($timetable->getDateFrom() != '0000-00-00')}
+										- {$timetable->getDateFrom()->format('d.m.Y')}
+									{/if}
+									{$timetable->getTime()->format("%H:%S")} <br />
+
+									{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
+									{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br />
+								</small>
+							</div>
+						</div>
+					{if $rower % 2 == 1}</div>{var zaviraciRowerVypsan = true}{/if}
+				{/if}
+				{var rower = $rower + 1}
+			{/foreach}
+			{if isset($zaviraciRowerVypsan) && ($zaviraciRowerVypsan == false)}</div>{/if} {* pokud budu mít lichý výpis akcí je třeba ověřit zda byl DIV zavřebý *}
 		</div>
 
 		<div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
