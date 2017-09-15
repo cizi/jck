@@ -144,6 +144,21 @@ define("ARTICLE_PAGINATOR_LAST", 'Last');
 define("ARTICLE_PAGINATOR_PAGE", 'Page');
 define("ARTICLE_PAGINATOR_FROM", 'from');
 define("ARTICLE_VIEW_DETAIL", 'View detail');
+define("ARTICLE_TOP_EVENTS", 'Top events');
+
+// měsíce
+define("JANUARY", 'january');
+define("FEBRUARY", 'february');
+define("MARCH", 'march');
+define("APRIL", 'april');
+define("MAY", 'may');
+define("JUNE", 'june');
+define("JULY", 'july');
+define("AUGUST", 'august');
+define("SEPTEMBER", 'september');
+define("OCTOBER", 'october');
+define("NOVEMBER", 'november');
+define("DEMEBER", 'december');
 
 // galerie
 define("GALLERY_TITLE", 'Gallery');
