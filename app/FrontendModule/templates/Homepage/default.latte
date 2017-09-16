@@ -92,6 +92,8 @@
 			{foreach $randArticles as $article}
 				{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 				{if count($article->getTimetables())}
+					{var timetables = $article->getTimetables()}
+					{var timetable = reset($timetables)}
 					{if $rower % 2 == 0}<div class="row">{var zaviraciRowerVypsan = false}{/if}
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
 							<div class="dottedBorderBottom">
@@ -106,8 +108,8 @@
 									{var timetables = $article->getTimetables()}
 									{var timetable = reset($timetables)}
 									{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
-									{if ($timetable->getDateFrom() != null) && ($timetable->getDateFrom() != '0000-00-00')}
-										- {$timetable->getDateFrom()->format('d.m.Y')}
+									{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
+										- {$timetable->getDateTo()->format('d.m.Y')}
 									{/if}
 									{$timetable->getTime()->format("%H:%S")} <br />
 

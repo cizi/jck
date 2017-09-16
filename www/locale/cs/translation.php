@@ -147,6 +147,8 @@ define("ARTICLE_PAGINATOR_PAGE", 'Stránka');
 define("ARTICLE_PAGINATOR_FROM", 'z');
 define("ARTICLE_VIEW_DETAIL", 'Zobrazit detail');
 define("ARTICLE_TOP_EVENTS", 'Top akce');
+define("ARTICLE_EVENT_INFO", 'Informace');
+define("ARTICLE_EVENT_PLACES", 'Místa');
 
 // měsíce
 define("JANUARY", 'leden');

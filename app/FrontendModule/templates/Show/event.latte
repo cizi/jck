@@ -1,5 +1,5 @@
 {block content}
-	<div class="row" style="padding: 0 10px 0 10px">
+	<div class="row" style="padding: 0 0 0 10px; margin-top: -10px">
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 eventMainTitle">
 			<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
 			<h1 class="titles">{$article->getContents()[$currentLang]->getHeader()}</h1>
@@ -21,9 +21,22 @@
 			{if $article->getAddress() != ""}
 				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
 				<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$article->getAddress()|noescape}">{$article->getAddress()|noescape}</a>
-			{/if}<br /><br />
+			{/if}
+			<p>
+				{if $article->getUrl()}
+					<a class="ev_link" target="_blank" href={$article->getUrl()}><i class="fa fa-link fa-1_5x" aria-hidden="true"></i></a>
+				{/if}
+				{if $article->getFbUrl() != null}
+					<a class="ev-facebook" target="_blank" href={$article->getFbUrl()}><i class="fa fa-facebook fa-1_5x" aria-hidden="true"></i></a>
+				{/if}
+				{if $article->getYtUrl() != null}
+					<a class="ev_youtube" target="_blank" href={$article->getYtUrl()}><i class="fa fa-youtube-play fa-1_5x" aria-hidden="true"></i></a>
+				{/if}
+				{if $article->getAddress() != null}
+					<a class="ev_map" target="_blank" href=><i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i></a>
+				{/if}
+			</p>
 		</div>
-
 	</div>
 
 	<div class="row" style="padding: 0 10px 0 10px">
@@ -35,19 +48,84 @@
 			{/if}
 		</div>
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			<table id="eventTimetable"><tbody>
 			{foreach $article->getTimetables() as $timetable}
-				{$timetable->getDateFrom()}
+
+				{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
+					{var begin = $timetable->getDateFrom()}
+					{var end = $timetable->getDateTo()->modify( '+1 day' )}
+					{var end = $end->modify( '+1 day' )}
+					{var interval = DateInterval::createFromDateString('1 day')}
+					{var period = new DatePeriod($begin, $interval, $end)}
+					{foreach $period as $dt}
+						<tr><td>
+							<div class="date">
+								<span class="binds"></span>
+								<span class="month">{$months[$dt->format('m') - 1]}</span>
+								<h1 class="day">{$dt->format('d')}</h1>
+							</div>
+
+							<strong>{$article->getContents()[$currentLang]->getHeader()|upper}</strong><br />
+							<small class="calendarOnEvent">
+								{$dt->format('d.m.Y')}, {$timetable->getTime()->format("%H:%S")} <br />
+								{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
+								{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br />
+							</small>
+						</td></tr>
+					{/foreach}
+				{else}
+					<tr><td>
+						<div class="date">
+							<span class="binds"></span>
+							<span class="month">{$months[$timetable->getDateFrom()->format('m') - 1]}</span>
+							<h1 class="day">{$timetable->getDateFrom()->format('d')}</h1>
+						</div>
+
+						{$article->getContents()[$currentLang]->getHeader()|upper}<br />
+						<small class="calendar">
+							{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
+							{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
+								- {$timetable->getDateTo()->format('d.m.Y')}
+							{/if}
+							{$timetable->getTime()->format("%H:%S")} <br />
+
+							{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
+							{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br />
+						</small>
+					</td></tr>
+				{/if}
 			{/foreach}
+			</tbody></table>
 		</div>
 
 	</div>
 
 	<div class="row" style="padding: 0 10px 0 10px">
-		<div class="col-xl-9 col-lg-9 col-md-9 col-sm-6 col-xs-12">
-			{$article->getContents()[$currentLang]->getContent()|noescape}
+		<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+
+			<ul id = "myTab" class = "nav nav-tabs">
+				<li class="active"><a href="#info" data-toggle="tab">{=ARTICLE_EVENT_INFO}</a></li>
+				<li><a href="#places" data-toggle="tab">{=ARTICLE_EVENT_PLACES}</a></li>
+			</ul>
+
+			<div id = "myTabContent" class = "tab-content">
+				<div class="tab-pane fade in active" id="info">
+					<p>{$article->getContents()[$currentLang]->getContent()|noescape}</p>
+				</div>
+
+				<div class="tab-pane fade" id="places">
+					místa
+				</div>
+			</div>
+			<script>
+				$(function () {
+					$('#myTab li:eq(0) a').tab('show');
+					$('#eventTimetable').paginate({ limit: 4 });
+				});
+			</script>
 		</div>
 
-		<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			{include '../@rightPanel.latte'}
 
 		</div>

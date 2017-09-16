@@ -145,6 +145,8 @@ define("ARTICLE_PAGINATOR_PAGE", 'Page');
 define("ARTICLE_PAGINATOR_FROM", 'from');
 define("ARTICLE_VIEW_DETAIL", 'View detail');
 define("ARTICLE_TOP_EVENTS", 'Top events');
+define("ARTICLE_EVENT_INFO", 'Info');
+define("ARTICLE_EVENT_PLACES", 'Places');
 
 // měsíce
 define("JANUARY", 'january');

@@ -380,6 +380,9 @@ div.mainPageSearch {
 .floatRight{
 	float: right;
 }
+.floatLeft{
+	float: left;
+}
 
 .mainPageTitle {
 
@@ -581,6 +584,7 @@ ul {
 }
 .eventPlace {
 	color: #f95013;
+	line-height: 30px;
 }
 .eventPlace:hover {
 	color: #f95013;
@@ -590,6 +594,7 @@ ul {
 	font-size: 24px;
 	font-weight: bold;
 	margin-top: -20px;
+	margin-bottom: -10px;
 }
 
 /* ikona kalendáře */
@@ -676,7 +681,59 @@ small.calendar{
 	display: inline-block;
 	padding-bottom: 15px;
 }
+small.calendarOnEvent {
+	font-weight: bold;
+	color: #7d7d7d;
+}
 .dottedBorderBottom {
 	border-bottom: 1px dotted grey;
 	margin-bottom: 10px;
+}
+.fa-1_5x{
+	font-size: 1.5em!important;
+	padding: 0 5px 0 5px;
+}
+.ev_link {
+	color: #ba4913;
+}
+.ev_link:hover {
+	color: #ff6014;
+}
+.ev_facebook{
+	color: #3d5b99;
+}
+.ev_facebook:hover{
+	color: #6599ff;
+}
+.ev_youtube {
+	 color: #e64a41
+ }
+.ev_youtube:hover {
+	color: #ff6649
+}
+.ev_map {
+	color: #000;
+}
+.ev_map:hover {
+	color: #767676;
+}
+
+/* jquery paginator */
+.page-navigation{
+	text-align: center;
+	border-top: 1px dotted grey;
+}
+.page-navigation a {
+	margin: 0 2px;
+	display: inline-block;
+	padding: 3px 5px;
+	text-decoration: none;
+}
+
+.page-navigation a[data-selected] {
+	font-weight: bold;
+}
+/* jquery paginator end */
+#eventTimetable{
+	width: 100%;
 }
