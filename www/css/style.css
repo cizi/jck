@@ -737,3 +737,6 @@ small.calendarOnEvent {
 #eventTimetable{
 	width: 100%;
 }
+#info{
+	padding: 10px;
+}
