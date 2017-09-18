@@ -136,7 +136,7 @@ abstract class BasePresenter extends Presenter {
 		$availableLangs = $this->langRepository->findLanguages();
 		$this->template->webAvailebleLangs = $availableLangs;
 		$this->template->currentLang = $lang;
-		$this->template->menuHtml = $this->menuController->renderMenuInFrontend($lang);
+		$this->template->menuHtml = $this->menuController->renderMenuInFrontend($lang, $this->presenter);
 		$this->template->contactFormId = BlockContentPresenter::CONTACT_FORM_ID_AS_BLOCK;
 		$this->template->currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
@@ -144,6 +144,9 @@ abstract class BasePresenter extends Presenter {
 		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER);
 		$this->template->largeRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_LARGE_RECTANGLE);
 		$this->template->middleRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_MIDDLE_RECTANGLE);
+		$this->template->eventOrder = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
+		$this->template->textArticleOrder = EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER;
+		$this->template->placeOrder = EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER;
 
 		$this->template->articleRepo = $this->articleRepository;
 		$this->template->enumRepo = $this->enumerationRepository;

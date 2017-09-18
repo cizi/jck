@@ -1,0 +1,71 @@
+{block content}
+	<div class="row" style="padding: 0 40px 0 40px">
+		<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+			<div class="row hp_2_cols">
+				<h1 class="titles">{$clickedCategory->getTitle()}</h1>
+				{form fulltextSearchForm}
+					<div class="col-lg-1 col-md-1 col-sm-1"></div>
+					<div class="col-lg-5 col-md-5 col-sm-5">
+						{input search}
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1">
+						{input confirm}
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1"></div>
+				{/form}
+			</div>
+
+			{foreach $articles as $article}
+				{switch $article->getType()}
+					{case $eventOrder}
+						{var target = "Show:Event"}
+					{case $textArticleOrder}
+						{var target = "Show:Detail"}
+					{case $placeOrder}
+						{var target = "Show:Place"}
+				{/switch}
+				<div class="hp_2_cols">
+					<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
+					{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+					{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
+					{if $article->getPicId() != null}
+						{var picUrl = $picRepo->getById($article->getPicId())}
+						<a href={link $target, $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
+					{/if}
+					<a href={link $target, $currentLang, $article->getId(), $urlTitle}>
+						<h3>{$article->getContents()[$currentLang]->getHeader()} <span class="badge">{$enumRepo->getEnumItemByOrder($currentLang, $article->getType())}</span></h3>
+					</a>
+					<div>
+						{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
+						<div>
+							<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>
+							<button onclick="location.href='{link $target, $currentLang, $article->getId(), $urlTitle}'" class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</button>
+						</div>
+					</div>
+				</div>
+			{/foreach}
+
+			<div class="pagination">
+				{if !$paginator->isFirst()}
+					<a n:href="category, $currentLang, $order, $seoText, 1, $query">{=ARTICLE_PAGINATOR_FIRST}</a>
+					&nbsp;|&nbsp;
+					<a n:href="category, $currentLang, $order, $seoText, $paginator->page-1, $query">{=ARTICLE_PAGINATOR_PREVIOUS}</a>
+					&nbsp;|&nbsp;
+				{/if}
+
+				{=ARTICLE_PAGINATOR_PAGE} {$paginator->page} {=ARTICLE_PAGINATOR_FROM} {$paginator->pageCount}
+
+				{if !$paginator->isLast()}
+					&nbsp;|&nbsp;
+					<a n:href="category, $currentLang, $order, $seoText, $paginator->page+1, $query">{=ARTICLE_PAGINATOR_NEXT}</a>
+					&nbsp;|&nbsp;
+					<a n:href="category, $currentLang, $order, $seoText, $paginator->pageCount, $query">{=ARTICLE_PAGINATOR_LAST}</a>
+				{/if}
+			</div>
+		</div>
+
+		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+			{include '../@rightPanel.latte'}
+		</div>
+	</div>
+{/block}

@@ -126,9 +126,11 @@ a.menuToggle:hover {
 a.menuLink:hover {
 	background-color: dimgrey!important;
 }
+/* nav-bar override */
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
 	background-color: dimgrey!important;
 }
+/* navbar override end */
 .alignRight{
 	text-align: right;
 }
@@ -756,4 +758,8 @@ li.active a {
 #searchFromSubmit{
 	margin-top: 24px;
 	left: -60px;
+}
+.menuLinkAllCategory {
+	color: #cbcbcb;
+	padding: 0 10px;
 }

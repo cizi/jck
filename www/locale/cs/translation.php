@@ -41,6 +41,8 @@ define("MENU_SETTINGS", 'Nastavení');
 define("MENU_ENUMERATION", 'Číselníky');
 define("MENU_LANG", 'Jazyková nastavení');
 define("MENU_LOGOUT", 'Odhlásit');
+define("MENU_ITEM_CALENDAR", 'Kalendář');
+define("MENU_ALL_CATEGORY", 'Zobrazit celou kategorii');
 
 // form hledání
 define("MAIN_SEARCH_FROM", 'Od');
@@ -222,6 +224,7 @@ define("BANNER_DELETE_FAILED", 'Při mazání banneru došlo k chybě');
 
 // hledání
 define("MAIN_PAGE_SEARCH", 'Hledat');
+define("MAIN_PAGE_SEARCH_REQ", 'Prosím, zadejte hledaný výraz!');
 define("MAIN_PAGE_DESTINATION", 'Cíl cesty');
 define("MAIN_PAGE_SHARE", 'Sdílet');
 
@@ -550,4 +553,3 @@ define("HEADER_BUTTON_SAVE", 'Uložit hlavičku');
 
 // common
 define("UNSUPPORTED_UPLOAD_FORMAT", "Pokoušíte se nahrát nepodporovaný formát. Podporované formáty jsou %s.");
-

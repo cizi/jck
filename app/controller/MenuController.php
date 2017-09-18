@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\Entity\MenuEntity;
 use App\Model\MenuRepository;
+use Dibi\DateTime;
 use Nette\Application\UI\Link;
 use Nette\Application\UI\Presenter;
 
@@ -156,7 +157,7 @@ class MenuController {
 		return $result;
 	}
 
-	public function renderMenuInFrontend($lang, $level = 1, $id = null) {
+	public function renderMenuInFrontend($lang, Presenter $presenter, $level = 1, $id = null) {
 		$menu = "";
 
 		if ($id == null) {	// top menu entries
@@ -165,23 +166,31 @@ class MenuController {
 			$itemsInLevel = $this->menuRepository->findSubItems($id, $lang, $level);
 		}
 
+		/** @var MenuEntity $item */
 		foreach ($itemsInLevel as $item) {
 			if ($item->hasSubItems()) {
 				$menu .= (($level == 1) ? '<li class="dropdown">' : '<li class="dropdown-submenu">');
 
-				$menu .= '<a href="#" class="dropdown-toggle menuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'. $item->getTitle();
+				$link = $presenter->link(":Frontend:Show:Category", ['lang' => $lang, 'id' => $item->getOrder(), 'seoText' => $item->getLink()]);
+				$menu .= '<a href="#" class="dropdown-toggle menuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+				$menu .= '<i onclick="location.href=\''.$link.'\'" title="'.MENU_ALL_CATEGORY.'" class="fa fa-bars menuLinkAllCategory" aria-hidden="true"></i>' . $item->getTitle();
 				if ($level == 1) {
 					$menu .= '<span class="caret"></span>';
 				}
 				$menu .= '</a>';
 
 				$menu .= '<ul class="dropdown-menu">';
-				$menu .= $this->renderMenuInFrontend($lang, $level + 1, $item->getId());
+				$menu .= $this->renderMenuInFrontend($lang, $presenter, $level + 1, $item->getId());
 				$menu .= '</ul>';
 				$menu .= '</li>';
 			} else {
-				$menu .= '<li><a href="' . $item->getLink() . '" class="menuLink">' . $item->getTitle() . '</a></li>';
+				$link = $presenter->link(":Frontend:Show:Category", ['lang' => $lang, 'id' => $item->getOrder(), 'seoText' => $item->getLink()]);
+				$menu .= '<li><a href="'. $link .'" class="menuLink">' . $item->getTitle() . '</a></li>';
 			}
+		}
+		if ($level == 1) {
+			$link = $presenter->link(":Frontend:Calendar:Default", ['lang' => $lang]);
+			$menu .= '<li><a href="' . $link . '" class="menuLink">' . MENU_ITEM_CALENDAR . '</a></li>';
 		}
 
 		/* working part of menu for example

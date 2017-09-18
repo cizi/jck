@@ -139,6 +139,81 @@ class ArticleRepository extends BaseRepository {
 		return $articles;
 	}
 
+	public function getActiveArticlesInLangCategoryCount($lang, array $categories, $searchText = null, $type = null) {
+		$query = ["
+			select count(a.id) as articleCount   
+			from article as a 
+				left join article_content as ac on a.id = ac.article_id
+				left join article_category as aca on a.id = aca.article_id 
+			where ac.lang = %s
+				and active = 1 
+				and `aca.menu_order` in %in",
+			$lang,
+			$categories];
+
+		if ($searchText != null) {
+			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like '%%%s%%'", $searchText);
+		}
+		if ($type != null) {
+			$query[] = sprintf(" and a.type = %d", $type);
+		}
+
+		return  $this->connection->query($query)->fetchSingle();
+	}
+
+	/**
+	 * @param string $lang
+	 * @param array $categories
+	 * @param null $searchText
+	 * @param null $type
+	 * @param int $paginatorLength
+	 * @param int $offset
+	 * @return array
+	 */
+	public function findActiveArticlesInLangCategory($lang, array $categories, $searchText = null, $type = null, $paginatorLength = 0, $offset = 0) {
+		$query = ["
+			select *, a.id as aID, ac.article_id as acId   
+			from article as a 
+				left join article_content as ac on a.id = ac.article_id
+				left join article_category as aca on a.id = aca.article_id 
+			where ac.lang = %s
+				and active = 1 
+				and `aca.menu_order` in %in",
+			$lang,
+			$categories];
+
+		if ($searchText != null) {
+			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);
+		}
+		if ($type != null) {
+			$query[] = sprintf(" and a.type = %d", $type);
+		}
+		$query[] = "order by inserted_timestamp desc";
+		if ($paginatorLength != 0 ) {
+			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
+
+		}
+
+		$result = $this->connection->query($query)->fetchAll();
+		$articles = [];
+		foreach ($result as $item) {
+			$articleContentEntity = new ArticleContentEntity();
+			$articleContentEntity->hydrate($item->toArray());
+			$articleContentEntity->setId($item['acId']);
+
+			$articleEntity = new ArticleEntity();
+			$articleEntity->hydrate($item->toArray());
+			$articleEntity->setId($item['aID']);
+			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
+
+			$articles[] = $articleEntity;
+		}
+
+		return $articles;
+	}
+
 	/**
 	 * @param string $lang
 	 * @param int $placeId

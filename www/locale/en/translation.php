@@ -41,6 +41,8 @@ define("MENU_BANNER", 'Banners');
 define("MENU_ENUMERATION", 'Enumerations');
 define("MENU_LANG", 'Language setting');
 define("MENU_LOGOUT", 'Logout');
+define("MENU_ITEM_CALENDAR", 'Calendar');
+define("MENU_ALL_CATEGORY", 'Show all category');
 
 // hledání na hlavní stránce
 define("MAIN_SEARCH_FROM", 'From');
@@ -220,6 +222,7 @@ define("BANNER_DELETE_FAILED", 'An error occurred during banner deletation');
 
 // hledání
 define("MAIN_PAGE_SEARCH", 'Search');
+define("MAIN_PAGE_SEARCH_REQ", 'Please, fill the search phase!');
 define("MAIN_PAGE_DESTINATION", 'Destination');
 define("MAIN_PAGE_SHARE", 'Share');
 

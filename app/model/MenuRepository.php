@@ -369,6 +369,7 @@ class MenuRepository extends BaseRepository {
 		$result = $this->connection->query($query)->fetch();
 		$menuEntity = new MenuEntity();
 		$menuEntity->hydrate($result->toArray());
+		$menuEntity->setHasSubItems($this->hasSubItems($lang, $menuEntity->getLevel(), $menuEntity->getOrder()));
 
 		return $menuEntity;
 	}
@@ -422,5 +423,28 @@ class MenuRepository extends BaseRepository {
 		];
 
 		$this->connection->query($query);
+	}
+
+	/**
+	 * Rekurzivně projde položky menu a vrátí pole ORDERů menu všech podpoložek
+	 * @param int $order
+	 * @param string $lang
+	 * @return array
+	 */
+	public function findPredecessors($order, $lang) {
+		$allCategoriesOrder = [];
+		$menuItem = $this->getMenuEntityByOrder($order, $lang);
+		if ($menuItem->hasSubItems()) {
+			/** @var MenuEntity[] $subItems */
+			$subItems = $this->findSubItems($menuItem->getId(), $lang, $menuItem->getLevel() + 1);
+			/** @var MenuEntity $item */
+			foreach ($subItems as $item) {
+				$allCategoriesOrder = array_merge($allCategoriesOrder, $this->findPredecessors($item->getOrder(), $lang));
+			}
+		} else {
+			$allCategoriesOrder[] = $menuItem->getOrder();
+		}
+
+		return $allCategoriesOrder;
 	}
 }
