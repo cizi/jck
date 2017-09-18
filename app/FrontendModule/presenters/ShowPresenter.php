@@ -2,6 +2,7 @@
 
 namespace App\FrontendModule\Presenters;
 
+use App\Model\Entity\ArticleEntity;
 use App\Model\EnumerationRepository;
 use Nette\Utils\Paginator;
 
@@ -87,7 +88,24 @@ class ShowPresenter extends BasePresenter {
 		if ($article != null) {
 			$this->articleRepository->articleClicked($article->getId());
 			$this->template->article = $article;
+			$this->template->places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
 		}
+	}
+
+	/**
+	 * @param string $lang
+	 * @param int $id
+	 * @param string $seoText
+	 */
+	public function actionPlace($lang, $id, $seoText) {
+		$places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $id, EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
+		$this->template->place = (empty($places) ? new ArticleEntity() : reset($places));
+		$this->template->events = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $id, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
+		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $id, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
+	}
+
+	public function actionEventOnPlace($lang, $id, $seoText) {
+
 	}
 
 	/**

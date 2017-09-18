@@ -111,6 +111,7 @@ define("ARTICLE_VALIDITY", 'Platnost');
 define("ARTICLE_ADDRESS", 'Adresa');
 define("ARTICLE_LOCATION", 'Lokace');
 define("ARTICLE_SUBLOCATION", 'Sublokace');
+define("ARTICLE_CONTACT", 'Kontakt');
 define("ARTICLE_CONTENT_HEADER", 'Nadpis');
 define("ARTICLE_CONTENT_HEADER_REQ", 'Nadpis příspěvku je povinná položka!');
 define("ARTICLE_CONTENT_CONTENT", 'Obsah');
@@ -148,7 +149,9 @@ define("ARTICLE_PAGINATOR_FROM", 'z');
 define("ARTICLE_VIEW_DETAIL", 'Zobrazit detail');
 define("ARTICLE_TOP_EVENTS", 'Top akce');
 define("ARTICLE_EVENT_INFO", 'Informace');
-define("ARTICLE_EVENT_PLACES", 'Místa');
+define("ARTICLE_EVENT_PLACES", 'Místo');
+define("ARTICLE_EVENT_PLACE_EVENTS", 'Události');
+define("ARTICLE_EVENT_PLACE_ARTICLES", 'Články');
 
 // měsíce
 define("JANUARY", 'leden');

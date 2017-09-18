@@ -54,6 +54,9 @@ class ArticleEntity {
 	/** @var int */
 	private $sublocation;
 
+	/** @var string */
+	private $contact;
+
 	/** @var string  */
 	private $ytUrl;
 
@@ -299,6 +302,20 @@ class ArticleEntity {
 	/**
 	 * @return string
 	 */
+	public function getContact() {
+		return $this->contact;
+	}
+
+	/**
+	 * @param string $contact
+	 */
+	public function setContact($contact) {
+		$this->contact = $contact;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getYtUrl() {
 		return $this->ytUrl;
 	}
@@ -403,7 +420,8 @@ class ArticleEntity {
 			'yt_url' => $this->getYtUrl(),
 			'show_counter' => $this->getShowCounter(),
 			'click_counter' => $this->getClickCounter(),
-			'pic_url' => $this->getPicUrl()
+			'pic_url' => $this->getPicUrl(),
+			'contact' => $this->getContact()
 		];
 	}
 
@@ -430,5 +448,6 @@ class ArticleEntity {
 		$this->setShowCounter(isset($data['show_counter']) ? $data['show_counter'] : null);
 		$this->setClickCounter(isset($data['click_counter']) ? $data['click_counter'] : null);
 		$this->setPicUrl(isset($data['pic_url']) ? $data['pic_url'] : null);
+		$this->setContact(isset($data['contact']) ? $data['contact'] : null);
 	}
 }

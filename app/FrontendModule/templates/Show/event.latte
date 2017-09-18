@@ -33,7 +33,7 @@
 					<a class="ev_youtube" target="_blank" href={$article->getYtUrl()}><i class="fa fa-youtube-play fa-1_5x" aria-hidden="true"></i></a>
 				{/if}
 				{if $article->getAddress() != null}
-					<a class="ev_map" target="_blank" href=><i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i></a>
+					<a class="ev_map" target="_blank" href="#"><i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i></a>
 				{/if}
 			</p>
 		</div>
@@ -114,7 +114,24 @@
 				</div>
 
 				<div class="tab-pane fade" id="places">
-					místa
+					{foreach $places as $place}
+						<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()}" />
+						<div>
+							<a href={link Show:Place $currentLang, $place->getSublocation(), $enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())} class="title">
+								{$enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())}
+							</a>
+							<span class="floatRight">
+								<a class="ev_map" target="_blank" href={link Show:EventOnPlace $currentLang, $place->getSublocation(), $enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())}>
+									<i class="fa fa-calendar-o fa-1_5x" aria-hidden="true"></i>
+								</a>
+								<a class="ev_map" target="_blank" href={link Show:Place $currentLang, $place->getSublocation(), $enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())}>
+									<i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i>
+								</a>
+							</span>
+						</div>
+						<span class="eventPlaces colorGrey">{$place->getAddress()|noescape}</span><br /><br />
+						{$place->getContents()[$currentLang]->getContent()|noescape|truncate:160}
+					{/foreach}
 				</div>
 			</div>
 			<script>
@@ -127,7 +144,6 @@
 
 		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			{include '../@rightPanel.latte'}
-
 		</div>
 	</div>
 {/block}

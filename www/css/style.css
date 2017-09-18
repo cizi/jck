@@ -108,7 +108,7 @@ span.menuItem{
 	color: #5cb85c;
 }
 .colorGrey {
-	color: dimgray;
+	color: dimgray!important;
 }
 a.menuToggle {
 	width: 20px;
@@ -481,6 +481,7 @@ div.title {
 }
 
 .hp_2_cols{
+	overflow: hidden;
 	border-bottom: 1px solid lightgrey;
 }
 
@@ -489,6 +490,7 @@ div.title {
 	font-weight: bold;
 	color: #7d7d7d;
 	padding-left: 15px;
+	margin-top: 10px;
 }
 .hp_2_cols div{
 	font-size: 12px;
@@ -527,7 +529,7 @@ img.showDetail {
 img.detailsView {
 	max-width: 200px!important;
 	float: left;
-	margin: 0 10px 10px 10px;
+	margin: 10px;
 }
 
 .btnShowDetail{
@@ -718,6 +720,13 @@ small.calendarOnEvent {
 	color: #767676;
 }
 
+/* tab switch  */
+li.active a {
+	color: whitesmoke!important;
+	font-weight: bold!important;
+	background-color: #424242 !important;
+}
+/* tab switch end */
 /* jquery paginator */
 .page-navigation{
 	text-align: center;
@@ -737,6 +746,9 @@ small.calendarOnEvent {
 #eventTimetable{
 	width: 100%;
 }
-#info{
+#info, #places{
 	padding: 10px;
+}
+.eventPlaces {
+	font-size: 18px;
 }

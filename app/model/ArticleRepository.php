@@ -140,6 +140,54 @@ class ArticleRepository extends BaseRepository {
 	}
 
 	/**
+	 * @param string $lang
+	 * @param int $placeId
+	 * @param null $type
+	 * @return array
+	 */
+	public function findActiveArticleByPlaceInLang($lang, $placeId, $type = null) {
+		$places = [];
+		if ($placeId != null) {
+			$query = [
+				"
+			select *, a.id as aID, ac.article_id as acId 
+			from article as a 
+				left join article_content as ac on a.id = ac.article_id
+			where ac.lang = %s
+				and active = 1
+				and sublocation = %i",
+				$lang,
+				$placeId
+			];
+
+			if ($type != null) {
+				$query[] = sprintf(" and a.type = %d", $type);
+			}
+			$query[] = "order by inserted_timestamp desc";
+
+			$result = $this->connection->query($query)->fetchAll();
+			foreach ($result as $item) {
+				$articleContentEntity = new ArticleContentEntity();
+				$articleContentEntity->hydrate($item->toArray());
+				$articleContentEntity->setId($item['acId']);
+
+				$articleEntity = new ArticleEntity();
+				$articleEntity->hydrate($item->toArray());
+				$articleEntity->setId($item['aID']);
+				$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+				$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+				$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
+
+				$places[] = $articleEntity;
+			}
+		}
+
+		return $places;
+	}
+
+
+
+	/**
 	 * @param null $type
 	 * @return array
 	 */

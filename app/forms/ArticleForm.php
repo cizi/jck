@@ -87,6 +87,11 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
+		$form->addTextArea("contact", ARTICLE_CONTACT)
+			->setAttribute("class", "form-control menuItem mceBlockContent")
+			->setAttribute("placeholder", ARTICLE_CONTACT)
+			->setAttribute("tabindex", $i+1);
+
 		$form->addCheckbox("active", " " . ARTICLE_ACTIVE)
 			->setAttribute("class","activeToggleEvent")
 			->setAttribute("data-toggle","toggle")

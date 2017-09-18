@@ -109,6 +109,7 @@ define("ARTICLE_VALIDITY", 'Validity');
 define("ARTICLE_ADDRESS", 'Address');
 define("ARTICLE_LOCATION", 'Location');
 define("ARTICLE_SUBLOCATION", 'Sublocation');
+define("ARTICLE_CONTACT", 'Contact');
 define("ARTICLE_CONTENT_HEADER", 'Header');
 define("ARTICLE_CONTENT_HEADER_REQ", 'Artcile content header is mandatory!');
 define("ARTICLE_CONTENT_CONTENT", 'Content');
@@ -146,7 +147,9 @@ define("ARTICLE_PAGINATOR_FROM", 'from');
 define("ARTICLE_VIEW_DETAIL", 'View detail');
 define("ARTICLE_TOP_EVENTS", 'Top events');
 define("ARTICLE_EVENT_INFO", 'Info');
-define("ARTICLE_EVENT_PLACES", 'Places');
+define("ARTICLE_EVENT_PLACES", 'Place');
+define("ARTICLE_EVENT_PLACE_EVENTS", 'Events');
+define("ARTICLE_EVENT_PLACE_ARTICLES", 'Articles');
 
 // měsíce
 define("JANUARY", 'january');
