@@ -62,13 +62,14 @@ class SearchForm extends Nette\Object {
 			->setAttribute("class", "form-control input-sm")
 			->setAttribute("tabindex", $i+1);
 
-		$locations = $this->enumerationRepository->findEnumItemsForSelect($currentLang, EnumerationRepository::LOKACE);
-		$form->addSelect("destination", MAIN_PAGE_DESTINATION, $locations)
+		$sublocations = $this->enumerationRepository->findEnumItemsForSelectWithEmpty($currentLang, EnumerationRepository::SUBLOKACE);
+		$form->addSelect("destination", MAIN_PAGE_DESTINATION, $sublocations)
 			->setAttribute("class", "form-control input-sm")
 			->setAttribute("tabindex", $i+1);
 
-		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
-			->setAttribute("class","btn btn-primary input-sm")
+		$form->addSubmit("confirm", MAIN_PAGE_SEARCH)
+			->setAttribute("id", "searchFromSubmit")
+			->setAttribute("class","btn btn-primary btn-sm")
 			->setAttribute("tabindex", $i+1);
 
 		return $form;
