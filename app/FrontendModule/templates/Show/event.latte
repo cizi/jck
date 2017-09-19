@@ -117,7 +117,7 @@
 					{foreach $places as $place}
 						<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()}" />
 						<div>
-							<a href={link Show:Place $currentLang, $place->getSublocation(), $enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())} class="title">
+							<a href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())} class="title">
 								{$enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())}
 							</a>
 							<span class="floatRight">

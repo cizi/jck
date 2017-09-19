@@ -1,0 +1,61 @@
+{block content}
+	<div class="row">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<table class="calendarTable">
+				<tr>
+					<td>
+						<div class='input-group date' id='chooseDate'>
+							<input id="chosenDate" type='text' class="hidden" />
+							<span class="input-group-addon calendarIconTrigger">
+                        		<span class="glyphicon glyphicon-calendar"></span>
+                    		</span>
+							<strong>{$months[$startDate->format('m')-1]} {$startDate->format('Y')}</strong>
+						</div>
+					</td>
+					{var begin = $startDate}
+					{var end = $endDate}
+					{var interval = DateInterval::createFromDateString('1 day')}
+					{var period = new DatePeriod($begin, $interval, $end)}
+					{foreach $period as $dt}
+						<td>
+							{if $iterator->isFirst()}
+								<a class="floatLeft" href={link minusWeek $currentLang, $startDate->format('Y-m-d')}> < </a>
+							{/if}
+
+							<a href={link default $currentLang, $dt->format('Y-m-d')}>{$dt->format('j. n.')}</a>
+							{if $iterator->isLast()}
+								<a class="floatRight" href={link plusWeek $currentLang, $startDate->format('Y-m-d')}> > </a>
+							{/if}
+
+							<br />
+							{if isset($days[$dt->format('N')-1])}{$days[$dt->format('N')-1]} {else} {$dt->format('l')|lower} {/if}
+						</td>
+					{/foreach}
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<script>
+		$("#chooseDate").datetimepicker({
+			format: 'yyyy-mm-dd',
+			language: {$currentLang},
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+		}).on('changeDate', function(ev){
+			var curr_date = (ev.date.getDate() < 10 ? '0' + ev.date.getDate() : ev.date.getDate());
+			var curr_month = ((ev.date.getMonth()+1) < 10 ? '0' + (ev.date.getMonth() + 1) : ev.date.getMonth() + 1); //Months are zero based
+			var curr_year = ev.date.getFullYear();
+			var formattedDate =  curr_year + "-" + curr_month + "-" +curr_date;
+			{if (strpos($currentUrl, 'startDate') !== false)}
+				{var target = substr($currentUrl, 0, strpos($currentUrl, "startDate"))}
+				window.location.href = {$target} + 'startDate=' + formattedDate;
+			{else}
+				window.location.href = '{$currentUrl|noescape}' + 'default/' + formattedDate + '/?startDate=' + formattedDate;
+			{/if}
+		});
+	</script>
+{/block}

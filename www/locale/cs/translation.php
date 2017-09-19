@@ -53,6 +53,7 @@ define("MAIN_SEARCH_TOMORROW", 'Zítra');
 define("MAIN_SEARCH_WEEKEND", 'Víkend');
 define("MAIN_SEARCH_SEARCH", 'Hledat');
 define("MAIN_SEARCH_HEADER", 'Datum');
+define("MAIN_SEARCH_REQ_FIELDS", 'Nebyla zadána vyhledávací kritéria');
 
 // vlastní akce
 define("SUBMIT_OWN_EVENT_HEADER", 'Zašlete svou akci');
@@ -168,6 +169,14 @@ define("SEPTEMBER", 'září');
 define("OCTOBER", 'říjen');
 define("NOVEMBER", 'listopad');
 define("DEMEBER", 'prosinec');
+
+define("MON", 'pondělí');
+define("THU", 'úterý');
+define("WED", 'středa');
+define("THR", 'čtvrtek');
+define("FRI", 'pátek');
+define("SAT", 'sobota');
+define("SUN", 'neděle');
 
 // galerie
 define("GALLERY_TITLE", 'Galerie');

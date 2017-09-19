@@ -472,7 +472,7 @@ div.title {
 
 .title {
 	color: #e04b00;
-	font-size: 28px;
+	font-size: 24px;
 	font-weight: bold;
 }
 .title:hover{
@@ -531,7 +531,7 @@ img.showDetail {
 img.detailsView {
 	max-width: 200px!important;
 	float: left;
-	margin: 10px;
+	margin: 8px;
 }
 
 .btnShowDetail{
@@ -762,4 +762,63 @@ li.active a {
 .menuLinkAllCategory {
 	color: #cbcbcb;
 	padding: 0 10px;
+}
+.breadcrumb{
+	margin-top: -16px;
+}
+
+.calendarTable{
+	margin-top: -20px;
+	width: 100%;
+}
+
+.calendarTable tr td {
+	width: 12.5%;
+	text-align: center;
+}
+
+.calendarTable tr td a{
+	color: #444444;
+	font-size: 30px;
+	font-family: "InterstateRegularCompressed";
+}
+
+.calendarTable tr td a:hover {
+	color: black;
+	text-decoration: underline;
+}
+.calendarTable tr td:first-child {
+	border-top: 8px solid #ee4879;
+}
+
+.calendarTable tr td:nth-child(2){
+	border-top: 8px solid #90CFC7;
+}
+
+.calendarTable tr td:nth-child(3){
+	border-top: 8px solid #FB973F;
+}
+
+.calendarTable tr td:nth-child(4) {
+	border-top: 8px solid #A5CD77;
+}
+
+.calendarTable tr td:nth-child(5) {
+	border-top: 8px solid #C18CBA;
+}
+
+.calendarTable tr td:nth-child(6) {
+	border-top: 8px solid #FE4401;
+}
+
+.calendarTable tr td:nth-child(7) {
+	border-top: 8px solid #9ECFE0;
+}
+
+.calendarTable tr td:last-child {
+	border-top: 8px solid #6D83B4;
+}
+.calendarIconTrigger{
+	background-color: white!important;
+	border: none!important;
 }

@@ -3,6 +3,14 @@
 		<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-12">
 			<div class="row hp_2_cols">
 				<h1 class="titles">{$clickedCategory->getTitle()}</h1>
+				{if count($breadcrumbs) > 1}
+					<div class="breadcrumb">
+						{foreach $breadcrumbs as $title => $link}
+							<a class="eventCalendarEvent" href={$link}>{$title}</a> {if $iterator->isLast() == false} / {/if}
+						{/foreach}
+					</div>
+				{/if}
+
 				{form fulltextSearchForm}
 					<div class="col-lg-1 col-md-1 col-sm-1"></div>
 					<div class="col-lg-5 col-md-5 col-sm-5">
@@ -27,15 +35,31 @@
 				<div class="hp_2_cols">
 					<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
 					{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
-					{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
+					{var picUrl = "../../../../../www/images/not-available.png"}
 					{if $article->getPicId() != null}
-						{var picUrl = $picRepo->getById($article->getPicId())}
-						<a href={link $target, $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
+						{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
+					{else}
+						{var picUrl = $article->getPicUrl()}
 					{/if}
-					<a href={link $target, $currentLang, $article->getId(), $urlTitle}>
-						<h3>{$article->getContents()[$currentLang]->getHeader()} <span class="badge">{$enumRepo->getEnumItemByOrder($currentLang, $article->getType())}</span></h3>
+					<a href={link $target, $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl} /></a>
+					<a class="title" href={link $target, $currentLang, $article->getId(), $urlTitle}>
+						{$article->getContents()[$currentLang]->getHeader()} <span class="badge">{$enumRepo->getEnumItemByOrder($currentLang, $article->getType())}</span>
 					</a>
 					<div>
+						<strong>
+							{if $article->getType() == $eventOrder}
+								{var timetables = $article->getTimetables()}
+								{var timetable = reset($timetables)}
+								{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
+								{if ($timetable->getDateFrom() != null) && ($timetable->getDateFrom() != '0000-00-00')}
+									- {$timetable->getDateFrom()->format('d.m.Y')}
+								{/if}
+								{$timetable->getTime()->format("%H:%S")}<br />
+								{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
+								{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br /><br />
+							{/if}
+						</strong>
+
 						{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
 						<div>
 							<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>

@@ -33,6 +33,9 @@ class MenuEntity {
 	/** @var bool */
 	private $hasSubItems;
 
+	/** @var bool */
+	private $hasPredecessor;
+
 	/**
 	 * @return int
 	 */
@@ -157,6 +160,20 @@ class MenuEntity {
 	 */
 	public function setHasSubItems($hasSubItems) {
 		$this->hasSubItems = $hasSubItems;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasPredecessor() {
+		return $this->hasPredecessor;
+	}
+
+	/**
+	 * @param bool $hasPredecessor
+	 */
+	public function setHasPredecessor($hasPredecessor) {
+		$this->hasPredecessor = $hasPredecessor;
 	}
 
 	/**

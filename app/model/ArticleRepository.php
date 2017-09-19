@@ -170,7 +170,7 @@ class ArticleRepository extends BaseRepository {
 	 * @param int $offset
 	 * @return array
 	 */
-	public function findActiveArticlesInLangCategory($lang, array $categories, $searchText = null, $type = null, $paginatorLength = 0, $offset = 0) {
+	public function findActiveArticlesInLangCategory($lang, array $categories, $searchText = null, $sublocation = null, $type = null, $paginatorLength = 0, $offset = 0) {
 		$query = ["
 			select *, a.id as aID, ac.article_id as acId   
 			from article as a 
@@ -184,6 +184,9 @@ class ArticleRepository extends BaseRepository {
 
 		if ($searchText != null) {
 			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);
+		}
+		if ($sublocation != null) {
+			$query[] = sprintf(" and a.sublocation = %d", $sublocation);
 		}
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
@@ -216,13 +219,13 @@ class ArticleRepository extends BaseRepository {
 
 	/**
 	 * @param string $lang
-	 * @param int $placeId
+	 * @param int $sublocation
 	 * @param null $type
 	 * @return array
 	 */
-	public function findActiveArticleByPlaceInLang($lang, $placeId, $type = null) {
+	public function findActiveArticleByPlaceInLang($lang, $sublocation, $type = null) {
 		$places = [];
-		if ($placeId != null) {
+		if ($sublocation != null) {
 			$query = [
 				"
 			select *, a.id as aID, ac.article_id as acId 
@@ -232,7 +235,7 @@ class ArticleRepository extends BaseRepository {
 				and active = 1
 				and sublocation = %i",
 				$lang,
-				$placeId
+				$sublocation
 			];
 
 			if ($type != null) {

@@ -233,5 +233,25 @@ class MenuController {
 
 		return $menu;
 	}
-	
+
+	/**
+	 * Rekurzivně projde menu a poskládá drobečkovou navigaci
+	 * @param int $order
+	 * @param string $lang
+	 * @param Presenter $presenter
+	 * @return array
+	 */
+	public function createBreadcrumbs($order, $lang, Presenter $presenter) {
+		$breadcrumbsPath = [];
+
+		$menuItem = $this->menuRepository->getMenuEntityByOrder($order, $lang);
+		$link = $presenter->link(":Frontend:Show:Category", ['lang' => $lang, 'id' => $menuItem->getOrder(), 'seoText' => $menuItem->getLink()]);
+		$breadcrumbsPath[$menuItem->getTitle()] = $link;
+		if ($menuItem->hasPredecessor()) {
+			$predecessor = $this->menuRepository->getMenuEntityById($menuItem->getSubmenu());
+			$breadcrumbsPath = array_merge($breadcrumbsPath, $this->createBreadcrumbs($predecessor->getOrder(), $lang, $presenter));
+		}
+
+		return $breadcrumbsPath;
+	}
 }

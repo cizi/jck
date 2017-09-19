@@ -152,6 +152,7 @@ abstract class BasePresenter extends Presenter {
 		$this->template->enumRepo = $this->enumerationRepository;
 		$this->template->picRepo = $this->picRepository;
 		$this->template->months = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DEMEBER];
+		$this->template->days = [MON, THU, WED, THR, FRI, SAT, SUN];
 	}
 
 	/**
@@ -300,7 +301,7 @@ abstract class BasePresenter extends Presenter {
 	 */
 	protected function createComponentSearchForm() {
 		$form = $this->searchForm->create($this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess = $this->searchFormSubmit;
+		$form->onSuccess[] = $this->searchFormSubmit;
 
 		return $form;
 	}
@@ -310,6 +311,22 @@ abstract class BasePresenter extends Presenter {
 	 * @param $values
 	 */
 	public function searchFormSubmit(Form $form, $values) {
-
+		if (
+			(isset($values['search']) && trim($values['search']) == "")
+			&& (isset($values['destination']) && trim($values['destination']) == 0)
+		) {
+			$this->flashMessage(MAIN_SEARCH_REQ_FIELDS, "alert-danger");
+			$this->redirect("Homepage:Default", $this->langRepository->getCurrentLang($this->session));
+		} else {
+			$this->redirect(
+				"Show:Category",
+					$this->langRepository->getCurrentLang($this->session),
+					null,
+					"",
+					1,
+					$values['search'],
+					($values['destination'] != null ? $values['destination'] : null)
+			);
+		}
 	}
 }

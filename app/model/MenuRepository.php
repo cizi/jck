@@ -32,6 +32,7 @@ class MenuRepository extends BaseRepository {
 			$menuItem = new MenuEntity();
 			$menuItem->hydrate($item->toArray());
 			$menuItem->setHasSubItems($this->hasSubItems($lang, $level, $menuItem->getOrder()));
+			$menuItem->setHasPredecessor($menuItem->getSubmenu() != 0);
 			$items[] = $menuItem;
 		}
 
@@ -149,6 +150,7 @@ class MenuRepository extends BaseRepository {
 			$menuItem = new MenuEntity();
 			$menuItem->hydrate($item->toArray());
 			$menuItem->setHasSubItems($this->hasSubItems($lang, $level, $menuItem->getOrder()));
+			$menuItem->setHasPredecessor($menuItem->getSubmenu() != 0);
 			$items[] = $menuItem;
 		}
 
@@ -178,7 +180,6 @@ class MenuRepository extends BaseRepository {
 			$lang
 		];
 
-		//return (!empty($this->connection->query($query)->fetchAll()));
 		return (count($this->connection->query($query)->fetchAll()) != 0);
 	}
 
@@ -370,6 +371,7 @@ class MenuRepository extends BaseRepository {
 		$menuEntity = new MenuEntity();
 		$menuEntity->hydrate($result->toArray());
 		$menuEntity->setHasSubItems($this->hasSubItems($lang, $menuEntity->getLevel(), $menuEntity->getOrder()));
+		$menuEntity->setHasPredecessor($menuEntity->getSubmenu() != 0);
 
 		return $menuEntity;
 	}
@@ -431,18 +433,39 @@ class MenuRepository extends BaseRepository {
 	 * @param string $lang
 	 * @return array
 	 */
-	public function findPredecessors($order, $lang) {
+	public function findDescendantOrders($order, $lang) {
 		$allCategoriesOrder = [];
 		$menuItem = $this->getMenuEntityByOrder($order, $lang);
+		$allCategoriesOrder[] = $menuItem->getOrder();
 		if ($menuItem->hasSubItems()) {
 			/** @var MenuEntity[] $subItems */
 			$subItems = $this->findSubItems($menuItem->getId(), $lang, $menuItem->getLevel() + 1);
 			/** @var MenuEntity $item */
 			foreach ($subItems as $item) {
-				$allCategoriesOrder = array_merge($allCategoriesOrder, $this->findPredecessors($item->getOrder(), $lang));
+				$allCategoriesOrder = array_merge($allCategoriesOrder, $this->findDescendantOrders($item->getOrder(), $lang));
 			}
-		} else {
-			$allCategoriesOrder[] = $menuItem->getOrder();
+		}
+
+		return $allCategoriesOrder;
+	}
+
+	/**
+	 * @param $order
+	 * @param $lang
+	 */
+	public function findPrecedessorOrders($order, $lang) {
+
+	}
+
+	/**
+	 * @return array
+	 */
+	public function findAllCategoryOrders() {
+		$allCategoriesOrder = [];
+		$allItems = $this->findAllItems();
+		/** @var MenuEntity $item */
+		foreach ($allItems as $item) {
+			$allCategoriesOrder[] = $item->getOrder();
 		}
 
 		return $allCategoriesOrder;

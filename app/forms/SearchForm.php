@@ -55,7 +55,6 @@ class SearchForm extends Nette\Object {
 	 */
 	public function create($currentLang) {
 		$form = $this->factory->create();
-		$form->getElementPrototype()->addAttributes(["onsubmit" => "return requiredFields();"]);
 
 		$i = 0;
 		$form->addText("search", MAIN_PAGE_SEARCH)
@@ -67,7 +66,7 @@ class SearchForm extends Nette\Object {
 			->setAttribute("class", "form-control input-sm")
 			->setAttribute("tabindex", $i+1);
 
-		$form->addSubmit("confirm", MAIN_PAGE_SEARCH)
+		$form->addSubmit("confirmSearch", MAIN_PAGE_SEARCH)
 			->setAttribute("id", "searchFromSubmit")
 			->setAttribute("class","btn btn-primary btn-sm")
 			->setAttribute("tabindex", $i+1);

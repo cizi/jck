@@ -53,6 +53,7 @@ define("MAIN_SEARCH_TOMORROW", 'Tomorrow');
 define("MAIN_SEARCH_WEEKEND", 'Weekend');
 define("MAIN_SEARCH_SEARCH", 'Search');
 define("MAIN_SEARCH_HEADER", 'Date');
+define("MAIN_SEARCH_REQ_FIELDS", 'No search criteria filled!');
 
 // vlastní akce
 define("SUBMIT_OWN_EVENT_HEADER", 'Submit own event');
@@ -166,6 +167,14 @@ define("SEPTEMBER", 'september');
 define("OCTOBER", 'october');
 define("NOVEMBER", 'november');
 define("DEMEBER", 'december');
+
+define("MON", 'monday');
+define("THU", 'tuesday');
+define("WED", 'wednesday');
+define("THR", 'thursday');
+define("FRI", 'friday');
+define("SAT", 'saturday');
+define("SUN", 'sunday');
 
 // galerie
 define("GALLERY_TITLE", 'Gallery');

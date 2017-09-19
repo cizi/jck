@@ -4,6 +4,7 @@ namespace App\FrontendModule\Presenters;
 
 use App\Forms\FulltextSearchForm;
 use App\Model\Entity\ArticleEntity;
+use App\Model\Entity\MenuEntity;
 use App\Model\EnumerationRepository;
 use Nette\Forms\Form;
 use Nette\Utils\Paginator;
@@ -107,10 +108,10 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $seoText
 	 */
 	public function actionPlace($lang, $id, $seoText) {
-		$places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $id, EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
-		$this->template->place = (empty($places) ? new ArticleEntity() : reset($places));
-		$this->template->events = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $id, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
-		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $id, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
+		$place = $this->articleRepository->getArticle($id);
+		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
+		$this->template->events = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
+		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 	}
 
 	/**
@@ -124,11 +125,15 @@ class ShowPresenter extends BasePresenter {
 
 	/**
 	 * @param string $lang
-	 * @param int $id
+	 * @param int $id = order v menu
 	 * @param string $seoText
 	 */
-	public function actionCategory($lang, $id, $seoText, $page = 1, $query = null) {
-		$categories = $this->menuRepository->findPredecessors($id, $lang);
+	public function actionCategory($lang, $id, $seoText, $page = 1, $query = null, $sublocation = null) {
+		if ($id == null) {	// pokud je kategorie = NULL, hledám všude
+			$categories = $this->menuRepository->findAllCategoryOrders();
+		} else {	// jinak jen v konkrétní kategorii
+			$categories = $this->menuRepository->findDescendantOrders($id, $lang);
+		}
 		$articlesCount = $this->articleRepository->getActiveArticlesInLangCategoryCount($lang, $categories, $query);
 
 		$paginator = new Paginator();
@@ -140,17 +145,18 @@ class ShowPresenter extends BasePresenter {
 		$this->template->paginator = $paginator;
 		$this->template->query = $query;
 		$this->template->seoText = $seoText;
-		$this->template->clickedCategory = $this->menuRepository->getMenuEntityByOrder($id, $lang);
+		$this->template->clickedCategory = ($id != null ? $this->menuRepository->getMenuEntityByOrder($id, $lang) : new MenuEntity());
 		$articles = $this->articleRepository->findActiveArticlesInLangCategory(
 			$lang,
 			$categories,
 			$query,
+			$sublocation,
 			null,
 			$paginator->getLength(),
 			$paginator->getOffset()
 		);
 		$this->template->articles = $articles;
-
+		$this->template->breadcrumbs = ($id != null ? array_reverse($this->menuController->createBreadcrumbs($id, $lang, $this->presenter)) : []);
 		if ($query != null) {
 			$this['fulltextSearchForm']['search']->setDefaultValue($query);
 		}
