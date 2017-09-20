@@ -12,6 +12,13 @@ use Dibi\Row;
 
 class ArticleRepository extends BaseRepository {
 
+	/**
+	 * Maska data v DB
+	 */
+	const DB_DATE_MASK = 'Y-m-d';
+
+	const URL_DATE_MASK = 'd.m.Y';
+
 	/** @var  PicRepository */
 	private $picRepository;
 
@@ -208,6 +215,51 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->hydrate($item->toArray());
 			$articleEntity->setId($item['aID']);
 			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
+
+			$articles[] = $articleEntity;
+		}
+
+		return $articles;
+	}
+
+	/**
+	 * @param $lang
+	 * @param \DateTime $dateFrom
+	 * @param null $searchText
+	 * @param null $dateTo
+	 * @param int $type
+	 * @return array
+	 */
+	public function findActiveArticlesInLangByDate($lang, \DateTime $dateFrom, $searchText = null, \DateTime $dateTo = null, $type = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+		$dateFrom = ($dateFrom == null ? new DateTime() : $dateFrom);
+		$query = ["select distinct a.id, a.* 
+					from article_timetable as `at`
+						left join article as a on `at`.article_id = a.id
+						left join article_content as ac on `at`.article_id = ac.article_id
+						 where ac.lang = %s
+					and active = 1", $lang];
+
+		if (($dateFrom != null) && ($dateTo != null)) {
+			$query[] = sprintf(" and (`at`.date_from <= '%s' and `at`.date_to >= '%s')", $dateTo->format(self::DB_DATE_MASK), $dateFrom->format(self::DB_DATE_MASK));
+		} else {
+			$query[] = sprintf(" and `at`.date_from <= '%s' and `at`.date_to >= '%s'", $dateFrom->format(self::DB_DATE_MASK), $dateFrom->format(self::DB_DATE_MASK));
+		}
+		if ($searchText != null) {
+			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);
+		}
+		if ($type != null) {
+			$query[] = sprintf(" and a.type = %d", $type);
+		}
+		$query[] = "order by inserted_timestamp desc";
+
+		$result = $this->connection->query($query)->fetchAll();
+		$articles = [];
+		foreach ($result as $item) {
+			$articleEntity = new ArticleEntity();
+			$articleEntity->hydrate($item->toArray());
+			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 

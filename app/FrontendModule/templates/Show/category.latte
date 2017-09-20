@@ -23,51 +23,7 @@
 				{/form}
 			</div>
 
-			{foreach $articles as $article}
-				{switch $article->getType()}
-					{case $eventOrder}
-						{var target = "Show:Event"}
-					{case $textArticleOrder}
-						{var target = "Show:Detail"}
-					{case $placeOrder}
-						{var target = "Show:Place"}
-				{/switch}
-				<div class="hp_2_cols">
-					<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
-					{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
-					{var picUrl = "../../../../../www/images/not-available.png"}
-					{if $article->getPicId() != null}
-						{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
-					{else}
-						{var picUrl = $article->getPicUrl()}
-					{/if}
-					<a href={link $target, $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl} /></a>
-					<a class="title" href={link $target, $currentLang, $article->getId(), $urlTitle}>
-						{$article->getContents()[$currentLang]->getHeader()} <span class="badge">{$enumRepo->getEnumItemByOrder($currentLang, $article->getType())}</span>
-					</a>
-					<div>
-						<strong>
-							{if $article->getType() == $eventOrder}
-								{var timetables = $article->getTimetables()}
-								{var timetable = reset($timetables)}
-								{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
-								{if ($timetable->getDateFrom() != null) && ($timetable->getDateFrom() != '0000-00-00')}
-									- {$timetable->getDateFrom()->format('d.m.Y')}
-								{/if}
-								{$timetable->getTime()->format("%H:%S")}<br />
-								{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
-								{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br /><br />
-							{/if}
-						</strong>
-
-						{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
-						<div>
-							<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>
-							<button onclick="location.href='{link $target, $currentLang, $article->getId(), $urlTitle}'" class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</button>
-						</div>
-					</div>
-				</div>
-			{/foreach}
+			{include "../@articleListing.latte", $articles}
 
 			<div class="pagination">
 				{if !$paginator->isFirst()}

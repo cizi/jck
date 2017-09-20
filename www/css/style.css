@@ -693,6 +693,10 @@ small.calendarOnEvent {
 	border-bottom: 1px dotted grey;
 	margin-bottom: 10px;
 }
+.dottedBorderTop {
+	border-top: 1px dotted grey;
+	margin-top: 10px;
+}
 .fa-1_5x{
 	font-size: 1.5em!important;
 	padding: 0 5px 0 5px;

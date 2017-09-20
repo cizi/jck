@@ -60,7 +60,7 @@ class HomepagePresenter extends BasePresenter {
 	 */
 	public function createComponentMainPageSearchForm() {
 		$form = $this->mainPageSearchForm->create($this, $this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess = $this->mainPageSearchFormSubmit;
+		$form->onSuccess[] = $this->mainPageSearchFormSubmit;
 
 		return $form;
 	}
@@ -70,7 +70,15 @@ class HomepagePresenter extends BasePresenter {
 	 * @param $values
 	 */
 	public function mainPageSearchFormSubmit(Nette\Forms\Form $form, $values) {
-
+		$from = (isset($values['from']) ? $values['from'] : null);
+		$to = (isset($values['to']) ? $values['to'] : null);
+		$search = (isset($values['search']) ? $values['search'] : null);
+		if ($from == null) {
+			$this->flashMessage(MAIN_SEARCH_REQ_FIELDS, "alert-danger");
+			$this->redirect("Default");
+		} else {
+			$this->redirect("Show:SearchDate", $this->langRepository->getCurrentLang($this->session), $from, $to, $search);
+		}
 	}
 
 	/**

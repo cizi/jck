@@ -1,0 +1,60 @@
+{block content}
+	<div class="row">
+		<div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-xs-12 paddingRight0"> {* filtr *}
+			<div class="dottedBorderBottom">
+				{form mainPageSearchForm}
+					<div class="row">
+						<div class="col-lg-1 col-md-1 col-sm-0 col-xs-12"></div>
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							{label from/} {input from}
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							{label to/} {input to}
+						</div>
+						<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+							{label today/} {input today}
+							{label tomorrow/} {input tomorrow}
+							{label weekend/} {input weekend}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-1 col-md-1 col-sm-0 col-xs-12"></div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+							{label search/} {input search}
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+							{label searchSubmit/} {input searchSubmit}
+						</div>
+					</div>
+				{/form}<br /><br />
+			</div>
+			{include '../@articleListing.latte', $articles}
+
+		</div>
+		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12 paddingRight0">
+			{include '../@rightPanel.latte'}
+		</div>
+	</div>
+
+	<script>
+		$("#frm-mainPageSearchForm-from").datetimepicker({
+			format: 'dd.mm.yyyy',
+			language: {$currentLang},
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+		});
+
+		$("#frm-mainPageSearchForm-to").datetimepicker({
+			format: 'dd.mm.yyyy',
+			language: {$currentLang},
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+		});
+	</script>
+{/block}

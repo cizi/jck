@@ -3,6 +3,7 @@
 namespace App\FrontendModule\Presenters;
 
 use App\Forms\FulltextSearchForm;
+use App\Model\ArticleRepository;
 use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\MenuEntity;
 use App\Model\EnumerationRepository;
@@ -193,8 +194,57 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $from format d.m.Y
 	 * @param string [$to] format d.m.Y
 	 */
-	public function actionSearchDate($lang, $from, $to = "") {
-		dump($lang, $from,$to);	// TODO
-		$this->terminate();
+	public function actionSearchDate($lang, $from, $to, $searchText) {
+		try {
+			$dateFrom = \DateTime::createFromFormat(ArticleRepository::URL_DATE_MASK, $from);
+			if ($dateFrom == false) {
+				throw new \Exception();
+			}
+		} catch (\Exception $e) {
+			$dateFrom = null;
+		}
+		try {
+			$dateTo = \DateTime::createFromFormat(ArticleRepository::URL_DATE_MASK, $to);
+			if ($dateTo == false) {
+				throw new \Exception();
+			}
+		} catch (\Exception $e) {
+			$dateTo = null;
+		}
+
+		if ($dateFrom != null) {
+			$this['mainPageSearchForm']['from']->setDefaultValue($dateFrom->format(ArticleRepository::URL_DATE_MASK));
+		}
+		if ($dateTo != null) {
+			$this['mainPageSearchForm']['to']->setDefaultValue($dateTo->format(ArticleRepository::URL_DATE_MASK));
+		}
+		$this['mainPageSearchForm']['search']->setDefaultValue($searchText);
+		$this->template->articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, $searchText, $dateTo);
+	}
+
+	/**
+	 * @return Form
+	 */
+	public function createComponentMainPageSearchForm() {
+		$form = $this->mainPageSearchForm->create($this, $this->langRepository->getCurrentLang($this->session));
+		$form->onSuccess[] = $this->mainPageSearchFormSubmit;
+
+		return $form;
+	}
+
+	/**
+	 * @param Form $form
+	 * @param $values
+	 */
+	public function mainPageSearchFormSubmit(Form $form, $values) {
+		$from = (isset($values['from']) ? $values['from'] : null);
+		$to = (isset($values['to']) ? $values['to'] : null);
+		$search = (isset($values['search']) ? $values['search'] : null);
+		if ($from == null) {
+			$this->flashMessage(MAIN_SEARCH_REQ_FIELDS, "alert-danger");
+			$this->redirect("Homepage:Default");
+		} else {
+			$this->redirect("SearchDate", $this->langRepository->getCurrentLang($this->session), $from, $to, $search);
+		}
 	}
 }

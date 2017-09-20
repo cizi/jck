@@ -71,7 +71,7 @@ class MainPageSearchForm extends Nette\Object {
 			$dSunday = clone ($now->format("l") == "Sunday" ? $now : $now->modify('+1 day'));
 		} else {
 			$dSaturday = new \DateTime("next saturday");
-			$dSunday = new \DateTime("next saturday");
+			$dSunday = new \DateTime("next sunday");
 		}
 
 		$searchParams = [

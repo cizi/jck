@@ -21,6 +21,8 @@ class CalendarPresenter extends BasePresenter {
 		$endDate = clone $dateFrom;
 		$this->template->startDate = $dateFrom;
 		$this->template->endDate = $endDate->modify( '+7 day' );
+
+		$this->template->articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom);
 	}
 
 	public function actionPlusWeek($lang, $id, $seoText) {
