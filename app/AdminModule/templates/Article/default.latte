@@ -19,7 +19,11 @@
 							<br /><br />
 
 							<div class="container userTable">
-								<table class="table table-striped">
+								<div class="dottedBorderTop">
+									{control articleFilterForm}
+								</div>
+
+								<table class="table table-striped dottedBorderTop">
 									<thead>
 									<tr>
 										<th>{=ARTICLE_CONTENT_HEADER}</th>
@@ -129,6 +133,11 @@
 	</div>
 
 	<script>
+		$("#frm-articleFilterForm-menuOrders").chosen({
+			placeholder_text_multiple: {=CHOSEN_PICKUP},
+			no_results_text: {=CHOSEN_NO_MATCH}
+		});
+
 		$('#confirm-delete').on('show.bs.modal', function(e) {
 			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		});

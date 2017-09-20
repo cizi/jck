@@ -3,9 +3,18 @@
 namespace App\FrontendModule\Presenters;
 
 
+use App\Forms\FulltextSearchForm;
 use Dibi\DateTime;
+use Nette\Forms\Form;
 
 class CalendarPresenter extends BasePresenter {
+
+	/** @var FulltextSearchForm */
+	private $fulltextSearchForm;
+
+	public function __construct(FulltextSearchForm $fulltextSearchForm) {
+		$this->fulltextSearchForm = $fulltextSearchForm;
+	}
 
 	/**
 	 * @param $lang

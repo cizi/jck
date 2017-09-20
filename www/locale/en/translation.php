@@ -153,6 +153,10 @@ define("ARTICLE_EVENT_INFO", 'Info');
 define("ARTICLE_EVENT_PLACES", 'Place');
 define("ARTICLE_EVENT_PLACE_EVENTS", 'Events');
 define("ARTICLE_EVENT_PLACE_ARTICLES", 'Articles');
+define("ARTICLE_TRIGGER_FILTER", 'Filter');
+define("ARTICLE_ACTIVITY_BOTH", 'Active / inactive');
+define("ARTICLE_ACTIVITY_INACTIVE", 'Inactive');
+define("ARTICLE_ACTIVITY_ACTIVE", 'Active');
 
 // měsíce
 define("JANUARY", 'january');

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\Entity\MenuEntity;
+use App\Model\EnumerationRepository;
 use App\Model\MenuRepository;
 use Dibi\DateTime;
 use Nette\Application\UI\Link;
@@ -21,8 +22,13 @@ class MenuController {
 	 * @param string $lang
 	 * @return array
 	 */
-	public function findMenuCategoriesForSelect($lang) {
-		$cats = [];
+	public function findMenuCategoriesForSelect($lang, $withEmpty = false) {
+		if ($withEmpty) {
+			$cats[0] = EnumerationRepository::NOT_SELECTED;
+		} else {
+			$cats = [];
+		}
+
 		$categories = $this->menuRepository->findAllItems();
 		/** @var MenuEntity $category */
 		foreach ($categories as $category) {

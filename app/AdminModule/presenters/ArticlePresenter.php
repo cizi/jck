@@ -3,8 +3,8 @@
 namespace App\AdminModule\Presenters;
 
 use App\Controller\FileController;
+use App\Forms\ArticleFilterForm;
 use App\Forms\ArticleForm;
-use App\Model\ArticleRepository;
 use App\Model\ArticleTimetableRepository;
 use App\Model\Entity\ArticleCategoryEntity;
 use App\Model\Entity\ArticleContentEntity;
@@ -12,18 +12,21 @@ use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\ArticleTimetableEntity;
 use App\Model\Entity\PicEntity;
 use App\Model\EnumerationRepository;
-use App\Model\LangRepository;
-use App\Model\PicRepository;
 use App\Model\UserRepository;
-use Kdyby\Replicator\Container;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 use Nette\Utils\ArrayHash;
 
 class ArticlePresenter extends SignPresenter {
 
+	/** @persistent */
+	public $filter;
+
 	/** @var ArticleForm */
 	private $articleForm;
+
+	/** @var ArticleFilterForm */
+	private $articleFilterForm;
 
 	/** @var UserRepository */
 	private $userRepository;
@@ -33,21 +36,27 @@ class ArticlePresenter extends SignPresenter {
 
 	public function __construct(
 		ArticleForm $articleForm,
+		ArticleFilterForm $articleFilterForm,
 		UserRepository $userRepository,
 		ArticleTimetableRepository $articleTimetableRepository
 	) {
 		$this->articleForm = $articleForm;
+		$this->articleFilterForm = $articleFilterForm;
 		$this->userRepository = $userRepository;
 		$this->articleTimetableRepository = $articleTimetableRepository;
 	}
 
 	public function actionDefault($id) {
+		$filter = $this->decodeFilterFromQuery();
+		//dump($filter);
+		$this['articleFilterForm']->setDefaults($filter);
+
 		$currentLang = $this->langRepository->getCurrentLang($this->session);
 		$this->template->currentLang = $currentLang;
 		$this->template->userRepo = $this->userRepository;
 		$this->template->enumRepo = $this->enumerationRepository;
 		$this->template->menuRepo = $this->menuRepository;
-		$this->template->articles = $this->articleRepository->findArticlesInLang($currentLang);
+		$this->template->articles = $this->articleRepository->findArticlesInLang($currentLang, null, $filter);
 		$this->template->typPrispevkuAkceOrder = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 	}
 
@@ -236,4 +245,42 @@ class ArticlePresenter extends SignPresenter {
 		$this->redirect("edit", $articleId);
 	}
 
+	public function createComponentArticleFilterForm() {
+		$form = $this->articleFilterForm->create($this->langRepository->getCurrentLang($this->session));
+		$form->onSuccess[] = $this->articleFilterFormSubmit;
+
+		$renderer = $form->getRenderer();
+		$renderer->wrappers['controls']['container'] = NULL;
+		$renderer->wrappers['pair']['container'] = 'div class=form-group';
+		$renderer->wrappers['pair']['.error'] = 'has-error';
+		$renderer->wrappers['control']['container'] = 'div class=col-md-3';
+		$renderer->wrappers['label']['container'] = 'div class="col-md-1 control-label margin5"';
+		$renderer->wrappers['control']['description'] = 'span class=help-block';
+		$renderer->wrappers['control']['errorcontainer'] = 'span class=help-block';
+
+		return $form;
+	}
+
+	/**
+	 * @param Form $form
+	 * @param $values
+	 */
+	public function articleFilterFormSubmit(Form $form) {
+		$filter = "1&";
+		$data = $form->getHttpData();
+
+		foreach ($data as $key => $value) {
+			if (is_array($value)) {	// kategorie
+				$filter .= $key . "=";
+				for ($i = 0; $i < count($value); $i++) {
+					$filter .= $value[$i];
+					$filter .= (($i+1) == count($value) ? "&" : ",");
+				}
+			} else if ($value != "") {
+				$filter .= $key . "=" . $value . "&";
+			}
+		}
+		$this->filter = $filter;
+		$this->redirect("default");
+	}
 }

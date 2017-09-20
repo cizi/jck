@@ -155,6 +155,10 @@ define("ARTICLE_EVENT_INFO", 'Informace');
 define("ARTICLE_EVENT_PLACES", 'Místo');
 define("ARTICLE_EVENT_PLACE_EVENTS", 'Události');
 define("ARTICLE_EVENT_PLACE_ARTICLES", 'Články');
+define("ARTICLE_TRIGGER_FILTER", 'Filtrovat');
+define("ARTICLE_ACTIVITY_BOTH", 'Aktivní / neaktivní');
+define("ARTICLE_ACTIVITY_INACTIVE", 'Neaktivní');
+define("ARTICLE_ACTIVITY_ACTIVE", 'Aktivní');
 
 // měsíce
 define("JANUARY", 'leden');

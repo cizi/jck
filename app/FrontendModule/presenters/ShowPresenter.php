@@ -201,7 +201,7 @@ class ShowPresenter extends BasePresenter {
 				throw new \Exception();
 			}
 		} catch (\Exception $e) {
-			$dateFrom = null;
+			$dateFrom = new \DateTime();
 		}
 		try {
 			$dateTo = \DateTime::createFromFormat(ArticleRepository::URL_DATE_MASK, $to);

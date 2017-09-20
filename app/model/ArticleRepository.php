@@ -48,28 +48,29 @@ class ArticleRepository extends BaseRepository {
 	 * @param null $type
 	 * @return array
 	 */
-	public function findArticlesInLang($lang, $type = null) {
-		$query = ["
-			select *, a.id as aID, ac.article_id as acId 
-			from article as a 
-				left join article_content as ac on a.id = ac.article_id
-			where ac.lang = %s
-			order by inserted_timestamp desc
-			",
-			$lang
-		];
+	public function findArticlesInLang($lang, $type = null, $filter = null) {
+		if ($filter == null) {
+			$query = ["select * from article as a "];
+		} else {
+			if ($filter['active'] == 2) {
+				$filter['active'] = 0;
+			}
+			if (isset($filter['menuOrders'])) {
+				$menuOrders = $filter['menuOrders'];
+				unset($filter['menuOrders']);
+				$query = ["select a.* from article as a left join article_category as ac on a.id = ac.article_id where menu_order in %in and %and", $menuOrders, $filter];
+			} else {
+				$query = ["select a.* from article as a where 1 and %and", $filter];
+			}
+		}
+		$query[] = " order by inserted_timestamp desc";
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
 		foreach ($result as $item) {
-			$articleContentEntity = new ArticleContentEntity();
-			$articleContentEntity->hydrate($item->toArray());
-			$articleContentEntity->setId($item['acId']);
-
 			$articleEntity = new ArticleEntity();
 			$articleEntity->hydrate($item->toArray());
-			$articleEntity->setId($item['aID']);
-			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 

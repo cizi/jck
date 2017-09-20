@@ -9,7 +9,8 @@
 							<span class="input-group-addon calendarIconTrigger">
                         		<span class="glyphicon glyphicon-calendar"></span>
                     		</span>
-							<strong>{$months[$startDate->format('m')-1]} {$startDate->format('Y')}</strong>
+							<strong>{$months[$startDate->format('m')-1]} {$startDate->format('Y')}</strong><br />
+							<a href={link Show:SearchDate $currentLang}><span class="glyphicon glyphicon glyphicon-search" style="font-size: 20px"></span></a>
 						</div>
 					</td>
 					{var begin = $startDate}

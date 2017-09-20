@@ -329,4 +329,34 @@ abstract class BasePresenter extends Presenter {
 			);
 		}
 	}
+	/**
+	 * @return array
+	 */
+	public function decodeFilterFromQuery() {
+		$filter = [];
+		if ($this->filter != "") {
+			$arr = explode("&", $this->filter);
+			foreach ($arr as $filterItem) {
+				$filterPiece = explode("=", $filterItem);
+				if (
+					(count($filterPiece) > 1)
+					&& ($filterPiece[0] != "")
+					&& ($filterPiece[1] != "")
+					&& ($filterPiece[0] != "filter")
+					&& ($filterPiece[0] != "confirm")
+					&& ($filterPiece[0] != "do")
+					&& ($filterPiece[1] != "0")
+				) {
+					if ($filterPiece[0] == "menuOrders") {
+						$filter[$filterPiece[0]] = explode(",", $filterPiece[1]);
+					} else {
+						$filter[$filterPiece[0]] = $filterPiece[1];
+					}
+				}
+			}
+		}
+
+		return $filter;
+	}
+
 }
