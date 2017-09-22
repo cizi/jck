@@ -111,8 +111,9 @@ class ShowPresenter extends BasePresenter {
 	public function actionPlace($lang, $id, $seoText) {
 		$place = $this->articleRepository->getArticle($id);
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
-		$this->template->events = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
-		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
+		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
+		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
+
 	}
 
 	/**

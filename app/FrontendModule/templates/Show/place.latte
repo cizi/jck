@@ -50,8 +50,8 @@
 
 			<ul id = "myTab" class = "nav nav-tabs">
 				<li class="active"><a href="#info" data-toggle="tab">{=ARTICLE_EVENT_INFO}</a></li>
-				{if count($events)}<li><a href="#events" data-toggle="tab">{=ARTICLE_EVENT_PLACE_EVENTS} ({count($events)})</a></li>{/if}
-				{if count($articles)}<li><a href="#articles" data-toggle="tab">{=ARTICLE_EVENT_PLACE_ARTICLES} ({count($articles)})</a></li>{/if}
+				{if count($articles)}<li><a href="#events" data-toggle="tab">{=ARTICLE_EVENT_PLACE_EVENTS} ({count($articles)})</a></li>{/if}
+				{if count($textArticles)}<li><a href="#articles" data-toggle="tab">{=ARTICLE_EVENT_PLACE_ARTICLES} ({count($textArticles)})</a></li>{/if}
 			</ul>
 
 			<div id = "myTabContent" class = "tab-content">
@@ -59,35 +59,15 @@
 					{$place->getContents()[$currentLang]->getContent()|noescape}
 				</div>
 
-				{if count($events)}
+				{if count($articles)}
 					<div class="tab-pane fade" id="events">
-						{foreach $events as $event}
-							<div class="hp_2_cols">
-								<h1 class="seo">{$event->getContents()[$currentLang]->getSeo()}</h1>
-								{var urlTitle = Nette\Utils\Strings::webalize($event->getContents()[$currentLang]->getHeader())}
-								{*<a href={link "Detail", $currentLang, $event->getId(), $urlTitle}>*}
-								{if $event->getPicId() != null}
-									{var picUrl = $picRepo->getById($event->getPicId())}
-									<a href={link "Show:Event", $currentLang, $event->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
-								{/if}
-								<a href={link "Show:Event", $currentLang, $event->getId(), $urlTitle}>
-									<h3>{$event->getContents()[$currentLang]->getHeader()}</h3>
-								</a>
-								<div>
-									{strip_tags($event->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
-									<div>
-										<span>{$event->getInsertedTimestamp()->format('d.m.Y')}</span>
-										<button onclick="location.href={link "Show:Event", $currentLang, $event->getId(), $urlTitle}" class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</button>
-									</div>
-								</div>
-							</div>
-						{/foreach}
+						{include "../@articleListing.latte", $articles}
 					</div>
 				{/if}
 
-				{if count($articles)}
+				{if count($textArticles)}
 					<div class="tab-pane fade" id="articles">
-						{foreach $articles as $article}
+						{foreach $textArticles as $article}
 							<div class="hp_2_cols">
 								<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
 								{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}

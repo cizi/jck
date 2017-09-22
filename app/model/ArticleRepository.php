@@ -87,18 +87,31 @@ class ArticleRepository extends BaseRepository {
 	 * @return int
 	 */
 	public function getActiveArticlesInLangCount($lang, $type) {
-		$query = ["
-			select count(a.id) as articleCount
-			from article as a 
-				left join article_content as ac on a.id = ac.article_id
-			where ac.lang = %s
-				and active = 1
-				and a.type = %i
-			order by inserted_timestamp desc
-			",
-			$lang,
-			$type
-		];
+		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+			$query = ["select count(distinct a.id) as articleCount
+						from article_timetable as `at`
+							left join article as a on `at`.article_id = a.id
+							left join article_content as ac on `at`.article_id = ac.article_id
+							 where `at`.date_from <= %s and `at`.date_to >= %s 
+							  and ac.lang = %s
+							  and a.active = 1
+							  and a.type = %i",
+				(new DateTime())->format(self::DB_DATE_MASK),
+				(new DateTime())->format(self::DB_DATE_MASK),
+				$lang,
+				$type
+			];
+		} else {
+			$query = ["select count(a.id) as articleCount
+						from article as a 
+							left join article_content as ac on a.id = ac.article_id
+						where ac.lang = %s
+							and active = 1
+							and a.type = %i",
+				$lang,
+				$type
+			];
+		}
 
 		return $this->connection->query($query)->fetchSingle();
 	}
@@ -111,33 +124,39 @@ class ArticleRepository extends BaseRepository {
 	 * @return array
 	 */
 	public function findActiveArticlesInLang($lang, $type = null, $paginatorLength = 0, $offset = 0) {
-		$query = ["
-			select *, a.id as aID, ac.article_id as acId 
-			from article as a 
-				left join article_content as ac on a.id = ac.article_id
-			where ac.lang = %s
-				and active = 1", $lang];
-
+		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+			$query = ["select distinct a.id, a.*  
+						from article_timetable as `at`
+							left join article as a on `at`.article_id = a.id
+							left join article_content as ac on `at`.article_id = ac.article_id
+							 where `at`.date_from <= %s and `at`.date_to >= %s 
+							  and ac.lang = %s
+							  and a.active = 1",
+				(new DateTime())->format(self::DB_DATE_MASK),
+				(new DateTime())->format(self::DB_DATE_MASK),
+				$lang
+			];
+		} else {
+			$query = ["select a.*  
+				from article as a 
+					left join article_content as ac on a.id = ac.article_id
+				where ac.lang = %s
+					and active = 1", $lang];
+		}
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
 		$query[] = "order by inserted_timestamp desc";
 		if ($paginatorLength != 0 ) {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
-
 		}
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
 		foreach ($result as $item) {
-			$articleContentEntity = new ArticleContentEntity();
-			$articleContentEntity->hydrate($item->toArray());
-			$articleContentEntity->setId($item['acId']);
-
 			$articleEntity = new ArticleEntity();
 			$articleEntity->hydrate($item->toArray());
-			$articleEntity->setId($item['aID']);
-			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 
@@ -148,17 +167,32 @@ class ArticleRepository extends BaseRepository {
 	}
 
 	public function getActiveArticlesInLangCategoryCount($lang, array $categories, $searchText = null, $type = null) {
-		$query = ["
-			select count(a.id) as articleCount   
-			from article as a 
-				left join article_content as ac on a.id = ac.article_id
-				left join article_category as aca on a.id = aca.article_id 
-			where ac.lang = %s
-				and active = 1 
-				and `aca.menu_order` in %in",
-			$lang,
-			$categories];
-
+		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+			$query = ["select count(distinct a.id) as articleCount
+						from article_timetable as `at`
+							left join article as a on `at`.article_id = a.id
+							left join article_content as ac on `at`.article_id = ac.article_id
+							left join article_category as aca on a.id = aca.article_id
+							 where `at`.date_from <= %s and `at`.date_to >= %s 
+							  and ac.lang = %s
+							  and a.active = 1
+							  and `aca.menu_order` in %in",
+				(new DateTime())->format(self::DB_DATE_MASK),
+				(new DateTime())->format(self::DB_DATE_MASK),
+				$lang,
+				$categories
+			];
+		} else {
+			$query = ["select count(a.id) as articleCount   
+						from article as a 
+							left join article_content as ac on a.id = ac.article_id
+							left join article_category as aca on a.id = aca.article_id 
+						where ac.lang = %s
+							and active = 1 
+							and `aca.menu_order` in %in",
+							$lang,
+							$categories];
+		}
 		if ($searchText != null) {
 			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like '%%%s%%'", $searchText);
 		}
@@ -179,16 +213,33 @@ class ArticleRepository extends BaseRepository {
 	 * @return array
 	 */
 	public function findActiveArticlesInLangCategory($lang, array $categories, $searchText = null, $sublocation = null, $type = null, $paginatorLength = 0, $offset = 0) {
-		$query = ["
-			select *, a.id as aID, ac.article_id as acId   
-			from article as a 
-				left join article_content as ac on a.id = ac.article_id
-				left join article_category as aca on a.id = aca.article_id 
-			where ac.lang = %s
-				and active = 1 
-				and `aca.menu_order` in %in",
-			$lang,
-			$categories];
+		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+			$query = ["select a.* 
+						from article_timetable as `at`
+							left join article as a on `at`.article_id = a.id
+							left join article_content as ac on `at`.article_id = ac.article_id
+							left join article_category as aca on a.id = aca.article_id
+							 where `at`.date_from <= %s and `at`.date_to >= %s 
+							  and ac.lang = %s
+							  and a.active = 1
+							  and `aca.menu_order` in %in",
+				(new DateTime())->format(self::DB_DATE_MASK),
+				(new DateTime())->format(self::DB_DATE_MASK),
+				$lang,
+				$categories
+			];
+		} else {
+			$query = ["select a.*    
+						from article as a 
+							left join article_content as ac on a.id = ac.article_id
+							left join article_category as aca on a.id = aca.article_id 
+						where ac.lang = %s
+							and active = 1 
+							and `aca.menu_order` in %in",
+							$lang,
+							$categories
+						];
+		}
 
 		if ($searchText != null) {
 			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);
@@ -202,20 +253,14 @@ class ArticleRepository extends BaseRepository {
 		$query[] = "order by inserted_timestamp desc";
 		if ($paginatorLength != 0 ) {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
-
 		}
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
 		foreach ($result as $item) {
-			$articleContentEntity = new ArticleContentEntity();
-			$articleContentEntity->hydrate($item->toArray());
-			$articleContentEntity->setId($item['acId']);
-
 			$articleEntity = new ArticleEntity();
 			$articleEntity->hydrate($item->toArray());
-			$articleEntity->setId($item['aID']);
-			$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
 			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 
@@ -279,18 +324,29 @@ class ArticleRepository extends BaseRepository {
 	public function findActiveArticleByPlaceInLang($lang, $sublocation, $type = null) {
 		$places = [];
 		if ($sublocation != null) {
-			$query = [
-				"
-			select *, a.id as aID, ac.article_id as acId 
-			from article as a 
-				left join article_content as ac on a.id = ac.article_id
-			where ac.lang = %s
-				and active = 1
-				and sublocation = %i",
-				$lang,
-				$sublocation
-			];
-
+			if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+				$query = ["select distinct a.* 
+							from article_timetable as `at`
+								left join article as a on `at`.article_id = a.id
+								left join article_content as ac on `at`.article_id = ac.article_id
+								 where `at`.date_from <= %s and `at`.date_to >= %s 
+								  and ac.lang = %s
+								  and a.active = 1
+								  and a.sublocation = %i",
+							(new DateTime())->format(self::DB_DATE_MASK),
+							(new DateTime())->format(self::DB_DATE_MASK),
+							$lang,
+							$sublocation];
+			} else {
+				$query = ["select a.*  
+							from article as a 
+								left join article_content as ac on a.id = ac.article_id
+							where ac.lang = %s
+								and active = 1
+								and sublocation = %i",
+						$lang,
+						$sublocation];
+			}
 			if ($type != null) {
 				$query[] = sprintf(" and a.type = %d", $type);
 			}
@@ -298,14 +354,9 @@ class ArticleRepository extends BaseRepository {
 
 			$result = $this->connection->query($query)->fetchAll();
 			foreach ($result as $item) {
-				$articleContentEntity = new ArticleContentEntity();
-				$articleContentEntity->hydrate($item->toArray());
-				$articleContentEntity->setId($item['acId']);
-
 				$articleEntity = new ArticleEntity();
 				$articleEntity->hydrate($item->toArray());
-				$articleEntity->setId($item['aID']);
-				$articleEntity->setContents([$articleContentEntity->getLang() => $articleContentEntity]);
+				$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
 				$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 				$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 
@@ -604,22 +655,6 @@ class ArticleRepository extends BaseRepository {
 	public function setArticleInactive($id) {
 		$query = ["update article set active = 0 where id = %i", $id];
 		return $this->connection->query($query);
-	}
-
-	/**
-	 * @param string $lang
-	 * @return array
-	 */
-	public function findArticlesForSelect($lang) {
-		$result[0] = EnumerationRepository::NOT_SELECTED;
-		$query = ["select a.*, ac.header from article as a left join article_content as ac on a.id = ac.article_id where lang = %s", $lang];
-		$queryResult = $this->connection->query($query)->fetchAll();
-
-		foreach ($queryResult as $item) {
-			$result[$item['id']] = $item['header'];
-		}
-
-		return $result;
 	}
 
 	/**
