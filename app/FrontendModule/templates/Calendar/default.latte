@@ -23,7 +23,7 @@
 								<a class="floatLeft" href={link minusWeek $currentLang, $startDate->format('Y-m-d')}> < </a>
 							{/if}
 
-							<a href={link default $currentLang, $dt->format('Y-m-d')}>{$dt->format('j. n.')}</a>
+							<a href={link default $currentLang, $dt->format('Y-m-d'), null, $dt->format('Y-m-d')}>{$dt->format('j. n.')}</a>
 							{if $iterator->isLast()}
 								<a class="floatRight" href={link plusWeek $currentLang, $startDate->format('Y-m-d')}> > </a>
 							{/if}

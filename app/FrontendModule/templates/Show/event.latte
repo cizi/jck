@@ -8,9 +8,7 @@
 					{var timetables = $article->getTimetables()}
 					{var timetable = reset($timetables)}
 					{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
-					{if ($timetable->getDateFrom() != null) && ($timetable->getDateFrom() != '0000-00-00')}
-						- {$timetable->getDateFrom()->format('d.m.Y')}
-					{/if}
+					- {$article->getLastTimetableDate()->format('d.m.Y')}
 					{$timetable->getTime()->format("%H:%S")}<br />
 					{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
 				</div>
@@ -54,7 +52,6 @@
 				{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
 					{var begin = $timetable->getDateFrom()}
 					{var end = $timetable->getDateTo()->modify( '+1 day' )}
-					{var end = $end->modify( '+1 day' )}
 					{var interval = DateInterval::createFromDateString('1 day')}
 					{var period = new DatePeriod($begin, $interval, $end)}
 					{foreach $period as $dt}

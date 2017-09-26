@@ -58,9 +58,9 @@ class ArticleRepository extends BaseRepository {
 			if (isset($filter['menuOrders'])) {
 				$menuOrders = $filter['menuOrders'];
 				unset($filter['menuOrders']);
-				$query = ["select a.* from article as a left join article_category as ac on a.id = ac.article_id where menu_order in %in and %and", $menuOrders, $filter];
+				$query = ["select a.* from article as a left join article_category as ac on a.id = ac.article_id where menu_order in %in and %and order by id desc", $menuOrders, $filter];
 			} else {
-				$query = ["select a.* from article as a where 1 and %and", $filter];
+				$query = ["select a.* from article as a where 1 and %AND order by id desc", $filter];
 			}
 		}
 		$query[] = " order by inserted_timestamp desc";
@@ -374,7 +374,7 @@ class ArticleRepository extends BaseRepository {
 	 * @return array
 	 */
 	public function findArticles($type = null) {
-		$query = ["select * from article order by inserted_timestamp desc"];
+		$query = ["select * from article order by order by id desc"];
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];

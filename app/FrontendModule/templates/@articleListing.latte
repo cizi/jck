@@ -26,9 +26,7 @@
 					{var timetables = $article->getTimetables()}
 					{var timetable = reset($timetables)}
 					{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
-					{if ($timetable->getDateFrom() != null) && ($timetable->getDateFrom() != '0000-00-00')}
-						- {$timetable->getDateFrom()->format('d.m.Y')}
-					{/if}
+					- {$article->getLastTimetableDate()->format('d.m.Y')}
 					{$timetable->getTime()->format("%H:%S")}<br />
 					{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
 					{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br /><br />

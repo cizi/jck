@@ -398,6 +398,20 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return \DateTime
+	 */
+	public function getLastTimetableDate() {
+		$lastDate = new \DateTime();
+		foreach ($this->getTimetables() as $timetable) {
+			if ($lastDate < $timetable->getDateTo()) {
+				$lastDate = $timetable->getDateTo();
+			}
+		}
+
+		return $lastDate;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function extract() {

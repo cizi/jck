@@ -1,0 +1,56 @@
+{if $sliderEnabled}
+	<div class="row banners">
+		<div class="col-lg-8 col-md-6 col-sm-6 col-xs-6 paddingRight0">
+			{if count($sliderPics)}
+				<ul class="bxslider" style="opacity: 0;">
+					{foreach $sliderPics as $article}
+						{if !empty($article->getPicUrl())}
+							<li>
+								{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+								<a href={link Show:Event $currentLang, $article->getId(), $urlTitle} target="_blank">
+									<img alt={$article->getContents()[$currentLang]->getHeader()} src="{$article->getPicUrl()}" />
+									<div class="caption1">
+										<div class="caption2">
+											<a href={link Show:Event $currentLang, $article->getId(), $urlTitle}>{$article->getContents()[$currentLang]->getHeader()|upper}</a>
+										</div>
+										<span>
+											{if count($article->getTimetables())}
+												{var timetable = $article->getTimetables()[0]}
+												{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
+												{if ($timetable->getDateFrom() != null) && ($timetable->getDateFrom() != '0000-00-00')}
+													- {$timetable->getDateFrom()->format('d.m.Y')}
+												{/if}
+												{$timetable->getTime()->format("%H:%S")}
+											{/if}
+										</span><br />
+										<span>
+											{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
+											{if !empty($article->getAddress())}{$article->getAddress()}{/if}
+											<br /><br />
+										</span>
+									</div>
+								</a>
+							</li>
+						{/if}
+					{/foreach}
+				</ul>
+			{/if}
+		</div>
+		<div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+			<div class="largeRectangle">
+				{if $largeRectangle != null}
+					<a href={link Show:Banner $currentLang, $largeRectangle->getId()} target="_blank">
+						<img alt={$largeRectangle->getTitle()} src="{$largeRectangle->getImg()}" />
+					</a>
+				{/if}
+			</div>
+			<div class="middleRectangle">
+				{if $middleRectangle != null}
+					<a href={link Show:Banner $currentLang, $middleRectangle->getId()} target="_blank">
+						<img alt={$middleRectangle->getTitle()} src="{$middleRectangle->getImg()}" />
+					</a>
+				{/if}
+			</div>
+		</div>
+	</div>
+{/if}
