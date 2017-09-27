@@ -5,10 +5,10 @@
 	{case $textArticleOrder}
 	{var target = "Show:Detail"}
 	{case $placeOrder}
-	{var target = "Show:Place"}
+	{var target = "Show:City"}
 	{/switch}
 	<div class="hp_2_cols">
-		<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
+		<h1 class="seo">{$article->getContents()[$currentLang]->getHeader()}</h1>
 		{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 		{var picUrl = "../../../../../www/images/not-available.png"}
 		{if $article->getPicId() != null}

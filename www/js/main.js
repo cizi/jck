@@ -30,7 +30,7 @@ function linkChanged() {
  *
  */
 function truncateString(str) {
-	// UTF8 "ěščřžýáíéťúůóď�?ľĺ"
+	// UTF8 "ěščřžýáíéťúůóď�?ľĺ"
 	convFromL = String.fromCharCode(283,353,269,345,382,253,225,237,233,357,367,250,243,271,328,318,314);
 	// UTF8 "escrzyaietuuodnll"
 	convToL = String.fromCharCode(101,115,99,114,122,121,97,105,101,116,117,117,111,100,110,108,108);
@@ -72,4 +72,15 @@ function trim(string) {
 	//var re= /^\s|\s$/g;
 	var re= /^\s*|\s*$/g;
 	return string.replace(re,"");
+}
+
+function rewriteContent() {
+	$("#frm-articleForm-en-header").val($("#frm-articleForm-cs-header").val());
+	$("#frm-submitForm-en-header").val($("#frm-submitForm-cs-header").val());
+	if (typeof tinyMCE === 'undefined' || typeof tinyMCE == undefined || tinyMCE == "" || tinyMCE == null) {
+		$("#article_content_en").val($("#article_content_cs").val());
+	} else {
+		tinymce.get("article_content_en").execCommand('mceInsertContent', false, tinymce.get('article_content_cs').getContent());
+		tinyMCE.triggerSave();
+	}
 }

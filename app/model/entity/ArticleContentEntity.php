@@ -14,9 +14,6 @@ class ArticleContentEntity {
 	private $header;
 
 	/** @var string */
-	private $seo;
-
-	/** @var string */
 	private $lang;
 
 	/** @var string */
@@ -93,20 +90,6 @@ class ArticleContentEntity {
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getSeo() {
-		return $this->seo;
-	}
-
-	/**
-	 * @param string $seo
-	 */
-	public function setSeo($seo) {
-		$this->seo = $seo;
-	}
-
-	/**
 	 * @return array
 	 */
 	public function extract() {
@@ -115,8 +98,7 @@ class ArticleContentEntity {
 			'article_id' => $this->getArticleId(),
 			'lang' => $this->getLang(),
 			'content' => $this->getContent(),
-			'header' => $this->getHeader(),
-			'seo' => $this->getSeo()
+			'header' => $this->getHeader()
 		];
 	}
 
@@ -129,6 +111,5 @@ class ArticleContentEntity {
 		$this->setLang(isset($data['lang']) ? $data['lang'] : null);
 		$this->setContent(isset($data['content']) ? $data['content'] : null);
 		$this->setHeader(isset($data['header']) ? $data['header'] : null);
-		$this->setSeo(isset($data['seo']) ? $data['seo'] : null);
 	}
 }

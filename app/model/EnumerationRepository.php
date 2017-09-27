@@ -14,8 +14,9 @@ class EnumerationRepository extends BaseRepository {
 	const TYP_PRISPEVKU = 1;
 	const VALIDITA_PRISPEVKU = 2;
 	const LOKACE = 3;
-	const SUBLOKACE = 4;
+	const SUBLOKACE = 4;	// město
 	const TYP_BANERU = 5;
+	const MISTO = 6;
 
 	/** @const konkrétní hodnota číselníku */
 	const TYP_PRISPEVKU_AKCE_ORDER = 1;

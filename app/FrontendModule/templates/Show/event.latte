@@ -1,7 +1,7 @@
 {block content}
 	<div class="row" style="padding: 0 0 0 10px; margin-top: -10px">
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 eventMainTitle">
-			<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
+			<h1 class="seo">{$article->getContents()[$currentLang]->getHeader()}</h1>
 			<h1 class="titles">{$article->getContents()[$currentLang]->getHeader()}</h1>
 			{if count($article->getTimetables())}
 				<div class="eventTitle">
@@ -102,7 +102,8 @@
 
 			<ul id = "myTab" class = "nav nav-tabs">
 				<li class="active"><a href="#info" data-toggle="tab">{=ARTICLE_EVENT_INFO}</a></li>
-				<li><a href="#places" data-toggle="tab">{=ARTICLE_EVENT_PLACES}</a></li>
+				{if count($places)}<li><a href="#places" data-toggle="tab">{=ARTICLE_EVENT_PLACES}</a></li>{/if}
+				{if count($cities)}<li><a href="#cities" data-toggle="tab">{=ARTICLE_EVENT_CITIES}</a></li>{/if}
 			</ul>
 
 			<div id = "myTabContent" class = "tab-content">
@@ -110,26 +111,57 @@
 					{$article->getContents()[$currentLang]->getContent()|noescape}
 				</div>
 
-				<div class="tab-pane fade" id="places">
-					{foreach $places as $place}
-						<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()}" />
-						<div>
-							<a href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())} class="title">
-								{$enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())}
-							</a>
-							<span class="floatRight">
-								<a class="ev_map" target="_blank" href={link Show:EventOnPlace $currentLang, $place->getSublocation(), $enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())}>
-									<i class="fa fa-calendar-o fa-1_5x" aria-hidden="true"></i>
+				{if count($places)}
+					<div class="tab-pane fade" id="places">
+						{foreach $places as $place}
+							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()}" />
+							<div>
+								{if $place->getPlace() != null}
+									<a href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())} class="title">
+										{$enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())}
+									</a>
+								{else}
+									{$place->getPlaceText()}
+								{/if}
+								<span class="floatRight">
+									<a class="ev_map" target="_blank" href={link Show:EventOnPlace $currentLang, $place->getPlace(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())}>
+										<i class="fa fa-calendar-o fa-1_5x" aria-hidden="true"></i>
+									</a>
+
+									<a class="ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}">
+										<i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i>
+									</a>
+								</span>
+							</div>
+							<span class="eventPlaces colorGrey">{$place->getAddress()|noescape}</span><br /><br />
+						{/foreach}
+					</div>
+				{/if}
+
+				{if count($cities)}
+					<div class="tab-pane fade" id="cities">
+						{foreach $cities as $city}
+							<img class="detailsView" alt={$city->getContents()[$currentLang]->getHeader()} src="{$city->getPicUrl()}" />
+							<div>
+								{var urlTitle = Nette\Utils\Strings::webalize($enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation()))}
+								<a href={link Show:City $currentLang, $city->getId(), $urlTitle} class="title">
+									{$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())}
 								</a>
-								<a class="ev_map" target="_blank" href={link Show:Place $currentLang, $place->getSublocation(), $enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())}>
-									<i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i>
-								</a>
-							</span>
-						</div>
-						<span class="eventPlaces colorGrey">{$place->getAddress()|noescape}</span><br /><br />
-						{$place->getContents()[$currentLang]->getContent()|noescape|truncate:160}
-					{/foreach}
-				</div>
+								<span class="floatRight">
+									<a class="ev_map" href={link Show:Category $currentLang, null, null, null, null, $city->getSublocation()}>
+										<i class="fa fa-calendar-o fa-1_5x" aria-hidden="true"></i>
+									</a>
+
+									<a class="ev_map" target="_blank" href="https://maps.google.com/?q={$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())|noescape}">
+										<i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i>
+									</a>
+								</span>
+							</div>
+							<span class="eventPlaces colorGrey">{$city->getAddress()|noescape}</span><br /><br />
+							{$city->getContents()[$currentLang]->getContent()|noescape|truncate:160}
+						{/foreach}
+					</div>
+				{/if}
 			</div>
 			<script>
 				$(function () {

@@ -52,18 +52,18 @@ class ArticleRepository extends BaseRepository {
 		if ($filter == null) {
 			$query = ["select * from article as a "];
 		} else {
-			if ($filter['active'] == 2) {
+			if (isset($filter['active']) && ($filter['active'] == 2)) {
 				$filter['active'] = 0;
 			}
 			if (isset($filter['menuOrders'])) {
 				$menuOrders = $filter['menuOrders'];
 				unset($filter['menuOrders']);
-				$query = ["select a.* from article as a left join article_category as ac on a.id = ac.article_id where menu_order in %in and %and order by id desc", $menuOrders, $filter];
+				$query = ["select a.* from article as a left join article_category as ac on a.id = ac.article_id where menu_order in %in and %and", $menuOrders, $filter];
 			} else {
-				$query = ["select a.* from article as a where 1 and %AND order by id desc", $filter];
+				$query = ["select a.* from article as a where 1 and %and", $filter];
 			}
 		}
-		$query[] = " order by inserted_timestamp desc";
+		$query[] = " order by validity desc";
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
@@ -146,7 +146,7 @@ class ArticleRepository extends BaseRepository {
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
-		$query[] = "order by inserted_timestamp desc";
+		$query[] = "order by validity desc";
 		if ($paginatorLength != 0 ) {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
 		}
@@ -214,7 +214,7 @@ class ArticleRepository extends BaseRepository {
 	 */
 	public function findActiveArticlesInLangCategory($lang, array $categories, $searchText = null, $sublocation = null, $type = null, $paginatorLength = 0, $offset = 0) {
 		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-			$query = ["select a.* 
+			$query = ["select distinct a.id, a.* 
 						from article_timetable as `at`
 							left join article as a on `at`.article_id = a.id
 							left join article_content as ac on `at`.article_id = ac.article_id
@@ -229,7 +229,7 @@ class ArticleRepository extends BaseRepository {
 				$categories
 			];
 		} else {
-			$query = ["select a.*    
+			$query = ["select distinct a.id, a.*    
 						from article as a 
 							left join article_content as ac on a.id = ac.article_id
 							left join article_category as aca on a.id = aca.article_id 
@@ -250,7 +250,7 @@ class ArticleRepository extends BaseRepository {
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
-		$query[] = "order by inserted_timestamp desc";
+		$query[] = "order by validity desc";
 		if ($paginatorLength != 0 ) {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
 		}
@@ -298,7 +298,7 @@ class ArticleRepository extends BaseRepository {
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
-		$query[] = "order by inserted_timestamp desc";
+		$query[] = "order by validity desc";
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
@@ -319,9 +319,10 @@ class ArticleRepository extends BaseRepository {
 	 * @param string $lang
 	 * @param int $sublocation
 	 * @param null $type
+	 * @param bool $placeIsNull
 	 * @return array
 	 */
-	public function findActiveArticleByPlaceInLang($lang, $sublocation, $type = null) {
+	public function findActiveArticleBySublocationInLang($lang, $sublocation, $type = null, $placeIsNull = true) {
 		$places = [];
 		if ($sublocation != null) {
 			if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
@@ -347,10 +348,13 @@ class ArticleRepository extends BaseRepository {
 						$lang,
 						$sublocation];
 			}
+			if ($placeIsNull) {
+				$query[] = " and a.place is null";
+			}
 			if ($type != null) {
 				$query[] = sprintf(" and a.type = %d", $type);
 			}
-			$query[] = "order by inserted_timestamp desc";
+			$query[] = "order by validity desc";
 
 			$result = $this->connection->query($query)->fetchAll();
 			foreach ($result as $item) {
@@ -367,7 +371,57 @@ class ArticleRepository extends BaseRepository {
 		return $places;
 	}
 
+	/**
+	 * @param string $lang
+	 * @param int $place
+	 * @param null $type
+	 * @return array
+	 */
+	public function findActiveArticleByPlaceInLang($lang, $place, $type = null) {
+		$places = [];
+		if ($place != null) {
+			if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+				$query = ["select distinct a.* 
+							from article_timetable as `at`
+								left join article as a on `at`.article_id = a.id
+								left join article_content as ac on `at`.article_id = ac.article_id
+								 where `at`.date_from <= %s and `at`.date_to >= %s 
+								  and ac.lang = %s
+								  and a.active = 1
+								  and a.place = %i",
+					(new DateTime())->format(self::DB_DATE_MASK),
+					(new DateTime())->format(self::DB_DATE_MASK),
+					$lang,
+					$place];
+			} else {
+				$query = ["select a.*  
+							from article as a 
+								left join article_content as ac on a.id = ac.article_id
+							where ac.lang = %s
+								and active = 1
+								and place = %i",
+					$lang,
+					$place];
+			}
+			if ($type != null) {
+				$query[] = sprintf(" and a.type = %d", $type);
+			}
+			$query[] = "order by validity desc";
 
+			$result = $this->connection->query($query)->fetchAll();
+			foreach ($result as $item) {
+				$articleEntity = new ArticleEntity();
+				$articleEntity->hydrate($item->toArray());
+				$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
+				$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+				$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
+
+				$places[] = $articleEntity;
+			}
+		}
+
+		return $places;
+	}
 
 	/**
 	 * @param null $type
@@ -487,6 +541,9 @@ class ArticleRepository extends BaseRepository {
 			if ($articleEntity->getPicId() == 0) {
 				$articleEntity->setPicId(null);
 			}
+			if ($articleEntity->getPlace() == 0) {
+				$articleEntity->setPlace(null);
+			}
 			$articleId = $this->saveArticleEntity($articleEntity, $userId);
 			if (empty($articleId)) {
 				throw new \Exception("Chybí ID příspěvku.");
@@ -591,11 +648,10 @@ class ArticleRepository extends BaseRepository {
 		foreach ($articleContentEntities as $articleContentEntity) {
 			$articleContentEntity->setArticleId($articleId);
 			if ($result) {
-				$query = ["update article_content set header = %s, seo = %s, content = %s
+				$query = ["update article_content set header = %s, content = %s
 						  where `lang` = %s
 						  	and `article_id` = %i",
 					$articleContentEntity->getHeader(),
-					$articleContentEntity->getSeo(),
 					$articleContentEntity->getContent(),
 					$articleContentEntity->getLang(),
 					$articleId

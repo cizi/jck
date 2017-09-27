@@ -106,7 +106,7 @@ class ArticlePresenter extends SignPresenter {
 			foreach ($newArticle->getContents() as $content) {
 				$content->setId(null);
 			}
-			if ($this->articleRepository->saveCompleteArticle($newArticle, $this->getUser()->getId(), $newArticle->getTimetables()) == true) {
+			if ($this->articleRepository->saveCompleteArticle($newArticle, $this->getUser()->getId(), $newArticle->getTimetables(), $newArticle->getCategories()) == true) {
 				$this->flashMessage(ARTICLE_DUPLICATE_OK, "alert-success");
 				$this->redirect("edit", $newArticle->getId());
 			} else {
@@ -145,7 +145,7 @@ class ArticlePresenter extends SignPresenter {
 		$articleEntity->hydrate((array)$values);
 
 		$error = false;
-		$supportedFileFormats = ["jpg", "png", "doc"];
+		$supportedFileFormats = ["jpg", "png"];
 		$calendars = [];
 		$mutation = [];
 		$categories = [];

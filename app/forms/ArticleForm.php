@@ -73,6 +73,15 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
+		$places = $validities = $this->enumerationRepository->findEnumItemsForSelectWithEmpty($currentLang, EnumerationRepository::MISTO);
+		$form->addSelect("place", ARTICLE_PLACE, $places)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
+
+		$form->addText("place_text", ARTICLE_PLACE_TEXT)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
+
 		$form->addText("address", ARTICLE_ADDRESS)
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
@@ -163,11 +172,7 @@ class ArticleForm extends Nette\Object {
 				->setAttribute("class", "form-control menuItem mceBlockContent tinym_required_field")
 				->setAttribute("validation",ARTICLE_CONTENT_CONTENT_REQ)
 				->setAttribute("placeholder", ARTICLE_CONTENT_CONTENT)
-				->setAttribute("tabindex", $i+1);
-
-			$container->addText("seo", ARTICLE_CONTENT_SEO)
-				->setAttribute("class", "form-control menuItem")
-				->setAttribute("placeholder", ARTICLE_CONTENT_SEO)
+				->setAttribute("id", "article_content_".$lang)
 				->setAttribute("tabindex", $i+1);
 
 			$container->addHidden("article_id");
@@ -184,7 +189,7 @@ class ArticleForm extends Nette\Object {
 				->setAttribute("readonly", "readonly")
 				->setAttribute("validation", ARTICLE_TIMETABLE_START_DATE_MISSING);;
 
-			$container->addText('date_to', ARTICLE_DATE_FROM)
+			$container->addText('date_to', ARTICLE_DATE_TO)
 				->setAttribute("class", "form-control menuItem takingDate")
 				->setAttribute("readonly", "readonly");
 
@@ -211,6 +216,11 @@ class ArticleForm extends Nette\Object {
 		$form->addHidden("id");
 		$form->addHidden("show_counter");
 		$form->addHidden("click_counter");
+
+		$form->addButton("rewriteCsToEn", ARTICLE_CONTENT_REWRITE)
+			->setAttribute("class","btn btn-primary menuItem alignRight")
+			->setAttribute("onclick", "rewriteContent();")
+			->setAttribute("tabindex", $i+1);
 
 		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
 			->setAttribute("class","btn btn-primary menuItem alignRight")

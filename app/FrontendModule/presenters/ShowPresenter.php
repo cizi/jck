@@ -99,7 +99,8 @@ class ShowPresenter extends BasePresenter {
 		if ($article != null) {
 			$this->articleRepository->articleClicked($article->getId());
 			$this->template->article = $article;
-			$this->template->places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
+			$this->template->places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $article->getPlace(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
+			$this->template->cities = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
 		}
 	}
 
@@ -111,9 +112,21 @@ class ShowPresenter extends BasePresenter {
 	public function actionPlace($lang, $id, $seoText) {
 		$place = $this->articleRepository->getArticle($id);
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
-		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
-		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
+		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
+		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
+	}
 
+	/**
+	 * @param string $lang
+	 * @param int $id
+	 * @param string $seoText
+	 */
+	public function actionCity($lang, $id, $seoText) {
+		$place = $this->articleRepository->getArticle($id);
+		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
+		$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
+		$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);
+		$this->setView('place');
 	}
 
 	/**
@@ -123,6 +136,8 @@ class ShowPresenter extends BasePresenter {
 	 */
 	public function actionEventOnPlace($lang, $id, $seoText) {
 		// TODO
+		echo "nutno dodělat";
+		$this->terminate();
 	}
 
 	/**

@@ -61,6 +61,11 @@ class ArticleFilterForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
+		$places = $validities = $this->enumerationRepository->findEnumItemsForSelectWithEmpty($currentLang, EnumerationRepository::MISTO);
+		$form->addSelect("place", ARTICLE_PLACE, $places)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
+
 		$activityType = [ "0" => ARTICLE_ACTIVITY_BOTH, "1" => ARTICLE_ACTIVITY_ACTIVE, "2" => ARTICLE_ACTIVITY_INACTIVE];
 		$form->addSelect("active", " " . ARTICLE_ACTIVE, $activityType)
 			->setAttribute("class", "form-control")

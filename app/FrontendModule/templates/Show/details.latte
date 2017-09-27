@@ -3,7 +3,7 @@
 		<div class="col-xl-9 col-lg-9 col-md-9 col-sm-6 col-xs-12">
 			{foreach $articles as $article}
 				<div class="hp_2_cols">
-					<h1 class="seo">{$article->getContents()[$currentLang]->getSeo()}</h1>
+					<h1 class="seo">{$article->getContents()[$currentLang]->getHeader()}</h1>
 					{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 					{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
 					{if $article->getPicId() != null}

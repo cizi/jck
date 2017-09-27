@@ -58,8 +58,8 @@ define("MAIN_SEARCH_REQ_FIELDS", 'Nebyla zadána vyhledávací kritéria');
 // vlastní akce
 define("SUBMIT_OWN_EVENT_HEADER", 'Zašlete svou akci');
 define("SUBMIT_OWN_EVENT", 'Zašlete návrh akce');
-define("SUBMIT_OWN_EVENT_TEXT", 'Pro zvěřejnění vlatní události (akce), prosíme, vyplňte formlář níže. Ujistěte se, že poskytujete všechny povinné informace. Mějte na 
-   paměti, že tento formulář slouží jen pro zadání akce, nikoliv článku, místa apod. Pokud byste chtěli zvěřenit jiný typ příspěvku, ežli akci, použijte náš kontaktní formulář. 
+define("SUBMIT_OWN_EVENT_TEXT", 'Pro zvěřejnění vlastní události (akce), prosíme, vyplňte formlář níže. Ujistěte se, že poskytujete všechny povinné informace. Mějte na 
+   paměti, že tento formulář slouží jen pro zadání akce, nikoliv článku, místa apod. Pokud by jste chtěli zvěřenit jiný typ příspěvku, nežli akci, použijte náš kontaktní formulář. 
    Po odeslání akce bude Váš požadavek schválen o čemž budete informování. ');
 define("SUBMIT_OWN_BUTTON", 'Odeslat ke schválení');
 define("SUBMIT_OWN_SAVED", 'Akce byla odeslána ke schválení');
@@ -111,9 +111,11 @@ define("ARTICLE_BY", 'Vložil');
 define("ARTICLE_TIMESTAMP", 'Vloženo');
 define("ARTICLE_CONTENT", 'Obsah');
 define("ARTICLE_VALIDITY", 'Platnost');
+define("ARTICLE_PLACE", 'Místo');
+define("ARTICLE_PLACE_TEXT", 'Místo text');
 define("ARTICLE_ADDRESS", 'Adresa');
 define("ARTICLE_LOCATION", 'Lokace');
-define("ARTICLE_SUBLOCATION", 'Sublokace');
+define("ARTICLE_SUBLOCATION", 'Město');
 define("ARTICLE_CONTACT", 'Kontakt');
 define("ARTICLE_CONTENT_HEADER", 'Nadpis');
 define("ARTICLE_CONTENT_HEADER_REQ", 'Nadpis příspěvku je povinná položka!');
@@ -126,6 +128,7 @@ define("ARTICLE_URL", 'Odkaz na akci');
 define("ARTICLE_FB_URL", 'FB odkaz na akci');
 define("ARTICLE_YT_URL", 'Youtube odkaz na akci');
 define("ARTICLE_SAVE_FAILED", 'Nepovedlo se uložit příspěvek.');
+define("ARTICLE_CONTENT_REWRITE", 'Zkopírovat obsah CS do EN');
 define("ARTICLE_CONTENT_CONFIRM", 'Uložit příspěvek');
 define("ARTICLE_CALENDAR", 'Kalendář akce');
 define("ARTICLE_DUPLICATE", 'Duplikovat událost');
@@ -152,6 +155,7 @@ define("ARTICLE_PAGINATOR_FROM", 'z');
 define("ARTICLE_VIEW_DETAIL", 'Zobrazit detail');
 define("ARTICLE_TOP_EVENTS", 'Top akce');
 define("ARTICLE_EVENT_INFO", 'Informace');
+define("ARTICLE_EVENT_CITIES", 'Město');
 define("ARTICLE_EVENT_PLACES", 'Místo');
 define("ARTICLE_EVENT_PLACE_EVENTS", 'Události');
 define("ARTICLE_EVENT_PLACE_ARTICLES", 'Články');

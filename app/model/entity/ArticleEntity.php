@@ -45,6 +45,12 @@ class ArticleEntity {
 	/** @var string */
 	private $fbUrl;
 
+	/** @var int */
+	private $place;
+
+	/** @var string */
+	private $placeText;
+
 	/** @var string */
 	private $address;
 
@@ -258,6 +264,34 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getPlace() {
+		return $this->place;
+	}
+
+	/**
+	 * @param int $place
+	 */
+	public function setPlace($place) {
+		$this->place = $place;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPlaceText() {
+		return $this->placeText;
+	}
+
+	/**
+	 * @param string $placeText
+	 */
+	public function setPlaceText($placeText) {
+		$this->placeText = $placeText;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getAddress() {
@@ -429,6 +463,8 @@ class ArticleEntity {
 			'url' => $this->getUrl(),
 			'fb_url' => $this->getFbUrl(),
 			'location' => $this->getLocation(),
+			'place' => $this->getPlace(),
+			'place_text' => $this->getPlaceText(),
 			'address' => $this->getAddress(),
 			'sublocation' => $this->getSublocation(),
 			'yt_url' => $this->getYtUrl(),
@@ -455,6 +491,8 @@ class ArticleEntity {
 		$this->setValidity(isset($data['validity']) ? $data['validity'] : null);
 		$this->setUrl(isset($data['url']) ? $data['url'] : null);
 		$this->setFbUrl(isset($data['fb_url']) ? $data['fb_url'] : null);
+		$this->setPlace(isset($data['place']) ? $data['place'] : null);
+		$this->setPlaceText(isset($data['place_text']) ? $data['place_text'] : null);
 		$this->setAddress(isset($data['address']) ? $data['address'] : null);
 		$this->setLocation(isset($data['location']) ? $data['location'] : null);
 		$this->setSublocation(isset($data['sublocation']) ? $data['sublocation'] : null);
