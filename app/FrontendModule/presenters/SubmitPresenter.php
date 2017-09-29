@@ -165,7 +165,7 @@ class SubmitPresenter extends BasePresenter {
 				$this->flashMessage(SUBMIT_OWN_FAILED, "alert-danger");
 				$this->redirect("default", $this->langRepository->getCurrentLang($this->session), null, $values);
 			} else {
-				$emailTo = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_RECIPIENT);
+				$emailTo = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_RECIPIENT, WebconfigRepository::KEY_LANG_FOR_COMMON);
 				$emailFrom = "admin@jihoceskykalendar.cz";
 				$body = sprintf(SUBMIT_OWN_MAIL_BODY, "http://{$_SERVER['HTTP_HOST']}/admin/article/edit/" . $articleEntity->getId());
 				EmailController::SendPlainEmail($emailFrom, $emailTo, SUBMIT_OWN_MAIL_SUBJECT, $body);
