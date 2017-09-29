@@ -259,7 +259,7 @@ abstract class BasePresenter extends Presenter {
 
 		$contactFormInFooter = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_SHOW_CONTACT_FORM_IN_FOOTER, $langCommon);
 		$this->template->isContactFormInFooter = ($contactFormInFooter == "1" ? true : false);
-		if ($contactFormInFooter) {
+		//if ($contactFormInFooter) {
 			$this->template->contactFormHeader = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_TITLE, $this->langRepository->getCurrentLang($this->session));
 			$this->template->contactFormContent = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_CONTENT, $this->langRepository->getCurrentLang($this->session));
 			$this->template->contactFormBackground = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_BACKGROUND_COLOR, $langCommon);
@@ -267,7 +267,7 @@ abstract class BasePresenter extends Presenter {
 
 			$allowAttachment = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_ATTACHMENT, $langCommon);
 			$this->template->allowAttachment =  ($allowAttachment == "1" ? true : false);
-		}
+		// }
 	}
 
 	/**

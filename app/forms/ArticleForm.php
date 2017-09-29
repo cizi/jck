@@ -115,7 +115,8 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("tabindex", $i+1);
 
 		$form->addUpload("picUrlUpload", ARTICLE_MAIN_URL)
-			->setAttribute("class", "form-control")
+			->setAttribute("class", "form-control tinym_required_field")
+			->setAttribute("validation", ARTICLE_MAIN_URL_REQ)
 			->setAttribute("tabindex", $i+1);
 		$form->addHidden("pic_url")->setAttribute("id", "articleMainImgUrl");
 

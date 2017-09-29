@@ -36,5 +36,4 @@ class EmailController {
 
 		$email->Send();
 	}
-
 }

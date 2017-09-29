@@ -78,9 +78,11 @@ function rewriteContent() {
 	$("#frm-articleForm-en-header").val($("#frm-articleForm-cs-header").val());
 	$("#frm-submitForm-en-header").val($("#frm-submitForm-cs-header").val());
 	if (typeof tinyMCE === 'undefined' || typeof tinyMCE == undefined || tinyMCE == "" || tinyMCE == null) {
+		$("#article_content_en").val("");
 		$("#article_content_en").val($("#article_content_cs").val());
 	} else {
-		tinymce.get("article_content_en").execCommand('mceInsertContent', false, tinymce.get('article_content_cs').getContent());
+		tinymce.get("article_content_en").setContent('');
+		tinymce.get("article_content_en").execCommand('mceInsertContent', true, tinymce.get('article_content_cs').getContent());
 		tinyMCE.triggerSave();
 	}
 }

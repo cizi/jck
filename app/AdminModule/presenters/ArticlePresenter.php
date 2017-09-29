@@ -84,6 +84,7 @@ class ArticlePresenter extends SignPresenter {
 		$this->template->articleTypeAction = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 		$this->template->currentLang = $this->langRepository->getCurrentLang($this->session);
 		$this->template->articleTimeTableWrongTime = ARTICLE_TIMETABLE_TIME_WRONG_FORMAT;
+		$this->template->articleFileUploadMissing = ARTICLE_MAIN_URL_REQ;
 		$this->template->availableAddresses = $this->articleRepository->findAddresses();
 	}
 

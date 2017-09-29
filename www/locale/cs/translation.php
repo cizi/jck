@@ -124,6 +124,7 @@ define("ARTICLE_CONTENT_CONTENT_REQ", 'Obsah příspěvku je povinná položka!'
 define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Hlavní obrázek');
 define("ARTICLE_MAIN_URL", 'Hlavní obrázek (660 x 443px)');
+define("ARTICLE_MAIN_URL_REQ", 'Hlavní obrázek (660 x 443px) je povinná položka.');
 define("ARTICLE_URL", 'Odkaz na akci');
 define("ARTICLE_FB_URL", 'FB odkaz na akci');
 define("ARTICLE_YT_URL", 'Youtube odkaz na akci');
@@ -141,7 +142,7 @@ define("ARTICLE_MODAL_TEXT", 'Opravdu chcete smazat příspěvek včetně jeho j
 define("ARTICLE_VIEWS_COUNT", 'Počet zobrazení');
 define("ARTICLE_DATE_FROM", 'Datum počátku');
 define("ARTICLE_DATE_TO", 'Datum konce');
-define("ARTICLE_START_TIME", 'Čas');
+define("ARTICLE_START_TIME", 'Čas [hodiny:minuty]');
 define("ARTICLE_ADD_TIMETABLE", 'Přidat čas konání');
 define("ARTICLE_REMOVE_TIMETABLE", 'Odebrat čas konání');
 define("ARTICLE_TIMETABLE_TIME_WRONG_FORMAT", 'Neplatný formát času!');

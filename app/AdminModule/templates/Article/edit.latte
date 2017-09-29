@@ -160,11 +160,14 @@
 				inputField.removeClass("tinym_required_field");
 				inputField.removeAttr("validation");
 			} else {
-				if(!inputField.hasClass("tinym_required_field")) {
-					inputField.addClass("tinym_required_field");
-					inputField.val("");
-					inputField.attr("validation", {$articleTimeTableWrongTime});
-				}
+				inputField.addClass("tinym_required_field");
+				inputField.attr("validation", {$articleTimeTableWrongTime});
+
+				$("#tinym_info_modal_message").text(inputField.attr("validation"));
+				$("#tinym_info_modal").modal();
+				inputField.focus();
+				inputField.val("");
+
 				inputField.css("background-color",'#fba');
 			}
 

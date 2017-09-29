@@ -72,6 +72,7 @@ class SubmitPresenter extends BasePresenter {
 		$this->template->userBlocks = $userBlocks;
 		$this->template->widthEnum = new WebWidthEnum();
 		$this->template->articleTimeTableWrongTime = ARTICLE_TIMETABLE_TIME_WRONG_FORMAT;
+		$this->template->articleFileUploadMissing = ARTICLE_MAIN_URL_REQ;
 	}
 
 	public function createComponentSubmitForm() {

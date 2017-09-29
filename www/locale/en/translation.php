@@ -122,6 +122,7 @@ define("ARTICLE_CONTENT_CONTENT_REQ", 'Article content is mandatory!');
 define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Master pic');
 define("ARTICLE_MAIN_URL", 'Master pic (660 x 443px)');
+define("ARTICLE_MAIN_URL_REQ", 'Master pic (660 x 443px) is mandatory field.');
 define("ARTICLE_URL", 'URL of action');
 define("ARTICLE_FB_URL", 'FB action URL');
 define("ARTICLE_YT_URL", 'Youtube URL');
@@ -139,7 +140,7 @@ define("ARTICLE_MODAL_TEXT", 'Are you really want do delete article with its lan
 define("ARTICLE_VIEWS_COUNT", 'Count of views');
 define("ARTICLE_DATE_FROM", 'Start date');
 define("ARTICLE_DATE_TO", 'End date');
-define("ARTICLE_START_TIME", 'Time');
+define("ARTICLE_START_TIME", 'Time [hours:minutes]');
 define("ARTICLE_ADD_TIMETABLE", 'Add new timetable');
 define("ARTICLE_REMOVE_TIMETABLE", 'Remove timetable');
 define("ARTICLE_TIMETABLE_TIME_WRONG_FORMAT", 'Invalid time format!');
