@@ -86,3 +86,44 @@ function rewriteContent() {
 		tinyMCE.triggerSave();
 	}
 }
+
+function submitArticleForm() {
+	if ($('#frm-articleForm-picUrlUpload').length) {	// pokud toto existuje tak jsme na BE
+		var articlePicUpload = $("#frm-articleForm-picUrlUpload");
+		var articlePicUrl = $("#articleMainImgUrl");
+		if ((articlePicUrl.val() === "") && (articlePicUpload.val() === "")) {
+			articlePicUpload.addClass("tinym_required_field");
+			articlePicUpload.attr("validation", "Hlavní obrázek (660 x 443px) je povinná položka.");	// ARTICLE_MAIN_URL_REQ
+
+			$("#tinym_info_modal_message").text(articlePicUpload.attr("validation"));
+			$("#tinym_info_modal").modal();
+			articlePicUpload.focus();
+			articlePicUpload.val("");
+
+			articlePicUpload.css("background-color",'#fba');
+			$("#frm-articleForm").unbind().submit();
+		} else {
+			articlePicUpload.css("background-color",'#bfa');
+			articlePicUpload.removeClass("tinym_required_field");
+			articlePicUpload.removeAttr("validation");
+		}
+	} else {											// jinak jsem na FE
+		var articlePicUpload = $("#frm-submitForm-picUrlUpload");
+		if (articlePicUpload.val() === "") {
+			articlePicUpload.addClass("tinym_required_field");
+			articlePicUpload.attr("validation", "Hlavní obrázek (660 x 443px) je povinná položka.");	// ARTICLE_MAIN_URL_REQ
+
+			$("#tinym_info_modal_message").text(articlePicUpload.attr("validation"));
+			$("#tinym_info_modal").modal();
+			articlePicUpload.focus();
+			articlePicUpload.val("");
+
+			articlePicUpload.css("background-color",'#fba');
+			$("#frm-submitForm").unbind().submit();
+		} else {
+			articlePicUpload.css("background-color",'#bfa');
+			articlePicUpload.removeClass("tinym_required_field");
+			articlePicUpload.removeAttr("validation");
+		}
+	}
+}

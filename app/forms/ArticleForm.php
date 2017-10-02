@@ -109,17 +109,6 @@ class ArticleForm extends Nette\Object {
 			->setDefaultValue(true)
 			->setAttribute("tabindex", $i+1);
 
-		$picsSelect = $this->picRepository->loadForSelect();
-		$form->addSelect("pic_id", ARTICLE_MAIN_PIC, $picsSelect)
-			->setAttribute("class", "form-control")
-			->setAttribute("tabindex", $i+1);
-
-		$form->addUpload("picUrlUpload", ARTICLE_MAIN_URL)
-			->setAttribute("class", "form-control tinym_required_field")
-			->setAttribute("validation", ARTICLE_MAIN_URL_REQ)
-			->setAttribute("tabindex", $i+1);
-		$form->addHidden("pic_url")->setAttribute("id", "articleMainImgUrl");
-
 		$form->addText("url", ARTICLE_URL)
 			->setAttribute("placeholder", ARTICLE_URL)
 			->setAttribute("class", "form-control")
@@ -179,6 +168,10 @@ class ArticleForm extends Nette\Object {
 			$container->addHidden("article_id");
 			$i++;
 		}
+		$form->addButton("rewriteCsToEn", ARTICLE_CONTENT_REWRITE)
+			->setAttribute("class","btn btn-primary menuItem alignRight")
+			->setAttribute("onclick", "rewriteContent();")
+			->setAttribute("tabindex", $i+1);
 
 		// name, factory, default count
 		$calendar = $form->addContainer("calendar");
@@ -210,7 +203,7 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("onclick", "tinyMCE.triggerSave();")
 			->addCreateOnClick(true);
 
-		$form->addMultiUpload("pics")
+		$form->addMultiUpload("pics", ARTICLE_ADD_PICS_TO_GALLERY)
 			->setAttribute("class", "form-control menuItem")
 			->setAttribute("tabindex", $i+1);
 
@@ -218,14 +211,19 @@ class ArticleForm extends Nette\Object {
 		$form->addHidden("show_counter");
 		$form->addHidden("click_counter");
 
-		$form->addButton("rewriteCsToEn", ARTICLE_CONTENT_REWRITE)
-			->setAttribute("class","btn btn-primary menuItem alignRight")
-			->setAttribute("onclick", "rewriteContent();")
+		$form->addUpload("picUrlUpload", ARTICLE_MAIN_URL)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
+		$form->addHidden("pic_url")->setAttribute("id", "articleMainImgUrl");
+
+		$picsSelect = $this->picRepository->loadForSelect();
+		$form->addSelect("pic_id", ARTICLE_MAIN_PIC, $picsSelect)
+			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
 		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
 			->setAttribute("class","btn btn-primary menuItem alignRight")
-			->setAttribute("onclick", "tinyMCE.triggerSave();")
+			->setAttribute("onclick", "submitArticleForm(); tinyMCE.triggerSave();")
 			->setAttribute("tabindex", $i+1);
 
 		return $form;

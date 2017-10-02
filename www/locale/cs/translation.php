@@ -144,6 +144,7 @@ define("ARTICLE_DATE_FROM", 'Datum počátku');
 define("ARTICLE_DATE_TO", 'Datum konce');
 define("ARTICLE_START_TIME", 'Čas [hodiny:minuty]');
 define("ARTICLE_ADD_TIMETABLE", 'Přidat čas konání');
+define("ARTICLE_ADD_PICS_TO_GALLERY", 'Přidat obrázky do sdílené galerie');
 define("ARTICLE_REMOVE_TIMETABLE", 'Odebrat čas konání');
 define("ARTICLE_TIMETABLE_TIME_WRONG_FORMAT", 'Neplatný formát času!');
 define("ARTICLE_TIMETABLE_START_DATE_MISSING", 'Neplatný datum počátku!');

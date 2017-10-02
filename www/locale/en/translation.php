@@ -142,6 +142,7 @@ define("ARTICLE_DATE_FROM", 'Start date');
 define("ARTICLE_DATE_TO", 'End date');
 define("ARTICLE_START_TIME", 'Time [hours:minutes]');
 define("ARTICLE_ADD_TIMETABLE", 'Add new timetable');
+define("ARTICLE_ADD_PICS_TO_GALLERY", 'Add pictures to shared gallery');
 define("ARTICLE_REMOVE_TIMETABLE", 'Remove timetable');
 define("ARTICLE_TIMETABLE_TIME_WRONG_FORMAT", 'Invalid time format!');
 define("ARTICLE_TIMETABLE_START_DATE_MISSING", 'Invalid start date!');
