@@ -36,7 +36,7 @@
 			{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
 			<div>
 				<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>
-				<button onclick="location.href='{link $target, $currentLang, $article->getId(), $urlTitle}'" class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</button>
+				<a href={link $target, $currentLang, $article->getId(), $urlTitle} class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</a>
 			</div>
 		</div>
 	</div>

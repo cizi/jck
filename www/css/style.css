@@ -538,6 +538,9 @@ img.detailsView {
 	float: right;
 	margin: 0 10px 10px 0;
 }
+.btnShowDetail:hover {
+	color: white!important;
+}
 
 .image_picker_image{
 	width: auto!important;

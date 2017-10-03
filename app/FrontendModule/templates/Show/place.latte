@@ -8,7 +8,7 @@
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			{if $place->getAddress() != ""}
 				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
-				<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$place->getContents()[$currentLang]->getHeader()|noescape} {$place->getAddress()|noescape}">
+				<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}">
 					{$place->getContents()[$currentLang]->getHeader()}, {$place->getAddress()|noescape}
 				</a>
 			{/if}
@@ -23,7 +23,7 @@
 					<a class="ev_youtube" target="_blank" href={$place->getYtUrl()}><i class="fa fa-youtube-play fa-1_5x" aria-hidden="true"></i></a>
 				{/if}
 				{if $place->getAddress() != null}
-					<a class="ev_map" target="_blank" href="#"><i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i></a>
+					<a class="ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}"><i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i></a>
 				{/if}
 			</p>
 		</div>
@@ -83,7 +83,7 @@
 									{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
 									<div>
 										<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>
-										<button onclick="location.href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}" class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</button>
+										<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle} class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</a>
 									</div>
 								</div>
 							</div>

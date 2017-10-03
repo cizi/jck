@@ -63,7 +63,7 @@ class ArticleRepository extends BaseRepository {
 				$query = ["select a.* from article as a where 1 and %and", $filter];
 			}
 		}
-		$query[] = " order by validity desc";
+		$query[] = " order by validity desc, inserted_timestamp desc";
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
@@ -146,7 +146,7 @@ class ArticleRepository extends BaseRepository {
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
-		$query[] = "order by validity desc";
+		$query[] = " order by validity desc, inserted_timestamp desc";
 		if ($paginatorLength != 0 ) {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
 		}
@@ -250,7 +250,7 @@ class ArticleRepository extends BaseRepository {
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
-		$query[] = "order by validity desc";
+		$query[] = " order by validity desc, inserted_timestamp desc";
 		if ($paginatorLength != 0 ) {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
 		}
@@ -298,7 +298,7 @@ class ArticleRepository extends BaseRepository {
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
-		$query[] = "order by validity desc";
+		$query[] = " order by validity desc, inserted_timestamp desc";
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
@@ -354,7 +354,7 @@ class ArticleRepository extends BaseRepository {
 			if ($type != null) {
 				$query[] = sprintf(" and a.type = %d", $type);
 			}
-			$query[] = "order by validity desc";
+			$query[] = " order by validity desc, inserted_timestamp desc";
 
 			$result = $this->connection->query($query)->fetchAll();
 			foreach ($result as $item) {
@@ -406,7 +406,7 @@ class ArticleRepository extends BaseRepository {
 			if ($type != null) {
 				$query[] = sprintf(" and a.type = %d", $type);
 			}
-			$query[] = "order by validity desc";
+			$query[] = " order by validity desc, inserted_timestamp desc";
 
 			$result = $this->connection->query($query)->fetchAll();
 			foreach ($result as $item) {

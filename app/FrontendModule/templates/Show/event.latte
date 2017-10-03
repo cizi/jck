@@ -31,7 +31,7 @@
 					<a class="ev_youtube" target="_blank" href={$article->getYtUrl()}><i class="fa fa-youtube-play fa-1_5x" aria-hidden="true"></i></a>
 				{/if}
 				{if $article->getAddress() != null}
-					<a class="ev_map" target="_blank" href="#"><i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i></a>
+					<a class="ev_map" target="_blank" href="https://maps.google.com/?q={$article->getAddress()|noescape}"><i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i></a>
 				{/if}
 			</p>
 		</div>
