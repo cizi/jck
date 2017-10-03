@@ -65,7 +65,7 @@
 							<strong>{$article->getContents()[$currentLang]->getHeader()|upper}</strong><br />
 							<small class="calendarOnEvent">
 								{$dt->format('d.m.Y')}, {$timetable->getTime()->format("%H:%S")} <br />
-								{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
+								{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 								{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br />
 							</small>
 						</td></tr>

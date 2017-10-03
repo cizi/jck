@@ -58,7 +58,7 @@ define("MAIN_SEARCH_REQ_FIELDS", 'Nebyla zadána vyhledávací kritéria');
 // vlastní akce
 define("SUBMIT_OWN_EVENT_HEADER", 'Zašlete svou akci');
 define("SUBMIT_OWN_EVENT", 'Zašlete návrh akce');
-define("SUBMIT_OWN_EVENT_TEXT", 'Pro zvěřejnění vlastní události (akce), prosíme, vyplňte formlář níže. Ujistěte se, že poskytujete všechny povinné informace. Mějte na 
+define("SUBMIT_OWN_EVENT_TEXT", 'Pro zvěřejnění vlastní události (akce), prosíme, vyplňte formulář níže. Ujistěte se, že poskytujete všechny povinné informace. Mějte na 
    paměti, že tento formulář slouží jen pro zadání akce, nikoliv článku, místa apod. Pokud by jste chtěli zvěřenit jiný typ příspěvku, nežli akci, použijte náš kontaktní formulář. 
    Po odeslání akce bude Váš požadavek schválen o čemž budete informování. ');
 define("SUBMIT_OWN_BUTTON", 'Odeslat ke schválení');
