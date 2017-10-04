@@ -128,7 +128,17 @@
 		});
 
 		$( "#frm-articleForm-type" ).change(function() {
-			if ($(this).val() == {$articleTypeAction}) {
+			$('#frm-articleForm-menuOrders option').prop('selected', false).trigger('chosen:updated');
+			var articleTypeOrder = $(this).val();
+			if (articleTypeOrder == {$articleTypeArticle}) {
+				$('#frm-articleForm-menuOrders').val({$menuOrderArticle}).trigger('chosen:updated');
+			} else if (articleTypeOrder == {$articleTypePlace}) {
+				$('#frm-articleForm-menuOrders').val({$menuOrderPlace}).trigger('chosen:updated');
+			} else if (articleTypeOrder == {$articleTypeAction}) {
+				$('#frm-articleForm-menuOrders').val({$menuOrderAction}).trigger('chosen:updated');
+			}
+
+			if (articleTypeOrder == {$articleTypeAction}) {
 				$("#addNextTakingTime").css("display", "block");
 			} else {
 				$("#addNextTakingTime").css("display", "none");
@@ -183,6 +193,8 @@
 					"</div>"
 				);
 			}
+
+			$("#frm-articleForm-type").trigger("change");
 		});
 
 		{*

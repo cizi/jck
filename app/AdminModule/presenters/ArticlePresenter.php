@@ -12,6 +12,7 @@ use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\ArticleTimetableEntity;
 use App\Model\Entity\PicEntity;
 use App\Model\EnumerationRepository;
+use App\Model\MenuRepository;
 use App\Model\UserRepository;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
@@ -81,7 +82,14 @@ class ArticlePresenter extends SignPresenter {
 
 		$this->template->articleId = $id;
 		$this->template->blockPics = $this->picRepository->load();
+
 		$this->template->articleTypeAction = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
+		$this->template->articleTypeArticle = EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER;
+		$this->template->articleTypePlace = EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER;
+		$this->template->menuOrderAction = MenuRepository::MENU_ITEM_ACTION;
+		$this->template->menuOrderArticle = MenuRepository::MENU_ITEM_ARTICLE;
+		$this->template->menuOrderPlace = MenuRepository::MENU_ITEM_PLACE;
+
 		$this->template->currentLang = $this->langRepository->getCurrentLang($this->session);
 		$this->template->articleTimeTableWrongTime = ARTICLE_TIMETABLE_TIME_WRONG_FORMAT;
 		$this->template->articleFileUploadMissing = ARTICLE_MAIN_URL_REQ;

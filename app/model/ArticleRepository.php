@@ -63,7 +63,7 @@ class ArticleRepository extends BaseRepository {
 				$query = ["select a.* from article as a where 1 and %and", $filter];
 			}
 		}
-		$query[] = " order by validity desc, inserted_timestamp desc";
+		$query[] = " order by inserted_timestamp desc";
 
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
@@ -146,24 +146,17 @@ class ArticleRepository extends BaseRepository {
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
-		$query[] = " order by validity desc, inserted_timestamp desc";
+
+		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+			$query[] = " order by validity desc, `at`.time asc";
+		} else {
+			$query[] = " order by validity desc, inserted_timestamp desc";
+		}
 		if ($paginatorLength != 0 ) {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
 		}
 
-		$result = $this->connection->query($query)->fetchAll();
-		$articles = [];
-		foreach ($result as $item) {
-			$articleEntity = new ArticleEntity();
-			$articleEntity->hydrate($item->toArray());
-			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
-			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
-			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
-
-			$articles[] = $articleEntity;
-		}
-
-		return $articles;
+		return $this->findArticleBySql($query);
 	}
 
 	public function getActiveArticlesInLangCategoryCount($lang, array $categories, $searchText = null, $type = null) {
@@ -250,24 +243,18 @@ class ArticleRepository extends BaseRepository {
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
-		$query[] = " order by validity desc, inserted_timestamp desc";
+
+		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+			$query[] = " order by validity desc, TIME(`at`.time) asc";
+		} else {
+			$query[] = " order by validity desc, inserted_timestamp desc";
+		}
+
 		if ($paginatorLength != 0 ) {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
 		}
 
-		$result = $this->connection->query($query)->fetchAll();
-		$articles = [];
-		foreach ($result as $item) {
-			$articleEntity = new ArticleEntity();
-			$articleEntity->hydrate($item->toArray());
-			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
-			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
-			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
-
-			$articles[] = $articleEntity;
-		}
-
-		return $articles;
+		return $this->findArticleBySql($query);
 	}
 
 	/**
@@ -309,21 +296,14 @@ class ArticleRepository extends BaseRepository {
 		if ($sublocation != null) {
 			$query[] = sprintf(" and a.sublocation = %d", $sublocation);
 		}
-		$query[] = " order by validity desc, inserted_timestamp desc";
 
-		$result = $this->connection->query($query)->fetchAll();
-		$articles = [];
-		foreach ($result as $item) {
-			$articleEntity = new ArticleEntity();
-			$articleEntity->hydrate($item->toArray());
-			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
-			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
-			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
-
-			$articles[] = $articleEntity;
+		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+			$query[] = " order by validity desc, `at`.time asc";
+		} else {
+			$query[] = " order by validity desc, inserted_timestamp desc";
 		}
 
-		return $articles;
+		return $this->findArticleBySql($query);
 	}
 
 	/**
@@ -365,18 +345,14 @@ class ArticleRepository extends BaseRepository {
 			if ($type != null) {
 				$query[] = sprintf(" and a.type = %d", $type);
 			}
-			$query[] = " order by validity desc, inserted_timestamp desc";
 
-			$result = $this->connection->query($query)->fetchAll();
-			foreach ($result as $item) {
-				$articleEntity = new ArticleEntity();
-				$articleEntity->hydrate($item->toArray());
-				$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
-				$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
-				$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
-
-				$places[] = $articleEntity;
+			if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+				$query[] = " order by validity desc, `at`.time asc";
+			} else {
+				$query[] = " order by validity desc, inserted_timestamp desc";
 			}
+
+			$places = $this->findArticleBySql($query);
 		}
 
 		return $places;
@@ -417,18 +393,14 @@ class ArticleRepository extends BaseRepository {
 			if ($type != null) {
 				$query[] = sprintf(" and a.type = %d", $type);
 			}
-			$query[] = " order by validity desc, inserted_timestamp desc";
 
-			$result = $this->connection->query($query)->fetchAll();
-			foreach ($result as $item) {
-				$articleEntity = new ArticleEntity();
-				$articleEntity->hydrate($item->toArray());
-				$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
-				$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
-				$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
-
-				$places[] = $articleEntity;
+			if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+				$query[] = " order by validity desc, `at`.time asc";
+			} else {
+				$query[] = " order by validity desc, inserted_timestamp desc";
 			}
+
+			$places = $this->findArticleBySql($query);
 		}
 
 		return $places;
@@ -787,5 +759,25 @@ class ArticleRepository extends BaseRepository {
 	private function articleShowed($id) {
 		$query = ["update article set show_counter = show_counter + 1 where id = %i", $id];
 		$this->connection->query($query);
+	}
+
+	/**
+	 * @param array|string $query
+	 * @return array
+	 */
+	private function findArticleBySql(array $query) {
+		$result = $this->connection->query($query)->fetchAll();
+		$articles = [];
+		foreach ($result as $item) {
+			$articleEntity = new ArticleEntity();
+			$articleEntity->hydrate($item->toArray());
+			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
+
+			$articles[] = $articleEntity;
+		}
+
+		return $articles;
 	}
 }

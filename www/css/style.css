@@ -752,6 +752,12 @@ li.active a {
 	font-weight: bold;
 }
 /* jquery paginator end */
+/* shadow box override */
+div#shadowbox {
+	top: 0!important;
+}
+/* shadow box override end */
+
 #eventTimetable{
 	width: 100%;
 }

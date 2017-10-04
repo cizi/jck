@@ -9,6 +9,11 @@ class MenuRepository extends BaseRepository {
 	/** @const for temporary value during order changes in menu */
 	const TEMP_INTEGER_VALUE = 2147483647;
 
+	/** @const order hlavních položek menu kam se řadí implicitně přispěvky, podle typu */
+	const MENU_ITEM_ACTION = 1;
+	const MENU_ITEM_PLACE = 10;
+	const MENU_ITEM_ARTICLE = 54;
+
 	/**
 	 * @param string $lang
 	 * @param int $level

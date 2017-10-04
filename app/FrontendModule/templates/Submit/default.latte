@@ -60,6 +60,8 @@
 				placeholder_text_multiple: {=CHOSEN_PICKUP},
 				no_results_text: {=CHOSEN_NO_MATCH}
 			});
+
+			$('#frm-submitForm-menuOrders').val({$menuOrderAction}).trigger('chosen:updated');
 		});
 	</script>
 {/block}

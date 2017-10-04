@@ -13,6 +13,7 @@ use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\ArticleTimetableEntity;
 use App\Model\Entity\MenuEntity;
 use App\Model\EnumerationRepository;
+use App\Model\MenuRepository;
 use App\Model\WebconfigRepository;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
@@ -74,6 +75,7 @@ class SubmitPresenter extends BasePresenter {
 		$this->template->widthEnum = new WebWidthEnum();
 		$this->template->articleTimeTableWrongTime = ARTICLE_TIMETABLE_TIME_WRONG_FORMAT;
 		$this->template->articleFileUploadMissing = ARTICLE_MAIN_URL_REQ;
+		$this->template->menuOrderAction = MenuRepository::MENU_ITEM_ACTION;
 	}
 
 	public function createComponentSubmitForm() {
