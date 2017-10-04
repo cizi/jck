@@ -167,7 +167,10 @@ define("ARTICLE_EVENT_PLACE_ARTICLES", 'Články');
 define("ARTICLE_TRIGGER_FILTER", 'Filtrovat');
 define("ARTICLE_ACTIVITY_BOTH", 'Aktivní / neaktivní');
 define("ARTICLE_ACTIVITY_INACTIVE", 'Neaktivní');
-define("ARTICLE_ACTIVITY_ACTIVE", 'Aktivní');
+define("ARTICLE_FACEBOOK", 'Facebook');
+define("ARTICLE_PROMOTER", 'Promotér');
+define("ARTICLE_YOUTUBE", 'Youtube');
+define("ARTICLE_MAP", 'Mapa');
 
 // měsíce
 define("JANUARY", 'leden');

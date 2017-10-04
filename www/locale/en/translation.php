@@ -166,6 +166,10 @@ define("ARTICLE_TRIGGER_FILTER", 'Filter');
 define("ARTICLE_ACTIVITY_BOTH", 'Active / inactive');
 define("ARTICLE_ACTIVITY_INACTIVE", 'Inactive');
 define("ARTICLE_ACTIVITY_ACTIVE", 'Active');
+define("ARTICLE_FACEBOOK", 'Facebook');
+define("ARTICLE_PROMOTER", 'Promoter');
+define("ARTICLE_YOUTUBE", 'Youtube');
+define("ARTICLE_MAP", 'Map');
 
 // měsíce
 define("JANUARY", 'january');

@@ -14,16 +14,16 @@
 			{/if}
 			<p>
 				{if $place->getUrl()}
-					<a class="ev_link" target="_blank" href={$place->getUrl()}><i class="fa fa-link fa-1_5x" aria-hidden="true"></i></a>
+					<a class="ev ev_link" target="_blank" href={$place->getUrl()}><i class="fa fa-external-link-square" aria-hidden="true"></i>{=ARTICLE_PROMOTER|upper}</a>
 				{/if}
 				{if $place->getFbUrl() != null}
-					<a class="ev-facebook" target="_blank" href={$place->getFbUrl()}><i class="fa fa-facebook fa-1_5x" aria-hidden="true"></i></a>
+					<a class="ev ev_facebook" target="_blank" href={$place->getFbUrl()}><i class="fa fa-facebook-official" aria-hidden="true"></i>{=ARTICLE_FACEBOOK|upper}</a>
 				{/if}
 				{if $place->getYtUrl() != null}
-					<a class="ev_youtube" target="_blank" href={$place->getYtUrl()}><i class="fa fa-youtube-play fa-1_5x" aria-hidden="true"></i></a>
+					<a class="ev ev_youtube" target="_blank" href={$place->getYtUrl()}><i class="fa fa-youtube-play" aria-hidden="true"></i>{=ARTICLE_YOUTUBE|upper}</a>
 				{/if}
 				{if $place->getAddress() != null}
-					<a class="ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}"><i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i></a>
+					<a class="ev ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}"><i class="fa fa-location-arrow" aria-hidden="true"></i>{=ARTICLE_MAP|upper}</a>
 				{/if}
 			</p>
 		</div>

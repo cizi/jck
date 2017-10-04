@@ -700,33 +700,44 @@ small.calendarOnEvent {
 	border-top: 1px dotted grey;
 	margin-top: 10px;
 }
-.fa-1_5x{
-	font-size: 1.5em!important;
-	padding: 0 5px 0 5px;
+.ev {
+	color: white;
+	font-weight: bold;
+	font-size: 12px;
+	padding: 3px 7px;
+	border-radius: 5px;
+	margin: 0 4px;
+}
+.ev:hover {
+	color: white;
+	text-decoration: none;
+}
+.ev i {
+	padding-right: 5px;
 }
 .ev_link {
-	color: #ba4913;
+	background-color: #ba4913;
 }
 .ev_link:hover {
-	color: #ff6014;
+	background-color: #ff6014;
 }
 .ev_facebook{
-	color: #3d5b99;
+	background-color: #3d5b99;
 }
 .ev_facebook:hover{
-	color: #6599ff;
+	background-color: #6599ff;
 }
 .ev_youtube {
-	 color: #e64a41
+	 background-color: #e64a41
  }
 .ev_youtube:hover {
-	color: #ff6649
+	background-color: #ff6649
 }
 .ev_map {
-	color: #000;
+	background-color: #000;
 }
 .ev_map:hover {
-	color: #767676;
+	background-color: #767676;
 }
 
 /* tab switch  */
