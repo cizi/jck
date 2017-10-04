@@ -81,6 +81,9 @@ class ArticleEntity {
 	/** @var  */
 	private $categories;
 
+	/** @var string */
+	private $contactEmail;
+
 	/**
 	 * @return int
 	 */
@@ -432,6 +435,20 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getContactEmail() {
+		return $this->contactEmail;
+	}
+
+	/**
+	 * @param string $contactEmail
+	 */
+	public function setContactEmail($contactEmail) {
+		$this->contactEmail = $contactEmail;
+	}
+
+	/**
 	 * @return \DateTime
 	 */
 	public function getLastTimetableDate() {
@@ -471,7 +488,8 @@ class ArticleEntity {
 			'show_counter' => $this->getShowCounter(),
 			'click_counter' => $this->getClickCounter(),
 			'pic_url' => $this->getPicUrl(),
-			'contact' => $this->getContact()
+			'contact' => $this->getContact(),
+			'contact_email' => $this->getContactEmail()
 		];
 	}
 
@@ -501,5 +519,6 @@ class ArticleEntity {
 		$this->setClickCounter(isset($data['click_counter']) ? $data['click_counter'] : null);
 		$this->setPicUrl(isset($data['pic_url']) ? $data['pic_url'] : null);
 		$this->setContact(isset($data['contact']) ? $data['contact'] : null);
+		$this->setContactEmail(isset($data['contact_email']) ? $data['contact_email'] : null);
 	}
 }

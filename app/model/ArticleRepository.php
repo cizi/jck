@@ -274,11 +274,19 @@ class ArticleRepository extends BaseRepository {
 	 * @param $lang
 	 * @param \DateTime $dateFrom
 	 * @param null $searchText
-	 * @param null $dateTo
+	 * @param \DateTime|null $dateTo
 	 * @param int $type
+	 * @param null $sublocation
 	 * @return array
 	 */
-	public function findActiveArticlesInLangByDate($lang, \DateTime $dateFrom, $searchText = null, \DateTime $dateTo = null, $type = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+	public function findActiveArticlesInLangByDate(
+			$lang,
+			\DateTime $dateFrom,
+			$searchText = null,
+			\DateTime $dateTo = null,
+			$type = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER,
+			$sublocation = null
+	) {
 		$dateFrom = ($dateFrom == null ? new DateTime() : $dateFrom);
 		$query = ["select distinct a.id, a.* 
 					from article_timetable as `at`
@@ -297,6 +305,9 @@ class ArticleRepository extends BaseRepository {
 		}
 		if ($type != null) {
 			$query[] = sprintf(" and a.type = %d", $type);
+		}
+		if ($sublocation != null) {
+			$query[] = sprintf(" and a.sublocation = %d", $sublocation);
 		}
 		$query[] = " order by validity desc, inserted_timestamp desc";
 

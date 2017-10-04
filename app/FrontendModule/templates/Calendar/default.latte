@@ -12,6 +12,10 @@
 							<strong>{$months[$startDate->format('m')-1]} {$startDate->format('Y')}</strong><br />
 							<a href={link Show:SearchDate $currentLang}><span class="glyphicon glyphicon glyphicon-search" style="font-size: 20px"></span></a>
 						</div>
+
+						{form destinationForm}
+							{input destination}
+						{/form}
 					</td>
 					{var begin = $startDate}
 					{var end = $endDate}

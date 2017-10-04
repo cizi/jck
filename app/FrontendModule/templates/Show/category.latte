@@ -2,7 +2,9 @@
 	<div class="row" style="padding: 0 40px 0 40px">
 		<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-12">
 			<div class="row hp_2_cols">
-				<h1 class="titles">{$clickedCategory->getTitle()}</h1>
+				{if $clickedCategory->getTitle() != ""}
+					<h1 class="titles">{$clickedCategory->getTitle()}</h1>
+				{/if}
 				{if count($breadcrumbs) > 1}
 					<div class="breadcrumb">
 						{foreach $breadcrumbs as $title => $link}
@@ -12,14 +14,17 @@
 				{/if}
 
 				{form fulltextSearchForm}
-					<div class="col-lg-1 col-md-1 col-sm-1"></div>
-					<div class="col-lg-5 col-md-5 col-sm-5">
-						{input search}
+					<div class="row" style="padding: 0; margin: 0;">
+						<div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-12">
+							{input sublocation}
+						</div>
+						<div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-12">
+							{input search}
+						</div>
+						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-12">
+							{input confirm}
+						</div>
 					</div>
-					<div class="col-lg-1 col-md-1 col-sm-1">
-						{input confirm}
-					</div>
-					<div class="col-lg-1 col-md-1 col-sm-1"></div>
 				{/form}
 			</div>
 

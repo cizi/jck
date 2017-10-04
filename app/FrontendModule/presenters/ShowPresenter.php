@@ -177,10 +177,13 @@ class ShowPresenter extends BasePresenter {
 		if ($query != null) {
 			$this['fulltextSearchForm']['search']->setDefaultValue($query);
 		}
+		if ($sublocation != null) {
+			$this['fulltextSearchForm']['sublocation']->setDefaultValue($sublocation);
+		}
 	}
 
 	public function createComponentFulltextSearchForm() {
-		$form = $this->fulltextSearchForm->create();
+		$form = $this->fulltextSearchForm->create($this->langRepository->getCurrentLang($this->session));
 		$form->onSuccess[] = $this->submitFulltextSearchForm;
 
 		$renderer = $form->getRenderer();
@@ -210,7 +213,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $from format d.m.Y
 	 * @param string [$to] format d.m.Y
 	 */
-	public function actionSearchDate($lang, $from, $to, $searchText) {
+	public function actionSearchDate($lang, $from, $to, $searchText, $sublocation) {
 		try {
 			$dateFrom = \DateTime::createFromFormat(ArticleRepository::URL_DATE_MASK, $from);
 			if ($dateFrom == false) {
@@ -234,8 +237,11 @@ class ShowPresenter extends BasePresenter {
 		if ($dateTo != null) {
 			$this['mainPageSearchForm']['to']->setDefaultValue($dateTo->format(ArticleRepository::URL_DATE_MASK));
 		}
+		if ($sublocation != null) {
+			$this['mainPageSearchForm']['sublocation']->setDefaultValue($sublocation);
+		}
 		$this['mainPageSearchForm']['search']->setDefaultValue($searchText);
-		$this->template->articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, $searchText, $dateTo);
+		$this->template->articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, $searchText, $dateTo, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
 	}
 
 	/**
@@ -256,11 +262,12 @@ class ShowPresenter extends BasePresenter {
 		$from = (isset($values['from']) ? $values['from'] : null);
 		$to = (isset($values['to']) ? $values['to'] : null);
 		$search = (isset($values['search']) ? $values['search'] : null);
+		$sublocation = ((isset($values['sublocation']) && ($values['sublocation'] != 0)) ? $values['sublocation'] : null);
 		if ($from == null) {
 			$this->flashMessage(MAIN_SEARCH_REQ_FIELDS, "alert-danger");
 			$this->redirect("Homepage:Default");
 		} else {
-			$this->redirect("SearchDate", $this->langRepository->getCurrentLang($this->session), $from, $to, $search);
+			$this->redirect("SearchDate", $this->langRepository->getCurrentLang($this->session), $from, $to, $search, $sublocation);
 		}
 	}
 }

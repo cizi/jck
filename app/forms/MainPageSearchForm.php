@@ -2,6 +2,7 @@
 
 namespace App\Forms;
 
+use App\Model\EnumerationRepository;
 use Nette;
 use Nette\Application\UI\Form;
 
@@ -13,14 +14,19 @@ class MainPageSearchForm extends Nette\Object {
 	/** @var FormFactory */
 	private $factory;
 
+	/** @var  EnumerationRepository  */
+	private $enumerationRepository;
+
 	/**
 	 * MainPageSearchForm constructor.
 	 * @param FormFactory $factory
 	 */
 	public function __construct(
-		FormFactory $factory
+		FormFactory $factory,
+		EnumerationRepository $enumerationRepository
 	) {
 		$this->factory = $factory;
+		$this->enumerationRepository = $enumerationRepository;
 	}
 
 	/**
@@ -46,6 +52,11 @@ class MainPageSearchForm extends Nette\Object {
 
 		$form->addText("search", MAIN_SEARCH_SEARCH)
 			->setAttribute("placeholder", MAIN_SEARCH_SEARCH)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
+
+		$sublocations = $this->enumerationRepository->findEnumItemsForSelectWithEmpty($lang, EnumerationRepository::SUBLOKACE);
+		$form->addSelect("sublocation", ARTICLE_SUBLOCATION, $sublocations)
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 

@@ -73,11 +73,13 @@ class HomepagePresenter extends BasePresenter {
 		$from = (isset($values['from']) ? $values['from'] : null);
 		$to = (isset($values['to']) ? $values['to'] : null);
 		$search = (isset($values['search']) ? $values['search'] : null);
+		$sublocation = ((isset($values['sublocation']) && ($values['sublocation'] != 0)) ? $values['sublocation'] : null);
+
 		if ($from == null) {
 			$this->flashMessage(MAIN_SEARCH_REQ_FIELDS, "alert-danger");
 			$this->redirect("Default");
 		} else {
-			$this->redirect("Show:SearchDate", $this->langRepository->getCurrentLang($this->session), $from, $to, $search);
+			$this->redirect("Show:SearchDate", $this->langRepository->getCurrentLang($this->session), $from, $to, $search, $sublocation);
 		}
 	}
 }

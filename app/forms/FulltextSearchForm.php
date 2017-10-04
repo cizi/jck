@@ -16,38 +16,26 @@ class FulltextSearchForm extends Nette\Object {
 	/** @var FormFactory */
 	private $factory;
 
-	/** @var LangRepository */
-	private $langRepository;
-
-	/** @var MenuController */
-	private $menuController;
-
-	/** @var PicRepository */
-	private $picRepository;
+	/** @var  EnumerationRepository */
+	private $enumerationRepository;
 
 	/**
-	 * ArticleForm constructor.
+	 * FulltextSearchForm constructor.
 	 * @param FormFactory $factory
-	 * @param LangRepository $langRepository
-	 * @param MenuController $menuController
-	 * @param PicRepository $picRepository
+	 * @param EnumerationRepository $enumerationRepository
 	 */
 	public function __construct(
 		FormFactory $factory,
-		LangRepository $langRepository,
-		MenuController $menuController,
-		PicRepository $picRepository
+		EnumerationRepository $enumerationRepository
 	) {
 		$this->factory = $factory;
-		$this->langRepository = $langRepository;
-		$this->menuController = $menuController;
-		$this->picRepository = $picRepository;
+		$this->enumerationRepository = $enumerationRepository;
 	}
 
 	/**
 	 * @return Form
 	 */
-	public function create() {
+	public function create($lang) {
 		$form = $this->factory->create();
 		$form->getElementPrototype()->addAttributes(["onsubmit" => "return requiredFields();"]);
 
@@ -56,6 +44,11 @@ class FulltextSearchForm extends Nette\Object {
 			->setAttribute("validation", MAIN_PAGE_SEARCH_REQ)
 			->setAttribute("placeholder", MAIN_PAGE_SEARCH)
 			->setAttribute("class", "form-control tinym_required_field input-sm")
+			->setAttribute("tabindex", $i+1);
+
+		$sublocations = $this->enumerationRepository->findEnumItemsForSelectWithEmpty($lang, EnumerationRepository::SUBLOKACE);
+		$form->addSelect("sublocation", ARTICLE_SUBLOCATION, $sublocations)
+			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 
 		$form->addSubmit("confirm", MAIN_PAGE_SEARCH)

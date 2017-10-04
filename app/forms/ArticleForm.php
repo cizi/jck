@@ -101,6 +101,13 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("placeholder", ARTICLE_CONTACT)
 			->setAttribute("tabindex", $i+1);
 
+		$form->addText("contact_email", ARTICLE_CONTACT_EMAIL)
+			->setAttribute("class", "form-control tinym_required_field")
+			->setAttribute("placeholder", ARTICLE_CONTACT_EMAIL)
+			->setAttribute("validation", ARTICLE_CONTACT_EMAIL_REQ)
+			->addRule(Form::EMAIL, ARTICLE_CONTACT_EMAIL_FORMAT)
+			->setAttribute("tabindex", $i+1);
+
 		$form->addCheckbox("active", " " . ARTICLE_ACTIVE)
 			->setAttribute("class","activeToggleEvent")
 			->setAttribute("data-toggle","toggle")
@@ -123,24 +130,6 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("placeholder", ARTICLE_YT_URL)
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
-
-		/* $widthSelect = new WebWidthEnum();
-		$defaultValue = $widthSelect->arrayKeyValue();
-		end($defaultValue);
-		$form->addSelect(, BLOCK_SETTING_WIDTH, $widthSelect->arrayKeyValue())
-			->setAttribute("class", "form-control menuItem")
-			->setAttribute("tabindex", "1")
-			->setDefaultValue(key($defaultValue));
-
-		$form->addText(, BLOCK_SETTING_ITEM_CONTENT_COLOR)
-			->setAttribute("id", "footerBackgroundColor")
-			->setAttribute("class", "form-control minicolors-input")
-			->setAttribute("tabindex", "2");
-
-		$form->addText(, BLOCK_SETTING_ITEM_CONTENT_BG_COLOR)
-			->setAttribute("id", "footerColor")
-			->setAttribute("class", "form-control minicolors-input")
-			->setAttribute("tabindex", "3"); */
 
 		$languages = $this->langRepository->findLanguages();
 		foreach ($languages as $lang) {

@@ -4,6 +4,7 @@ namespace App\FrontendModule\Presenters;
 
 use App\Controller\EmailController;
 use App\Controller\FileController;
+use App\Enum\Enum;
 use App\Enum\WebWidthEnum;
 use App\Forms\ArticleForm;
 use App\Model\Entity\ArticleCategoryEntity;
@@ -83,6 +84,7 @@ class SubmitPresenter extends BasePresenter {
 		unset($form['pics']);
 		unset($form['pic_id']);
 		unset($form['place']);
+		unset($form['location']);
 		$form['confirm']->caption = SUBMIT_OWN_BUTTON;
 
 		$form->onSuccess[] = $this->submitFormSubmit;
@@ -161,6 +163,7 @@ class SubmitPresenter extends BasePresenter {
 			$this->redirect("default", $this->langRepository->getCurrentLang($this->session), null, $values);
 		} else {
 			$insertedBy = ($this->getUser()->isLoggedIn() ? $this->getUser()->getId() : null);
+			$articleEntity->setLocation(EnumerationRepository::LOKACE_JIHOCESKY_ORDER);	// máme jen jihočeský
 			if ($this->articleRepository->saveCompleteArticle($articleEntity, $insertedBy, $calendars, $categories, $pics) == false) {
 				$this->flashMessage(SUBMIT_OWN_FAILED, "alert-danger");
 				$this->redirect("default", $this->langRepository->getCurrentLang($this->session), null, $values);

@@ -28,14 +28,14 @@
 					{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
 					- {$article->getLastTimetableDate()->format('d.m.Y')}
 					{$timetable->getTime()->format("%H:%S")}<br />
-					{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
+					{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 					{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br /><br />
 				{/if}
 			</strong>
 
 			{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
 			<div>
-				<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>
+				{* <span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span> *}
 				<a href={link $target, $currentLang, $article->getId(), $urlTitle} class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</a>
 			</div>
 		</div>

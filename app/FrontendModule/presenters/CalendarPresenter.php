@@ -45,4 +45,20 @@ class CalendarPresenter extends BasePresenter {
 		$minusWeek = $startDate->modify('-7 days');
 		$this->redirect("default", $lang, $id, $seoText, $minusWeek->format('Y-m-d'));
 	}
+
+	/**
+	 * @return Form
+	 */
+	protected function createComponentDestinationForm() {
+		$form = $this->searchForm->create($this->langRepository->getCurrentLang($this->session));
+		$form['destination']->setAttribute("onchange", "this.form.submit();");
+
+		$form->onSuccess[] = $this->destinationCalendar;
+
+		return $form;
+	}
+
+	public function destinationCalendar(Form $form, $values) {
+		dump($form, $values);
+	}
 }
