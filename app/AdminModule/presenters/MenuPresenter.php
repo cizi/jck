@@ -71,6 +71,11 @@ class MenuPresenter extends SignPresenter {
 				$menuEntity->hydrate((array)$item);
 				$menuEntity->setSubmenu($submenu);
 				$menuEntity->setLevel($level);
+				if ($this->menuRepository->getMenuItemByLink($menuEntity->getLink(), $menuEntity->getLang()) != null) {
+					$message = sprintf(MENU_SETTINGS_ITEM_LINK_EXISTS, $menuEntity->getLink());
+					$this->flashMessage($message, "alert-danger");
+					$this->redirect("edit", null, $values);
+				}
 				$langItems[] = $menuEntity;
 			}
 		}
@@ -82,7 +87,6 @@ class MenuPresenter extends SignPresenter {
 			$this->flashMessage(MENU_SETTINGS_ITEM_LINK_FAILED, "alert-danger");
 			$this->redirect("edit", null, $values);
 		}
-
 	}
 
 	/**

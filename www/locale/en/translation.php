@@ -388,6 +388,7 @@ define("MENU_SETTINGS_ITEM_SEO", 'SEO title');
 define("MENU_SETTINGS_ITEM_LINK_ADDED", 'Item has been successfully added');
 define("MENU_SETTINGS_ITEM_DELETED", 'Item has been successfully deleted');
 define("MENU_SETTINGS_ITEM_LINK_FAILED", 'During saving appeared a problem. Please repeat it later');
+define("MENU_SETTINGS_ITEM_LINK_EXISTS", 'Your desired link (%s) already exists in the menu. Please, choose a unique value.');
 define("MENU_SETTINGS_ITEM_LINK_INFO", 'Title in menu URL item . <b>IMPORTANT for SEO</b>.');
 define("MENU_SETTINGS_SUBMENU", 'Has subitems');
 define("MENU_SETTINGS_ADD", 'Add item');

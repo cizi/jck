@@ -397,6 +397,7 @@ define("MENU_SETTINGS_ITEM_SEO", 'SEO titulek');
 define("MENU_SETTINGS_ITEM_LINK_ADDED", 'Položka byla úspěšně vložena');
 define("MENU_SETTINGS_ITEM_DELETED", 'Položka byla úspěšně smazána');
 define("MENU_SETTINGS_ITEM_LINK_FAILED", 'Při ukládání došlo k chybě. Zkuste opakovat později. Případně ověřte, že nevkládáte duplicitní hodnodu odkazu, ta musí být jedinečná');
+define("MENU_SETTINGS_ITEM_LINK_EXISTS", 'Vámi uvedený odkaz (%s) v menu již existuje. Uveďte, prosím, unikátní hodnotu.');
 define("MENU_SETTINGS_ITEM_LINK_INFO", 'Název položky menu v URL. <b>DŮLEŽITÉ pro SEO</b>.');
 define("MENU_SETTINGS_SUBMENU", 'Bude mít další úroveň');
 define("MENU_SETTINGS_ADD", 'Přidat položku');

@@ -75,13 +75,12 @@ class MenuRepository extends BaseRepository {
 			$lang
 		];
 
-		$menuItem = new MenuEntity();
 		$result = $this->connection->query($query)->fetch();
 		if ($result) {
+			$menuItem = new MenuEntity();
 			$menuItem->hydrate($result->toArray());
+			return $menuItem;
 		}
-
-		return $menuItem;
 	}
 
 	/**
