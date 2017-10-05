@@ -7,6 +7,7 @@
 				<img class="showDetail" src={$picUrl->getPath()} />
 			{/if}
 			{$article->getContents()[$currentLang]->getContent()|noescape}
+			{include "../@articleDocs.latte", $docsUploaded}
 		</div>
 
 		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">

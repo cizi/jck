@@ -6,6 +6,7 @@ use App\Model\Entity\ArticleCategoryEntity;
 use App\Model\Entity\ArticleContentEntity;
 use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\ArticleTimetableEntity;
+use App\Model\Entity\PicEntity;
 use Dibi\Connection;
 use Dibi\DateTime;
 use Dibi\Row;
@@ -514,7 +515,7 @@ class ArticleRepository extends BaseRepository {
 	 * @param array $blockPicsEntities
 	 * @return bool
 	 */
-	public function saveCompleteArticle(ArticleEntity $articleEntity, $userId, array $calendars, array $categories, array $blockPicsEntities = []) {
+	public function saveCompleteArticle(ArticleEntity $articleEntity, $userId, array $calendars, array $categories, array $blockPicsEntities = [], array $docFiles = []) {
 		$result = true;
 		try {
 			$this->connection->begin();
@@ -541,6 +542,11 @@ class ArticleRepository extends BaseRepository {
 			$this->saveArticleContent($articleEntity->getContents(), $articleId);
 			foreach ($blockPicsEntities as $picEnt) {
 				$this->picRepository->save($picEnt);
+			}
+			/** @var PicEntity $doc */
+			foreach ($docFiles as $doc) {
+				$doc->setArticleId($articleId);
+				$this->picRepository->save($doc);
 			}
 			$articleEntity->setId($articleId);
 			$this->connection->commit();

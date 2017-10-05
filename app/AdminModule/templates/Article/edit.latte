@@ -194,6 +194,17 @@
 				);
 			}
 
+			$("#frm-articleForm-docsUpload").parent().append(
+				"<ul>" +
+					{foreach $docsUploaded as $doc}
+						"<li class='doc'>" +
+							'<a href={$doc->getPath()} target="_blank">' + {$doc->getFilename()} + '</a>' +
+							'<a title={=USER_CONFIRM_DELETE_OK} href={link Article:DeletePic, $articleId, $doc->getId()} class="colorRed"><span class="glyphicon glyphicon-remove"></span></a>' +
+						"</li>" +
+					{/foreach}
+				"</ul>"
+			);
+
 			$("#frm-articleForm-type").trigger("change");
 		});
 

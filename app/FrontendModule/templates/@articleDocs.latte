@@ -1,0 +1,5 @@
+<ul class="feUploadedDocs">
+	{foreach $docsUploaded as $doc}
+		<li><a href={$doc->getPath()} target="_blank">{$doc->getFilename()}</a></li>
+	{/foreach}
+</ul>

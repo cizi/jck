@@ -52,6 +52,7 @@
 				<li class="active"><a href="#info" data-toggle="tab">{=ARTICLE_EVENT_INFO}</a></li>
 				{if count($articles)}<li><a href="#events" data-toggle="tab">{=ARTICLE_EVENT_PLACE_EVENTS} ({count($articles)})</a></li>{/if}
 				{if count($textArticles)}<li><a href="#articles" data-toggle="tab">{=ARTICLE_EVENT_PLACE_ARTICLES} ({count($textArticles)})</a></li>{/if}
+				{if count($docsUploaded)}<li><a href="#uploadedDocs" data-toggle="tab">{=ARTICLE_EVENT_DOCS} ({count($docsUploaded)})</a></li>{/if}
 			</ul>
 
 			<div id = "myTabContent" class = "tab-content">
@@ -88,6 +89,12 @@
 								</div>
 							</div>
 						{/foreach}
+					</div>
+				{/if}
+
+				{if count($docsUploaded)}
+					<div class="tab-pane fade" id="uploadedDocs">
+						{include "../@articleDocs.latte", $docsUploaded}
 					</div>
 				{/if}
 			</div>

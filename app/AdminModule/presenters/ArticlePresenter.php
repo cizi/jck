@@ -3,6 +3,7 @@
 namespace App\AdminModule\Presenters;
 
 use App\Controller\FileController;
+use App\Enum\SharedFileEnum;
 use App\Forms\ArticleFilterForm;
 use App\Forms\ArticleForm;
 use App\Model\ArticleTimetableRepository;
@@ -82,6 +83,7 @@ class ArticlePresenter extends SignPresenter {
 
 		$this->template->articleId = $id;
 		$this->template->blockPics = $this->picRepository->load();
+		$this->template->docsUploaded = $this->picRepository->loadDocs($id);
 
 		$this->template->articleTypeAction = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 		$this->template->articleTypeArticle = EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER;
@@ -156,10 +158,12 @@ class ArticlePresenter extends SignPresenter {
 
 		$error = false;
 		$supportedFileFormats = ["jpg", "png"];
+		$supportedDocFileFormats = ["pdf", "doc", "docx", "jpg", "png"];
 		$calendars = [];
 		$mutation = [];
 		$categories = [];
 		$pics = [];
+		$docs = [];
 		foreach($values as $key => $value) {
 			if (($value instanceof ArrayHash) && ($key == 'calendar')) {    // timetable
 				foreach ($value as $calendarKey => $calendarData) {
@@ -196,7 +200,7 @@ class ArticlePresenter extends SignPresenter {
 					$articleEntity->setPicUrl($fileController->getPathDb());
 				}
 			}
-			if (is_array($value) && ($key != 'menuOrders')) {	// obrázky
+			if (is_array($value) && ($key == 'pics')) {	// obrázky
 				/** @var FileUpload $file */
 				foreach ($value as $file) {
 					if ($file->name != "") {
@@ -212,6 +216,23 @@ class ArticlePresenter extends SignPresenter {
 					}
 				}
 			}
+			if (is_array($value) && ($key == 'docsUpload')) {	// ostatní přílohy
+				/** @var FileUpload $file */
+				foreach ($value as $file) {
+					if ($file->name != "") {
+						$fileController = new FileController();
+						if ($fileController->upload($file, $supportedDocFileFormats, $this->getHttpRequest()->getUrl()->getBaseUrl()) == false) {
+							$error = true;
+							break;
+						}
+						$doc = new PicEntity();
+						$doc->setPath($fileController->getPathDb());
+						$doc->setFileType(SharedFileEnum::DOC);
+
+						$docs[] = $doc;
+					}
+				}
+			}
 		}
 
 		$articleEntity->setContents($mutation);
@@ -220,7 +241,7 @@ class ArticlePresenter extends SignPresenter {
 			$this->flashMessage($flashMessage, "alert-danger");
 			$this->redirect("edit", null, $values);
 		} else {
-			if ($this->articleRepository->saveCompleteArticle($articleEntity, $this->getUser()->getId(), $calendars, $categories, $pics) == false) {
+			if ($this->articleRepository->saveCompleteArticle($articleEntity, $this->getUser()->getId(), $calendars, $categories, $pics, $docs) == false) {
 				$this->flashMessage(ARTICLE_SAVE_FAILED, "alert-danger");
 				$this->redirect("edit", null, $values);
 			}
@@ -251,6 +272,8 @@ class ArticlePresenter extends SignPresenter {
 	public function actionDeletePic($articleId, $picId) {
 		if ($this->picRepository->delete($picId) == false) {
 			$this->flashMessage(PIC_NOT_POSSIBLE_DELETE, "alert-danger");
+		} else {
+			$this->flashMessage(PIC_DELETE_DELETED, "alert-success");
 		}
 		$this->redirect("edit", $articleId);
 	}

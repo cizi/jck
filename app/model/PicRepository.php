@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Enum\SharedFileEnum;
 use App\Model\Entity\PicEntity;
 use Dibi\Exception;
 
@@ -12,7 +13,7 @@ class PicRepository extends BaseRepository {
 	 */
 	public function load() {
 		$return = [];
-		$query = "select * from shared_pic";
+		$query = ["select * from shared_pic where file_type = %i", SharedFileEnum::PIC];
 		$result = $this->connection->query($query)->fetchAll();
 		foreach ($result as $item) {
 			$footerPic = new PicEntity();
@@ -77,6 +78,23 @@ class PicRepository extends BaseRepository {
 		}
 
 		return $footerPic;
+	}
+
+	/**
+	 * @param int $articleId
+	 * @return array
+	 */
+	public function loadDocs($articleId) {
+		$return = [];
+		$query = ["select * from shared_pic where article_id = %i and file_type = %i", $articleId, SharedFileEnum::DOC];
+		$result = $this->connection->query($query)->fetchAll();
+		foreach ($result as $item) {
+			$doc = new PicEntity();
+			$doc->hydrate($item->toArray());
+			$return[] = $doc;
+		}
+
+		return $return;
 	}
 
 }

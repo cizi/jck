@@ -79,6 +79,7 @@ class SubmitPresenter extends BasePresenter {
 		unset($form['pic_id']);
 		unset($form['place']);
 		unset($form['location']);
+		unset($form['docsUpload']);
 		$form['confirm']->caption = SUBMIT_OWN_BUTTON;
 
 		$form->onSuccess[] = $this->submitFormSubmit;

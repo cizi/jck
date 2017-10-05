@@ -30,6 +30,7 @@ class ShowPresenter extends BasePresenter {
 		$articleEntity = $this->articleRepository->getArticle($id);
 		if ($articleEntity) {
 			$this->template->article = $articleEntity;
+			$this->template->docsUploaded = $this->picRepository->loadDocs($articleEntity->getId());
 		}
 	}
 
@@ -101,6 +102,7 @@ class ShowPresenter extends BasePresenter {
 			$this->template->article = $article;
 			$this->template->places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $article->getPlace(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
 			$this->template->cities = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
+			$this->template->docsUploaded = $this->picRepository->loadDocs($article->getId());
 		}
 	}
 
@@ -114,6 +116,7 @@ class ShowPresenter extends BasePresenter {
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
 		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
+		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
 	}
 
 	/**
@@ -126,6 +129,7 @@ class ShowPresenter extends BasePresenter {
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
 		$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 		$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);
+		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
 		$this->setView('place');
 	}
 

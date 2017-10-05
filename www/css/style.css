@@ -846,3 +846,10 @@ div#shadowbox {
 	background-color: white!important;
 	border: none!important;
 }
+li.doc a{
+	padding-left: 15px;
+	padding-top: 5px;
+}
+.feUploadedDocs {
+	margin: 15px 10px;
+}

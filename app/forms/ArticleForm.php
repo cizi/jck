@@ -205,6 +205,10 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("tabindex", $i+1);
 		$form->addHidden("pic_url")->setAttribute("id", "articleMainImgUrl");
 
+		$form->addMultiUpload("docsUpload", ARTICLE_MAIN_DOCS)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
+
 		$picsSelect = $this->picRepository->loadForSelect();
 		$form->addSelect("pic_id", ARTICLE_MAIN_PIC, $picsSelect)
 			->setAttribute("class", "form-control")

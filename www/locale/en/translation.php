@@ -126,6 +126,7 @@ define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Master pic');
 define("ARTICLE_MAIN_URL", 'Master pic (660 x 443px)');
 define("ARTICLE_MAIN_URL_REQ", 'Master pic (660 x 443px) is mandatory field.');
+define("ARTICLE_MAIN_DOCS", 'Files (posters, program, etc.)');
 define("ARTICLE_URL", 'Web URL of action');
 define("ARTICLE_FB_URL", 'FB action URL');
 define("ARTICLE_YT_URL", 'Youtube URL');
@@ -160,6 +161,7 @@ define("ARTICLE_TOP_EVENTS", 'Top events');
 define("ARTICLE_EVENT_INFO", 'Info');
 define("ARTICLE_EVENT_CITIES", 'City');
 define("ARTICLE_EVENT_PLACES", 'Place');
+define("ARTICLE_EVENT_DOCS", 'Files');
 define("ARTICLE_EVENT_PLACE_EVENTS", 'Events');
 define("ARTICLE_EVENT_PLACE_ARTICLES", 'Articles');
 define("ARTICLE_TRIGGER_FILTER", 'Filter');
@@ -216,7 +218,8 @@ define("GALLERY_SAVE_GALLERY", 'Save gallery');
 define("CHOSEN_PICKUP", 'Choose an option');
 define("CHOSEN_NO_MATCH", 'No match');
 define("USER_REQUEST_NOT_PRIV", 'Permission denied for this request.');
-define("PIC_NOT_POSSIBLE_DELETE", 'The picture is not possible to delete. The picture is probably in use. ');
+define("PIC_NOT_POSSIBLE_DELETE", 'File is not possible to delete. The picture is probably in use. ');
+define("PIC_DELETE_DELETED", 'File has been successfully deleted. ');
 
 // homepage
 define("HP_ARTICLE_TEXT", 'Lastest articles');

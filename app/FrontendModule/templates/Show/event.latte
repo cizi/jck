@@ -104,6 +104,7 @@
 				<li class="active"><a href="#info" data-toggle="tab">{=ARTICLE_EVENT_INFO}</a></li>
 				{if count($places)}<li><a href="#places" data-toggle="tab">{=ARTICLE_EVENT_PLACES}</a></li>{/if}
 				{if count($cities)}<li><a href="#cities" data-toggle="tab">{=ARTICLE_EVENT_CITIES}</a></li>{/if}
+				{if count($docsUploaded)}<li><a href="#uploadedDocs" data-toggle="tab">{=ARTICLE_EVENT_DOCS} ({count($docsUploaded)})</a></li>{/if}
 			</ul>
 
 			<div id = "myTabContent" class = "tab-content">
@@ -160,6 +161,12 @@
 							<span class="eventPlaces colorGrey">{$city->getAddress()|noescape}</span><br /><br />
 							{$city->getContents()[$currentLang]->getContent()|noescape|truncate:160}
 						{/foreach}
+					</div>
+				{/if}
+
+				{if count($docsUploaded)}
+					<div class="tab-pane fade" id="uploadedDocs">
+						{include "../@articleDocs.latte", $docsUploaded}
 					</div>
 				{/if}
 			</div>
