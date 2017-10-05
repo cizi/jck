@@ -41,15 +41,23 @@ class FulltextSearchForm extends Nette\Object {
 
 		$i = 0;
 		$form->addText("search", MAIN_PAGE_SEARCH)
-			->setAttribute("validation", MAIN_PAGE_SEARCH_REQ)
+			// ->setAttribute("validation", MAIN_PAGE_SEARCH_REQ)
 			->setAttribute("placeholder", MAIN_PAGE_SEARCH)
-			->setAttribute("class", "form-control tinym_required_field input-sm")
+			->setAttribute("class", "form-control input-sm")
 			->setAttribute("tabindex", $i+1);
 
-		$sublocations = $this->enumerationRepository->findEnumItemsForSelectWithEmpty($lang, EnumerationRepository::SUBLOKACE);
+		$sublocationsEnum = $this->enumerationRepository->findEnumItemsForSelect($lang, EnumerationRepository::SUBLOKACE);
+		$sublocations = array(
+			"0" => \Nette\Utils\Html::el()->setText(ARTICLE_SUBLOCATION) //->addAttributes(["disabled" => 'disabled'])
+		);
+		foreach ($sublocationsEnum as $id => $val) {
+			$sublocations[$id] = $val;
+		}
+
 		$form->addSelect("sublocation", ARTICLE_SUBLOCATION, $sublocations)
-			->setAttribute("class", "form-control")
-			->setAttribute("tabindex", $i+1);
+			->setAttribute("class", "form-control input-sm")
+			->setAttribute("tabindex", $i+1)
+			->setDefaultValue(0);
 
 		$form->addSubmit("confirm", MAIN_PAGE_SEARCH)
 			->setAttribute("class","btn btn-primary btn-sm")

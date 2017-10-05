@@ -205,7 +205,9 @@ class ShowPresenter extends BasePresenter {
 		$seoText = $pathArray[count($pathArray)-1];
 		$order = $pathArray[count($pathArray)-2];
 		$page = $this->getHttpRequest()->getQuery('page');
-		$this->redirect("category", $this->langRepository->getCurrentLang($this->session), $order, $seoText, $page, $values['search']);
+		$search = ($values['search'] == "" ? null : $values['search']);
+		$sublocation = ($values['sublocation'] == 0 ? null : $values['sublocation']);
+		$this->redirect("category", $this->langRepository->getCurrentLang($this->session), $order, $seoText, $page, $search, $sublocation);
 	}
 
 	/**

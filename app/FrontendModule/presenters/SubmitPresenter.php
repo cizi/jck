@@ -51,15 +51,7 @@ class SubmitPresenter extends BasePresenter {
 			if ((empty($id) || ($id == "")) && !empty($lang) && (!isset($availableLangs[$lang]))) {
 				$id = $lang;
 			}
-			if (empty($id) || ($id == "")) {    // try to find default
-				$userBlocks[] = $this->getDefaultBlock();
-			} else {
-				$userBlocks = $this->blockRepository->findAddedBlockFronted($id,
-					$this->langRepository->getCurrentLang($this->session));
-				if (empty($userBlocks)) {
-					$userBlocks[] = $this->getDefaultBlock();
-				}
-			}
+
 			// because of sitemap.xml
 			$allWebLinks = $this->menuRepository->findAllItems();
 			$this->template->webAvailebleLangs = $availableLangs;
