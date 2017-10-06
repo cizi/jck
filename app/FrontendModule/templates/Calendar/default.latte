@@ -10,7 +10,7 @@
                         		<span class="glyphicon glyphicon-calendar"></span>
                     		</span>
 							<strong>{$months[$startDate->format('m')-1]} {$startDate->format('Y')}</strong><br />
-							<a href={link Show:SearchDate $currentLang}><span class="glyphicon glyphicon glyphicon-search" style="font-size: 20px"></span></a>
+							<a href={link Show:SearchDate $currentLang, $startDate->format('d.m.Y'), null, null, $sublocation}><span class="glyphicon glyphicon glyphicon-search" style="font-size: 20px"></span></a>
 						</div>
 
 						{form destinationForm}
@@ -24,12 +24,12 @@
 					{foreach $period as $dt}
 						<td>
 							{if $iterator->isFirst()}
-								<a class="floatLeft" href={link minusWeek $currentLang, $startDate->format('Y-m-d')}> < </a>
+								<a class="floatLeft" href={link minusWeek $currentLang, $startDate->format('Y-m-d'), null, $sublocation}> < </a>
 							{/if}
 
-							<a href={link default $currentLang, $dt->format('Y-m-d'), null, $dt->format('Y-m-d')}>{$dt->format('j. n.')}</a>
+							<a href={link default $currentLang, $dt->format('Y-m-d'), null, $dt->format('Y-m-d'), $sublocation}>{$dt->format('j. n.')}</a>
 							{if $iterator->isLast()}
-								<a class="floatRight" href={link plusWeek $currentLang, $startDate->format('Y-m-d')}> > </a>
+								<a class="floatRight" href={link plusWeek $currentLang, $startDate->format('Y-m-d'), null, $sublocation}> > </a>
 							{/if}
 
 							<br />
