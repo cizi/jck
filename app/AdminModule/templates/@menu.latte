@@ -92,25 +92,5 @@
 				<span class="glyphicon glyphicon-log-out menuItem"></span>{=MENU_LOGOUT}</a>
 		</li>
 	</ul>
-	<img id="adminMenuFooter" class="adminMenuFooter" src="{$basePath}/images/menuFooter.png" />
 </div>
 <!-- /#sidebar-wrapper -->
-
-<script>
-	$(function() {
-		function fixMenuFooterImage() {
-			var menuFooterPosition = $(window).height() - 140;
-			if (menuFooterPosition < 460) {
-				$("#adminMenuFooter").css("display", "none");
-			} else {
-				var adminFooterElement = $("#adminMenuFooter");
-				adminFooterElement.css("display", "block");
-				adminFooterElement.css("margin-top", menuFooterPosition + "px");
-			}
-		}
-		fixMenuFooterImage();
-		$(window).resize(function(){
-			fixMenuFooterImage();
-		});
-	})
-</script>
