@@ -33,6 +33,7 @@ class SubmitPresenter extends BasePresenter {
 	 * @param string $id
 	 */
 	public function renderDefault($lang, $id, array $values = null) {
+		$this->checkLanguage($lang);
 		if ($values != null) {
 			$this['submitForm']->setDefaults($values);
 		}

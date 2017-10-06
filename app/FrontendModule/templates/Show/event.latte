@@ -39,11 +39,14 @@
 
 	<div class="row" style="padding: 0 10px 0 10px">
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			{if $picRepo->getById($article->getPicId()) != null}
-				{var pic = $picRepo->getById($article->getPicId())}
-				<img class="showDetail" src={$pic->getPath()} />
-
+			{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+			{var picUrl = "../../../../../www/images/not-available.png"}
+			{if $article->getPicId() != null}
+				{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
+			{else}
+				{var picUrl = $article->getPicUrl()}
 			{/if}
+			<img class="showDetail" src={$picUrl} />
 		</div>
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<table id="eventTimetable"><tbody>
@@ -125,13 +128,15 @@
 									{$place->getPlaceText()}
 								{/if}
 								<span class="floatRight">
-									<a class="ev_map" target="_blank" href={link Show:EventOnPlace $currentLang, $place->getPlace(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())}>
-										<i class="fa fa-calendar-o fa-1_5x" aria-hidden="true"></i>
-									</a>
+									{if $place->getPlace() != null}
+										<a class="ev ev_link" href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())}>
+											<i class="fa fa-calendar-o" aria-hidden="true"></i>{=ARTICLE_EVENT_PLACES|upper}
+										</a>
+									{/if}
 
-									<a class="ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}">
-										<i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i>
-									</a>
+									{if $place->getAddress() != null}
+										<a class="ev ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}"><i class="fa fa-location-arrow" aria-hidden="true"></i>{=ARTICLE_MAP|upper}</a>
+									{/if}
 								</span>
 							</div>
 							<span class="eventPlaces colorGrey">{$place->getAddress()|noescape}</span><br /><br />
@@ -149,13 +154,15 @@
 									{$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())}
 								</a>
 								<span class="floatRight">
-									<a class="ev_map" href={link Show:Category $currentLang, null, null, null, null, $city->getSublocation()}>
-										<i class="fa fa-calendar-o fa-1_5x" aria-hidden="true"></i>
-									</a>
+									{if $city->getSublocation() != null}
+										<a class="ev ev_link" href={link Show:Category $currentLang, null, null, null, null, $city->getSublocation()}>
+											<i class="fa fa-calendar-o" aria-hidden="true"></i>{=ARTICLE_EVENT_CITIES|upper}
+										</a>
+									{/if}
 
-									<a class="ev_map" target="_blank" href="https://maps.google.com/?q={$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())|noescape}">
-										<i class="fa fa-map-marker fa-1_5x" aria-hidden="true"></i>
-									</a>
+									{if $city->getSublocation() != null}
+										<a class="ev ev_map" target="_blank" href="https://maps.google.com/?q={$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())|noescape}"><i class="fa fa-location-arrow" aria-hidden="true"></i>{=ARTICLE_MAP|upper}</a>
+									{/if}
 								</span>
 							</div>
 							<span class="eventPlaces colorGrey">{$city->getAddress()|noescape}</span><br /><br />

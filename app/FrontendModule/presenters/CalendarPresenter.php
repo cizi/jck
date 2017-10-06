@@ -23,6 +23,7 @@ class CalendarPresenter extends BasePresenter {
 	 * @param $seoText
 	 */
 	public function actionDefault($lang, $id, $seoText, $startDate, $sublocation = null) {
+		$this->checkLanguage($lang);
 		if ($startDate == null) {
 			$dateFrom = new DateTime();
 		} else {
@@ -41,12 +42,14 @@ class CalendarPresenter extends BasePresenter {
 	}
 
 	public function actionPlusWeek($lang, $id, $seoText, $sublocation) {
+		$this->checkLanguage($lang);
 		$startDate = DateTime::createFromFormat("Y-m-d", $id);
 		$plusWeek = $startDate->modify('+7 days');
 		$this->redirect("default", $lang, $id, $seoText, $plusWeek->format('Y-m-d'), $sublocation);
 	}
 
 	public function actionMinusWeek($lang, $id, $seoText, $sublocation) {
+		$this->checkLanguage($lang);
 		$startDate = DateTime::createFromFormat("Y-m-d", $id);
 		$minusWeek = $startDate->modify('-7 days');
 		$this->redirect("default", $lang, $id, $seoText, $minusWeek->format('Y-m-d'), $sublocation);

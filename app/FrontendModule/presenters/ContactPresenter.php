@@ -10,6 +10,6 @@ use Nette\Http\FileUpload;
 class ContactPresenter extends BasePresenter {
 
 	public function actionDefault($lang, $id, $seoText) {
-
+		$this->checkLanguage($lang);
 	}
 }

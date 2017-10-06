@@ -157,7 +157,7 @@ class ArticlePresenter extends SignPresenter {
 		$articleEntity->hydrate((array)$values);
 
 		$error = false;
-		$supportedFileFormats = ["jpg", "png"];
+		$supportedFileFormats = ["jpg", "png", "gif", "jpeg"];
 		$supportedDocFileFormats = ["pdf", "doc", "docx", "jpg", "png"];
 		$calendars = [];
 		$mutation = [];

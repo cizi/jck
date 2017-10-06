@@ -22,28 +22,17 @@ class HomepagePresenter extends BasePresenter {
 	 * @param string $id
 	 */
 	public function renderDefault($lang, $id) {
-		if (empty($lang)) {
-			$lang = $this->langRepository->getCurrentLang($this->session);
-			$this->redirect("default", [ 'lang' => $lang, 'id' => $id]);
+		$this->checkLanguage($lang);
+		if ((empty($id) || ($id == "")) && !empty($lang) && (!isset($availableLangs[$lang]))) {
+			$id = $lang;
 		}
-
-		// what if link will have the same shortcut like language
-		$availableLangs = $this->langRepository->findLanguages();
-		if (isset($availableLangs[$lang]) && ($lang != $this->langRepository->getCurrentLang($this->session))) {
-			$this->langRepository->switchToLanguage($this->session, $lang);
-			$this->redirect("default", [ 'lang' => $lang, 'id' => $id ]);
-		} else {
-			if ((empty($id) || ($id == "")) && !empty($lang) && (!isset($availableLangs[$lang]))) {
-				$id = $lang;
-			}
-			// because of sitemap.xml
-			$allWebLinks = $this->menuRepository->findAllItems();
-			$this->template->availableLinks = $allWebLinks;
-			/** @var MenuEntity $menuLink */
-			foreach($allWebLinks as $menuLink) {
-				if ($menuLink->getLink() == $id) {
-					$this->template->currentLink = $menuLink;
-				}
+		// because of sitemap.xml
+		$allWebLinks = $this->menuRepository->findAllItems();
+		$this->template->availableLinks = $allWebLinks;
+		/** @var MenuEntity $menuLink */
+		foreach($allWebLinks as $menuLink) {
+			if ($menuLink->getLink() == $id) {
+				$this->template->currentLink = $menuLink;
 			}
 		}
 

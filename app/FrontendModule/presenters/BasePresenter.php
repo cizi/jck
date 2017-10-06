@@ -155,6 +155,21 @@ abstract class BasePresenter extends Presenter {
 		$this->template->days = [MON, THU, WED, THR, FRI, SAT, SUN];
 	}
 
+	public function checkLanguage($lang) {
+		if (empty($lang)) {
+			$lang = $this->langRepository->getCurrentLang($this->session);
+			$this->redirect("Homepage:Default", [ 'lang' => $lang]);
+		}
+		$availableLangs = $this->langRepository->findLanguages();
+		if (isset($availableLangs[$lang]) && ($lang != $this->langRepository->getCurrentLang($this->session))) {
+			$this->langRepository->switchToLanguage($this->session, $lang);
+			$redir = $this->getHttpRequest()->getUrl() . "";
+			$httpResponse = $this->getHttpResponse();
+			$httpResponse->redirect($redir);
+			//$this->redirect($this->getHttpRequest()->getUrl()->getAbsoluteUrl(), [ 'lang' => $lang, 'id' => $id ]);
+		}
+	}
+
 	/**
 	 * It loads config from admin to page
 	 */

@@ -27,6 +27,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $seoText
 	 */
 	public function actionDetail($lang, $id, $seoText) {
+		$this->checkLanguage($lang);
 		$articleEntity = $this->articleRepository->getArticle($id);
 		if ($articleEntity) {
 			$this->template->article = $articleEntity;
@@ -40,6 +41,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $seoText
 	 */
 	public function actionDetails($lang, $page = 1) {
+		$this->checkLanguage($lang);
 		$articlesCount = $this->articleRepository->getActiveArticlesInLangCount($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
 
 		$paginator = new Paginator();
@@ -63,6 +65,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $seoText
 	 */
 	public function actionGallery($lang, $id, $seoText) {
+		$this->checkLanguage($lang);
 		$galleryEntity = $this->galleryRepository->getGallery($id);
 		if ($galleryEntity != null) {
 			$this->template->gallery = $galleryEntity;
@@ -70,6 +73,7 @@ class ShowPresenter extends BasePresenter {
 	}
 
 	public function actionGalleries($lang) {
+		$this->checkLanguage($lang);
 		$this->template->galleries = $this->galleryRepository->findActiveGalleriesInLang($lang);
 	}
 
@@ -78,6 +82,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param int $id
 	 */
 	public function actionBanner($lang, $id) {
+		$this->checkLanguage($lang);
 		$banner = $this->bannerRepository->getBanner($id);
 		if ($banner != null) {
 			$this->bannerRepository->bannerClicked($banner->getId());
@@ -96,6 +101,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param int $id
 	 */
 	public function actionEvent($lang, $id, $seoText) {
+		$this->checkLanguage($lang);
 		$article = $this->articleRepository->getArticle($id);
 		if ($article != null) {
 			$this->articleRepository->articleClicked($article->getId());
@@ -112,6 +118,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $seoText
 	 */
 	public function actionPlace($lang, $id, $seoText) {
+		$this->checkLanguage($lang);
 		$place = $this->articleRepository->getArticle($id);
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
 		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
@@ -135,6 +142,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param string $seoText
 	 */
 	public function actionCity($lang, $id, $seoText) {
+		$this->checkLanguage($lang);
 		$place = $this->articleRepository->getArticle($id);
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
 		$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
@@ -145,21 +153,11 @@ class ShowPresenter extends BasePresenter {
 
 	/**
 	 * @param string $lang
-	 * @param int $id
-	 * @param string $seoText
-	 */
-	public function actionEventOnPlace($lang, $id, $seoText) {
-		// TODO
-		echo "nutno dodělat";
-		$this->terminate();
-	}
-
-	/**
-	 * @param string $lang
 	 * @param int $id = order v menu
 	 * @param string $seoText
 	 */
 	public function actionCategory($lang, $id, $seoText, $page = 1, $query = null, $sublocation = null) {
+		$this->checkLanguage($lang);
 		if ($id == null) {	// pokud je kategorie = NULL, hledám všude
 			$categories = $this->menuRepository->findAllCategoryOrders();
 		} else {	// jinak jen v konkrétní kategorii
@@ -230,6 +228,7 @@ class ShowPresenter extends BasePresenter {
 	 * @param string [$to] format d.m.Y
 	 */
 	public function actionSearchDate($lang, $from, $to, $searchText, $sublocation) {
+		$this->checkLanguage($lang);
 		try {
 			$dateFrom = \DateTime::createFromFormat(ArticleRepository::URL_DATE_MASK, $from);
 			if ($dateFrom == false) {
