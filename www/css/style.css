@@ -171,6 +171,12 @@ a.sliderPicDelete:hover{
 	display: block;
 	margin: 0 auto;
 }
+.flexslider {
+	margin-bottom: 0!important;
+}
+#carousel {
+	margin-bottom: 15px!important;
+}
 /* slider override end */
 /* navbar override */
 .navbar .navbar-nav {
@@ -390,14 +396,17 @@ div.mainPageSearch {
 
 }
 .mainPageTitle h1 {
-	font-family: 'InterstateRegularCompressed',sans-serif;
-	font-size: 52px;
-	line-height: 44px;
+	font-family: Impact;	/* 'InterstateRegularCompressed' */
+	font-stretch: ultra-condensed;
+	font-size: 40px;
 	color: white;
 	white-space: nowrap;
 	letter-spacing: 0;
-	font-weight: normal;
-	padding-top: 20px;
+	padding-top: 14px;
+	transform: scale(1, 1.5);
+	-webkit-transform:scale(1, 1.5);  /* Chrome, Safari, Opera */
+	-moz-transform: scale(1, 1.5);    /* Mozilla Firefox */
+	-ms-transform: scale(1, 1.5);     /* IE 9 */
 }
 
 .mainPageTitle h1 span {

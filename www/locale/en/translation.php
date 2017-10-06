@@ -44,6 +44,9 @@ define("MENU_LOGOUT", 'Logout');
 define("MENU_ITEM_CALENDAR", 'Calendar');
 define("MENU_ALL_CATEGORY", 'Show all category');
 
+// dashboard
+define("DASH_EMAIL", 'Saved emails');
+
 // hledání na hlavní stránce
 define("MAIN_SEARCH_FROM", 'From');
 define("MAIN_SEARCH_FROM_REQ", 'Date from is mandatory!');
@@ -126,6 +129,7 @@ define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Master pic');
 define("ARTICLE_MAIN_URL", 'Master pic (660 x 443px)');
 define("ARTICLE_MAIN_URL_REQ", 'Master pic (660 x 443px) is mandatory field.');
+define("ARTICLE_GALLERY", 'Gallery');
 define("ARTICLE_MAIN_DOCS", 'Files (posters, program, etc.)');
 define("ARTICLE_URL", 'Web URL of action');
 define("ARTICLE_FB_URL", 'FB action URL');
@@ -252,7 +256,7 @@ define("BANNER_DELETE_FAILED", 'An error occurred during banner deletation');
 // hledání
 define("MAIN_PAGE_SEARCH", 'Search');
 define("MAIN_PAGE_SEARCH_REQ", 'Please, fill the search phase!');
-define("MAIN_PAGE_DESTINATION", 'Destination');
+define("MAIN_PAGE_DESTINATION", 'Where');
 define("MAIN_PAGE_SHARE", 'Share');
 
 // admin - users list

@@ -127,3 +127,7 @@ function submitArticleForm() {
 		}
 	}
 }
+
+function articleRemoveRequiredFields() {
+	$("input").removeClass("tinym_required_field");
+}

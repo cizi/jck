@@ -528,6 +528,9 @@ class ArticleRepository extends BaseRepository {
 			if ($articleEntity->getPlace() == 0) {
 				$articleEntity->setPlace(null);
 			}
+			if ($articleEntity->getGalleryId() == 0) {
+				$articleEntity->setGalleryId(null);
+			}
 			$articleId = $this->saveArticleEntity($articleEntity, $userId);
 			if (empty($articleId)) {
 				throw new \Exception("Chybí ID příspěvku.");
@@ -785,5 +788,21 @@ class ArticleRepository extends BaseRepository {
 		}
 
 		return $articles;
+	}
+
+	/**
+	 * Vrátí emaily z pohledové tabulky
+	 * @return array
+	 */
+	public function findEmailFromView() {
+		$query = "select * from v_emails_from_articles";
+		$result = $this->connection->query($query)->fetchAll();
+
+		$emails = [];
+		foreach ($result as $record) {
+			$emails[] = $record['contact_email'];
+		}
+
+		return $emails;
 	}
 }

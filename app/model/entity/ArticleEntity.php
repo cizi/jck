@@ -84,6 +84,9 @@ class ArticleEntity {
 	/** @var string */
 	private $contactEmail;
 
+	/** @var int */
+	private $galleryId;
+
 	/**
 	 * @return int
 	 */
@@ -463,6 +466,20 @@ class ArticleEntity {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getGalleryId() {
+		return $this->galleryId;
+	}
+
+	/**
+	 * @param int $galleryId
+	 */
+	public function setGalleryId($galleryId) {
+		$this->galleryId = $galleryId;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function extract() {
@@ -489,7 +506,8 @@ class ArticleEntity {
 			'click_counter' => $this->getClickCounter(),
 			'pic_url' => $this->getPicUrl(),
 			'contact' => $this->getContact(),
-			'contact_email' => $this->getContactEmail()
+			'contact_email' => $this->getContactEmail(),
+			'gallery_id' => $this->getGalleryId()
 		];
 	}
 
@@ -520,5 +538,6 @@ class ArticleEntity {
 		$this->setPicUrl(isset($data['pic_url']) ? $data['pic_url'] : null);
 		$this->setContact(isset($data['contact']) ? $data['contact'] : null);
 		$this->setContactEmail(isset($data['contact_email']) ? $data['contact_email'] : null);
+		$this->setGalleryId(isset($data['gallery_id']) ? $data['gallery_id'] : null);
 	}
 }

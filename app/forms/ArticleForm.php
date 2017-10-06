@@ -6,6 +6,7 @@ use App\Controller\MenuController;
 use App\Enum\WebWidthEnum;
 use App\Model\BlockRepository;
 use App\Model\EnumerationRepository;
+use App\Model\GalleryRepository;
 use App\Model\LangRepository;
 use App\Model\PicRepository;
 use Nette;
@@ -28,6 +29,9 @@ class ArticleForm extends Nette\Object {
 	/** @var PicRepository */
 	private $picRepository;
 
+	/** @var GalleryRepository */
+	private $galleryRepository;
+
 	/**
 	 * ArticleForm constructor.
 	 * @param FormFactory $factory
@@ -35,19 +39,22 @@ class ArticleForm extends Nette\Object {
 	 * @param EnumerationRepository $enumerationRepository
 	 * @param MenuController $menuController
 	 * @param PicRepository $picRepository
+	 * @param GalleryRepository $galleryRepository
 	 */
 	public function __construct(
 		FormFactory $factory,
 		LangRepository $langRepository,
 		EnumerationRepository $enumerationRepository,
 		MenuController $menuController,
-		PicRepository $picRepository
+		PicRepository $picRepository,
+		GalleryRepository $galleryRepository
 	) {
 		$this->factory = $factory;
 		$this->langRepository = $langRepository;
 		$this->enumerationRepository = $enumerationRepository;
 		$this->menuController = $menuController;
 		$this->picRepository = $picRepository;
+		$this->galleryRepository = $galleryRepository;
 	}
 
 	/**
@@ -183,6 +190,7 @@ class ArticleForm extends Nette\Object {
 
 			$container->addSubmit('removeTakingTime', ARTICLE_REMOVE_TIMETABLE)
 				->setAttribute("class", "btn btn-danger menuItem")
+				->setAttribute("onclick", "articleRemoveRequiredFields();")
 				->addRemoveOnClick();
 		}, 0);
 
@@ -204,6 +212,15 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);
 		$form->addHidden("pic_url")->setAttribute("id", "articleMainImgUrl");
+
+		$galls = $this->galleryRepository->findActiveGalleriesInLang($currentLang);
+		$galleries[0] = EnumerationRepository::NOT_SELECTED;
+		foreach ($galls as $gal) {
+			$galleries[$gal->getId()] = $gal->getContents()[$currentLang]->getHeader();
+		}
+		$form->addSelect("gallery_id", ARTICLE_GALLERY, $galleries)
+			->setAttribute("class", "form-control")
+			->setAttribute("tabindex", $i+1);
 
 		$form->addMultiUpload("docsUpload", ARTICLE_MAIN_DOCS)
 			->setAttribute("class", "form-control")

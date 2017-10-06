@@ -180,6 +180,7 @@ class MenuController {
 				$link = $presenter->link(":Frontend:Show:Category", ['lang' => $lang, 'id' => $item->getOrder(), 'seoText' => $item->getLink()]);
 				$menu .= '<a href="#" class="dropdown-toggle menuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 				$menu .= '<i onclick="location.href=\''.$link.'\'" title="'.MENU_ALL_CATEGORY.'" class="fa fa-bars menuLinkAllCategory" aria-hidden="true"></i>' . $item->getTitle();
+
 				if ($level == 1) {
 					$menu .= '<span class="caret"></span>';
 				}

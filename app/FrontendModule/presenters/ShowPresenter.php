@@ -117,6 +117,16 @@ class ShowPresenter extends BasePresenter {
 		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
 		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
+		if ($place->getGalleryId() != null) {
+			$pics[] = $place->getPicUrl();
+			$galleryEntity = $this->galleryRepository->getGallery($place->getGalleryId());
+			foreach ($galleryEntity->getPics() as $pic) {
+				$pics[] = $this->picRepository->getById($pic->getSharedPicId())->getPath();
+			}
+			$this->template->sliderGalleryPics = $pics;
+		} else {
+			$this->template->sliderGalleryPics = [];
+		}
 	}
 
 	/**
