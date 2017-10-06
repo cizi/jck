@@ -45,7 +45,7 @@ define("MENU_ITEM_CALENDAR", 'Kalendář');
 define("MENU_ALL_CATEGORY", 'Zobrazit celou kategorii');
 
 // dashboard
-define("DASH_EMAIL", 'Emaily v databázy');
+define("DASH_EMAIL", 'Emaily v databázi');
 
 // form hledání
 define("MAIN_SEARCH_FROM", 'Od');
