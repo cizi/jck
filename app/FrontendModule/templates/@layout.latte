@@ -71,8 +71,7 @@
 	{if $bodyBackgroundColor != ""}background-color: {!$bodyBackgroundColor};{/if}
 	{if ($wallpaperBanner != null) && ($wallpaperBanner->getImg() != null) && ($wallpaperBanner->getImg() != "")}
 			background-image: url('{!$wallpaperBanner->getImg()}')!important;
-			background-position-x: -70px;
-			background-position-y: 0;
+			background-position: top center;
 	{/if}
 ">
 <div id="fb-root"></div>
@@ -246,7 +245,6 @@
 		function requiredFields() {
 			submitForm = true;
 			$($(".tinym_required_field").get().reverse()).each(function() {
-				console.log($(this).val());
 				if ($(this).val() == "") {
 					$(this).addClass("form-control-danger");
 					$("#tinym_info_modal_message").text($(this).attr("validation"));

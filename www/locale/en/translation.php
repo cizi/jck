@@ -176,6 +176,7 @@ define("ARTICLE_FACEBOOK", 'Facebook');
 define("ARTICLE_PROMOTER", 'Promoter');
 define("ARTICLE_YOUTUBE", 'Youtube');
 define("ARTICLE_MAP", 'Map');
+define("ARTICLE_TAKING_MISSING", 'Please add at least one date and time of the event.');
 
 // měsíce
 define("JANUARY", 'january');

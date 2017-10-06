@@ -71,7 +71,7 @@ class SubmitPresenter extends BasePresenter {
 	}
 
 	public function createComponentSubmitForm() {
-		$form = $this->articleForm->create($this->langRepository->getCurrentLang($this->session));
+		$form = $this->articleForm->create($this->langRepository->getCurrentLang($this->session), 1);
 		unset($form['type']);
 		unset($form['validity']);
 		unset($form['active']);

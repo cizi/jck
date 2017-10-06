@@ -124,9 +124,9 @@ define("ARTICLE_LOCATION", 'Lokace');
 define("ARTICLE_SUBLOCATION", 'Město');
 define("ARTICLE_CONTACT", 'Kontakt');
 define("ARTICLE_CONTENT_HEADER", 'Název akce');
-define("ARTICLE_CONTENT_HEADER_REQ", 'Nadpis příspěvku je povinná položka!');
+define("ARTICLE_CONTENT_HEADER_REQ", 'Název akce je povinná položka!');
 define("ARTICLE_CONTENT_CONTENT", 'Popis akce');
-define("ARTICLE_CONTENT_CONTENT_REQ", 'Obsah příspěvku je povinná položka!');
+define("ARTICLE_CONTENT_CONTENT_REQ", 'Popis akce je povinná položka!');
 define("ARTICLE_CONTENT_SEO", 'SEO');
 define("ARTICLE_MAIN_PIC", 'Hlavní obrázek');
 define("ARTICLE_MAIN_URL", 'Hlavní obrázek (660 x 443px)');
@@ -178,6 +178,7 @@ define("ARTICLE_FACEBOOK", 'Facebook');
 define("ARTICLE_PROMOTER", 'Promotér');
 define("ARTICLE_YOUTUBE", 'Youtube');
 define("ARTICLE_MAP", 'Mapa');
+define("ARTICLE_TAKING_MISSING", 'Přidejte, prosím, datum a čas konání.');
 
 // měsíce
 define("JANUARY", 'leden');

@@ -60,7 +60,7 @@ class ArticleForm extends Nette\Object {
 	/**
 	 * @return Form
 	 */
-	public function create($currentLang) {
+	public function create($currentLang, $defaultTakingTimesInputs = 0) {
 		$form = $this->factory->create();
 		$form->getElementPrototype()->addAttributes(["onsubmit" => "return requiredFields();"]);
 
@@ -192,12 +192,12 @@ class ArticleForm extends Nette\Object {
 				->setAttribute("class", "btn btn-danger menuItem")
 				->setAttribute("onclick", "articleRemoveRequiredFields();")
 				->addRemoveOnClick();
-		}, 0);
+		}, $defaultTakingTimesInputs);
 
 		$calendarReplicator->addSubmit('addTakingTime', ARTICLE_ADD_TIMETABLE)
 			->setAttribute("class", "btn btn-primary menuItem")
 			->setAttribute("id", "addNextTakingTime")
-			->setAttribute("onclick", "tinyMCE.triggerSave();")
+			->setAttribute("onclick", "articleRemoveRequiredFields(); tinyMCE.triggerSave();")
 			->addCreateOnClick(true);
 
 		$form->addMultiUpload("pics", ARTICLE_ADD_PICS_TO_GALLERY)
@@ -232,8 +232,8 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("tabindex", $i+1);
 
 		$form->addSubmit("confirm", ARTICLE_CONTENT_CONFIRM)
-			->setAttribute("class","btn btn-primary menuItem alignRight")
-			->setAttribute("onclick", "submitArticleForm(); tinyMCE.triggerSave();")
+			->setAttribute("class","btn btn-primary menuItem alignRight confirmButton")
+			->setAttribute("onclick", "submitArticleForm(event); tinyMCE.triggerSave();")
 			->setAttribute("tabindex", $i+1);
 
 		return $form;

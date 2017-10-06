@@ -87,7 +87,7 @@ function rewriteContent() {
 	}
 }
 
-function submitArticleForm() {
+function submitArticleForm(event) {
 	if ($('#frm-articleForm-picUrlUpload').length) {	// pokud toto existuje tak jsme na BE
 		var articlePicUpload = $("#frm-articleForm-picUrlUpload");
 		var articlePicUrl = $("#articleMainImgUrl");
@@ -107,6 +107,16 @@ function submitArticleForm() {
 			articlePicUpload.removeClass("tinym_required_field");
 			articlePicUpload.removeAttr("validation");
 		}
+		// máme aspoň jeden čas konání
+		if ($("#frm-articleForm-type").val() == 1) {
+			var takingTime = $('.takingDate');
+			var addNextTakingTime = $("#addNextTakingTime");
+			if (takingTime.length == 0) {
+				$("#tinym_info_modal_message").text( 'Přidejte, prosím, datum a čas konání.');
+				$("#tinym_info_modal").modal();
+				event.preventDefault();
+			}
+		}
 	} else {											// jinak jsem na FE
 		var articlePicUpload = $("#frm-submitForm-picUrlUpload");
 		if (articlePicUpload.val() === "") {
@@ -125,9 +135,19 @@ function submitArticleForm() {
 			articlePicUpload.removeClass("tinym_required_field");
 			articlePicUpload.removeAttr("validation");
 		}
+
+		// máme aspoň jeden čas konání
+		var takingTime = $('.takingDate');
+		var addNextTakingTime = $("#addNextTakingTime");
+		if (takingTime.length == 0) {
+			$("#tinym_info_modal_message").text( 'Přidejte, prosím, datum a čas konání.');
+			$("#tinym_info_modal").modal();
+			event.preventDefault();
+		}
 	}
 }
 
 function articleRemoveRequiredFields() {
 	$("input").removeClass("tinym_required_field");
+	$("textarea").removeClass("tinym_required_field");
 }

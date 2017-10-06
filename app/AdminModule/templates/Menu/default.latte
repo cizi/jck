@@ -73,7 +73,6 @@
 		function requiredFields() {
 			submitForm = true;
 			$($(".tinym_required_field").get().reverse()).each(function() {
-				console.log($(this).val());
 				if ($(this).val() == "") {
 					$(this).addClass("form-control-danger");
 					$("#tinym_info_modal_message").text($(this).attr("validation"));
