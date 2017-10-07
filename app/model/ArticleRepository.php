@@ -13,11 +13,8 @@ use Dibi\Row;
 
 class ArticleRepository extends BaseRepository {
 
-	/**
-	 * Maska data v DB
-	 */
+	/** Maska data v DB  */
 	const DB_DATE_MASK = 'Y-m-d';
-
 	const URL_DATE_MASK = 'd.m.Y';
 
 	/** @var  PicRepository */
@@ -88,7 +85,9 @@ class ArticleRepository extends BaseRepository {
 	 * @return int
 	 */
 	public function getActiveArticlesInLangCount($lang, $type) {
-		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+		$articles = $this->findActiveArticlesInLang($lang, $type);
+		return count($articles);
+		/* if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
 			$query = ["select count(distinct a.id) as articleCount
 						from article_timetable as `at`
 							left join article as a on `at`.article_id = a.id
@@ -114,7 +113,7 @@ class ArticleRepository extends BaseRepository {
 			];
 		}
 
-		return $this->connection->query($query)->fetchSingle();
+		return $this->connection->query($query)->fetchSingle(); */
 	}
 
 	/**
@@ -126,7 +125,7 @@ class ArticleRepository extends BaseRepository {
 	 */
 	public function findActiveArticlesInLang($lang, $type = null, $paginatorLength = 0, $offset = 0) {
 		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-			$query = ["select distinct a.id, a.*  
+			$query = ["select distinct a.id, a.*, `at`.id as atId  
 						from article_timetable as `at`
 							left join article as a on `at`.article_id = a.id
 							left join article_content as ac on `at`.article_id = ac.article_id
@@ -157,11 +156,21 @@ class ArticleRepository extends BaseRepository {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
 		}
 
-		return $this->findArticleBySql($query);
+		return $this->findArticleBySql($query, $type);
 	}
 
-	public function getActiveArticlesInLangCategoryCount($lang, array $categories, $searchText = null, $type = null) {
-		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+	/**
+	 * @param string $lang
+	 * @param array $categories
+	 * @param string [$searchText]
+	 * @param string [$type]
+	 * @return mixed
+	 */
+	public function getActiveArticlesInLangCategoryCount($lang, array $categories, $searchText = null, $sublocation = null, $type = null) {
+		$articles = $this->findActiveArticlesInLangCategory($lang, $categories, $searchText, $sublocation, $type);
+		return count($articles);
+
+		/*if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
 			$query = ["select count(distinct a.id) as articleCount
 						from article_timetable as `at`
 							left join article as a on `at`.article_id = a.id
@@ -194,7 +203,7 @@ class ArticleRepository extends BaseRepository {
 			$query[] = sprintf(" and a.type = %d", $type);
 		}
 
-		return  $this->connection->query($query)->fetchSingle();
+		return  $this->connection->query($query)->fetchSingle(); */
 	}
 
 	/**
@@ -208,7 +217,7 @@ class ArticleRepository extends BaseRepository {
 	 */
 	public function findActiveArticlesInLangCategory($lang, array $categories, $searchText = null, $sublocation = null, $type = null, $paginatorLength = 0, $offset = 0) {
 		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-			$query = ["select distinct a.id, a.* 
+			$query = ["select distinct a.id, a.*, `at`.id as atId 
 						from article_timetable as `at`
 							left join article as a on `at`.article_id = a.id
 							left join article_content as ac on `at`.article_id = ac.article_id
@@ -255,7 +264,7 @@ class ArticleRepository extends BaseRepository {
 			$query[] = sprintf("limit %d offset %d", $paginatorLength, $offset);
 		}
 
-		return $this->findArticleBySql($query);
+		return $this->findArticleBySql($query, $type);
 	}
 
 	/**
@@ -276,7 +285,7 @@ class ArticleRepository extends BaseRepository {
 			$sublocation = null
 	) {
 		$dateFrom = ($dateFrom == null ? new DateTime() : $dateFrom);
-		$query = ["select distinct a.id, a.* 
+		$query = ["select distinct a.id, a.*, `at`.id as atId 
 					from article_timetable as `at`
 						left join article as a on `at`.article_id = a.id
 						left join article_content as ac on `at`.article_id = ac.article_id
@@ -304,7 +313,7 @@ class ArticleRepository extends BaseRepository {
 			$query[] = " order by validity desc, inserted_timestamp desc";
 		}
 
-		return $this->findArticleBySql($query);
+		return $this->findArticleBySql($query, $type);
 	}
 
 	/**
@@ -318,7 +327,7 @@ class ArticleRepository extends BaseRepository {
 		$places = [];
 		if ($sublocation != null) {
 			if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-				$query = ["select distinct a.* 
+				$query = ["select distinct a.*, `at`.id as atId 
 							from article_timetable as `at`
 								left join article as a on `at`.article_id = a.id
 								left join article_content as ac on `at`.article_id = ac.article_id
@@ -353,7 +362,7 @@ class ArticleRepository extends BaseRepository {
 				$query[] = " order by validity desc, inserted_timestamp desc";
 			}
 
-			$places = $this->findArticleBySql($query);
+			$places = $this->findArticleBySql($query, $type);
 		}
 
 		return $places;
@@ -369,7 +378,7 @@ class ArticleRepository extends BaseRepository {
 		$places = [];
 		if ($place != null) {
 			if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-				$query = ["select distinct a.* 
+				$query = ["select distinct a.*, `at`.id as atId 
 							from article_timetable as `at`
 								left join article as a on `at`.article_id = a.id
 								left join article_content as ac on `at`.article_id = ac.article_id
@@ -401,7 +410,7 @@ class ArticleRepository extends BaseRepository {
 				$query[] = " order by validity desc, inserted_timestamp desc";
 			}
 
-			$places = $this->findArticleBySql($query);
+			$places = $this->findArticleBySql($query, $type);
 		}
 
 		return $places;
@@ -774,20 +783,25 @@ class ArticleRepository extends BaseRepository {
 	 * @param array|string $query
 	 * @return array
 	 */
-	private function findArticleBySql(array $query) {
+	private function findArticleBySql(array $query, $type) {
 		$result = $this->connection->query($query)->fetchAll();
 		$articles = [];
 		foreach ($result as $item) {
+			$itemArray = $item->toArray();
 			$articleEntity = new ArticleEntity();
-			$articleEntity->hydrate($item->toArray());
+			$articleEntity->hydrate($itemArray);
 			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
-			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			if (isset($itemArray['atId'])) { // pokud mám atId (article_timetable.id) načtu data o programu přímo
+				$timetableById = $this->articleTimetableRepository->getTimetable($itemArray['atId']);
+				$articleEntity->setTimetables([$timetableById]);
+			} else {	// pokud atId nemám, musím seřadit podle času manuálně
+				$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
+			}
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
-
 			$articles[] = $articleEntity;
 		}
 
-		return $articles;
+		return $this->sortingArticlesByTakingTime($articles, $type);
 	}
 
 	/**
@@ -805,4 +819,46 @@ class ArticleRepository extends BaseRepository {
 
 		return $emails;
 	}
+
+	/**
+	 * @param ArticleEntity[] $articles
+	 * @return ArticleEntity[]
+	 */
+	private function sortingArticlesByTakingTime(array $articles, $type) {
+		$presorted = [];
+		$notEventArticles = [];
+		foreach ($articles as $article) {
+			if (($article->getType() == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) && ($type == null)) {
+				$timetable = $this->articleTimetableRepository->getActiveTimetable($article->getId());
+				if ($timetable != null) {
+					$article->setTimetables([$timetable]);
+					$presorted[] = [$timetable->getTime(), clone $article];
+				}
+			} else {
+				$notEventArticles[] = $article;
+			}
+		}
+		usort($presorted, function ($a, $b) {
+			$t1 = strtotime($a[0]->format("%H:%I"));
+			$t2 = strtotime($b[0]->format("%H:%I"));
+			return $t1 - $t2;
+			/*if ($a[0] == $b[0]) {
+				return 0;
+			}
+
+			return ($a[0] < $b[0]) ? -1 : 1; */
+		});
+		//dump($presorted);
+		$sorted = [];
+		foreach ($presorted as $pre) {
+			$sorted[] = $pre[1];
+		}
+
+		foreach ($notEventArticles as $article) {
+			$sorted[] = $article;
+		}
+
+		return $sorted;
+	}
+
 }

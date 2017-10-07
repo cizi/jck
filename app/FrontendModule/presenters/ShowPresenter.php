@@ -163,7 +163,7 @@ class ShowPresenter extends BasePresenter {
 		} else {	// jinak jen v konkrétní kategorii
 			$categories = $this->menuRepository->findDescendantOrders($id, $lang);
 		}
-		$articlesCount = $this->articleRepository->getActiveArticlesInLangCategoryCount($lang, $categories, $query);
+		$articlesCount = $this->articleRepository->getActiveArticlesInLangCategoryCount($lang, $categories, $query, $sublocation);
 
 		$paginator = new Paginator();
 		$paginator->setItemCount($articlesCount); // celkový počet článků
@@ -180,10 +180,9 @@ class ShowPresenter extends BasePresenter {
 			$categories,
 			$query,
 			$sublocation,
-			null,
-			$paginator->getLength(),
-			$paginator->getOffset()
+			null
 		);
+		$articles = array_slice($articles, $paginator->getOffset(), $paginator->getLength());
 		$this->template->articles = $articles;
 		$this->template->breadcrumbs = ($id != null ? array_reverse($this->menuController->createBreadcrumbs($id, $lang, $this->presenter)) : []);
 		if ($query != null) {

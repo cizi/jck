@@ -45,6 +45,9 @@ class PicRepository extends BaseRepository {
 	 * @return \Dibi\Result|int
 	 */
 	public function save(PicEntity $picEntity) {
+		if ($picEntity->getFileType() == null) {
+			$picEntity->setFileType(SharedFileEnum::PIC);
+		}
 		$query = ["insert into shared_pic", $picEntity->extract()];
 		return $this->connection->query($query);
 	}
