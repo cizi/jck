@@ -42,19 +42,17 @@ class ShowPresenter extends BasePresenter {
 	 */
 	public function actionDetails($lang, $page = 1) {
 		$this->checkLanguage($lang);
-		$articlesCount = $this->articleRepository->getActiveArticlesInLangCount($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
+		$articles = $this->articleRepository->findActiveArticlesInLang(
+			$lang,
+			EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER
+		);
 
 		$paginator = new Paginator();
-		$paginator->setItemCount($articlesCount); // celkový počet článků
+		$paginator->setItemCount(count($articles)); // celkový počet článků
 		$paginator->setItemsPerPage(self::ARTICLE_DETAILS_PAGER); // počet položek na stránce
 		$paginator->setPage($page); // číslo aktuální stránky
 
-		$articleEntities = $this->articleRepository->findActiveArticlesInLang(
-			$lang,
-			EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER,
-			$paginator->getLength(),
-			$paginator->getOffset()
-		);
+		$articleEntities = array_slice($articles, $paginator->getOffset(), $paginator->getLength());
 		$this->template->paginator = $paginator;
 		$this->template->articles = $articleEntities;
 	}
@@ -163,10 +161,16 @@ class ShowPresenter extends BasePresenter {
 		} else {	// jinak jen v konkrétní kategorii
 			$categories = $this->menuRepository->findDescendantOrders($id, $lang);
 		}
-		$articlesCount = $this->articleRepository->getActiveArticlesInLangCategoryCount($lang, $categories, $query, $sublocation);
+		$articles = $this->articleRepository->findActiveArticlesInLangCategory(
+			$lang,
+			$categories,
+			$query,
+			$sublocation,
+			null
+		);
 
 		$paginator = new Paginator();
-		$paginator->setItemCount($articlesCount); // celkový počet článků
+		$paginator->setItemCount(count($articles)); // celkový počet článků
 		$paginator->setItemsPerPage(self::ARTICLE_DETAILS_PAGER); // počet položek na stránce
 		$paginator->setPage($page); // číslo aktuální stránky
 
@@ -175,13 +179,7 @@ class ShowPresenter extends BasePresenter {
 		$this->template->query = $query;
 		$this->template->seoText = $seoText;
 		$this->template->clickedCategory = ($id != null ? $this->menuRepository->getMenuEntityByOrder($id, $lang) : new MenuEntity());
-		$articles = $this->articleRepository->findActiveArticlesInLangCategory(
-			$lang,
-			$categories,
-			$query,
-			$sublocation,
-			null
-		);
+
 		$articles = array_slice($articles, $paginator->getOffset(), $paginator->getLength());
 		$this->template->articles = $articles;
 		$this->template->breadcrumbs = ($id != null ? array_reverse($this->menuController->createBreadcrumbs($id, $lang, $this->presenter)) : []);

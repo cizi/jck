@@ -87,33 +87,6 @@ class ArticleRepository extends BaseRepository {
 	public function getActiveArticlesInLangCount($lang, $type) {
 		$articles = $this->findActiveArticlesInLang($lang, $type);
 		return count($articles);
-		/* if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-			$query = ["select count(distinct a.id) as articleCount
-						from article_timetable as `at`
-							left join article as a on `at`.article_id = a.id
-							left join article_content as ac on `at`.article_id = ac.article_id
-							 where `at`.date_from <= %s and `at`.date_to >= %s 
-							  and ac.lang = %s
-							  and a.active = 1
-							  and a.type = %i",
-				(new DateTime())->format(self::DB_DATE_MASK),
-				(new DateTime())->format(self::DB_DATE_MASK),
-				$lang,
-				$type
-			];
-		} else {
-			$query = ["select count(a.id) as articleCount
-						from article as a 
-							left join article_content as ac on a.id = ac.article_id
-						where ac.lang = %s
-							and active = 1
-							and a.type = %i",
-				$lang,
-				$type
-			];
-		}
-
-		return $this->connection->query($query)->fetchSingle(); */
 	}
 
 	/**
@@ -169,41 +142,6 @@ class ArticleRepository extends BaseRepository {
 	public function getActiveArticlesInLangCategoryCount($lang, array $categories, $searchText = null, $sublocation = null, $type = null) {
 		$articles = $this->findActiveArticlesInLangCategory($lang, $categories, $searchText, $sublocation, $type);
 		return count($articles);
-
-		/*if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-			$query = ["select count(distinct a.id) as articleCount
-						from article_timetable as `at`
-							left join article as a on `at`.article_id = a.id
-							left join article_content as ac on `at`.article_id = ac.article_id
-							left join article_category as aca on a.id = aca.article_id
-							 where `at`.date_from <= %s and `at`.date_to >= %s 
-							  and ac.lang = %s
-							  and a.active = 1
-							  and `aca.menu_order` in %in",
-				(new DateTime())->format(self::DB_DATE_MASK),
-				(new DateTime())->format(self::DB_DATE_MASK),
-				$lang,
-				$categories
-			];
-		} else {
-			$query = ["select count(a.id) as articleCount   
-						from article as a 
-							left join article_content as ac on a.id = ac.article_id
-							left join article_category as aca on a.id = aca.article_id 
-						where ac.lang = %s
-							and active = 1 
-							and `aca.menu_order` in %in",
-							$lang,
-							$categories];
-		}
-		if ($searchText != null) {
-			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like '%%%s%%'", $searchText);
-		}
-		if ($type != null) {
-			$query[] = sprintf(" and a.type = %d", $type);
-		}
-
-		return  $this->connection->query($query)->fetchSingle(); */
 	}
 
 	/**
@@ -822,7 +760,8 @@ class ArticleRepository extends BaseRepository {
 
 	/**
 	 * @param ArticleEntity[] $articles
-	 * @return ArticleEntity[]
+	 * @param int $type
+	 * @return array
 	 */
 	private function sortingArticlesByTakingTime(array $articles, $type) {
 		$presorted = [];
@@ -842,13 +781,7 @@ class ArticleRepository extends BaseRepository {
 			$t1 = strtotime($a[0]->format("%H:%I"));
 			$t2 = strtotime($b[0]->format("%H:%I"));
 			return $t1 - $t2;
-			/*if ($a[0] == $b[0]) {
-				return 0;
-			}
-
-			return ($a[0] < $b[0]) ? -1 : 1; */
 		});
-		//dump($presorted);
 		$sorted = [];
 		foreach ($presorted as $pre) {
 			$sorted[] = $pre[1];
