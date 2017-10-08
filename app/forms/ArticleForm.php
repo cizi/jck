@@ -200,10 +200,6 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("onclick", "articleRemoveRequiredFields(); tinyMCE.triggerSave();")
 			->addCreateOnClick(true);
 
-		$form->addMultiUpload("pics", ARTICLE_ADD_PICS_TO_GALLERY)
-			->setAttribute("class", "form-control menuItem")
-			->setAttribute("tabindex", $i+1);
-
 		$form->addHidden("id");
 		$form->addHidden("show_counter");
 		$form->addHidden("click_counter");

@@ -112,7 +112,6 @@ class SubmitPresenter extends BasePresenter {
 		$calendars = [];
 		$mutation = [];
 		$categories = [];
-		$pics = [];
 		foreach($values as $key => $value) {
 			if (($value instanceof ArrayHash) && ($key == 'calendar')) {    // timetable
 				foreach ($value as $calendarKey => $calendarData) {
@@ -161,7 +160,7 @@ class SubmitPresenter extends BasePresenter {
 		} else {
 			$insertedBy = ($this->getUser()->isLoggedIn() ? $this->getUser()->getId() : null);
 			$articleEntity->setLocation(EnumerationRepository::LOKACE_JIHOCESKY_ORDER);	// máme jen jihočeský
-			if ($this->articleRepository->saveCompleteArticle($articleEntity, $insertedBy, $calendars, $categories, $pics) == false) {
+			if ($this->articleRepository->saveCompleteArticle($articleEntity, $insertedBy, $calendars, $categories) == false) {
 				$this->flashMessage(SUBMIT_OWN_FAILED, "alert-danger");
 				$this->redirect("default", $this->langRepository->getCurrentLang($this->session), null, $values);
 			} else {

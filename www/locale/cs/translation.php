@@ -222,6 +222,14 @@ define("GALLERY_DELETATION_TEXT", 'Opravdu smazat galerii?');
 define("GALLERY_ADD_PICS_AND_BACK", 'Nahrát obrázky');
 define("GALLERY_SAVE_GALLERY", 'Uložit galerii');
 
+define("PIC_SAVE_GALLERY", 'Uložit obrázky');
+define("PIC_DELETE_PICS", 'Smazat vybrané obrázky');
+define("PIC_DELETE_TITLE", 'Smazat vybrané obrázky');
+define("PIC_DELETE_TEXT", 'Opravdu chcete smazat vybrané obrázky?');
+define("PIC_DELETE_CANCEL", 'Zpět');
+define("PIC_DELETE_DELETE", 'Smazat');
+define("PIC_DELETED_EXISTS", 'Níže označené obrázky jsou použity, nelze je smazat.');
+
 define("CHOSEN_PICKUP", 'Vyberte možnosti');
 define("CHOSEN_NO_MATCH", 'Žádná shoda');
 define("USER_REQUEST_NOT_PRIV", 'K návštěvě této stránky nemáte dostatečná oprávnění.');

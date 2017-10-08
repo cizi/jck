@@ -26,7 +26,20 @@ class FileController {
 			}
 			$this->pathDb = $baseUrl . 'upload/' . date("Ymd-His") . "-" . $fileUpload->name;
 			$this->path = UPLOAD_PATH . '/' . date("Ymd-His") . "-" . $fileUpload->name;
-			$fileUpload->move($this->path);
+
+			if ($this->isFileImage($fileUpload->getTemporaryFile())) {
+				$imagesize = getimagesize($fileUpload->getTemporaryFile());
+				if (($imagesize[0] > 800) || ($imagesize[1] > 800)) {    // pokud je soubor větší zmenším ho
+					$manipulator = new \ImageManipulator($fileUpload->getTemporaryFile());
+					$newImage = $manipulator->resample(800, 800);
+					$manipulator->save($this->path);
+					$this->imageFixOrientation($this->pathDb);
+				} else {
+					$fileUpload->move($this->path);
+				}
+			} else {
+				$fileUpload->move($this->path);
+			}
 		} catch (\Exception $e) {
 			dump($e->getMessage());
 			$result = false;
@@ -47,5 +60,40 @@ class FileController {
 	 */
 	public function getPath() {
 		return $this->path;
+	}
+
+	/**
+	 * @param string $path
+	 * @return bool
+	 */
+	private function isFileImage($path) {
+		if(@is_array(getimagesize($path))){
+			$image = true;
+		} else {
+			$image = false;
+		}
+
+		return $image;
+	}
+
+	private function imageFixOrientation($filename) {
+		$exif = exif_read_data($filename);
+		if (!empty($exif['Orientation'])) {
+			$image = imagecreatefromjpeg($filename);
+			switch ($exif['Orientation']) {
+				case 3:
+					$image = imagerotate($image, 180, 0);
+					break;
+
+				case 6:
+					$image = imagerotate($image, -90, 0);
+					break;
+
+				case 8:
+					$image = imagerotate($image, 90, 0);
+					break;
+			}
+			imagejpeg($image, $filename);
+		}
 	}
 }

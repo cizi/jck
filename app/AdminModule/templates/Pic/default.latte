@@ -1,0 +1,54 @@
+{block content}
+	<div id="wrapper">
+		{include '../@menu.latte', item => 'pic'}
+		<a href="#menu-toggle" class="menuToggle" id="menu-toggle"><span class="glyphicon glyphicon-chevron-left">&nbsp;&nbsp;</span></a>
+
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<h1 class="blockHeader">{=GALLERY_PICS}</h1>
+			<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
+			<div class="container-fluid">
+
+				<div class="row">
+					<div class="row">
+						<div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 col-xs-11">
+							<div class="form-group row">
+								{control picForm}
+							</div>
+						</div>
+						<div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					{=PIC_DELETE_TITLE}
+				</div>
+				<div class="modal-body">
+					{=PIC_DELETE_TEXT}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">{=PIC_DELETE_CANCEL}</button>
+					<a class="btn btn-danger btn-ok">{=PIC_DELETE_DELETE}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$('#confirm-delete').on('show.bs.modal', function(e) {
+			$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+		});
+
+		$("#frm-picForm-selectedPics").imagepicker();
+	</script>
+{/block}
+

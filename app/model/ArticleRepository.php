@@ -459,10 +459,9 @@ class ArticleRepository extends BaseRepository {
 	 * @param $userId
 	 * @param array $calendars
 	 * @param array $categories
-	 * @param array $blockPicsEntities
 	 * @return bool
 	 */
-	public function saveCompleteArticle(ArticleEntity $articleEntity, $userId, array $calendars, array $categories, array $blockPicsEntities = [], array $docFiles = []) {
+	public function saveCompleteArticle(ArticleEntity $articleEntity, $userId, array $calendars, array $categories, array $docFiles = []) {
 		$result = true;
 		try {
 			$this->connection->begin();
@@ -490,9 +489,6 @@ class ArticleRepository extends BaseRepository {
 			$this->saveArtcileCategory($categories, $articleId);	// následně uložím znovu
 
 			$this->saveArticleContent($articleEntity->getContents(), $articleId);
-			foreach ($blockPicsEntities as $picEnt) {
-				$this->picRepository->save($picEnt);
-			}
 			/** @var PicEntity $doc */
 			foreach ($docFiles as $doc) {
 				$doc->setArticleId($articleId);

@@ -118,6 +118,7 @@ class ArticlePresenter extends SignPresenter {
 			foreach ($newArticle->getContents() as $content) {
 				$content->setId(null);
 			}
+			// TODO soubory doc
 			if ($this->articleRepository->saveCompleteArticle($newArticle, $this->getUser()->getId(), $newArticle->getTimetables(), $newArticle->getCategories()) == true) {
 				$this->flashMessage(ARTICLE_DUPLICATE_OK, "alert-success");
 				$this->redirect("edit", $newArticle->getId());
@@ -163,7 +164,6 @@ class ArticlePresenter extends SignPresenter {
 		$calendars = [];
 		$mutation = [];
 		$categories = [];
-		$pics = [];
 		$docs = [];
 		foreach($values as $key => $value) {
 			if (($value instanceof ArrayHash) && ($key == 'calendar')) {    // timetable
@@ -201,22 +201,6 @@ class ArticlePresenter extends SignPresenter {
 					$articleEntity->setPicUrl($fileController->getPathDb());
 				}
 			}
-			if (is_array($value) && ($key == 'pics')) {	// obrázky
-				/** @var FileUpload $file */
-				foreach ($value as $file) {
-					if ($file->name != "") {
-						$fileController = new FileController();
-						if ($fileController->upload($file, $supportedFileFormats, $this->getHttpRequest()->getUrl()->getBaseUrl()) == false) {
-							$error = true;
-							break;
-						}
-
-						$blockPic = new PicEntity();
-						$blockPic->setPath($fileController->getPathDb());
-						$pics[] = $blockPic;
-					}
-				}
-			}
 			if (is_array($value) && ($key == 'docsUpload')) {	// ostatní přílohy
 				/** @var FileUpload $file */
 				foreach ($value as $file) {
@@ -242,7 +226,7 @@ class ArticlePresenter extends SignPresenter {
 			$this->flashMessage($flashMessage, "alert-danger");
 			$this->redirect("edit", null, $values);
 		} else {
-			if ($this->articleRepository->saveCompleteArticle($articleEntity, $this->getUser()->getId(), $calendars, $categories, $pics, $docs) == false) {
+			if ($this->articleRepository->saveCompleteArticle($articleEntity, $this->getUser()->getId(), $calendars, $categories, $docs) == false) {
 				$this->flashMessage(ARTICLE_SAVE_FAILED, "alert-danger");
 				$this->redirect("edit", null, $values);
 			}

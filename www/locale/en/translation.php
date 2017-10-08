@@ -220,6 +220,14 @@ define("GALLERY_DELETATION_TEXT", 'Are you really want to delete the gallery?');
 define("GALLERY_ADD_PICS_AND_BACK", 'Upload images');
 define("GALLERY_SAVE_GALLERY", 'Save gallery');
 
+define("PIC_SAVE_GALLERY", 'Save images');
+define("PIC_DELETE_PICS", 'Delete selected images');
+define("PIC_DELETE_TITLE", 'Delete selected images');
+define("PIC_DELETE_TEXT", 'Are you really want to delete selected images?');
+define("PIC_DELETE_CANCEL", 'Cancel');
+define("PIC_DELETE_DELETE", 'Delete');
+define("PIC_DELETED_EXISTS", 'Below selected images are in used, is not possible to delete them.');
+
 define("CHOSEN_PICKUP", 'Choose an option');
 define("CHOSEN_NO_MATCH", 'No match');
 define("USER_REQUEST_NOT_PRIV", 'Permission denied for this request.');

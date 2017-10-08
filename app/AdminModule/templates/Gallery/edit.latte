@@ -7,23 +7,16 @@
 		<div id="page-content-wrapper">
 			<div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
 			<div class="container-fluid">
-
-				<div class="row">
 					<div class="row">
-						<div class="col-lg-10 col-md-10 col-sm-10">
+						<div class="col-xl-11 col-lg-11 col-md-11 col-sm-11">
 							<h1 class="blockHeader">{=GALLERY_EDITATION}</h1>
-							<br />
-
 							<div class="form-group row">
 								{control galleryForm}
 							</div>
 						</div>
 					</div>
-
-					<div class="col-lg-1 col-md-1 col-sm-1">
+					<div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-xs-1">
 					</div>
-
-				</div>
 			</div>
 		</div>
 		<!-- /#page-content-wrapper -->

@@ -57,8 +57,8 @@ class GalleryPresenter extends SignPresenter {
 		$renderer->wrappers['controls']['container'] = NULL;
 		$renderer->wrappers['pair']['container'] = 'div class=form-group';
 		$renderer->wrappers['pair']['.error'] = 'has-error';
-		$renderer->wrappers['control']['container'] = 'div class=col-md-6';
-		$renderer->wrappers['label']['container'] = 'div class="col-md-4 control-label"';
+		$renderer->wrappers['control']['container'] = 'div class=col-md-10';
+		$renderer->wrappers['label']['container'] = 'div class="col-md-2 control-label"';
 		$renderer->wrappers['control']['description'] = 'span class=help-block';
 		$renderer->wrappers['control']['errorcontainer'] = 'span class=help-block';
 		$form->getElementPrototype()->class('form-horizontal');
@@ -71,65 +71,36 @@ class GalleryPresenter extends SignPresenter {
 	 * @param $values
 	 */
 	public function galleryFormSubmit(Form $form, $values) {
-		$error = false;
-		$supportedFileFormats = ["jpg", "png", "doc"];
+		$galleryEntity = new GalleryEntity();
+		$galleryEntity->hydrate((array)$values);
+		if (empty($galleryEntity->getInsertedTimestamp())) {
+			$galleryEntity->setInsertedTimestamp(new DateTime());
+		}
+		if (empty($galleryEntity->getUserId())) {
+			$galleryEntity->setUserId($this->getUser()->getId());
+		}
+		$galleryContents = [];
+		$galleryPics = [];
 		foreach($values as $key => $value) {
-			if (is_array($value) && $key == "pics") {	// obrázky
-				/** @var FileUpload $file */
-				foreach ($value as $file) {
-					if ($file->name != "") {
-						$fileController = new FileController();
-						if ($fileController->upload($file, $supportedFileFormats, $this->getHttpRequest()->getUrl()->getBaseUrl()) == false) {
-							$error = true;
-							break;
-						}
-						$blockPic = new PicEntity();
-						$blockPic->setPath($fileController->getPathDb());
-						$this->picRepository->save($blockPic);
-					}
+			if (($value instanceof ArrayHash) && ($key != "selectedPics")) {	// language mutation
+				$galleryContentEnt = new GalleryContentEntity();
+				$galleryContentEnt->hydrate($value);
+				$galleryContentEnt->setLang($key);
+				$galleryContents[] = $galleryContentEnt;
+			}
+			if ($key == "selectedPics") {
+				foreach ($value as $picId) {
+					$galleryPicEnt = new GalleryPicEntity();
+					$galleryPicEnt->setSharedPicId($picId);
+					$galleryPics[] = $galleryPicEnt;
 				}
 			}
 		}
-		if ($error) {
-			$flashMessage = sprintf(UNSUPPORTED_UPLOAD_FORMAT, implode(",", $supportedFileFormats));
-			$this->flashMessage($flashMessage, "alert-danger");
-			$this->redirect("edit", $values['id'], "", $values);
-		}
-
-		if (isset($form->getHttpData()['uploadPicture'])) {
-			$this->redirect("edit", $values['id'], "", $values);
-		} else {
-			$galleryEntity = new GalleryEntity();
-			$galleryEntity->hydrate((array)$values);
-			if (empty($galleryEntity->getInsertedTimestamp())) {
-				$galleryEntity->setInsertedTimestamp(new DateTime());
-			}
-			if (empty($galleryEntity->getUserId())) {
-				$galleryEntity->setUserId($this->getUser()->getId());
-			}
-			$galleryContents = [];
-			$galleryPics = [];
-			foreach($values as $key => $value) {
-				if (($value instanceof ArrayHash) && ($key != "selectedPics")) {	// language mutation
-					$galleryContentEnt = new GalleryContentEntity();
-					$galleryContentEnt->hydrate($value);
-					$galleryContentEnt->setLang($key);
-					$galleryContents[] = $galleryContentEnt;
-				}
-				if ($key == "selectedPics") {
-					foreach ($value as $picId) {
-						$galleryPicEnt = new GalleryPicEntity();
-						$galleryPicEnt->setSharedPicId($picId);
-						$galleryPics[] = $galleryPicEnt;
-					}
-				}
-			}
-			$galleryEntity->setContents($galleryContents);
-			$galleryEntity->setPics($galleryPics);
-			if ($this->galleryRepository->saveCompleteGallery($galleryEntity) == false) {
-				$this->flashMessage(BLOCK_SETTINGS_ITEM_SAVED_FAILED, "alert-danger");
-				$this->redirect("edit", null, "", $values);
-			}
+		$galleryEntity->setContents($galleryContents);
+		$galleryEntity->setPics($galleryPics);
+		if ($this->galleryRepository->saveCompleteGallery($galleryEntity) == false) {
+			$this->flashMessage(BLOCK_SETTINGS_ITEM_SAVED_FAILED, "alert-danger");
+			$this->redirect("edit", null, "", $values);
 		}
 		$this->redirect("default");
 	}

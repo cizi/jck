@@ -83,10 +83,6 @@ class GalleryForm extends Nette\Object {
 			->setAttribute("class", "form-control menuItem")
 			->setAttribute("tabindex", $i);
 
-		$form->addMultiUpload("pics")
-			->setAttribute("class", "form-control menuItem")
-			->setAttribute("tabindex", $i+1);
-
 		$form->addHidden("id");
 		$form->addHidden("inserted_timestamp");
 		$form->addHidden("user_id");
@@ -95,11 +91,6 @@ class GalleryForm extends Nette\Object {
 			->setAttribute("class","btn btn-primary menuItem alignRight")
 			->setAttribute("tabindex", $i+2);
 
-		$form->addSubmit("uploadPicture", GALLERY_ADD_PICS_AND_BACK)
-			->setAttribute("class","btn btn-primary menuItem alignRight")
-			->setAttribute("tabindex", $i+2);
-
 		return $form;
 	}
-
 }
