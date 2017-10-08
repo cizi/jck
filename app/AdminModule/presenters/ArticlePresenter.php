@@ -79,6 +79,7 @@ class ArticlePresenter extends SignPresenter {
 			foreach ($calendars as $calendar) {
 				$this['articleForm']['calendar']['calendar'][$calendar->getId()]->setDefaults($calendar->extractForm());
 			}
+			$this->template->article = $this->articleRepository->getArticle($id);
 		}
 
 		$this->template->articleId = $id;

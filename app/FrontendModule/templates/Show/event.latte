@@ -16,9 +16,13 @@
 		</div>
 
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			{if $article->getAddress() != ""}
+			{if !empty($article->getAddress()) || !empty($eventPlace)}
 				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
-				<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$article->getAddress()|noescape}">{$article->getAddress()|noescape}</a>
+				{if !empty($article->getAddress())}
+					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$article->getAddress()|noescape}">{$article->getAddress()|noescape}</a>
+				{elseif !empty($eventPlace->getAddress())}
+					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$eventPlace->getAddress()|noescape}">{$eventPlace->getAddress()|noescape}</a>
+				{/if}
 			{/if}
 			<p>
 				{if $article->getUrl()}
@@ -41,9 +45,9 @@
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 			{var picUrl = "../../../../../www/images/not-available.png"}
-			{if $article->getPicId() != null}
+			{if !empty($article->getPicId())}
 				{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
-			{else}
+			{elseif !empty($article->getPicUrl())}
 				{var picUrl = $article->getPicUrl()}
 			{/if}
 			<img class="showDetail" src={$picUrl} />

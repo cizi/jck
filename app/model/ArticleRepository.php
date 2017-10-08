@@ -693,7 +693,7 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->setTimetables([$articleTimeTable]);
 			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
-			$this->articleShowed($articleEntity->getId());
+			// $this->articleShowed($articleEntity->getId()); // slider načítám vždy, mám to vůbec počítat pro slider?
 
 			$bannersOut[] = $articleEntity;
 		}
@@ -706,6 +706,14 @@ class ArticleRepository extends BaseRepository {
 	 */
 	public function articleClicked($id) {
 		$query = ["update article set click_counter = click_counter + 1 where id = %i", $id];
+		$this->connection->query($query);
+	}
+
+	/**
+	 * @param int[] $ids
+	 */
+	public function articleShowedByIds(array $ids) {
+		$query = ["update article set show_counter = show_counter + 1 where id in %in", $ids];
 		$this->connection->query($query);
 	}
 
@@ -783,13 +791,17 @@ class ArticleRepository extends BaseRepository {
 			return $t1 - $t2;
 		});
 		$sorted = [];
+		$showedIds = [];	// id příspěvků, které budou zobrazeny
 		foreach ($presorted as $pre) {
 			$sorted[] = $pre[1];
+			$showedIds[] = $pre[1]->getId();
 		}
 
 		foreach ($notEventArticles as $article) {
 			$sorted[] = $article;
+			$showedIds[] = $article->getId();
 		}
+		$this->articleShowedByIds($showedIds);
 
 		return $sorted;
 	}

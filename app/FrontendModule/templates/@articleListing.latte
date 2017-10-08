@@ -13,7 +13,7 @@
 		{var picUrl = "../../../../../www/images/not-available.png"}
 		{if $article->getPicId() != null}
 			{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
-		{else}
+		{elseif !empty($article->getPicUrl())}
 			{var picUrl = $article->getPicUrl()}
 		{/if}
 		<a href={link $target, $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl} /></a>
@@ -29,7 +29,15 @@
 					- {$article->getLastTimetableDate()->format('d.m.Y')}
 					{$timetable->getTime()->format("%H:%I")}<br />
 					{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
-					{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br /><br />
+					{if !empty($article->getAddress())}
+						{$article->getAddress()}
+					{else}
+						{var places = $articleRepo->findActiveArticleByPlaceInLang($currentLang, $article->getPlace(), $placeOrder)}
+						{if !empty($places)}
+							{var place = reset($places)}
+							{$place->getAddress()}
+						{/if}
+					{/if}<br /><br />
 				{/if}
 			</strong>
 

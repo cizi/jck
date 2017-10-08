@@ -103,8 +103,10 @@ class ShowPresenter extends BasePresenter {
 		$article = $this->articleRepository->getArticle($id);
 		if ($article != null) {
 			$this->articleRepository->articleClicked($article->getId());
+			$places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $article->getPlace(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
+			$this->template->eventPlace = reset($places);
 			$this->template->article = $article;
-			$this->template->places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $article->getPlace(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
+			$this->template->places = $places;
 			$this->template->cities = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($article->getId());
 		}
@@ -118,20 +120,25 @@ class ShowPresenter extends BasePresenter {
 	public function actionPlace($lang, $id, $seoText) {
 		$this->checkLanguage($lang);
 		$place = $this->articleRepository->getArticle($id);
+		$this->articleRepository->articleClicked($place->getId());
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
 		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
 		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
-		if ($place->getGalleryId() != null) {
+
+		if (empty($place->getPicUrl())) {
+			$pics = [];
+		} else {
 			$pics[] = $place->getPicUrl();
+		}
+
+		if ($place->getGalleryId() != null) {
 			$galleryEntity = $this->galleryRepository->getGallery($place->getGalleryId());
 			foreach ($galleryEntity->getPics() as $pic) {
 				$pics[] = $this->picRepository->getById($pic->getSharedPicId())->getPath();
 			}
-			$this->template->sliderGalleryPics = $pics;
-		} else {
-			$this->template->sliderGalleryPics = [];
 		}
+		$this->template->sliderGalleryPics = $pics;
 	}
 
 	/**
@@ -142,6 +149,7 @@ class ShowPresenter extends BasePresenter {
 	public function actionCity($lang, $id, $seoText) {
 		$this->checkLanguage($lang);
 		$place = $this->articleRepository->getArticle($id);
+		$this->articleRepository->articleClicked($place->getId());
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
 		$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 		$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);

@@ -209,35 +209,16 @@
 				"</ul>"
 			);
 
-			$("#frm-articleForm-type").trigger("change");
+			{if isset($article)}
+				{if count($article->getCategories()) == 0}
+					$("#frm-articleForm-type").trigger("change");
+				{elseif $article->getType() == $articleTypePlace}
+					$("#frm-articleForm-gallery_id").parent().parent().css("display", "block");
+				{/if}
+			{else}
+				$("#frm-articleForm-type").trigger("change");
+			{/if}
 		});
-
-		{*
-		$("#footerBackgroundColor").minicolors({
-			control: $(this).attr('data-control') || 'hue',
-			defaultValue: $(this).attr('data-defaultValue') || '',
-			format: $(this).attr('data-format') || 'hex',
-			keywords: $(this).attr('data-keywords') || '',
-			inline: $(this).attr('data-inline') === 'true',
-			letterCase: $(this).attr('data-letterCase') || 'lowercase',
-			opacity: $(this).attr('data-opacity'),
-			position: $(this).attr('data-position') || 'bottom left',
-			swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
-			theme: 'bootstrap'
-		});
-
-		$("#footerColor").minicolors({
-			control: $(this).attr('data-control') || 'hue',
-			defaultValue: $(this).attr('data-defaultValue') || '',
-			format: $(this).attr('data-format') || 'hex',
-			keywords: $(this).attr('data-keywords') || '',
-			inline: $(this).attr('data-inline') === 'true',
-			letterCase: $(this).attr('data-letterCase') || 'lowercase',
-			opacity: $(this).attr('data-opacity'),
-			position: $(this).attr('data-position') || 'bottom left',
-			swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
-			theme: 'bootstrap'
-		}); *}
 
 	</script>
 {/block}
