@@ -30,12 +30,12 @@
 					{$timetable->getTime()->format("%H:%I")}<br />
 					{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 					{if !empty($article->getAddress())}
-						{$article->getAddress()}
+						{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}, {$article->getAddress()}
 					{else}
 						{var places = $articleRepo->findActiveArticleByPlaceInLang($currentLang, $article->getPlace(), $placeOrder)}
 						{if !empty($places)}
 							{var place = reset($places)}
-							{$place->getAddress()}
+							{$enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())}, {$place->getAddress()}
 						{/if}
 					{/if}<br /><br />
 				{/if}

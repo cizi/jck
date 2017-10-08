@@ -115,10 +115,15 @@
 						<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
 							<h3>{$article->getContents()[$currentLang]->getHeader()}</h3>
 						</a>
+						{var picUrl = "../../../../../www/images/not-available.png"}
 						{if $article->getPicId() != null}
-							{var picUrl = $picRepo->getById($article->getPicId())}
-							<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}><img src={$picUrl->getPath()} /></a>
+							{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
+						{elseif !empty($article->getPicUrl())}
+							{var picUrl = $article->getPicUrl()}
 						{/if}
+						<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
+							<img src={$picUrl} />
+						</a>
 						<div>
 							{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
 						</div>

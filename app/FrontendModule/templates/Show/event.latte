@@ -10,7 +10,7 @@
 					{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
 					- {$article->getLastTimetableDate()->format('d.m.Y')}
 					{$timetable->getTime()->format("%H:%S")}<br />
-					{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
+					{* $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation()) *}
 				</div>
 			{/if}
 		</div>
@@ -19,9 +19,11 @@
 			{if !empty($article->getAddress()) || !empty($eventPlace)}
 				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
 				{if !empty($article->getAddress())}
-					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$article->getAddress()|noescape}">{$article->getAddress()|noescape}</a>
+					{var address = $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation()) . ", " . $article->getAddress()}
+					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$address|noescape}">{$address|noescape}</a>
 				{elseif !empty($eventPlace->getAddress())}
-					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$eventPlace->getAddress()|noescape}">{$eventPlace->getAddress()|noescape}</a>
+					{var address = $enumRepo->getEnumItemByOrder($currentLang, $eventPlace->getSublocation()) . ", " . $eventPlace->getAddress()}
+					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$address|noescape}">{$address|noescape}</a>
 				{/if}
 			{/if}
 			<p>
