@@ -55,12 +55,13 @@ class WebconfigPresenter extends SignPresenter {
 			$defaults[$key] = $value;
 		}
 
+		/*
 		$xmlSiteMapPath = $this->getHttpRequest()->getUrl()->getBaseUrl()."sitemap.xml";
 		if (file_exists(SITEMAP_PATH."sitemap.xml")) {
 			$this->template->sitemapfiles = [$xmlSiteMapPath];
 		} else {
 			$this->template->sitemapfiles = [];
-		}
+		} */
 		$this['configForm']->setDefaults($defaults);
 	}
 

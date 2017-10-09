@@ -2,6 +2,7 @@
 
 namespace App\Model\Entity;
 
+use App\Model\ArticleRepository;
 use Dibi\DateTime;
 
 class ArticleEntity {
@@ -455,7 +456,7 @@ class ArticleEntity {
 	 * @return \DateTime
 	 */
 	public function getLastTimetableDate() {
-		$lastDate = new \DateTime();
+		$lastDate = DateTime::createFromFormat(ArticleRepository::DB_DATE_MASK, '1970-01-01');
 		foreach ($this->getTimetables() as $timetable) {
 			if ($lastDate < $timetable->getDateTo()) {
 				$lastDate = $timetable->getDateTo();

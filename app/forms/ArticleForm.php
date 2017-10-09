@@ -203,6 +203,7 @@ class ArticleForm extends Nette\Object {
 		$form->addHidden("id");
 		$form->addHidden("show_counter");
 		$form->addHidden("click_counter");
+		$form->addHidden("inserted_timestamp");
 
 		$form->addUpload("picUrlUpload", ARTICLE_MAIN_URL)
 			->setAttribute("class", "form-control")

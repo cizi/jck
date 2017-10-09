@@ -50,9 +50,6 @@ class ArticlePresenter extends SignPresenter {
 
 	public function actionDefault($id) {
 		$filter = $this->decodeFilterFromQuery();
-		if (empty($filter)) {	// nastavení defaultního filtru
-			$filter['active'] = "1";
-		}
 		$this['articleFilterForm']->setDefaults($filter);
 
 		$currentLang = $this->langRepository->getCurrentLang($this->session);
@@ -73,7 +70,6 @@ class ArticlePresenter extends SignPresenter {
 
 			$this['articleForm']['id']->setValue($id);
 			unset($defaults['inserted_by']);
-			unset($defaults['inserted_timestamp']);
 			$this['articleForm']->setDefaults($defaults);
 
 			$calendars = $this->articleTimetableRepository->findCalendars($id);

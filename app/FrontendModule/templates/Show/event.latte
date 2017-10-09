@@ -8,8 +8,11 @@
 					{var timetables = $article->getTimetables()}
 					{var timetable = reset($timetables)}
 					{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
-					- {$article->getLastTimetableDate()->format('d.m.Y')}
-					{$timetable->getTime()->format("%H:%S")}<br />
+					{if $article->getLastTimetableDate()->format('Y-m-d') != '1970-01-01'}
+						- {$article->getLastTimetableDate()->format('d.m.Y')}
+					{/if}
+					{* if $timetable->getDateTo() != '0000-00-00'} - {$timetable->getDateTo()->format('d.m.Y')}{/if *}
+					{* $timetable->getTime()->format("%H:%S")*}<br />
 					{* $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation()) *}
 				</div>
 			{/if}

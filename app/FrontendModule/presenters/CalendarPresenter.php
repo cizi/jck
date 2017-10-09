@@ -22,7 +22,7 @@ class CalendarPresenter extends BasePresenter {
 	 * @param $id
 	 * @param $seoText
 	 */
-	public function actionDefault($lang, $id, $seoText, $startDate, $sublocation = null) {
+	public function actionDefault($lang, $id, $seoText, $startDate, $sublocation = null, $direct = null) {
 		$this->checkLanguage($lang);
 		if ($startDate == null) {
 			$dateFrom = new DateTime();
@@ -32,7 +32,12 @@ class CalendarPresenter extends BasePresenter {
 		$endDate = clone $dateFrom;
 		$this->template->startDate = $dateFrom;
 		$this->template->endDate = $endDate->modify( '+7 day' );
-		$this->template->articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, null, $endDate, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
+		if ($direct == null) {
+			$articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, null, $endDate, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
+		} else {
+			$articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, null, null, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
+		}
+		$this->template->articles = $articles;
 		$this->template->sublocation = $sublocation;
 
 		if ($sublocation != null) {
