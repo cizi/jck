@@ -109,6 +109,7 @@ define("ARTICLE_HEADER_DETAIL", 'Detail příspěvku');
 define("ARTICLE_HEADER_INFO", 'V sekci příspěvků je možné přidávat obsah do webové aplikace. Příspěvek je vždy zařazen do kategorie a může jím být buď článek, nebo to může být akce. Zatím co článek obsahuje v zásadě jen text, akce musí mít vplněné datum/data konání. ');
 define("ARTICLE_TYPE", 'Typ příspěvku');
 define("ARTICLE_CATEGORY", 'Kategorie');
+define("ARTICLE_PROGRAM", 'Program');
 define("ARTICLE_ACTIVE", 'Aktivní');
 define("ARTICLE_BY", 'Vložil');
 define("ARTICLE_TIMESTAMP", 'Vloženo');

@@ -26,6 +26,9 @@ class ArticleRepository extends BaseRepository {
 	/** @var ArticleCategoryRepository */
 	private $articleCategoryRepository;
 
+	/** @var MenuRepository */
+	private $menuRepository;
+
 	/** @var Connection */
 	protected $connection;
 
@@ -34,11 +37,18 @@ class ArticleRepository extends BaseRepository {
 	 * @param PicRepository $picRepository
 	 * @param Connection $connection
 	 */
-	public function __construct(PicRepository $picRepository, ArticleTimetableRepository $articleTimetableRepository, Connection $connection, ArticleCategoryRepository $articleCategoryRepository) {
+	public function __construct(
+		PicRepository $picRepository,
+		ArticleTimetableRepository $articleTimetableRepository,
+		Connection $connection,
+		ArticleCategoryRepository $articleCategoryRepository,
+		MenuRepository $menuRepository
+	) {
 		parent::__construct($connection);
 		$this->articleTimetableRepository = $articleTimetableRepository;
 		$this->picRepository = $picRepository;
 		$this->articleCategoryRepository = $articleCategoryRepository;
+		$this->menuRepository = $menuRepository;
 	}
 
 	/**
@@ -714,6 +724,53 @@ class ArticleRepository extends BaseRepository {
 	}
 
 	/**
+	 * Vrátí emaily z pohledové tabulky
+	 * @return array
+	 */
+	public function findEmailFromView() {
+		$query = "select * from v_emails_from_articles";
+		$result = $this->connection->query($query)->fetchAll();
+
+		$emails = [];
+		foreach ($result as $record) {
+			$emails[] = $record['contact_email'];
+		}
+
+		return $emails;
+	}
+
+	/**
+	 * Metoda, která nastaví akce jako neaktivní pokud už nemají platný program
+	 * @param string $lang
+	 */
+	public function deactivateOldEvents($lang) {
+		// nejprve najdu všechny akce, které jsou označeny jako aktivní
+		$query = ["select id from article where type = %i and active = 1", EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER];
+		$result = $this->connection->query($query)->fetchAll();
+		$allActiveEvents = [];
+		foreach ($result as $item) {
+			$itemArray = $item->toArray();
+			$allActiveEvents[$itemArray['id']] = $itemArray['id'];
+		}
+
+		// potom najdu všechny akce, které jsou označeny jako aktivní a maji k dnešku platný program
+		$categories = $this->menuRepository->findAllCategoryOrders();	// hledám ve všech kategoriích
+		$allValidArticle = $this->findActiveArticlesInLangCategory($lang, $categories);
+		$allValidEvents = [];
+		/** @var ArticleEntity $activeArticle */
+		foreach ($allValidArticle as $activeArticle) {	// vyfiltruji jen akce
+			if ($activeArticle->getType() == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
+				$allValidEvents[$activeArticle->getId()] = $activeArticle->getId();
+			}
+		}
+		// potom porovnám pole = výsledek je Id přísůpěvků (akcí), které nemají platný program
+		$activeEventsWithoutValidProgram = array_diff($allActiveEvents, $allValidEvents);
+		foreach ($activeEventsWithoutValidProgram as $endedEventArticleId) {
+			$this->setArticleInactive($endedEventArticleId);
+		}
+	}
+
+	/**
 	 * @param int $id
 	 */
 	private function articleShowed($id) {
@@ -744,22 +801,6 @@ class ArticleRepository extends BaseRepository {
 		}
 
 		return $this->sortingArticlesByTakingTime($articles, $type);
-	}
-
-	/**
-	 * Vrátí emaily z pohledové tabulky
-	 * @return array
-	 */
-	public function findEmailFromView() {
-		$query = "select * from v_emails_from_articles";
-		$result = $this->connection->query($query)->fetchAll();
-
-		$emails = [];
-		foreach ($result as $record) {
-			$emails[] = $record['contact_email'];
-		}
-
-		return $emails;
 	}
 
 	/**

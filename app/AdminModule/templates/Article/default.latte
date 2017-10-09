@@ -29,6 +29,7 @@
 										<th>{=ARTICLE_CONTENT_HEADER}</th>
 										<th>{=ARTICLE_TYPE}</th>
 										<th>{=ARTICLE_CATEGORY}</th>
+										<th>{=ARTICLE_PROGRAM}</th>
 										<th>{=ARTICLE_VALIDITY}</th>
 										<th>{=ARTICLE_LOCATION}</th>
 										<th>{=ARTICLE_SUBLOCATION}</th>
@@ -62,6 +63,17 @@
 													{/foreach}
 												</td>
 
+												<td nowrap="nowrap">
+													{foreach $articleEntity->getTimetables() as $timetable}
+														<small class="calendar">
+															{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
+															{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
+																- {$timetable->getDateTo()->format('d.m.Y')}
+															{/if}
+															{$timetable->getTime()->format("%H:%S")}
+														</small><br />
+													{/foreach}
+												</td>
 												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getValidity())}</td>
 
 												<td>{$enumRepo->getEnumItemByOrder($currentLang, $articleEntity->getLocation())}</td>

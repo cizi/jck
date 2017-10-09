@@ -107,6 +107,7 @@ define("ARTICLE_HEADER_DETAIL", 'Article detail');
 define("ARTICLE_HEADER_INFO", 'In article section yu are able to add, edit or delete content of article. Each article is inserted in the category which means action or text plain article Article is text plain content, action has to have date or dates of taking place. ');
 define("ARTICLE_TYPE", 'Type of article');
 define("ARTICLE_CATEGORY", 'Category');
+define("ARTICLE_PROGRAM", 'Program');
 define("ARTICLE_ACTIVE", 'Active');
 define("ARTICLE_BY", 'Inserted by');
 define("ARTICLE_TIMESTAMP", 'Inserted');

@@ -134,6 +134,7 @@ abstract class BasePresenter extends Presenter {
 		$this->loadFooterConfig();
 
 		$availableLangs = $this->langRepository->findLanguages();
+		$this->template->requestedAction = $this->getPresenter()->getAction();
 		$this->template->webAvailebleLangs = $availableLangs;
 		$this->template->currentLang = $lang;
 		$this->template->menuHtml = $this->menuController->renderMenuInFrontend($lang, $this->presenter);

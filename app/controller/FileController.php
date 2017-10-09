@@ -33,7 +33,7 @@ class FileController {
 					$manipulator = new \ImageManipulator($fileUpload->getTemporaryFile());
 					$newImage = $manipulator->resample(800, 800);
 					$manipulator->save($this->path);
-					$this->imageFixOrientation($this->pathDb);
+					// $this->imageFixOrientation($this->pathDb);
 				} else {
 					$fileUpload->move($this->path);
 				}

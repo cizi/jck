@@ -50,7 +50,9 @@ class ArticlePresenter extends SignPresenter {
 
 	public function actionDefault($id) {
 		$filter = $this->decodeFilterFromQuery();
-		//dump($filter);
+		if (empty($filter)) {	// nastavení defaultního filtru
+			$filter['active'] = "1";
+		}
 		$this['articleFilterForm']->setDefaults($filter);
 
 		$currentLang = $this->langRepository->getCurrentLang($this->session);

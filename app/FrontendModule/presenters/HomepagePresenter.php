@@ -23,6 +23,7 @@ class HomepagePresenter extends BasePresenter {
 	 */
 	public function renderDefault($lang, $id) {
 		$this->checkLanguage($lang);
+		$this->articleRepository->deactivateOldEvents($lang);
 		if ((empty($id) || ($id == "")) && !empty($lang) && (!isset($availableLangs[$lang]))) {
 			$id = $lang;
 		}
@@ -35,7 +36,7 @@ class HomepagePresenter extends BasePresenter {
 				$this->template->currentLink = $menuLink;
 			}
 		}
-
+		unset($this->template->requestedAction);	// odnastavím proměnnou z base presenteru (toto je homepage celého webu)
 		$this->template->widthEnum = new WebWidthEnum();
 		$this->template->textArticles = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
 		$this->template->galleries = $this->galleryRepository->findActiveGalleriesInLang($lang);

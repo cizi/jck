@@ -32,17 +32,20 @@
 
 	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
 
-	{if isset($currentLink)}	{* probably any page absolutelly not root *}
-		{foreach $availableLinks as $li}
-			{if ($li->getOrder() == $currentLink->getOrder())}
-				<link rel="alternate" href="{$baseUrl}/{$li->getLang()}/{$li->getLink()}" hreflang="{$li->getLang()}" />
-			{/if}
+	{if isset($article)}	{* probably any page absolutelly not root *}
+		{foreach $webAvailebleLangs as $landShortcut}
+			{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$landShortcut]->getHeader())}
+			<link rel="alternate" href="{$baseUrl}/{$landShortcut}/show/{$requestedAction}/{$article->getId()}/{$urlTitle}" hreflang="{$landShortcut}" />
 		{/foreach}
 	{else}						{* root because link is not specified *}
 		{foreach $webAvailebleLangs as $landShortcut}
-			<link rel="alternate" href="{$baseUrl}/{$landShortcut}" hreflang="{$landShortcut}" />
+			{if isset($requestedAction)}
+				<link rel="alternate" href="{$baseUrl}/{$landShortcut}/show/{$requestedAction}" hreflang="{$landShortcut}" />
+			{else}
+				<link rel="alternate" href="{$baseUrl}/{$landShortcut}" hreflang="{$landShortcut}" />
+			{/if}
 		{/foreach}
-		<link rel="alternate" href={$baseUrl} hreflang="x-default" />
+		{if isset($requestedAction) == false}<link rel="alternate" href={$baseUrl} hreflang="x-default" />{/if}
 	{/if}
 	{block head}{/block}
 

@@ -1,0 +1,112 @@
+{block content}
+	<div class="row" style="padding: 0 0 0 10px; margin-top: -10px">
+		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 eventMainTitle">
+			<h1 class="seo">{$place->getContents()[$currentLang]->getHeader()}</h1>
+			<h1 class="titles">{$place->getContents()[$currentLang]->getHeader()}</h1>
+		</div>
+
+		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			{if $place->getAddress() != ""}
+				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
+				<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}">
+					{$place->getContents()[$currentLang]->getHeader()}, {$place->getAddress()|noescape}
+				</a>
+			{/if}
+			<p>
+				{if $place->getUrl()}
+					<a class="ev ev_link" target="_blank" href={$place->getUrl()}><i class="fa fa-external-link-square" aria-hidden="true"></i>{=ARTICLE_PROMOTER|upper}</a>
+				{/if}
+				{if $place->getFbUrl() != null}
+					<a class="ev ev_facebook" target="_blank" href={$place->getFbUrl()}><i class="fa fa-facebook-official" aria-hidden="true"></i>{=ARTICLE_FACEBOOK|upper}</a>
+				{/if}
+				{if $place->getYtUrl() != null}
+					<a class="ev ev_youtube" target="_blank" href={$place->getYtUrl()}><i class="fa fa-youtube-play" aria-hidden="true"></i>{=ARTICLE_YOUTUBE|upper}</a>
+				{/if}
+				{if $place->getAddress() != null}
+					<a class="ev ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}"><i class="fa fa-location-arrow" aria-hidden="true"></i>{=ARTICLE_MAP|upper}</a>
+				{/if}
+			</p>
+		</div>
+	</div>
+
+	<div class="row" style="padding: 0 10px 0 10px">
+		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			{var picUrl = "../../../../../www/images/not-available.png"}
+			{if $place->getPicId() != null}
+				{var picUrl = $picRepo->getById($place->getPicId())->getPath()}
+			{else}
+				{var picUrl = $place->getPicUrl()}
+			{/if}
+			<img class="showDetail" alt={$place->getContents()[$currentLang]->getHeader()} src="{$picUrl}" />
+		</div>
+		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+			{$place->getContact()|noescape}
+
+		</div>
+	</div>
+
+	<div class="row" style="padding: 0 10px 0 10px">
+		<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-12">
+
+			<ul id = "myTab" class = "nav nav-tabs">
+				<li class="active"><a href="#info" data-toggle="tab">{=ARTICLE_EVENT_INFO}</a></li>
+				{if count($articles)}<li><a href="#events" data-toggle="tab">{=ARTICLE_EVENT_PLACE_EVENTS} ({count($articles)})</a></li>{/if}
+				{if count($textArticles)}<li><a href="#articles" data-toggle="tab">{=ARTICLE_EVENT_PLACE_ARTICLES} ({count($textArticles)})</a></li>{/if}
+				{if count($docsUploaded)}<li><a href="#uploadedDocs" data-toggle="tab">{=ARTICLE_EVENT_DOCS} ({count($docsUploaded)})</a></li>{/if}
+			</ul>
+
+			<div id = "myTabContent" class = "tab-content">
+				<div class="tab-pane fade in active" id="info">
+					{$place->getContents()[$currentLang]->getContent()|noescape}
+				</div>
+
+				{if count($articles)}
+					<div class="tab-pane fade" id="events">
+						{include "../@articleListing.latte", $articles}
+					</div>
+				{/if}
+
+				{if count($textArticles)}
+					<div class="tab-pane fade" id="articles">
+						{foreach $textArticles as $article}
+							<div class="hp_2_cols">
+								<h1 class="seo">{$article->getContents()[$currentLang]->getHeader()}</h1>
+								{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+								{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
+								{if $article->getPicId() != null}
+									{var picUrl = $picRepo->getById($article->getPicId())}
+									<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
+								{/if}
+								<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
+									<h3>{$article->getContents()[$currentLang]->getHeader()}</h3>
+								</a>
+								<div>
+									{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
+									<div>
+										<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>
+										<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle} class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</a>
+									</div>
+								</div>
+							</div>
+						{/foreach}
+					</div>
+				{/if}
+
+				{if count($docsUploaded)}
+					<div class="tab-pane fade" id="uploadedDocs">
+						{include "../@articleDocs.latte", $docsUploaded}
+					</div>
+				{/if}
+			</div>
+			<script>
+				$(function () {
+					$('#myTab li:eq(0) a').tab('show');
+				});
+			</script>
+		</div>
+
+		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+			{include '../@rightPanel.latte'}
+		</div>
+	</div>
+{/block}

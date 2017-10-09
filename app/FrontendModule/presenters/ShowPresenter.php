@@ -67,6 +67,7 @@ class ShowPresenter extends BasePresenter {
 		$galleryEntity = $this->galleryRepository->getGallery($id);
 		if ($galleryEntity != null) {
 			$this->template->gallery = $galleryEntity;
+			$this->template->article = $galleryEntity;	// dávám do proměnné article kvůli generování link rel jazykového nastavení
 		}
 	}
 
@@ -122,6 +123,7 @@ class ShowPresenter extends BasePresenter {
 		$place = $this->articleRepository->getArticle($id);
 		$this->articleRepository->articleClicked($place->getId());
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
+		$this->template->article = $this->template->place;	// dávám do proměnné article kvůli generování link rel jazykového nastavení
 		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
 		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
@@ -151,10 +153,10 @@ class ShowPresenter extends BasePresenter {
 		$place = $this->articleRepository->getArticle($id);
 		$this->articleRepository->articleClicked($place->getId());
 		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
+		$this->template->article = $this->template->place;	// dávám do proměnné article kvůli generování link rel jazykového nastavení
 		$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 		$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);
 		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
-		$this->setView('place');
 	}
 
 	/**
@@ -262,6 +264,7 @@ class ShowPresenter extends BasePresenter {
 		}
 		$this['mainPageSearchForm']['search']->setDefaultValue($searchText);
 		$this->template->articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, $searchText, $dateTo, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
+		$this->template->requestedAction = "search-date";	// ochcávka, abych nemusel řešit camal case => dash case
 	}
 
 	/**
