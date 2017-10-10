@@ -13,7 +13,8 @@
 					{/if}
 					{* if $timetable->getDateTo() != '0000-00-00'} - {$timetable->getDateTo()->format('d.m.Y')}{/if *}
 					{* $timetable->getTime()->format("%H:%S")*}<br />
-					{* $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation()) *}
+					{* $enumRepo->getEnumItemByOrder($currentLang, $article->getPlace()) *}
+					{$article->getAddress()}
 				</div>
 			{/if}
 		</div>
