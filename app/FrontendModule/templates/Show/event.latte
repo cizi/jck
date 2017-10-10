@@ -13,8 +13,7 @@
 					{/if}
 					{* if $timetable->getDateTo() != '0000-00-00'} - {$timetable->getDateTo()->format('d.m.Y')}{/if *}
 					{* $timetable->getTime()->format("%H:%S")*}<br />
-					{* $enumRepo->getEnumItemByOrder($currentLang, $article->getPlace()) *}
-					{$article->getAddress()}
+					{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
 				</div>
 			{/if}
 		</div>
@@ -79,7 +78,9 @@
 							<small class="calendarOnEvent">
 								{$dt->format('d.m.Y')}, {$timetable->getTime()->format("%H:%S")} <br />
 								{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
-								{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br />
+								{* if !empty($article->getAddress())}{$article->getAddress()}{/if *}
+								{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
+								<br />
 							</small>
 						</td></tr>
 					{/foreach}
@@ -99,8 +100,10 @@
 							{/if}
 							{$timetable->getTime()->format("%H:%S")} <br />
 
-							{if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if}
-							{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br />
+							{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
+							{*if !empty($article->getAddress())}{$article->getAddress()}{/if*}
+							{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
+							<br />
 						</small>
 					</td></tr>
 				{/if}
