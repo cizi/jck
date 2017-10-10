@@ -64,10 +64,10 @@ define("SUBMIT_OWN_EVENT", 'Submit own event');
 define("SUBMIT_OWN_EVENT_TEXT", 'If you would like an event to be considered for inclusion, please fill in the form below, making sure you provide 
 all the information requested. This will be passed on to our editorial team. Please note this form is for events only. Any other content - such as 
 tours, airport facilities or attractions - should be submitted using our feedback form.');
-define("SUBMIT_OWN_SAVED", 'Action has benn send for submitting');
-define("SUBMIT_OWN_FAILED", 'Action saved failed, please try again later');
-define("SUBMIT_OWN_MAIL_SUBJECT", 'JCK - new FREE action has been inserted');
-define("SUBMIT_OWN_MAIL_BODY", 'Hello, <br /><br />new action has been inserted from web form. Please logni in the admin section for show this new action here %s . <br /><br /> Admin JCK');
+define("SUBMIT_OWN_SAVED", 'Event has benn send for submitting');
+define("SUBMIT_OWN_FAILED", 'Event saved failed, please try again later');
+define("SUBMIT_OWN_MAIL_SUBJECT", 'JCK - new FREE EVENT has been inserted');
+define("SUBMIT_OWN_MAIL_BODY", 'Hello, <br /><br />new event has been inserted from the web form. Please login in the admin section for show this new event here %s . <br /><br /> Admin JCK');
 
 // číselníky
 define("ENUM_TITLE", 'Enumeration setting');
@@ -104,7 +104,7 @@ define("ENUM_DELETE_ITEM_FAIL", 'Enumeration item deletation failed. Probably th
 // příspěvky
 define("ARTICLE_HEADER", 'Articles');
 define("ARTICLE_HEADER_DETAIL", 'Article detail');
-define("ARTICLE_HEADER_INFO", 'In article section yu are able to add, edit or delete content of article. Each article is inserted in the category which means action or text plain article Article is text plain content, action has to have date or dates of taking place. ');
+define("ARTICLE_HEADER_INFO", 'In article section you are able to add, edit or delete content of article. Each article is inserted in the category which means event or text plain article Article is text plain content, event has to have date or dates of taking place. ');
 define("ARTICLE_TYPE", 'Type of article');
 define("ARTICLE_CATEGORY", 'Category');
 define("ARTICLE_PROGRAM", 'Program');
@@ -132,13 +132,13 @@ define("ARTICLE_MAIN_URL", 'Master pic (660 x 443px)');
 define("ARTICLE_MAIN_URL_REQ", 'Master pic (660 x 443px) is mandatory field.');
 define("ARTICLE_GALLERY", 'Gallery');
 define("ARTICLE_MAIN_DOCS", 'Files (posters, program, etc.)');
-define("ARTICLE_URL", 'Web URL of action');
-define("ARTICLE_FB_URL", 'FB action URL');
+define("ARTICLE_URL", 'Web URL of event');
+define("ARTICLE_FB_URL", 'FB event URL');
 define("ARTICLE_YT_URL", 'Youtube URL');
 define("ARTICLE_SAVE_FAILED", 'Article saved failed. ');
 define("ARTICLE_CONTENT_REWRITE", 'Copy content from CS to EN');
 define("ARTICLE_CONTENT_CONFIRM", 'Save article');
-define("ARTICLE_CALENDAR", 'Action calendar');
+define("ARTICLE_CALENDAR", 'event calendar');
 define("ARTICLE_DUPLICATE", 'Duplicate article');
 define("ARTICLE_DUPLICATE_OK", 'Duplicate has been successfully created');
 define("ARTICLE_DUPLICATE_FAILED", 'Duplicate creation failed');
@@ -180,26 +180,26 @@ define("ARTICLE_MAP", 'Map');
 define("ARTICLE_TAKING_MISSING", 'Please add at least one date and time of the event.');
 
 // měsíce
-define("JANUARY", 'january');
-define("FEBRUARY", 'february');
-define("MARCH", 'march');
-define("APRIL", 'april');
-define("MAY", 'may');
-define("JUNE", 'june');
-define("JULY", 'july');
-define("AUGUST", 'august');
-define("SEPTEMBER", 'september');
-define("OCTOBER", 'october');
-define("NOVEMBER", 'november');
-define("DEMEBER", 'december');
+define("JANUARY", 'January');
+define("FEBRUARY", 'February');
+define("MARCH", 'March');
+define("APRIL", 'April');
+define("MAY", 'May');
+define("JUNE", 'June');
+define("JULY", 'July');
+define("AUGUST", 'August');
+define("SEPTEMBER", 'September');
+define("OCTOBER", 'October');
+define("NOVEMBER", 'November');
+define("DEMEBER", 'December');
 
-define("MON", 'monday');
-define("THU", 'tuesday');
-define("WED", 'wednesday');
-define("THR", 'thursday');
-define("FRI", 'friday');
-define("SAT", 'saturday');
-define("SUN", 'sunday');
+define("MON", 'Monday');
+define("THU", 'Tuesday');
+define("WED", 'Wednesday');
+define("THR", 'Thursday');
+define("FRI", 'Friday');
+define("SAT", 'Saturday');
+define("SUN", 'Sunday');
 
 // galerie
 define("GALLERY_TITLE", 'Gallery');

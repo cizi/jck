@@ -21,11 +21,32 @@ class WebPublicUtilsPresenter extends BasePresenter {
 		$categories = $this->menuRepository->findAllCategoryOrders();	// hledám ve všech kategoriích
 		$allActiveArticles = $allValidArticle = $this->articleRepository->findActiveArticlesInLangCategory($lang, $categories);
 		if (count($allActiveArticles)) {
+			$base = $this->getHttpRequest()->getUrl()->getBaseUrl();
+			$availableLangs = $this->langRepository->findLanguages();
+
 			$fileContent = [];
 			$fileContent[] = '<?xml version="1.0" encoding="UTF-8"?>';
 			$fileContent[] = '<urlset xmlns:xhtml="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">';
-			$base = $this->getHttpRequest()->getUrl()->getBaseUrl();
-			$availableLangs = $this->langRepository->findLanguages();
+
+			foreach ($availableLangs as $currentLang) {	// homepage podle jazyků
+				if ($currentLang == $lang) {
+					$fileContent[] = '<loc>' . $base . $currentLang . '</loc>';
+				} else {
+					$fileContent[] = '<xhtml:link rel="alternate" hreflang="' . $base . $currentLang . '" />';
+				}
+			}
+
+			$statics = ["galleries", "details"];	// statické stránky
+			foreach ($statics as $static) {
+				foreach ($availableLangs as $currentLang) {
+					if ($currentLang == $lang) {
+						$fileContent[] = '<loc>' . $base . $currentLang . '/show/' . $static . '</loc>';
+					} else {
+						$fileContent[] = '<xhtml:link rel="alternate" hreflang="' . $base . $currentLang . '/show/' . $static . '" />';
+					}
+				}
+			}
+
 			/** @var ArticleEntity $article */
 			foreach($allActiveArticles as $article) {
 				switch ($article->getType()) {

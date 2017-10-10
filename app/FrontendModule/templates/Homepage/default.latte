@@ -64,7 +64,7 @@
 									{$timetable->getTime()->format("%H:%S")} <br />
 
 									{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
-									{if !empty($article->getAddress())}{$article->getAddress()}{/if}<br />
+									{if !empty($article->getPlace())}{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}{/if}<br />
 								</small>
 							</div>
 						</div>

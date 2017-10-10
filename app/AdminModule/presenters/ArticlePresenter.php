@@ -113,11 +113,21 @@ class ArticlePresenter extends SignPresenter {
 		if ($article != null) {
 			$newArticle = clone($article);
 			$newArticle->setId(null);
+			$newArticle->setClickCounter(0);
+			$newArticle->setShowCounter(0);
 			foreach ($newArticle->getContents() as $content) {
 				$content->setId(null);
 			}
-			// TODO soubory doc
 			if ($this->articleRepository->saveCompleteArticle($newArticle, $this->getUser()->getId(), $newArticle->getTimetables(), $newArticle->getCategories()) == true) {
+				$files = $this->picRepository->loadDocs($article->getId());
+				/** @var PicEntity $file */
+				foreach ($files as $file) {
+					$newFile = clone($file);
+					$newFile->setId(null);	// vynuluji ID, aby se přiřadilo nové
+					$newFile->setArticleId($newArticle->getId());
+					$this->picRepository->save($newFile);
+				}
+
 				$this->flashMessage(ARTICLE_DUPLICATE_OK, "alert-success");
 				$this->redirect("edit", $newArticle->getId());
 			} else {

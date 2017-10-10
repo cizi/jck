@@ -140,7 +140,7 @@ class DefaultPresenter extends BasePresenter {
 	 */
 	public function actionOut(){
 		$this->getUser()->logout();
-		$this->flashMessage(ADMIN_LOGIN_UNLOGGED);
+		$this->flashMessage(ADMIN_LOGIN_UNLOGGED, "alert-success");
 		$this->redirect('default');
 	}
 }

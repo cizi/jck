@@ -24,8 +24,9 @@
 											{/if}
 										</span><br />
 										<span>
+											{if $article->getPlace() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}{/if}
 											{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
-											{if !empty($article->getAddress())}{$article->getAddress()}{/if}
+											{* if !empty($article->getAddress())}{$article->getAddress()}{/if *}
 											<br /><br />
 										</span>
 									</div>
