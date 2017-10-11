@@ -12,6 +12,63 @@ class FileController {
 	/** @var string */
 	private $path;
 
+	public static function imageFixOrientation($filename) {
+		$type = exif_imagetype($filename); // [] if you don't have exif you could use getImageSize()
+		$allowedTypes = array(
+			1,  // [] gif
+			2,  // [] jpg
+			3  // [] png
+		);
+		if (!in_array($type, $allowedTypes)) {
+			return false;
+		}
+		$ctype="image/jpeg";
+		switch ($type) {
+			case 1 :
+				$im = imageCreateFromGif($filename);
+				$ctype = "image/gif";
+				break;
+			case 2 :
+				$im = imageCreateFromJpeg($filename);
+				break;
+			case 3 :
+				$im = imageCreateFromPng($filename);
+				$ctype = "image/png";
+				break;
+		}
+
+		if (isset($im)) {
+			// header('Content-type: ' . $ctype);
+			$exif = exif_read_data($filename);
+			if (!empty($exif['Orientation'])) {
+				$source = imagecreatefromjpeg($filename);
+				switch ($exif['Orientation']) {
+					case 3:
+						$image = imagerotate($source, 180, 0);
+						break;
+
+					case 6:
+						$image = imagerotate($source, -90, 0);
+						break;
+
+					case 8:
+						$image = imagerotate($source, 90, 0);
+						break;
+				}
+				if (isset($image)) {
+					ob_start();
+					imagejpeg($image, NULL, 100);
+					$rawImageBytes = ob_get_clean();
+					echo 'data:'.$ctype.';base64,' . base64_encode( $rawImageBytes );
+				}
+			}
+			ob_start();
+			imagejpeg($im, NULL, 100);
+			$rawImageBytes = ob_get_clean();
+			echo 'data:'.$ctype.';base64,"' . base64_encode( $rawImageBytes );
+		}
+	}
+
 	/**
 	 * @param FileUpload $fileUpload
 	 * @param array $formats example: ["jpg", "png", ...etc]
@@ -74,26 +131,5 @@ class FileController {
 		}
 
 		return $image;
-	}
-
-	private function imageFixOrientation($filename) {
-		$exif = exif_read_data($filename);
-		if (!empty($exif['Orientation'])) {
-			$image = imagecreatefromjpeg($filename);
-			switch ($exif['Orientation']) {
-				case 3:
-					$image = imagerotate($image, 180, 0);
-					break;
-
-				case 6:
-					$image = imagerotate($image, -90, 0);
-					break;
-
-				case 8:
-					$image = imagerotate($image, 90, 0);
-					break;
-			}
-			imagejpeg($image, $filename);
-		}
 	}
 }
