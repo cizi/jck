@@ -11,13 +11,11 @@
 	}
 	.pageStaticHeader {
 		width: 100%!important;
-		height: 200px!important;
+		height: auto!important;
+		padding-bottom: 30px;
 	}
 	.banners {
 		width: 100%!important;
-	}
-	.mainPageTitle h1 {
-		height: 0;
 	}
 	.row {
 		margin-right: 0!important;
@@ -30,6 +28,14 @@
 		margin-left: -15px!important;
 	}
 }
+
+@media (max-width: 400px) {
+	.mainPageTitle h1 {
+		font-size: 8vw;
+	}
+}
+
+
 
 @font-face {
 	font-family: "InterstateRegularCompressed";
@@ -411,16 +417,16 @@ div.mainPageSearch {
 }
 
 .mainPageTitle {
-
+	margin: auto;
 }
+
 .mainPageTitle h1 {
 	font-family: Impact;	/* 'InterstateRegularCompressed' */
 	font-stretch: ultra-condensed;
-	font-size: 40px;
 	color: white;
 	white-space: nowrap;
 	letter-spacing: 0;
-	padding-top: 14px;
+	padding-top: 18px;
 	transform: scale(1, 1.5);
 	-webkit-transform:scale(1, 1.5);  /* Chrome, Safari, Opera */
 	-moz-transform: scale(1, 1.5);    /* Mozilla Firefox */
@@ -431,9 +437,14 @@ div.mainPageSearch {
 	color: #e04b00;
 }
 .fullBanner {
-	width: 468px;
+	width: 100%;
 	padding-top: 30px;
-	display: inline;
+	margin: auto;
+}
+.fullBanner a img {
+	max-width: 468px;
+	width: 100%;
+	height:auto;
 }
 .banners {
 	margin-top: -20px;
