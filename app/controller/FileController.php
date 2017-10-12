@@ -86,9 +86,9 @@ class FileController {
 
 			if ($this->isFileImage($fileUpload->getTemporaryFile())) {
 				$imagesize = getimagesize($fileUpload->getTemporaryFile());
-				if (($imagesize[0] > 800) || ($imagesize[1] > 800)) {    // pokud je soubor větší zmenším ho
+				if (($imagesize[0] > 2000) || ($imagesize[1] > 2000)) {    // pokud je soubor větší zmenším ho
 					$manipulator = new \ImageManipulator($fileUpload->getTemporaryFile());
-					$newImage = $manipulator->resample(800, 800);
+					$newImage = $manipulator->resample(2000, 2000);
 					$manipulator->save($this->path);
 					// $this->imageFixOrientation($this->pathDb);
 				} else {
