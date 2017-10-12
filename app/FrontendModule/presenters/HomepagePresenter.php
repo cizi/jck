@@ -43,6 +43,12 @@ class HomepagePresenter extends BasePresenter {
 		$this->template->topRandomEvents = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
 		$this->template->maxTextArticles = self::MAX_TEXT_ARTICLES;
 		$this->template->maxGalleries = self::MAX_GALLERIES;
+
+		$this->template->sliderPics = $this->articleRepository->findSliderPics();
+		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, true);
+		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, true);
+		$this->template->largeRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_LARGE_RECTANGLE, true);
+		$this->template->middleRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_MIDDLE_RECTANGLE, true);
 	}
 
 	/**

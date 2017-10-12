@@ -4,6 +4,7 @@ namespace App\FrontendModule\Presenters;
 
 use App\Forms\FulltextSearchForm;
 use App\Model\ArticleRepository;
+use App\Model\Entity\ArticleCategoryEntity;
 use App\Model\Entity\ArticleEntity;
 use App\Model\Entity\MenuEntity;
 use App\Model\EnumerationRepository;
@@ -32,6 +33,10 @@ class ShowPresenter extends BasePresenter {
 		if ($articleEntity) {
 			$this->template->article = $articleEntity;
 			$this->template->docsUploaded = $this->picRepository->loadDocs($articleEntity->getId());
+
+			$articlesCategories = $articleEntity->getCategories();
+			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 		}
 	}
 
@@ -55,6 +60,10 @@ class ShowPresenter extends BasePresenter {
 		$articleEntities = array_slice($articles, $paginator->getOffset(), $paginator->getLength());
 		$this->template->paginator = $paginator;
 		$this->template->articles = $articleEntities;
+
+		$articlesCategories = [];
+		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 	}
 
 	/**
@@ -68,12 +77,20 @@ class ShowPresenter extends BasePresenter {
 		if ($galleryEntity != null) {
 			$this->template->gallery = $galleryEntity;
 			$this->template->article = $galleryEntity;	// dávám do proměnné article kvůli generování link rel jazykového nastavení
+
+			$articlesCategories = [];
+			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 		}
 	}
 
 	public function actionGalleries($lang) {
 		$this->checkLanguage($lang);
 		$this->template->galleries = $this->galleryRepository->findActiveGalleriesInLang($lang);
+
+		$articlesCategories = [];
+		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 	}
 
 	/**
@@ -110,6 +127,10 @@ class ShowPresenter extends BasePresenter {
 			$this->template->places = $places;
 			$this->template->cities = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($article->getId());
+
+			$articlesCategories = $article->getCategories();
+			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 		}
 	}
 
@@ -141,6 +162,10 @@ class ShowPresenter extends BasePresenter {
 			}
 		}
 		$this->template->sliderGalleryPics = $pics;
+
+		$articlesCategories = $place->getCategories();
+		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 	}
 
 	/**
@@ -157,6 +182,10 @@ class ShowPresenter extends BasePresenter {
 		$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 		$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);
 		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
+
+		$articlesCategories = $place->getCategories();
+		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 	}
 
 	/**
@@ -170,6 +199,7 @@ class ShowPresenter extends BasePresenter {
 			$categories = $this->menuRepository->findAllCategoryOrders();
 		} else {	// jinak jen v konkrétní kategorii
 			$categories = $this->menuRepository->findDescendantOrders($id, $lang);
+			$menuOrder = $this->menuRepository->getMenuEntityByOrder($id, $lang);
 		}
 		$articles = $this->articleRepository->findActiveArticlesInLangCategory(
 			$lang,
@@ -199,6 +229,13 @@ class ShowPresenter extends BasePresenter {
 		if ($sublocation != null) {
 			$this['fulltextSearchForm']['sublocation']->setDefaultValue($sublocation);
 		}
+
+		$articlesCategories = $this->createArticleCategoryArrayByMenuOrder($categories);
+		$this->template->wallpaperBanner = $this->tryGetBanner(EnumerationRepository::TYP_BANNERU_WALLPAPER, $articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
+		$this->template->fullBanner = $this->tryGetBanner(EnumerationRepository::TYP_BANNERU_FULL_BANNER, $articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
+		$this->template->largeRectangle = $this->tryGetBanner(EnumerationRepository::TYP_BANNERU_LARGE_RECTANGLE, $articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
+		$this->template->middleRectangle = $this->tryGetBanner(EnumerationRepository::TYP_BANNERU_MIDDLE_RECTANGLE, $articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
+		$this->template->sliderPics = $this->tryFindSliderPics($articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
 	}
 
 	public function createComponentFulltextSearchForm() {
@@ -265,6 +302,10 @@ class ShowPresenter extends BasePresenter {
 		$this['mainPageSearchForm']['search']->setDefaultValue($searchText);
 		$this->template->articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, $searchText, $dateTo, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
 		$this->template->requestedAction = "search-date";	// ochcávka, abych nemusel řešit camal case => dash case
+
+		$articlesCategories = [];
+		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 	}
 
 	/**
@@ -292,5 +333,59 @@ class ShowPresenter extends BasePresenter {
 		} else {
 			$this->redirect("SearchDate", $this->langRepository->getCurrentLang($this->session), $from, $to, $search, $sublocation);
 		}
+	}
+
+	/**
+	 * @param array $categories
+	 */
+	private function createArticleCategoryArrayByMenuOrder(array $categories) {
+		$articlesCategories = [];
+		foreach ($categories as $category) {
+			$articleCategoryEntity = new ArticleCategoryEntity();
+			$articleCategoryEntity->setMenuOrder($category);
+			$articlesCategories[] = $articleCategoryEntity;
+		}
+
+		return $articlesCategories;
+	}
+
+	/**
+	 * @param int $bannerType
+	 * @param ArticleCategoryEntity[] $articlesCategories
+	 * @param string $lang
+	 * @param MenuEntity $menuOrder
+	 * @return \App\Model\Entity\BannerEntity
+	 */
+	private function tryGetBanner($bannerType, $articlesCategories, $menuOrder) {
+		$banner = $this->bannerRepository->getBannerByType($bannerType, false, $articlesCategories);
+		while (empty($banner) && isset($menuOrder) && ($menuOrder->getSubmenu() != 0)) {
+			$articleCategoryEntity = new ArticleCategoryEntity();
+			$articleCategoryEntity->setMenuOrder($menuOrder->getSubmenu());
+			$articlesCategories[] = $articleCategoryEntity;
+			$menuOrder = $this->menuRepository->getMenuEntityById($menuOrder->getSubmenu());
+			$banner = $this->bannerRepository->getBannerByType($bannerType, false, $articlesCategories);
+		}
+
+		return $banner;
+
+	}
+
+	/**
+	 * @param int $bannerType
+	 * @param string $lang
+	 * @param MenuEntity $menuOrder
+	 * @return \App\Model\Entity\BannerEntity[]
+	 */
+	private function tryFindSliderPics($articlesCategories, $menuOrder) {
+		$sliderPics = $this->articleRepository->findSliderPics(EnumerationRepository::TYP_VALIDITY_TOP, $articlesCategories);
+		while (empty($sliderPics) && isset($menuOrder) && ($menuOrder->getSubmenu() != 0)) {
+			$articleCategoryEntity = new ArticleCategoryEntity();
+			$articleCategoryEntity->setMenuOrder($menuOrder->getSubmenu());
+			$articlesCategories[] = $articleCategoryEntity;
+			$menuOrder = $this->menuRepository->getMenuEntityById($menuOrder->getSubmenu());
+			$sliderPics = $this->articleRepository->findSliderPics(EnumerationRepository::TYP_VALIDITY_TOP, $articlesCategories);
+		}
+
+		return $sliderPics;
 	}
 }

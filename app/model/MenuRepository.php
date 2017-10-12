@@ -454,14 +454,6 @@ class MenuRepository extends BaseRepository {
 	}
 
 	/**
-	 * @param $order
-	 * @param $lang
-	 */
-	public function findPrecedessorOrders($order, $lang) {
-
-	}
-
-	/**
 	 * @return array
 	 */
 	public function findAllCategoryOrders() {

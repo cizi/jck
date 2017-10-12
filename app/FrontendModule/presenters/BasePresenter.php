@@ -23,6 +23,7 @@ use App\Model\SliderSettingRepository;
 use App\Model\WebconfigRepository;
 use Nette\Application\UI\Presenter;
 use Nette\Forms\Form;
+use Nette\Http\FileUpload;
 
 /**
  * Base presenter for all application presenters.
@@ -141,10 +142,6 @@ abstract class BasePresenter extends Presenter {
 		$this->template->contactFormId = BlockContentPresenter::CONTACT_FORM_ID_AS_BLOCK;
 		$this->template->currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER);
-		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER);
-		$this->template->largeRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_LARGE_RECTANGLE);
-		$this->template->middleRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_MIDDLE_RECTANGLE);
 		$this->template->eventOrder = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 		$this->template->textArticleOrder = EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER;
 		$this->template->placeOrder = EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER;
@@ -240,8 +237,6 @@ abstract class BasePresenter extends Presenter {
 		// slider and its pics
 		if ($this->sliderSettingRepository->getByKey(SliderSettingRepository::KEY_SLIDER_ON)) {
 			$this->template->sliderEnabled = true;
-			$this->template->sliderPics = $this->articleRepository->findSliderPics();
-
 			$widthEnum = new WebWidthEnum();
 			$widthOption = $this->sliderSettingRepository->getByKey(SliderSettingRepository::KEY_SLIDER_WIDTH);
 			$width = $widthEnum->getValueByKey($widthOption);

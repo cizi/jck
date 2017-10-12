@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Model\Entity\ArticleCategoryEntity;
 use App\Model\Entity\BannerCategoryEntity;
 use App\Model\Entity\BannerEntity;
 use Dibi\DateTime;
@@ -49,18 +50,35 @@ class BannerRepository extends BaseRepository {
 	/**
 	 * @param int $bannerType
 	 * @param bool $showOnMainPage
+	 * @param ArticleCategoryEntity[] $categories
 	 * @return BannerEntity
 	 */
-	public function getBannerByType($bannerType, $showOnMainPage = true) {
-		$query = [
-			"select * from banner 
-				where banner_type = %i and 
+	public function getBannerByType($bannerType, $showOnMainPage = true, array $categories = []) {
+		if (empty($categories)) {
+			$query = ["select * from banner where banner_type = %i and 
 					show_on_main_page = %i and 
-					(((date_start <= CURDATE()) and ((date_end is null) or (date_end = '0000-00-00'))) or ((date_start <= CURDATE()) and (date_end >= CURDATE()))) 
-				LIMIT 1",
-			$bannerType,
-			($showOnMainPage ? 1 : 0)
-		];	// TODO
+					(((date_start <= CURDATE()) and ((date_end is null) or (date_end = '0000-00-00'))) or ((date_start <= CURDATE()) and (date_end >= CURDATE())))",
+				$bannerType,
+				($showOnMainPage ? 1 : 0)
+			];
+		} else {
+			$menuOrders = [];
+			foreach ($categories as $category) {
+				$menuOrders[] = $category->getMenuOrder();
+			}
+			$query = ["select b.* 
+					from banner as b
+						left join banner_category as bc on b.id = bc.banner_id
+					where banner_type = %i and 
+					bc.menu_order in %in and
+					show_on_main_page = %i and 
+					(((date_start <= CURDATE()) and ((date_end is null) or (date_end = '0000-00-00'))) or ((date_start <= CURDATE()) and (date_end >= CURDATE())))",
+				$bannerType,
+				$menuOrders,
+				($showOnMainPage ? 1 : 0)
+			];
+		}
+		$query[] = " order by click_counter ASC LIMIT 1";
 		$result = $this->connection->query($query)->fetch();
 
 		if ($result) {

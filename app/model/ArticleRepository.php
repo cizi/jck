@@ -667,24 +667,39 @@ class ArticleRepository extends BaseRepository {
 	}
 
 	/**
-	 * @param int $bannerType
-	 * @param bool $showOnMainPage
-	 * @return ArticleEntity[]
+	 * @param int $validity
+	 * @param ArticleCategoryEntity[] $categories
+	 * @return array
 	 */
-	public function findSliderPics($validity = EnumerationRepository::TYP_VALIDITY_TOP) {
-		$query = [
-			"select distinct a.*, a.id as aid, `at`.id as atid, `at`.date_from, `at`.date_to, `at`.time from article as a 
+	public function findSliderPics($validity = EnumerationRepository::TYP_VALIDITY_TOP, array $categories = []) {
+		if (empty($categories)) {
+			$query = ["select distinct a.*, a.id as aid, `at`.id as atid, `at`.date_from, `at`.date_to, `at`.time from article as a 
 				left join article_timetable as `at` on a.id = `at`.article_id 
 				where a.validity = %i and a.active = 1 and (
 					((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
 					or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
 				)",
-			$validity
-		];
+				$validity
+			];
+		} else {
+			$cats = [];
+			foreach ($categories as $cat) {
+				 $cats[] = $cat->getMenuOrder();
+			}
+			$query = ["select distinct a.*, a.id as aid, `at`.id as atid, `at`.date_from, `at`.date_to, `at`.time from article as a 
+				left join article_timetable as `at` on a.id = `at`.article_id 
+				left join article_category as aca on a.id = aca.article_id
+				where a.validity = %i and a.active = 1 and aca.menu_order in %in and (
+					((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
+					or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
+				)",
+				$validity,
+				$cats
+			];
+		}
 
 		$bannersOut = [];
 		$result = $this->connection->query($query)->fetchAll();
-
 		foreach ($result as $article) {
 			$articleEntity = new ArticleEntity();
 			$arr = $article->toArray();
