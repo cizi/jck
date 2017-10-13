@@ -67,6 +67,13 @@ class GalleryForm extends Nette\Object {
 			$i++;
 		}
 
+		$form->addCheckbox('on_main_page', " " . GALLERY_ON_MAIN_PAGE)
+			->setAttribute("data-toggle", "toggle")
+			->setAttribute("data-height", "25")
+			->setAttribute("data-width", "50")
+			->setDefaultValue("checked")
+			->setAttribute("tabindex", $i+1);
+
 		$form->addCheckbox('active', " " . GALLERY_ACTIVE)
 			->setAttribute("data-toggle", "toggle")
 			->setAttribute("data-height", "25")

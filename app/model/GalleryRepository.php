@@ -8,6 +8,9 @@ use App\Model\Entity\GalleryPicEntity;
 
 class GalleryRepository extends BaseRepository {
 
+	const SHOW_ON_MAIN_PAGE = 1;
+	const DONT_SHOW_ON_MAIN_PAGE = 0;
+
 	/**
 	 * @param $lang
 	 * @return GalleryEntity[]
@@ -29,11 +32,16 @@ class GalleryRepository extends BaseRepository {
 
 	/**
 	 * @param $lang
+	 * @param bool $showOnMainPage
 	 * @return GalleryEntity[]
 	 */
-	public function findActiveGalleriesInLang($lang) {
+	public function findActiveGalleriesInLang($lang, $showOnMainPage = false) {
 		$galleries = [];
-		$query = ["select * from gallery where `active` = 1 order by inserted_timestamp desc"];
+		if ($showOnMainPage) {
+			$query = ["select * from gallery where `active` = 1 and on_main_page = 1 order by inserted_timestamp desc"];
+		} else {
+			$query = ["select * from gallery where `active` = 1 order by inserted_timestamp desc"];
+		}
 		$result = $this->connection->query($query)->fetchAll();
 		foreach ($result as $gallery) {
 			$galleryEntity = new GalleryEntity();
@@ -101,6 +109,24 @@ class GalleryRepository extends BaseRepository {
 		} catch (\Exception $e) {
 			$this->connection->rollback();
 		}
+	}
+
+	/**
+	 * @param int $id
+	 * @return \Dibi\Result|int
+	 */
+	public function setGalleryOnMainPage($id) {
+		$query = ["update gallery set on_main_page = 1 where id = %i", $id];
+		return $this->connection->query($query);
+	}
+
+	/**
+	 * @param int $id
+	 * @return \Dibi\Result|int
+	 */
+	public function setGalleryNotMainPage($id) {
+		$query = ["update gallery set on_main_page = 0 where id = %i", $id];
+		return $this->connection->query($query);
 	}
 
 	/**
@@ -187,13 +213,17 @@ class GalleryRepository extends BaseRepository {
 	 * @return int
 	 */
 	private function saveGalleryEntity(GalleryEntity $galleryEntity) {
+		if ($galleryEntity->getOnMainPage() == null) {
+			$galleryEntity->setOnMainPage(self::DONT_SHOW_ON_MAIN_PAGE);
+		}
 		if ($galleryEntity->getId() == null) {
 			$query = ["insert into gallery", $galleryEntity->extract()];
 		} else {
 			$query = ["
-			update gallery set `active` = %i
+			update gallery set `active` = %i, `on_main_page` = %i
 			where id = %i",
 				($galleryEntity->isActive() ? "1" : "0"),
+				($galleryEntity->getOnMainPage() ? 1 : 0),
 				$galleryEntity->getId()
 			];
 		}

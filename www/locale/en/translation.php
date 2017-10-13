@@ -209,6 +209,7 @@ define("GALLERY_NAME", 'Title');
 define("GALLERY_NAME_REQ", 'Title is mandatory!');
 define("GALLERY_DESC", 'Description');
 define("GALLERY_DESC_REQ", 'Description is mandatory!');
+define("GALLERY_ON_MAIN_PAGE", 'Show on main page');
 define("GALLERY_ACTIVE", 'Active');
 define("GALLERY_PICS", 'Images');
 define("GALLERY_PIC_COUNT", 'Image count');

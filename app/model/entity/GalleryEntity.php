@@ -18,6 +18,9 @@ class GalleryEntity {
 	/** @var  int */
 	private $userId;
 
+	/** @var int */
+	private $onMainPage;
+
 	/** @var GalleryPicEntity[] */
 	private $pics;
 
@@ -81,6 +84,20 @@ class GalleryEntity {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getOnMainPage() {
+		return $this->onMainPage;
+	}
+
+	/**
+	 * @param int $onMainPage
+	 */
+	public function setOnMainPage($onMainPage) {
+		$this->onMainPage = $onMainPage;
+	}
+
+	/**
 	 * @return GalleryPicEntity[]
 	 */
 	public function getPics() {
@@ -117,6 +134,7 @@ class GalleryEntity {
 			'active' => $this->isActive(),
 			'inserted_timestamp' => $this->getInsertedTimestamp(),
 			'user_id' => $this->getUserId(),
+			'on_main_page' => $this->getOnMainPage()
 		];
 	}
 
@@ -128,5 +146,6 @@ class GalleryEntity {
 		$this->setActive(isset($data['active']) ? $data['active'] : null);
 		$this->setInsertedTimestamp(isset($data['inserted_timestamp']) ? $data['inserted_timestamp'] : null);
 		$this->setUserId(isset($data['user_id']) ? $data['user_id'] : null);
+		$this->setOnMainPage(isset($data['on_main_page']) ? $data['on_main_page'] : null);
 	}
 }

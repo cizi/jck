@@ -210,7 +210,7 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("tabindex", $i+1);
 		$form->addHidden("pic_url")->setAttribute("id", "articleMainImgUrl");
 
-		$galls = $this->galleryRepository->findActiveGalleriesInLang($currentLang);
+		$galls = $this->galleryRepository->findGalleriesInLang($currentLang);
 		$galleries[0] = EnumerationRepository::NOT_SELECTED;
 		foreach ($galls as $gal) {
 			$galleries[$gal->getId()] = $gal->getContents()[$currentLang]->getHeader();

@@ -25,6 +25,7 @@
 										<th>{=GALLERY_NAME}</th>
 										<th>{=GALLERY_DESC}</th>
 										<th>{=GALLERY_PIC_COUNT}</th>
+										<th>{=GALLERY_ON_MAIN_PAGE}</th>
 										<th>{=GALLERY_ACTIVE}</th>
 										<th class="alignRight">
 											<button type="button" class="btn btn-success" onclick="window.location.assign({link Gallery:Edit});">
@@ -39,6 +40,17 @@
 												<td>{!$gellery->getContents()[$currentLang]->getHeader()}</td>
 												<td>{!$gellery->getContents()[$currentLang]->getDesc()}</td>
 												<td>{count($gellery->getPics())}</td>
+												<td>
+													{if $gellery->getOnMainPage() == 1}
+														<label class="checkbox-inline">
+															<input class="mainPageToggleEvent" user-data={$gellery->getId()} type="checkbox" checked data-toggle="toggle" data-height="25" data-width="50">
+														</label>
+													{else}
+														<label class="checkbox-inline">
+															<input class="mainPageToggleEvent" user-data={$gellery->getId()} type="checkbox" data-toggle="toggle" data-height="25" data-width="50">
+														</label>
+													{/if}
+												</td>
 												<td>
 													{if $gellery->isActive()}
 														<label class="checkbox-inline">
@@ -96,6 +108,24 @@
 				var changeTo = (($(this).prop("checked") !== typeof undefined) && ($(this).prop("checked") !== false));
 				$.ajax({
 					url: {link activeSwitch!},
+					data: {
+						idGallery: galleryId,
+						to: changeTo
+					},
+					success: function() {
+
+					},
+					error: function() {
+						alert({=USER_ERROR_ACTIVE_SWITCH});
+					}
+				});
+			});
+
+			$('.mainPageToggleEvent').change(function() {
+				var galleryId = $(this).attr("user-data");
+				var changeTo = (($(this).prop("checked") !== typeof undefined) && ($(this).prop("checked") !== false));
+				$.ajax({
+					url: {link mainPageSwitch!},
 					data: {
 						idGallery: galleryId,
 						to: changeTo

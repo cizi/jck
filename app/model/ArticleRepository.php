@@ -673,28 +673,36 @@ class ArticleRepository extends BaseRepository {
 	 */
 	public function findSliderPics($validity = EnumerationRepository::TYP_VALIDITY_TOP, array $categories = []) {
 		if (empty($categories)) {
-			$query = ["select distinct a.*, a.id as aid, `at`.id as atid, `at`.date_from, `at`.date_to, `at`.time from article as a 
+			$query = ["select distinct a.* from article as a 
 				left join article_timetable as `at` on a.id = `at`.article_id 
-				where a.validity = %i and a.active = 1 and (
-					((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
-					or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
-				)",
-				$validity
+				where a.validity = %i and a.active = 1 and 
+				 if (a.type = %i,
+					(
+						((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
+						or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
+					),
+					1)",
+				$validity,
+				EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER
 			];
 		} else {
 			$cats = [];
 			foreach ($categories as $cat) {
 				 $cats[] = $cat->getMenuOrder();
 			}
-			$query = ["select distinct a.*, a.id as aid, `at`.id as atid, `at`.date_from, `at`.date_to, `at`.time from article as a 
+			$query = ["select distinct a.* from article as a 
 				left join article_timetable as `at` on a.id = `at`.article_id 
 				left join article_category as aca on a.id = aca.article_id
-				where a.validity = %i and a.active = 1 and aca.menu_order in %in and (
-					((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
+				where a.validity = %i and a.active = 1 and aca.menu_order in %in and
+				 if (a.type = %i,
+				  (
+				  	((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
 					or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
-				)",
+				   ),
+				   1)",
 				$validity,
-				$cats
+				$cats,
+				EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER
 			];
 		}
 
@@ -702,16 +710,9 @@ class ArticleRepository extends BaseRepository {
 		$result = $this->connection->query($query)->fetchAll();
 		foreach ($result as $article) {
 			$articleEntity = new ArticleEntity();
-			$arr = $article->toArray();
 			$articleEntity->hydrate($article->toArray());
-			$articleEntity->setId(isset($arr['aid']) ? $arr['aid'] : null);
 
-			$articleTimeTable = new ArticleTimetableEntity();
-			$articleTimeTable->hydrate($arr);
-			$articleTimeTable->setId(isset($arr['atid']) ? $arr['atid'] : null);
-			$articleTimeTable->setArticleId(isset($arr['aid']) ? $arr['aid'] : null);
-
-			$articleEntity->setTimetables([$articleTimeTable]);
+			$articleEntity->setTimetables($this->articleTimetableRepository->findCalendars($articleEntity->getId()));
 			$articleEntity->setContents($this->findArticleContents($articleEntity->getId()));
 			$articleEntity->setCategories($this->articleCategoryRepository->findCategories($articleEntity->getId()));
 			// $this->articleShowed($articleEntity->getId()); // slider načítám vždy, mám to vůbec počítat pro slider?

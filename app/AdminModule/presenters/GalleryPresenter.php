@@ -127,4 +127,21 @@ class GalleryPresenter extends SignPresenter {
 		$this->terminate();
 	}
 
+	/**
+	 * AJAX pro zobrazení / nezobrazení galerie na main page
+	 */
+	public function handleMainPageSwitch() {
+		$data = $this->request->getParameters();
+		$userId = $data['idGallery'];
+		$switchTo = (!empty($data['to']) && $data['to'] == "false" ? false : true);
+
+		if ($switchTo) {
+			$this->galleryRepository->setGalleryOnMainPage($userId);
+		} else {
+			$this->galleryRepository->setGalleryNotMainPage($userId);
+		}
+
+		$this->terminate();
+	}
+
 }

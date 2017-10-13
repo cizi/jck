@@ -211,6 +211,7 @@ define("GALLERY_NAME", 'Název');
 define("GALLERY_NAME_REQ", 'Název je povinné pole!');
 define("GALLERY_DESC", 'Popis');
 define("GALLERY_DESC_REQ", 'Popis je povinné pole!');
+define("GALLERY_ON_MAIN_PAGE", 'Zobrazit na hlavní stránce');
 define("GALLERY_ACTIVE", 'Aktivní');
 define("GALLERY_PICS", 'Obrázky');
 define("GALLERY_PIC_COUNT", 'Počet obrázků');

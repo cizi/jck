@@ -15,7 +15,8 @@
 										</div>
 										<span>
 											{if count($article->getTimetables())}
-												{var timetable = $article->getTimetables()[0]}
+												{var timetables = $article->getTimetables()}
+												{var timetable = reset($timetables)}
 												{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
 												{if ($timetable->getDateFrom() != null) && ($timetable->getDateFrom() != '0000-00-00')}
 													- {$timetable->getDateFrom()->format('d.m.Y')}
