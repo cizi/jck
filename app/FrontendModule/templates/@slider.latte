@@ -8,10 +8,10 @@
 							<li>
 								{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 								<a href={link Show:Event $currentLang, $article->getId(), $urlTitle} target="_blank">
-									<img alt={$article->getContents()[$currentLang]->getHeader()} src="{$article->getPicUrl()}" />
+									<img class="sliderSlidePic" alt={$article->getContents()[$currentLang]->getHeader()} src="{$article->getPicUrl()}" />
 									<div class="caption1">
 										<div class="caption2">
-											<a href={link Show:Event $currentLang, $article->getId(), $urlTitle}>{$article->getContents()[$currentLang]->getHeader()|upper}</a>
+											<a href={link Show:Event $currentLang, $article->getId(), $urlTitle}>{$article->getContents()[$currentLang]->getHeader()|truncate:40|upper}</a>
 										</div>
 										<span>
 											{if count($article->getTimetables())}
