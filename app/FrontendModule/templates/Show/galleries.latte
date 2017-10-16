@@ -14,7 +14,7 @@
 								<h4 class="galleriesTitle">{$gallery->getContents()[$currentLang]->getHeader()} <span>({count($gallery->getPics())})</span></h4>
 							</a>
 							<a href={link "Show:Gallery", $currentLang, $gallery->getId(), $urlTitle}>
-								<div class="img-responsive img-thumbnail ratio-4-3" style="background-image:url({$picUrl->getPath()})"></div>
+								<div class="img-responsive img-thumbnail ratio-4-3" style="background-image:url('{$picUrl->getPath()|noescape}')"></div>
 							</a>
 						</li>
 					{/if}
