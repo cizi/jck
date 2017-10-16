@@ -25,10 +25,12 @@
 											{/if}
 										</span><br />
 										<span>
-											{if $article->getPlace() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}{/if}
+											{if ($article->getPlace() != null) && ($article->getType() == $eventOrder)}
+												{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
+												<br /><br />
+											{/if}
 											{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 											{* if !empty($article->getAddress())}{$article->getAddress()}{/if *}
-											<br /><br />
 										</span>
 									</div>
 								</a>
