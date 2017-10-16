@@ -22,10 +22,10 @@
 			{if !empty($article->getAddress()) || !empty($eventPlace)}
 				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
 				{if !empty($article->getAddress())}
-					{var address = $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation()) . ", " . $article->getAddress()}
+					{var address =  $article->getAddress() . " " . $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
 					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$address|noescape}">{$address|noescape}</a>
 				{elseif !empty($eventPlace->getAddress())}
-					{var address = $enumRepo->getEnumItemByOrder($currentLang, $eventPlace->getSublocation()) . ", " . $eventPlace->getAddress()}
+					{var address = $eventPlace->getAddress() . " " . $enumRepo->getEnumItemByOrder($currentLang, $eventPlace->getSublocation())}
 					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$address|noescape}">{$address|noescape}</a>
 				{/if}
 			{/if}

@@ -8,8 +8,8 @@
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			{if $place->getAddress() != ""}
 				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
-				<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}">
-					{$place->getContents()[$currentLang]->getHeader()}, {$place->getAddress()|noescape}
+				<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape} {$enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())|noescape}">
+					{$place->getContents()[$currentLang]->getHeader()}, {$place->getAddress()|noescape} {$enumRepo->getEnumItemByOrder($currentLang, $place->getSublocation())|noescape}
 				</a>
 			{/if}
 			<p>
