@@ -126,10 +126,9 @@ class ArticleRepository extends BaseRepository {
 						from article_timetable as `at`
 							left join article as a on `at`.article_id = a.id
 							left join article_content as ac on `at`.article_id = ac.article_id
-							 where `at`.date_from <= %s and `at`.date_to >= %s 
+							 where ((`at`.date_to >= %s) or (`at`.date_to = '0000-00-00')) 
 							  and ac.lang = %s
 							  and a.active = 1",
-				(new DateTime())->format(self::DB_DATE_MASK),
 				(new DateTime())->format(self::DB_DATE_MASK),
 				$lang
 			];
@@ -184,11 +183,10 @@ class ArticleRepository extends BaseRepository {
 							left join article as a on `at`.article_id = a.id
 							left join article_content as ac on `at`.article_id = ac.article_id
 							left join article_category as aca on a.id = aca.article_id
-							 where `at`.date_from <= %s and `at`.date_to >= %s 
+							 where ((`at`.date_to >= %s) or (`at`.date_to = '0000-00-00')) 
 							  and ac.lang = %s
 							  and a.active = 1
 							  and `aca.menu_order` in %in",
-				(new DateTime())->format(self::DB_DATE_MASK),
 				(new DateTime())->format(self::DB_DATE_MASK),
 				$lang,
 				$categories
@@ -254,10 +252,10 @@ class ArticleRepository extends BaseRepository {
 						 where ac.lang = %s
 					and active = 1", $lang];
 
-		if (($dateFrom != null) && ($dateTo != null)) {
-			$query[] = sprintf(" and (`at`.date_from <= '%s' and `at`.date_to >= '%s')", $dateTo->format(self::DB_DATE_MASK), $dateFrom->format(self::DB_DATE_MASK));
+		if (!empty($dateFrom) && (!empty($dateTo))) {
+			$query[] = sprintf(" and (`at`.date_from <= '%s' and ((`at`.date_to >= '%s') or (`at`.date_to = '0000-00-00')))", $dateTo->format(self::DB_DATE_MASK), $dateFrom->format(self::DB_DATE_MASK));
 		} else {
-			$query[] = sprintf(" and `at`.date_from <= '%s' and `at`.date_to >= '%s'", $dateFrom->format(self::DB_DATE_MASK), $dateFrom->format(self::DB_DATE_MASK));
+			$query[] = sprintf(" and `at`.date_from >= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
 		}
 		if ($searchText != null) {
 			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);
@@ -293,11 +291,10 @@ class ArticleRepository extends BaseRepository {
 							from article_timetable as `at`
 								left join article as a on `at`.article_id = a.id
 								left join article_content as ac on `at`.article_id = ac.article_id
-								 where `at`.date_from <= %s and `at`.date_to >= %s 
+								 where ((`at`.date_to >= %s) or (`at`.date_to = '0000-00-00')) 
 								  and ac.lang = %s
 								  and a.active = 1
 								  and a.sublocation = %i",
-							(new DateTime())->format(self::DB_DATE_MASK),
 							(new DateTime())->format(self::DB_DATE_MASK),
 							$lang,
 							$sublocation];
@@ -344,11 +341,10 @@ class ArticleRepository extends BaseRepository {
 							from article_timetable as `at`
 								left join article as a on `at`.article_id = a.id
 								left join article_content as ac on `at`.article_id = ac.article_id
-								 where `at`.date_from <= %s and `at`.date_to >= %s 
+								 where ((`at`.date_to >= %s) or (`at`.date_to = '0000-00-00'))  
 								  and ac.lang = %s
 								  and a.active = 1
 								  and a.place = %i",
-					(new DateTime())->format(self::DB_DATE_MASK),
 					(new DateTime())->format(self::DB_DATE_MASK),
 					$lang,
 					$place];
@@ -692,8 +688,8 @@ class ArticleRepository extends BaseRepository {
 				where a.validity = %i and a.active = 1 and 
 				 if (a.type = %i,
 					(
-						((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
-						or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
+						((`at`.date_to is null) or (`at`.date_to = '0000-00-00')) 
+						or (`at`.date_to >= CURDATE())
 					),
 					1)",
 				$validity,
@@ -710,8 +706,8 @@ class ArticleRepository extends BaseRepository {
 				where a.validity = %i and a.active = 1 and aca.menu_order in %in and
 				 if (a.type = %i,
 				  (
-				  	((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
-					or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE()))
+				  	((`at`.date_to is null) or (`at`.date_to = '0000-00-00')) 
+					or (`at`.date_to >= CURDATE())
 				   ),
 				   1)",
 				$validity,

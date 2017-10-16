@@ -100,8 +100,11 @@ class ArticleTimetableRepository extends BaseRepository {
 	 */
 	public function getActiveTimetable($articleId) {
 		$query = ["select * from article_timetable as `at`
-					 where (`at`.article_id = %i) and (((`at`.date_from <= CURDATE()) and ((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
-					or ((`at`.date_from <= CURDATE()) and (`at`.date_to >= CURDATE())))",
+					 where (`at`.article_id = %i) and 
+					 (
+					 	   (((`at`.date_to is null) or (`at`.date_to = '0000-00-00'))) 
+						or ((`at`.date_to >= CURDATE()))
+					)",
 				$articleId];
 		$result = $this->connection->query($query)->fetch();
 		if ($result) {
