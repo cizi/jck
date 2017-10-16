@@ -176,7 +176,7 @@ define("ARTICLE_ACTIVITY_BOTH", 'Aktivní / neaktivní');
 define("ARTICLE_ACTIVITY_INACTIVE", 'Neaktivní');
 define("ARTICLE_ACTIVITY_ACTIVE", 'Aktivní');
 define("ARTICLE_FACEBOOK", 'Facebook');
-define("ARTICLE_PROMOTER", 'Promotér');
+define("ARTICLE_PROMOTER", 'Web');
 define("ARTICLE_YOUTUBE", 'Youtube');
 define("ARTICLE_MAP", 'Mapa');
 define("ARTICLE_TAKING_MISSING", 'Přidejte, prosím, datum a čas konání.');

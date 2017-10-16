@@ -160,7 +160,13 @@
 				{if count($cities)}
 					<div class="tab-pane fade" id="cities">
 						{foreach $cities as $city}
-							<img class="detailsView" alt={$city->getContents()[$currentLang]->getHeader()} src="{$city->getPicUrl()}" />
+							{var picUrl = "../../../../../www/images/not-available.png"}
+							{if !empty($city->getPicId())}
+								{var picUrl = $picRepo->getById($city->getPicId())->getPath()}
+							{elseif !empty($city->getPicUrl())}
+								{var picUrl = $city->getPicUrl()|noescape}
+							{/if}
+							<img class="detailsView" alt={$city->getContents()[$currentLang]->getHeader()} src="{$picUrl}" />
 							<div>
 								{var urlTitle = Nette\Utils\Strings::webalize($enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation()))}
 								<a href={link Show:City $currentLang, $city->getId(), $urlTitle} class="title">
@@ -190,16 +196,17 @@
 					</div>
 				{/if}
 			</div>
-			<script>
-				$(function () {
-					$('#myTab li:eq(0) a').tab('show');
-					$('#eventTimetable').paginate({ limit: 4 });
-				});
-			</script>
 		</div>
 
 		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
 			{include '../@rightPanel.latte'}
 		</div>
 	</div>
+
+	<script>
+		$(function () {
+			$('#myTab li:eq(0) a').tab('show');
+			$('#eventTimetable').paginate({ limit: 4 });
+		});
+	</script>
 {/block}

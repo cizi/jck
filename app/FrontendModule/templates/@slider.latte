@@ -27,8 +27,10 @@
 										<span>
 											{if ($article->getPlace() != null) && ($article->getType() == $eventOrder)}
 												{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
-												<br /><br />
+											{elseif ($article->getPlace() != null) && ($article->getType() == $placeOrder)}
+												{$article->getAddress()} {$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
 											{/if}
+											<br /><br />
 											{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 											{* if !empty($article->getAddress())}{$article->getAddress()}{/if *}
 										</span>
