@@ -42,6 +42,12 @@ class ArticleFilterForm extends Nette\Object {
 
 		$i = 0;
 		$types = $this->enumerationRepository->findEnumItemsForSelectWithEmpty($currentLang, EnumerationRepository::TYP_PRISPEVKU);
+
+		$form->addText("fulltext", MAIN_PAGE_SEARCH)
+			->setAttribute("class", "form-control")
+			->setAttribute("placeholder", MAIN_PAGE_SEARCH)
+			->setAttribute("tabindex", $i+1);
+
 		$form->addSelect("type", ARTICLE_TYPE, $types)
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i+1);

@@ -63,12 +63,26 @@ class ArticleRepository extends BaseRepository {
 			if (isset($filter['active']) && ($filter['active'] == 2)) {
 				$filter['active'] = 0;
 			}
+			if (isset($filter['fulltext'])) {
+				$fulltext = $filter['fulltext'];
+				unset($filter['fulltext']);
+			}
+
 			if (isset($filter['menuOrders'])) {
 				$menuOrders = $filter['menuOrders'];
 				unset($filter['menuOrders']);
-				$query = ["select a.* from article as a left join article_category as ac on a.id = ac.article_id where menu_order in %in and %and", $menuOrders, $filter];
+				$query = ["select a.* from article as a 
+							left join article_category as ac on a.id = ac.article_id 
+							left join article_content as aco on `a`.id = aco.article_id
+						where menu_order in %in and %and and aco.lang = %s", $menuOrders, $filter, $lang];
 			} else {
-				$query = ["select a.* from article as a where 1 and %and", $filter];
+				$query = ["select a.* from article as a 
+							left join article_content as aco on `a`.id = aco.article_id
+ 							where aco.lang = %s and %and", $lang, $filter];
+			}
+
+			if (isset($fulltext)) {
+				$query[] = $query[] = sprintf(" and CONCAT_WS(' ', aco.header, aco.content) like  '%%%s%%'", $fulltext);
 			}
 		}
 		$query[] = " order by inserted_timestamp desc";
