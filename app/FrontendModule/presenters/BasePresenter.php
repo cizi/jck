@@ -12,6 +12,7 @@ use App\Forms\SearchForm;
 use App\Model\ArticleRepository;
 use App\Model\BannerRepository;
 use App\Model\BlockRepository;
+use App\Model\Entity\ArticleCategoryEntity;
 use App\Model\Entity\BlockContentEntity;
 use App\Model\EnumerationRepository;
 use App\Model\GalleryRepository;
@@ -166,6 +167,20 @@ abstract class BasePresenter extends Presenter {
 			$httpResponse->redirect($redir);
 			//$this->redirect($this->getHttpRequest()->getUrl()->getAbsoluteUrl(), [ 'lang' => $lang, 'id' => $id ]);
 		}
+	}
+
+	/**
+	 * @param array $categories
+	 */
+	protected function createArticleCategoryArrayByMenuOrder(array $categories) {
+		$articlesCategories = [];
+		foreach ($categories as $category) {
+			$articleCategoryEntity = new ArticleCategoryEntity();
+			$articleCategoryEntity->setMenuOrder($category);
+			$articlesCategories[] = $articleCategoryEntity;
+		}
+
+		return $articlesCategories;
 	}
 
 	/**

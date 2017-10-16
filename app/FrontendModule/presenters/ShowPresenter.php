@@ -336,20 +336,6 @@ class ShowPresenter extends BasePresenter {
 	}
 
 	/**
-	 * @param array $categories
-	 */
-	private function createArticleCategoryArrayByMenuOrder(array $categories) {
-		$articlesCategories = [];
-		foreach ($categories as $category) {
-			$articleCategoryEntity = new ArticleCategoryEntity();
-			$articleCategoryEntity->setMenuOrder($category);
-			$articlesCategories[] = $articleCategoryEntity;
-		}
-
-		return $articlesCategories;
-	}
-
-	/**
 	 * @param int $bannerType
 	 * @param ArticleCategoryEntity[] $articlesCategories
 	 * @param string $lang
