@@ -6,10 +6,14 @@
 					<h1 class="seo">{$article->getContents()[$currentLang]->getHeader()}</h1>
 					{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 					{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
+					{var picUrl = "../../../../../www/images/not-available.png"}
 					{if $article->getPicId() != null}
-						{var picUrl = $picRepo->getById($article->getPicId())}
-						<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
+						{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
+					{elseif !empty($article->getPicUrl())}
+						{var picUrl = $article->getPicUrl()}
 					{/if}
+					<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl} /></a>
+
 					<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
 						<h3>{$article->getContents()[$currentLang]->getHeader()}</h3>
 					</a>
