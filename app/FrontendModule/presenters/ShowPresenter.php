@@ -37,6 +37,10 @@ class ShowPresenter extends BasePresenter {
 			$articlesCategories = $articleEntity->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+			$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
+		} else {
+			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
+			$this->redirect("Homepage:default");
 		}
 	}
 
@@ -64,6 +68,7 @@ class ShowPresenter extends BasePresenter {
 		$articlesCategories = [];
 		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+		$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
 	}
 
 	/**
@@ -81,6 +86,9 @@ class ShowPresenter extends BasePresenter {
 			$articlesCategories = [];
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+		} else {
+			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
+			$this->redirect("Homepage:default");
 		}
 	}
 
@@ -108,7 +116,6 @@ class ShowPresenter extends BasePresenter {
 				$this->terminate();
 			}
 		}
-
 		$this->redirect("Homepage:default", $lang);
 	}
 
@@ -131,6 +138,10 @@ class ShowPresenter extends BasePresenter {
 			$articlesCategories = $article->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+			$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
+		} else {
+			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
+			$this->redirect("Homepage:default");
 		}
 	}
 
@@ -142,30 +153,36 @@ class ShowPresenter extends BasePresenter {
 	public function actionPlace($lang, $id, $seoText) {
 		$this->checkLanguage($lang);
 		$place = $this->articleRepository->getArticle($id);
-		$this->articleRepository->articleClicked($place->getId());
-		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
-		$this->template->article = $this->template->place;	// dávám do proměnné article kvůli generování link rel jazykového nastavení
-		$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
-		$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
-		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
+		if ($place != null) {
+			$this->articleRepository->articleClicked($place->getId());
+			$this->template->place = (empty($place) ? new ArticleEntity() : $place);
+			$this->template->article = $this->template->place;	// dávám do proměnné article kvůli generování link rel jazykového nastavení
+			$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
+			$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
+			$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
 
-		if (empty($place->getPicUrl())) {
-			$pics = [];
-		} else {
-			$pics[] = $place->getPicUrl();
-		}
-
-		if ($place->getGalleryId() != null) {
-			$galleryEntity = $this->galleryRepository->getGallery($place->getGalleryId());
-			foreach ($galleryEntity->getPics() as $pic) {
-				$pics[] = $this->picRepository->getById($pic->getSharedPicId())->getPath();
+			if (empty($place->getPicUrl())) {
+				$pics = [];
+			} else {
+				$pics[] = $place->getPicUrl();
 			}
-		}
-		$this->template->sliderGalleryPics = $pics;
 
-		$articlesCategories = $place->getCategories();
-		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
-		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+			if ($place->getGalleryId() != null) {
+				$galleryEntity = $this->galleryRepository->getGallery($place->getGalleryId());
+				foreach ($galleryEntity->getPics() as $pic) {
+					$pics[] = $this->picRepository->getById($pic->getSharedPicId())->getPath();
+				}
+			}
+			$this->template->sliderGalleryPics = $pics;
+
+			$articlesCategories = $place->getCategories();
+			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+			$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
+		} else {
+			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
+			$this->redirect("Homepage:default");
+		}
 	}
 
 	/**
@@ -176,16 +193,22 @@ class ShowPresenter extends BasePresenter {
 	public function actionCity($lang, $id, $seoText) {
 		$this->checkLanguage($lang);
 		$place = $this->articleRepository->getArticle($id);
-		$this->articleRepository->articleClicked($place->getId());
-		$this->template->place = (empty($place) ? new ArticleEntity() : $place);
-		$this->template->article = $this->template->place;	// dávám do proměnné article kvůli generování link rel jazykového nastavení
-		$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
-		$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);
-		$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
+		if ($place != null) {
+			$this->articleRepository->articleClicked($place->getId());
+			$this->template->place = (empty($place) ? new ArticleEntity() : $place);
+			$this->template->article = $this->template->place;    // dávám do proměnné article kvůli generování link rel jazykového nastavení
+			$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
+			$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);
+			$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
 
-		$articlesCategories = $place->getCategories();
-		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
-		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+			$articlesCategories = $place->getCategories();
+			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
+			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+			$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
+		} else {
+			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
+			$this->redirect("Homepage:default");
+		}
 	}
 
 	/**
@@ -236,6 +259,7 @@ class ShowPresenter extends BasePresenter {
 		$this->template->largeRectangle = $this->tryGetBanner(EnumerationRepository::TYP_BANNERU_LARGE_RECTANGLE, $articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
 		$this->template->middleRectangle = $this->tryGetBanner(EnumerationRepository::TYP_BANNERU_MIDDLE_RECTANGLE, $articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
 		$this->template->sliderPics = $this->tryFindSliderPics($articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
+		$this->template->halfBanner = $this->tryGetBanner(EnumerationRepository::TYP_BANNERU_HALFBANNER, $articlesCategories, (isset($menuOrder) ? $menuOrder : new MenuEntity()));
 	}
 
 	public function createComponentFulltextSearchForm() {
@@ -306,6 +330,7 @@ class ShowPresenter extends BasePresenter {
 		$articlesCategories = [];
 		$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+		$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
 	}
 
 	/**

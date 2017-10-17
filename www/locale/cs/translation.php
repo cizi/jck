@@ -180,6 +180,7 @@ define("ARTICLE_PROMOTER", 'Web');
 define("ARTICLE_YOUTUBE", 'Youtube');
 define("ARTICLE_MAP", 'Mapa');
 define("ARTICLE_TAKING_MISSING", 'Přidejte, prosím, datum a čas konání.');
+define("ARTICLE_NOT_FOUND", 'Obsah nebyl nalezen.');
 
 // měsíce
 define("JANUARY", 'leden');

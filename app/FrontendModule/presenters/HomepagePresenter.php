@@ -52,6 +52,7 @@ class HomepagePresenter extends BasePresenter {
 		$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, true);
 		$this->template->largeRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_LARGE_RECTANGLE, true);
 		$this->template->middleRectangle = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_MIDDLE_RECTANGLE, true);
+		$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, true);
 	}
 
 	/**
