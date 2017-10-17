@@ -82,6 +82,7 @@ class SubmitPresenter extends BasePresenter {
 		unset($form['location']);
 		unset($form['docsUpload']);
 		unset($form['gallery_id']);
+		unset($form['menuOrders']);
 		$form['confirm']->caption = SUBMIT_OWN_BUTTON;
 
 		$form->onSuccess[] = $this->submitFormSubmit;
@@ -111,7 +112,12 @@ class SubmitPresenter extends BasePresenter {
 		$supportedFileFormats = ["jpg", "png", "doc"];
 		$calendars = [];
 		$mutation = [];
+
 		$categories = [];
+		$articleCategoryEntity = new ArticleCategoryEntity();
+		$articleCategoryEntity->setMenuOrder(EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
+		$categories[] = $articleCategoryEntity;
+
 		foreach($values as $key => $value) {
 			if (($value instanceof ArrayHash) && ($key == 'calendar')) {    // timetable
 				foreach ($value as $calendarKey => $calendarData) {
@@ -128,13 +134,6 @@ class SubmitPresenter extends BasePresenter {
 				$articleContentEntity->setLang($key);
 
 				$mutation[] = $articleContentEntity;
-			}
-			if ((is_array($value)) && ($key == 'menuOrders')) {    // language mutation
-				foreach	($value as $menuOrder) {
-					$articleCategoryEntity = new ArticleCategoryEntity();
-					$articleCategoryEntity->setMenuOrder($menuOrder);
-					$categories[] = $articleCategoryEntity;
-				}
 			}
 			if ($key == 'picUrlUpload') {	// jen jeden hlavní obrázek
 				/** @var FileUpload $file */
