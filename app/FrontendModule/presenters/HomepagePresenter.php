@@ -15,7 +15,7 @@ use Nette\Http\FileUpload;
 class HomepagePresenter extends BasePresenter {
 
 	const MAX_TEXT_ARTICLES = 4;
-	const MAX_GALLERIES = 4;
+	const MAX_GALLERIES = 5;
 
 	/**
 	 * @param string $lang
