@@ -56,10 +56,10 @@ class BannerRepository extends BaseRepository {
 	public function getBannerByType($bannerType, $showOnMainPage = true, array $categories = []) {
 		if (empty($categories)) {
 			$query = ["select * from banner where banner_type = %i and 
-					show_on_main_page = %i and 
+					show_on_main_page in %in and 
 					(((date_start <= CURDATE()) and ((date_end is null) or (date_end = '0000-00-00'))) or ((date_start <= CURDATE()) and (date_end >= CURDATE())))",
 				$bannerType,
-				($showOnMainPage ? 1 : 0)
+				($showOnMainPage ? [1] : [0,1])		// pokud jen na main page tak jedna, pokud ne tak je to jedno
 			];
 		} else {
 			$menuOrders = [];
@@ -71,11 +71,11 @@ class BannerRepository extends BaseRepository {
 						left join banner_category as bc on b.id = bc.banner_id
 					where banner_type = %i and 
 					bc.menu_order in %in and
-					show_on_main_page = %i and 
+					show_on_main_page in %in and 
 					(((date_start <= CURDATE()) and ((date_end is null) or (date_end = '0000-00-00'))) or ((date_start <= CURDATE()) and (date_end >= CURDATE())))",
 				$bannerType,
 				$menuOrders,
-				($showOnMainPage ? 1 : 0)
+				($showOnMainPage ? [1] : [0,1])
 			];
 		}
 		$query[] = " order by click_counter ASC LIMIT 1";

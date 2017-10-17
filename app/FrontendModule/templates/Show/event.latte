@@ -131,7 +131,7 @@
 				{if count($places)}
 					<div class="tab-pane fade" id="places">
 						{foreach $places as $place}
-							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()}" />
+							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()|noescape}" />
 							<div>
 								{if $place->getPlace() != null}
 									<a href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())} class="title">
@@ -163,7 +163,7 @@
 						{foreach $cities as $city}
 							{var picUrl = "../../../../../www/images/not-available.png"}
 							{if !empty($city->getPicId())}
-								{var picUrl = $picRepo->getById($city->getPicId())->getPath()}
+								{var picUrl = $picRepo->getById($city->getPicId())->getPath()|noescape}
 							{elseif !empty($city->getPicUrl())}
 								{var picUrl = $city->getPicUrl()|noescape}
 							{/if}
@@ -171,7 +171,8 @@
 							<div>
 								{var urlTitle = Nette\Utils\Strings::webalize($enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation()))}
 								<a href={link Show:City $currentLang, $city->getId(), $urlTitle} class="title">
-									{$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())}
+									{*$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())*}
+									{$city->getContents()[$currentLang]->getHeader()}
 								</a>
 								<span class="floatRight">
 									{if $city->getSublocation() != null}
