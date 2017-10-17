@@ -15,6 +15,7 @@ use App\Model\Entity\MenuEntity;
 use App\Model\EnumerationRepository;
 use App\Model\MenuRepository;
 use App\Model\WebconfigRepository;
+use Nette\Forms\Container;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 use Nette\Utils\ArrayHash;
@@ -83,8 +84,18 @@ class SubmitPresenter extends BasePresenter {
 		unset($form['docsUpload']);
 		unset($form['gallery_id']);
 		unset($form['menuOrders']);
-		$form['confirm']->caption = SUBMIT_OWN_BUTTON;
 
+		foreach ($form->getComponents() as $component) {	// mazaní jazykových dat -> zobrazujeme inputy jen pro aktuální jazyk
+			if (($component instanceof Container) && isset($component->getComponents()['lang'])) {
+				if ($this->langRepository->getCurrentLang($this->session) != $component->name) {
+					unset($form[$component->name]);
+				}
+			}
+		}
+		unset($form[$this->langRepository->getCurrentLang($this->session)]['lang']);
+		unset($form['rewriteCsToEn']);	// konec mazání jazykových dat
+
+		$form['confirm']->caption = SUBMIT_OWN_BUTTON;
 		$form->onSuccess[] = $this->submitFormSubmit;
 
 		$renderer = $form->getRenderer();
@@ -128,12 +139,13 @@ class SubmitPresenter extends BasePresenter {
 					}
 				}
 			}
-			if (($value instanceof ArrayHash) && ($key != 'calendar')) {	// language mutation
+			if (($value instanceof ArrayHash) && ($key != 'calendar')) {	// language mutation (v $key je zkratka jazyka [cs, en]
 				$articleContentEntity = new ArticleContentEntity();
 				$articleContentEntity->hydrate((array)$value);
-				$articleContentEntity->setLang($key);
-
-				$mutation[] = $articleContentEntity;
+				foreach ($this->langRepository->findLanguages() as $availableWebLang) {
+					$articleContentEntity->setLang($availableWebLang);
+					$mutation[] = clone($articleContentEntity);
+				}
 			}
 			if ($key == 'picUrlUpload') {	// jen jeden hlavní obrázek
 				/** @var FileUpload $file */

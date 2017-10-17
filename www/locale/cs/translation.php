@@ -167,6 +167,7 @@ define("ARTICLE_VIEW_DETAIL", 'Zobrazit detail');
 define("ARTICLE_TOP_EVENTS", 'Top akce');
 define("ARTICLE_EVENT_INFO", 'Informace');
 define("ARTICLE_EVENT_CITIES", 'Město');
+define("ARTICLE_EVENT_CITIES_TIP", 'Tipy na místa');
 define("ARTICLE_EVENT_PLACES", 'Místo');
 define("ARTICLE_EVENT_DOCS", 'Soubory');
 define("ARTICLE_EVENT_PLACE_EVENTS", 'Události');

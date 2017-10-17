@@ -72,7 +72,7 @@
 
 <body style="
 	{if $bodyBackgroundColor != ""}background-color: {!$bodyBackgroundColor};{/if}
-	{if ($wallpaperBanner != null) && ($wallpaperBanner->getImg() != null) && ($wallpaperBanner->getImg() != "")}
+	{if !empty($wallpaperBanner) && ($wallpaperBanner->getImg() != null) && ($wallpaperBanner->getImg() != "")}
 			background-image: url('{!$wallpaperBanner->getImg()}')!important;
 			background-position: top center;
 	{/if}
@@ -129,7 +129,7 @@
 			{* !$headerContent *}
 		<div class="row pageStaticHeader" style="width: {!$headerWidth}; background-color: {!$headerBg}; color: {!$headerColor}; height: {!$headerHeight}px;">
 			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 fullBanner">
-				{if $fullBanner != null}
+				{if !empty($fullBanner)}
 					{if ($fullBanner->getUrl() != null) && ($fullBanner->getUrl() != "")}
 						<a href={link Show:Banner $currentLang, $fullBanner->getId()} target="_blank">
 					{/if}
