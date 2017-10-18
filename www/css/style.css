@@ -815,7 +815,10 @@ div#shadowbox {
 .eventPlaces {
 	font-size: 18px;
 	display: block;
-	min-height: 92px;
+}
+
+.shrunkContent{
+	min-height: 87px;
 }
 
 #searchFromSubmit{

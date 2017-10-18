@@ -152,7 +152,8 @@
 									{/if}
 								</span>
 							</div>
-							<span class="eventPlaces colorGrey">{$place->getAddress()|noescape}</span><br /><br />
+							<span class="eventPlaces colorGrey">{$place->getAddress()|noescape}</span><br />
+							<p class="shrunkContent">{$place->getContents()[$currentLang]->getContent()|noescape|striptags|truncate:260}</p>
 							<div class="dottedBorderBottom" style="width: 100%; height: 1px;"></div>
 						{/foreach}
 					</div>
@@ -186,8 +187,9 @@
 									{/if}
 								</span>
 							</div>
-							<span class="eventPlaces colorGrey">{$city->getAddress()|noescape}</span><br /><br />
-							{$city->getContents()[$currentLang]->getContent()|noescape|truncate:160}
+							<span class="eventPlaces colorGrey">{$city->getAddress()|noescape}</span><br />
+							<p class="shrunkContent">{$city->getContents()[$currentLang]->getContent()|noescape|striptags|truncate:260}</p>
+							<div class="dottedBorderBottom" style="width: 100%; height: 1px;"></div>
 						{/foreach}
 					</div>
 				{/if}
