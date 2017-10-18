@@ -462,6 +462,12 @@ div.mainPageSearch {
 	width: 100%;
 	height:auto;
 }
+
+.fullBanner img {
+	max-width: 468px;
+	width: 100%;
+	height:auto;
+}
 .banners {
 	margin-top: -20px;
 	width: 1000px;
