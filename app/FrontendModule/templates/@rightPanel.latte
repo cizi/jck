@@ -1,14 +1,16 @@
-<a href={link Submit} class="submitAventButton">{=SUBMIT_OWN_EVENT_HEADER}</a>
-<div class="dottedBorderBottom" style="width: 100%;"></div>
-
-{if !empty($halfBanner)}
-	<div style="max-width: 289px; height: auto; margin: auto; margin-bottom: 10px;">
-		{if ($halfBanner->getUrl() != null) && ($halfBanner->getUrl() != "")}
-			<a href={link Show:Banner $currentLang, $halfBanner->getId()} target="_blank" style="width: 100%; height: auto;">
-		{/if}
-		{if $halfBanner->getImg() != ""}<img alt={$halfBanner->getTitle()} src={$halfBanner->getImg()} /> {/if}
-		{if ($halfBanner->getUrl() != null) && ($halfBanner->getUrl() != "")}</a>{/if}
-	</div>
+<div id="rightPanel">
+	<a href={link Submit} class="submitAventButton">{=SUBMIT_OWN_EVENT_HEADER}</a>
 	<div class="dottedBorderBottom" style="width: 100%;"></div>
-{/if}
-<div class="fb-page" data-href="https://www.facebook.com/jihoceskykalendar/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/jihoceskykalendar/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/jihoceskykalendar/">Jihočeský kalendář</a></blockquote></div>
+
+	{if !empty($halfBanner)}
+		<div style="max-width: 289px; height: auto; margin: auto; margin-bottom: 10px;">
+			{if ($halfBanner->getUrl() != null) && ($halfBanner->getUrl() != "")}
+				<a href={link Show:Banner $currentLang, $halfBanner->getId()} target="_blank" style="width: 100%; height: auto;">
+			{/if}
+			{if $halfBanner->getImg() != ""}<img alt={$halfBanner->getTitle()} src={$halfBanner->getImg()} style="width:100%; height: auto;" /> {/if}
+			{if ($halfBanner->getUrl() != null) && ($halfBanner->getUrl() != "")}</a>{/if}
+		</div>
+		<div class="dottedBorderBottom" style="width: 100%;"></div>
+	{/if}
+	<div class="fb-page" data-href="https://www.facebook.com/jihoceskykalendar/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/jihoceskykalendar/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/jihoceskykalendar/">Jihočeský kalendář</a></blockquote></div>
+</div>

@@ -31,11 +31,25 @@
 
 @media (max-width: 400px) {
 	.mainPageTitle h1 {
-		font-size: 8vw;
+		font-size: 7.4vw;
 	}
 }
-
-
+@media (max-width: 767px) {
+	#rightPanel {
+		display: none;
+	}
+	.largeRectangle a img{
+		width: 100%;
+		height: auto;
+	}
+	.middleRectangle a img{
+		width: 100%;
+		height: auto;
+	}
+	#frm-searchForm{
+		display: none;
+	}
+}
 
 @font-face {
 	font-family: "InterstateRegularCompressed";
@@ -459,7 +473,7 @@ div.mainPageSearch {
 }
 
 .middleRectangle {
-	height: 158px;
+	min-height: 158px;
 }
 
 .paddingRight0 {
