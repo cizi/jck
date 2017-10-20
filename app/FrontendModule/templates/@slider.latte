@@ -21,7 +21,7 @@
 												{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00') && ($timetable->getDateFrom() != $timetable->getDateTo())}
 													- {$timetable->getDateTo()->format('j.m.Y')}
 												{/if}
-												{$timetable->getTime()->format("%H:%S")}
+												{$timetable->getTime()->format("%H:%I")}
 											{/if}
 										</span><br />
 										<span>

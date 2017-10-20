@@ -255,7 +255,7 @@ class ArticleRepository extends BaseRepository {
 		if (!empty($dateFrom) && (!empty($dateTo))) {
 			$query[] = sprintf(" and (`at`.date_from <= '%s' and ((`at`.date_to >= '%s') or (`at`.date_to = '0000-00-00')))", $dateTo->format(self::DB_DATE_MASK), $dateFrom->format(self::DB_DATE_MASK));
 		} else {
-			$query[] = sprintf(" and `at`.date_from >= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
+			$query[] = sprintf(" and `at`.date_from <= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
 		}
 		if ($searchText != null) {
 			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);

@@ -12,7 +12,7 @@
 						- {$article->getLastTimetableDate()->format('d.m.Y')}
 					{/if}
 					{* if $timetable->getDateTo() != '0000-00-00'} - {$timetable->getDateTo()->format('d.m.Y')}{/if *}
-					{* $timetable->getTime()->format("%H:%S")*}<br />
+					{* $timetable->getTime()->format("%H:%I")*}<br />
 					{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
 				</div>
 			{/if}
@@ -76,7 +76,7 @@
 
 							<strong>{$article->getContents()[$currentLang]->getHeader()|upper}</strong><br />
 							<small class="calendarOnEvent">
-								{$dt->format('d.m.Y')}, {$timetable->getTime()->format("%H:%S")} <br />
+								{$dt->format('d.m.Y')}, {$timetable->getTime()->format("%H:%I")} <br />
 								{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 								{* if !empty($article->getAddress())}{$article->getAddress()}{/if *}
 								{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
@@ -98,7 +98,7 @@
 							{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
 								- {$timetable->getDateTo()->format('d.m.Y')}
 							{/if}
-							{$timetable->getTime()->format("%H:%S")} <br />
+							{$timetable->getTime()->format("%H:%I")} <br />
 
 							{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 							{*if !empty($article->getAddress())}{$article->getAddress()}{/if*}
