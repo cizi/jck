@@ -12,6 +12,7 @@
 			<div class="floatRight">{$article->getInsertedTimestamp()->format('d.m.Y')}</div><br />
 			{$article->getContents()[$currentLang]->getContent()|noescape}
 			{include "../@articleDocs.latte", $docsUploaded}
+			<div class="dottedBorderBottom" style="width: 100%;"></div>
 		</div>
 
 		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">

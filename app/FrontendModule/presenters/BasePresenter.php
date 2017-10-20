@@ -152,6 +152,7 @@ abstract class BasePresenter extends Presenter {
 		$this->template->picRepo = $this->picRepository;
 		$this->template->months = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DEMEBER];
 		$this->template->days = [MON, THU, WED, THR, FRI, SAT, SUN];
+		$this->template->minDate = \DateTime::createFromFormat(ArticleRepository::DB_DATE_MASK, '1970-01-01');
 	}
 
 	public function checkLanguage($lang) {
