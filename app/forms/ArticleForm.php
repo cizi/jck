@@ -184,8 +184,8 @@ class ArticleForm extends Nette\Object {
 				->setAttribute("readonly", "readonly");
 
 			$container->addText('time', ARTICLE_START_TIME)
-				->setAttribute("class", "form-control menuItem takingTime tinym_required_field")
-				->setAttribute("validation", ARTICLE_TIMETABLE_TIME_WRONG_FORMAT);;
+				->setAttribute("class", "form-control menuItem takingTime");// tinym_required_field")
+				//->setAttribute("validation", ARTICLE_TIMETABLE_TIME_WRONG_FORMAT);
 				//->setAttribute("readonly", "readonly");
 
 			$container->addSubmit('removeTakingTime', ARTICLE_REMOVE_TIMETABLE)

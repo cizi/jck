@@ -62,7 +62,7 @@
 									{var timetable = reset($timetables)}
 									{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
 									- {$article->getLastTimetableDate()->format('d.m.Y')}
-									{$timetable->getTime()->format("%H:%I")} <br />
+									{if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if} <br />
 
 									{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 									{if !empty($article->getPlace())}{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}{/if}<br />

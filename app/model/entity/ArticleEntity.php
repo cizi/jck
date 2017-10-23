@@ -456,7 +456,7 @@ class ArticleEntity {
 	 * @return \DateTime
 	 */
 	public function getLastTimetableDate() {
-		$lastDate = DateTime::createFromFormat(ArticleRepository::DB_DATE_MASK, '1970-01-01');
+		$lastDate = DateTime::createFromFormat(ArticleRepository::DB_DATETIME_MASK, '1970-01-01 00:00:00');
 		foreach ($this->getTimetables() as $timetable) {
 			if ($lastDate < $timetable->getDateTo()) {
 				$lastDate = $timetable->getDateTo();

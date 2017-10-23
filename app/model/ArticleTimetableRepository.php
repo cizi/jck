@@ -11,14 +11,12 @@ class ArticleTimetableRepository extends BaseRepository {
 	 * @return int
 	 */
 	public function save(ArticleTimetableEntity $articleTimetableEntity) {
-		if (
-			($articleTimetableEntity->getDateFrom() != "")
-			&& ($articleTimetableEntity->getTime() != "")
-		) {
-
+		if ($articleTimetableEntity->getDateFrom() != "") {
 			//if ($articleTimetableEntity->getId() == null) {
 			$articleTimetableEntity->setId(null);	// protože před ukládáním vždy z té tabulky vše smažu tak vlastně neustále vkládám nové zázanym
-			if ($articleTimetableEntity->getTime() instanceof \DateInterval) {
+			if ($articleTimetableEntity->getTime() == "") {
+				$articleTimetableEntity->setTime(null);
+			} else if ($articleTimetableEntity->getTime() instanceof \DateInterval) {
 				$articleTimetableEntity->setTime($articleTimetableEntity->getTime()->format("%H:%I"));
 			}
 			$query = ["insert into article_timetable", $articleTimetableEntity->extract()];

@@ -35,7 +35,7 @@ class CalendarPresenter extends BasePresenter {
 		if ($direct == null) {
 			$articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, null, $endDate, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
 		} else {
-			$articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, null, null, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
+			$articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, null, $dateFrom, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
 		}
 		$this->template->articles = $articles;
 		$this->template->sublocation = $sublocation;

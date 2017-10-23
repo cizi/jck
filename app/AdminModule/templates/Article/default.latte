@@ -70,7 +70,7 @@
 															{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
 																- {$timetable->getDateTo()->format('d.m.Y')}
 															{/if}
-															{$timetable->getTime()->format("%H:%I")}
+															{if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if}
 														</small><br />
 													{/foreach}
 												</td>

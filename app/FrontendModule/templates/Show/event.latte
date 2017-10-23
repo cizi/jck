@@ -12,7 +12,7 @@
 						- {$article->getLastTimetableDate()->format('d.m.Y')}
 					{/if}
 					{* if $timetable->getDateTo() != '0000-00-00'} - {$timetable->getDateTo()->format('d.m.Y')}{/if *}
-					{* $timetable->getTime()->format("%H:%I")*}<br />
+					{* {if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if}*}<br />
 					{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
 				</div>
 			{/if}
@@ -76,7 +76,8 @@
 
 							<strong>{$article->getContents()[$currentLang]->getHeader()|upper}</strong><br />
 							<small class="calendarOnEvent">
-								{$dt->format('d.m.Y')}, {$timetable->getTime()->format("%H:%I")} <br />
+								{$dt->format('d.m.Y')},
+								{if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if} <br />
 								{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 								{* if !empty($article->getAddress())}{$article->getAddress()}{/if *}
 								{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
@@ -98,7 +99,7 @@
 							{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
 								- {$timetable->getDateTo()->format('d.m.Y')}
 							{/if}
-							{$timetable->getTime()->format("%H:%I")} <br />
+							{if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if} <br />
 
 							{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
 							{*if !empty($article->getAddress())}{$article->getAddress()}{/if*}
@@ -126,6 +127,7 @@
 			<div id = "myTabContent" class = "tab-content">
 				<div class="tab-pane fade in active" id="info">
 					{$article->getContents()[$currentLang]->getContent()|noescape}
+					<div class="dottedBorderBottom" style="width: 100%;"></div>
 				</div>
 
 				{if count($places)}
@@ -197,9 +199,9 @@
 				{if count($docsUploaded)}
 					<div class="tab-pane fade" id="uploadedDocs">
 						{include "../@articleDocs.latte", $docsUploaded}
+						<div class="dottedBorderBottom" style="width: 100%;"></div>
 					</div>
 				{/if}
-				<div class="dottedBorderBottom" style="width: 100%;"></div>
 			</div>
 		</div>
 

@@ -15,6 +15,8 @@ class ArticleRepository extends BaseRepository {
 
 	/** Maska data v DB  */
 	const DB_DATE_MASK = 'Y-m-d';
+	const DB_DATETIME_MASK = 'Y-m-d H:i:s';
+
 	const URL_DATE_MASK = 'd.m.Y';
 
 	/** @var  PicRepository */
@@ -253,9 +255,9 @@ class ArticleRepository extends BaseRepository {
 					and active = 1", $lang];
 
 		if (!empty($dateFrom) && (!empty($dateTo))) {
-			$query[] = sprintf(" and (`at`.date_from <= '%s' and ((`at`.date_to >= '%s') or (`at`.date_to = '0000-00-00')))", $dateTo->format(self::DB_DATE_MASK), $dateFrom->format(self::DB_DATE_MASK));
+			$query[] = sprintf(" and (`at`.date_from >= '%s' and ((`at`.date_to <= '%s') or (`at`.date_to = '0000-00-00')))", $dateFrom->format(self::DB_DATE_MASK), $dateTo->format(self::DB_DATE_MASK));
 		} else {
-			$query[] = sprintf(" and `at`.date_from <= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
+			$query[] = sprintf(" and `at`.date_from >= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
 		}
 		if ($searchText != null) {
 			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);
@@ -517,7 +519,7 @@ class ArticleRepository extends BaseRepository {
 			$articleEntity->setId($articleId);
 			$this->connection->commit();
 		} catch (\Exception $e) {
-			// dump($e); die;
+			dump($e); die;
 			$this->connection->rollback();
 			$result = false;
 		}
