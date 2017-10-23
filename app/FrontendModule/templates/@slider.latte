@@ -18,8 +18,8 @@
 												{var timetables = $article->getTimetables()}
 												{var timetable = reset($timetables)}
 												{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('j.m.Y')}{/if}
-												{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00') && ($timetable->getDateFrom() != $timetable->getDateTo())}
-													- {$timetable->getDateTo()->format('j.m.Y')}
+												{if ($article->getLastTimetableDate() != $minDate) && ($timetable->getDateFrom() != $article->getLastTimetableDate())}
+													- {$article->getLastTimetableDate()->format('d.m.Y')}
 												{/if}
 												{if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if}
 											{/if}

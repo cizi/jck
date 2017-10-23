@@ -842,12 +842,16 @@ class ArticleRepository extends BaseRepository {
 		foreach ($articles as $article) {
 			if (($article->getType() == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) && ($type == null)) {
 				$timetable = $this->articleTimetableRepository->getActiveTimetable($article->getId());
-				if ($timetable != null) {
-					$article->setTimetables([$timetable]);
-					$presorted[] = [$timetable->getTime(), clone $article];
+				if (!empty($timetable)) {
+					if (!empty($timetable->getTime())) {
+						$article->setTimetables([$timetable]);
+						$presorted[] = [$timetable->getTime(), clone $article];
+					} else {
+						$notEventArticles[] = $article;	// akce bez času nebo články/místa
+					}
 				}
 			} else {
-				$notEventArticles[] = $article;
+				$notEventArticles[] = $article;	// akce bez času nebo články/místa
 			}
 		}
 		usort($presorted, function ($a, $b) {
@@ -870,5 +874,4 @@ class ArticleRepository extends BaseRepository {
 
 		return $sorted;
 	}
-
 }
