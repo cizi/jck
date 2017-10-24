@@ -133,11 +133,12 @@
 
 		tinymce.init({
 			selector:'#mceFooterContent',
-			toolbar: "image | code",
-			plugins: "image imagetools code",
+			toolbar: "image | code | link",
+			plugins: "image imagetools code link",
 			relative_urls : false,
 			remove_script_host : false,
-			convert_urls : true
+			convert_urls : true,
+			default_link_target:"_blank"
 		});
 
 		$("#headerBackgroundColor").minicolors({
