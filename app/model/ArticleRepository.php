@@ -255,9 +255,9 @@ class ArticleRepository extends BaseRepository {
 					and active = 1", $lang];
 
 		if (!empty($dateFrom) && (!empty($dateTo))) {
-			$query[] = sprintf(" and (`at`.date_from <= '%s' and ((`at`.date_to >= '%s') or (`at`.date_to = '0000-00-00')))", $dateFrom->format(self::DB_DATE_MASK), $dateTo->format(self::DB_DATE_MASK));
+			$query[] = sprintf(" and (`at`.date_from <= '%s' and ((`at`.date_to >= '%s') or (`at`.date_to = '0000-00-00')))", $dateTo->format(self::DB_DATE_MASK), $dateFrom->format(self::DB_DATE_MASK));
 		} else {
-			$query[] = sprintf(" and `at`.date_from <= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
+			$query[] = sprintf(" and `at`.date_from >= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
 		}
 		if ($searchText != null) {
 			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);
@@ -843,13 +843,13 @@ class ArticleRepository extends BaseRepository {
 			if (($article->getType() == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) && ($type == null)) {
 				$timetable = $this->articleTimetableRepository->getActiveTimetable($article->getId());
 				if (!empty($timetable)) {
+					$article->setTimetables([$timetable]);
 					if (!empty($timetable->getTime())) {
-						$article->setTimetables([$timetable]);
 						$dateTimeKey = $timetable->getDateFrom()->format(self::DB_DATE_MASK) . " " . $timetable->getTime()->format("%H:%I");
-						$presorted[] = [$dateTimeKey, clone $article];
 					} else {
-						$notEventArticles[] = $article;	// akce bez času nebo články/místa
+						$dateTimeKey = $timetable->getDateFrom()->format(self::DB_DATE_MASK) . " 00:00";
 					}
+					$presorted[] = [$dateTimeKey, clone $article];
 				}
 			} else {
 				$notEventArticles[] = $article;	// akce bez času nebo články/místa
