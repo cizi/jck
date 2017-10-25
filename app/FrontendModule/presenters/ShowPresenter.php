@@ -34,6 +34,7 @@ class ShowPresenter extends BasePresenter {
 			$this->template->article = $articleEntity;
 			$this->template->docsUploaded = $this->picRepository->loadDocs($articleEntity->getId());
 
+			$this->template->sliderGalleryPics = $this->findFlexSliderPics($articleEntity);
 			$articlesCategories = $articleEntity->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
@@ -51,10 +52,7 @@ class ShowPresenter extends BasePresenter {
 	 */
 	public function actionDetails($lang, $page = 1) {
 		$this->checkLanguage($lang);
-		$articles = $this->articleRepository->findActiveArticlesInLang(
-			$lang,
-			EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER
-		);
+		$articles = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
 
 		$paginator = new Paginator();
 		$paginator->setItemCount(count($articles)); // celkový počet článků
@@ -134,6 +132,7 @@ class ShowPresenter extends BasePresenter {
 			$this->template->places = $places;
 			$this->template->cities = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($article->getId());
+			$this->template->sliderGalleryPics = $this->findFlexSliderPics($article);
 
 			$articlesCategories = $article->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
@@ -160,20 +159,7 @@ class ShowPresenter extends BasePresenter {
 			$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 			$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
-
-			if (empty($place->getPicUrl())) {
-				$pics = [];
-			} else {
-				$pics[] = $place->getPicUrl();
-			}
-
-			if ($place->getGalleryId() != null) {
-				$galleryEntity = $this->galleryRepository->getGallery($place->getGalleryId());
-				foreach ($galleryEntity->getPics() as $pic) {
-					$pics[] = $this->picRepository->getById($pic->getSharedPicId())->getPath();
-				}
-			}
-			$this->template->sliderGalleryPics = $pics;
+			$this->template->sliderGalleryPics = $this->findFlexSliderPics($place);
 
 			$articlesCategories = $place->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
@@ -200,6 +186,7 @@ class ShowPresenter extends BasePresenter {
 			$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 			$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
+			$this->template->sliderGalleryPics = $this->findFlexSliderPics($place);
 
 			$articlesCategories = $place->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
@@ -398,5 +385,31 @@ class ShowPresenter extends BasePresenter {
 		}
 
 		return $sliderPics;
+	}
+
+	/**
+	 * Najde obrázky pro flex slider
+	 * @param ArticleEntity $articleEntity
+	 * @return array
+	 */
+	private function findFlexSliderPics(ArticleEntity $articleEntity) {
+		if (empty($articleEntity->getPicUrl())) {
+			if (!empty($articleEntity->getPicId())) {
+				$pics[] = $this->picRepository->getById($articleEntity->getPicId())->getPath();
+			} else {
+				$pics = [];
+			}
+		} else {
+			$pics[] = $articleEntity->getPicUrl();
+		}
+
+		if ($articleEntity->getGalleryId() != null) {
+			$galleryEntity = $this->galleryRepository->getGallery($articleEntity->getGalleryId());
+			foreach ($galleryEntity->getPics() as $pic) {
+				$pics[] = $this->picRepository->getById($pic->getSharedPicId())->getPath();
+			}
+		}
+
+		return $pics;
 	}
 }

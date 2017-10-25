@@ -11,8 +11,7 @@
 					{if ($article->getLastTimetableDate() != $minDate) && ($timetable->getDateFrom() != $article->getLastTimetableDate())}
 						- {$article->getLastTimetableDate()->format('d.m.Y')}
 					{/if}
-					{* if $timetable->getDateTo() != '0000-00-00'} - {$timetable->getDateTo()->format('d.m.Y')}{/if *}
-					{* {if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if}*}<br />
+					<br />
 					{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
 				</div>
 			{/if}
@@ -48,14 +47,7 @@
 
 	<div class="row" style="padding: 0 10px 0 10px">
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
-			{var picUrl = "../../../../../www/images/not-available.png"}
-			{if !empty($article->getPicId())}
-				{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
-			{elseif !empty($article->getPicUrl())}
-				{var picUrl = $article->getPicUrl()}
-			{/if}
-			<img class="showDetail" src={$picUrl} />
+			{include "../@flexSlider.latte", $sliderGalleryPics}
 		</div>
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<table id="eventTimetable"><tbody>
@@ -78,8 +70,6 @@
 							<small class="calendarOnEvent">
 								{$dt->format('d.m.Y')},
 								{if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if} <br />
-								{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
-								{* if !empty($article->getAddress())}{$article->getAddress()}{/if *}
 								{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
 								<br />
 							</small>
@@ -100,9 +90,6 @@
 								- {$timetable->getDateTo()->format('d.m.Y')}
 							{/if}
 							{if $timetable->getTime() != null}{$timetable->getTime()->format("%H:%I")}{/if} <br />
-
-							{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
-							{*if !empty($article->getAddress())}{$article->getAddress()}{/if*}
 							{$enumRepo->getEnumItemByOrder($currentLang, $article->getPlace())}
 							<br />
 						</small>
@@ -135,13 +122,9 @@
 						{foreach $places as $place}
 							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()|noescape}" />
 							<div>
-								{if $place->getPlace() != null}
-									<a href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())} class="title">
-										{$enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())}
-									</a>
-								{else}
-									{$place->getPlaceText()}
-								{/if}
+								<a href={link Show:Place $currentLang, $place->getId(), $place->getContents()[$currentLang]->getHeader()} class="title">
+									{$place->getContents()[$currentLang]->getHeader()}
+								</a>
 								<span class="floatRight">
 									{if $place->getPlace() != null}
 										<a class="ev ev_link" href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())}>
@@ -214,6 +197,27 @@
 		$(function () {
 			$('#myTab li:eq(0) a').tab('show');
 			$('#eventTimetable').paginate({ limit: 4 });
+		});
+
+		$(window).load(function() {
+			// The slider being synced must be initialized first
+			$('#carousel').flexslider({
+				animation: "slide",
+				controlNav: false,
+				animationLoop: false,
+				slideshow: false,
+				itemWidth: 75,
+				itemMargin: 5,
+				asNavFor: '#slider'
+			});
+
+			$('#slider').flexslider({
+				animation: "slide",
+				controlNav: false,
+				animationLoop: true,
+				slideshow: true,
+				sync: "#carousel"
+			});
 		});
 	</script>
 {/block}

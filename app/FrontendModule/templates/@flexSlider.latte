@@ -1,0 +1,19 @@
+{if count($sliderGalleryPics)}
+	<div id="slider" class="flexslider">
+		<ul class="slides">
+			{foreach $sliderGalleryPics as $pic}
+				<li>
+					<img src={$pic} />
+				</li>
+			{/foreach}
+		</ul>
+	</div>
+
+	<div id="carousel" class="flexslider">
+		<ul class="slides">
+			{for $i=0; $i< count($sliderGalleryPics); $i++}
+				<li><img src={$sliderGalleryPics[$i]} /></li>
+			{/for}
+		</ul>
+	</div>
+{/if}

@@ -31,17 +31,10 @@
 
 	<div class="row" style="padding: 0 10px 0 10px">
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			{var picUrl = "../../../../../www/images/not-available.png"}
-			{if $place->getPicId() != null}
-				{var picUrl = $picRepo->getById($place->getPicId())->getPath()}
-			{else}
-				{var picUrl = $place->getPicUrl()}
-			{/if}
-			<img class="showDetail" alt={$place->getContents()[$currentLang]->getHeader()} src="{$picUrl}" />
+			{include "../@flexSlider.latte", $sliderGalleryPics}
 		</div>
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			{$place->getContact()|noescape}
-
 		</div>
 	</div>
 
@@ -110,4 +103,27 @@
 			{include '../@rightPanel.latte'}
 		</div>
 	</div>
+
+	<script>
+		$(window).load(function() {
+			// The slider being synced must be initialized first
+			$('#carousel').flexslider({
+				animation: "slide",
+				controlNav: false,
+				animationLoop: false,
+				slideshow: false,
+				itemWidth: 75,
+				itemMargin: 5,
+				asNavFor: '#slider'
+			});
+
+			$('#slider').flexslider({
+				animation: "slide",
+				controlNav: false,
+				animationLoop: true,
+				slideshow: true,
+				sync: "#carousel"
+			});
+		});
+	</script>
 {/block}

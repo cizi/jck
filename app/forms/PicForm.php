@@ -42,10 +42,6 @@ class PicForm extends Nette\Object {
 			->setAttribute("class", "form-control menuItem")
 			->setAttribute("tabindex", $i+1);
 
-		$form->addMultiSelect("selectedPics", "", $picsForSelect)
-			->setAttribute("class", "form-control menuItem")
-			->setAttribute("tabindex", $i);
-
 		$form->addSubmit("confirm", PIC_SAVE_GALLERY)
 			->setAttribute("class","btn btn-primary menuItem alignRight")
 			->setAttribute("tabindex", $i+2);
@@ -53,6 +49,10 @@ class PicForm extends Nette\Object {
 		$form->addSubmit("deletePics", PIC_DELETE_PICS)
 			->setAttribute("class","btn btn-danger menuItem alignRight")
 			->setAttribute("tabindex", $i+2);
+
+		$form->addMultiSelect("selectedPics", "", $picsForSelect)
+			->setAttribute("class", "form-control menuItem")
+			->setAttribute("tabindex", $i);
 
 		return $form;
 	}

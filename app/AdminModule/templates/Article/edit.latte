@@ -131,7 +131,6 @@
 				$('#frm-articleForm-menuOrders').val(selectedValues).trigger('chosen:updated');
 			}
 
-			$("#frm-articleForm-gallery_id").parent().parent().css("display", "none");
 			var articleTypeOrder = $(this).val();
 			if (articleTypeOrder == {$articleTypeArticle}) {
 				if (selectedMenuOrders <= 1) {
@@ -141,7 +140,6 @@
 				if (selectedMenuOrders <= 1) {
 					$('#frm-articleForm-menuOrders').val({$menuOrderPlace}).trigger('chosen:updated');
 				}
-				$("#frm-articleForm-gallery_id").parent().parent().css("display", "block");
 			} else if (articleTypeOrder == {$articleTypeAction}) {
 				if (selectedMenuOrders <= 1) {
 					$('#frm-articleForm-menuOrders').val({$menuOrderAction}).trigger('chosen:updated');
@@ -222,8 +220,6 @@
 				);
 			}
 
-			$("#frm-articleForm-gallery_id").parent().parent().css("display", "none");
-
 			$("#frm-articleForm-docsUpload").parent().append(
 				"<ul>" +
 					{foreach $docsUploaded as $doc}
@@ -239,7 +235,6 @@
 				{if count($article->getCategories()) == 0}
 					$("#frm-articleForm-type").trigger("change");
 				{elseif $article->getType() == $articleTypePlace}
-					$("#frm-articleForm-gallery_id").parent().parent().css("display", "block");
 				{/if}
 			{else}
 				$("#frm-articleForm-type").trigger("change");

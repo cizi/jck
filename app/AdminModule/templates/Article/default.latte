@@ -49,9 +49,10 @@
 											<tr>
 												<td>
 													{var content = $articleEntity->getContents()}
-													{if !empty($content)}
-														{var contentEntity = reset($content)}
-														{$contentEntity->getHeader()}
+													{if isset($content[$currentLang])}
+														<a href={link Article:Edit, $articleEntity->getId()} title={=ARTICLE_EDIT}>
+															{$content[$currentLang]->getHeader()}
+														</a>
 													{/if}
 												</td>
 

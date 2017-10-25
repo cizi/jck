@@ -13,7 +13,7 @@ class PicRepository extends BaseRepository {
 	 */
 	public function load() {
 		$return = [];
-		$query = ["select * from shared_pic where file_type = %i", SharedFileEnum::PIC];
+		$query = ["select * from shared_pic where file_type = %i order by id desc", SharedFileEnum::PIC];
 		$result = $this->connection->query($query)->fetchAll();
 		foreach ($result as $item) {
 			$footerPic = new PicEntity();

@@ -2,13 +2,7 @@
 	<div class="row" style="padding: 0 10px 0 10px">
 		<div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-xs-12">
 			<h1 class="titles">{$article->getContents()[$currentLang]->getHeader()}</h1>
-			{var picUrl = "../../../../../www/images/not-available.png"}
-			{if !empty($article->getPicId())}
-				{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
-			{elseif !empty($article->getPicUrl())}
-				{var picUrl = $article->getPicUrl()}
-			{/if}
-			<img class="showDetail" src={$picUrl} />
+			{include "../@flexSlider.latte", $sliderGalleryPics}
 			<div class="floatRight">{$article->getInsertedTimestamp()->format('d.m.Y')}</div><br />
 			{$article->getContents()[$currentLang]->getContent()|noescape}
 			{include "../@articleDocs.latte", $docsUploaded}
@@ -19,4 +13,27 @@
 			{include '../@rightPanel.latte'}
 		</div>
 	</div>
+
+	<script>
+		$(window).load(function() {
+			// The slider being synced must be initialized first
+			$('#carousel').flexslider({
+				animation: "slide",
+				controlNav: false,
+				animationLoop: false,
+				slideshow: false,
+				itemWidth: 75,
+				itemMargin: 5,
+				asNavFor: '#slider'
+			});
+
+			$('#slider').flexslider({
+				animation: "slide",
+				controlNav: false,
+				animationLoop: true,
+				slideshow: true,
+				sync: "#carousel"
+			});
+		});
+	</script>
 {/block}
