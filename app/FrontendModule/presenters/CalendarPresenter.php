@@ -4,6 +4,7 @@ namespace App\FrontendModule\Presenters;
 
 
 use App\Forms\FulltextSearchForm;
+use App\Model\ArticleRepository;
 use App\Model\EnumerationRepository;
 use Dibi\DateTime;
 use Nette\Forms\Form;
@@ -35,6 +36,7 @@ class CalendarPresenter extends BasePresenter {
 		if ($direct == null) {
 			$articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, null, $endDate, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
 		} else {
+			$this->template->directText = sprintf(ARTICLE_CALENDAR_DIRECT, $dateFrom->format(ArticleRepository::URL_DATE_MASK));
 			$articles = $this->articleRepository->findActiveArticlesInLangByDate($lang, $dateFrom, null, $dateFrom, EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, $sublocation);
 		}
 		$this->template->articles = $articles;

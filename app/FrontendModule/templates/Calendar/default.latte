@@ -39,6 +39,10 @@
 				</tr>
 			</table>
 			<div class="dottedBorderTop" >
+				{if isset($directText)}
+					<h1 class="title">{$directText}</h1>
+					<div class="dottedBorderTop" ></div>
+				{/if}
 				{include '../@articleListing.latte', $articles}
 			</div>
 		</div>

@@ -62,7 +62,7 @@ class ArticleTimetableRepository extends BaseRepository {
 	}
 
 	public function findCalendars($article_id) {
-		$query = ["select * from article_timetable where article_id = %i", $article_id];
+		$query = ["select * from article_timetable where article_id = %i order by date_from asc", $article_id];
 
 		$result = $this->connection->query($query)->fetchAll();
 		$calendars = [];

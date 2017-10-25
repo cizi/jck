@@ -182,6 +182,7 @@ define("ARTICLE_YOUTUBE", 'Youtube');
 define("ARTICLE_MAP", 'Mapa');
 define("ARTICLE_TAKING_MISSING", 'Přidejte, prosím, datum a čas konání.');
 define("ARTICLE_NOT_FOUND", 'Obsah nebyl nalezen.');
+define("ARTICLE_CALENDAR_DIRECT", 'Události na %s ');
 
 // měsíce
 define("JANUARY", 'leden');

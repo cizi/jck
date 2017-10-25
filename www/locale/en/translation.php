@@ -180,6 +180,7 @@ define("ARTICLE_YOUTUBE", 'Youtube');
 define("ARTICLE_MAP", 'Map');
 define("ARTICLE_TAKING_MISSING", 'Please add at least one date and time of the event.');
 define("ARTICLE_NOT_FOUND", 'Content has not been found.');
+define("ARTICLE_CALENDAR_DIRECT", 'Events on date %s ');
 
 // měsíce
 define("JANUARY", 'January');

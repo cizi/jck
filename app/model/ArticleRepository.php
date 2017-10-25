@@ -255,9 +255,9 @@ class ArticleRepository extends BaseRepository {
 					and active = 1", $lang];
 
 		if (!empty($dateFrom) && (!empty($dateTo))) {
-			$query[] = sprintf(" and (`at`.date_from >= '%s' and ((`at`.date_to <= '%s') or (`at`.date_to = '0000-00-00')))", $dateFrom->format(self::DB_DATE_MASK), $dateTo->format(self::DB_DATE_MASK));
+			$query[] = sprintf(" and (`at`.date_from <= '%s' and ((`at`.date_to >= '%s') or (`at`.date_to = '0000-00-00')))", $dateFrom->format(self::DB_DATE_MASK), $dateTo->format(self::DB_DATE_MASK));
 		} else {
-			$query[] = sprintf(" and `at`.date_from >= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
+			$query[] = sprintf(" and `at`.date_from <= '%s' ", $dateFrom->format(self::DB_DATE_MASK));
 		}
 		if ($searchText != null) {
 			$query[] = sprintf(" and CONCAT_WS(' ',ac.header,ac.content) like  '%%%s%%'", $searchText);
@@ -270,7 +270,7 @@ class ArticleRepository extends BaseRepository {
 		}
 
 		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-			$query[] = " order by validity desc, `at`.time asc";
+			$query[] = " order by validity desc, `at`.date_from asc, `at`.time asc";
 		} else {
 			$query[] = " order by validity desc, inserted_timestamp desc";
 		}
@@ -845,7 +845,8 @@ class ArticleRepository extends BaseRepository {
 				if (!empty($timetable)) {
 					if (!empty($timetable->getTime())) {
 						$article->setTimetables([$timetable]);
-						$presorted[] = [$timetable->getTime(), clone $article];
+						$dateTimeKey = $timetable->getDateFrom()->format(self::DB_DATE_MASK) . " " . $timetable->getTime()->format("%H:%I");
+						$presorted[] = [$dateTimeKey, clone $article];
 					} else {
 						$notEventArticles[] = $article;	// akce bez času nebo články/místa
 					}
@@ -855,17 +856,35 @@ class ArticleRepository extends BaseRepository {
 			}
 		}
 		usort($presorted, function ($a, $b) {
-			$t1 = strtotime($a[0]->format("%H:%I"));
-			$t2 = strtotime($b[0]->format("%H:%I"));
+			$t1 = strtotime($a[0]);
+			$t2 = strtotime($b[0]);
 			return $t1 - $t2;
 		});
-		$sorted = [];
-		$showedIds = [];	// id příspěvků, které budou zobrazeny
+
+		$free = [];
+		$paid = [];
+		$top = [];
+		$showedIds = [];	// id příspěvků, které budou zobrazeny a jejich počítadlo bude inkrementováno
 		foreach ($presorted as $pre) {
-			$sorted[] = $pre[1];
-			$showedIds[] = $pre[1]->getId();
+			/** @var ArticleEntity $presortedArticle */
+			$presortedArticle = $pre[1];
+			switch ($presortedArticle->getValidity()) {
+				case EnumerationRepository::TYP_VALIDITY_FREE:
+					$free[] = $presortedArticle;
+					break;
+
+				case EnumerationRepository::TYP_VALIDITY_PAID:
+					$paid[] = $presortedArticle;
+					break;
+
+				case EnumerationRepository::TYP_VALIDITY_TOP:
+					$top[] = $presortedArticle;
+					break;
+			}
+			$showedIds[] = $presortedArticle->getId();
 		}
 
+		$sorted = array_merge($top, $paid, $free);
 		foreach ($notEventArticles as $article) {
 			$sorted[] = $article;
 			$showedIds[] = $article->getId();

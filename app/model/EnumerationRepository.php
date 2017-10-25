@@ -25,6 +25,7 @@ class EnumerationRepository extends BaseRepository {
 	const LOKACE_JIHOCESKY_ORDER = 6;
 
 	const TYP_VALIDITY_FREE = 3;
+	const TYP_VALIDITY_PAID = 4;
 	const TYP_VALIDITY_TOP = 5;
 
 	const TYP_BANNERU_BIG_BANNER = 9;
