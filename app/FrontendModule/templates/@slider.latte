@@ -5,13 +5,21 @@
 				<ul class="bxslider" style="opacity: 0;">
 					{foreach $sliderPics as $article}
 						{if !empty($article->getPicUrl())}
+							{switch $article->getType()}
+							{case $eventOrder}
+							{var target = "Show:Event"}
+							{case $textArticleOrder}
+							{var target = "Show:Detail"}
+							{case $placeOrder}
+							{var target = "Show:Place"}
+							{/switch}
 							<li>
 								{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
-								<a href={link Show:Event $currentLang, $article->getId(), $urlTitle} target="_blank">
+								<a href={link $target $currentLang, $article->getId(), $urlTitle} target="_blank">
 									<img class="sliderSlidePic" alt={$article->getContents()[$currentLang]->getHeader()} src="{$article->getPicUrl()}" />
 									<div class="caption1">
 										<div class="caption2">
-											<a href={link Show:Event $currentLang, $article->getId(), $urlTitle}>{$article->getContents()[$currentLang]->getHeader()|truncate:40|upper}</a>
+											<a href={link $target $currentLang, $article->getId(), $urlTitle}>{$article->getContents()[$currentLang]->getHeader()|truncate:40|upper}</a>
 										</div>
 										<span>
 											{if count($article->getTimetables())}
@@ -31,8 +39,6 @@
 												{$article->getAddress()} {$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
 											{/if}
 											<br /><br />
-											{* if $article->getSublocation() != null}{$enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())} - {/if *}
-											{* if !empty($article->getAddress())}{$article->getAddress()}{/if *}
 										</span>
 									</div>
 								</a>
