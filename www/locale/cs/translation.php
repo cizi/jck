@@ -1,5 +1,10 @@
 <?php
 
+// chyba, požadavek na neexitující stránku
+define("APP_CONTENT_ERROR", 'Stránka nebyla nalezena');
+define("APP_CONTENT_ERROR_INFO", 'Požadovná stránka nebyla nalezena. Je pravděpodobné, že URL adresa je naplatná nebo stránka neexituje. Prosím, použijte vyhledávání pro nalezení požadované stránky.');
+define("APP_CONTENT_ERROR_SIGN", 'chyba');
+
 // formulář login do administrace
 define("ADMIN_LOGIN_HEADER", 'Přihlášení');
 define("ADMIN_LOGIN_EMAIL", 'Email');

@@ -1,8 +1,16 @@
 {block content}
-<h1 n:block=title>Page Not Found</h1>
 
-<p>The page you requested could not be found. It is possible that the address is
-incorrect, or that the page no longer exists. Please use a search engine to find
-what you are looking for.</p>
+	<div class="row">
+		<div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-xs-2">
+			<br /><br /><img src="{$basePath}/images/alert404.png" />
+		</div>
+		<div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+			<h1 n:block=title>{=APP_CONTENT_ERROR}</h1>
 
-<p><small>error 404</small></p>
+			<p>{=APP_CONTENT_ERROR_INFO}</p>
+
+			<p><small>{=APP_CONTENT_ERROR_SIGN} 404</small></p>
+		</div>
+		<div class="col-xl-1 col-lg-1 col-md-1 col-sm-0 col-xs-0"></div>
+	</div>
+{/block}

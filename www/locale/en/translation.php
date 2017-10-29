@@ -1,5 +1,10 @@
 <?php
 
+// chyba, požadavek na neexitující stránku
+define("APP_CONTENT_ERROR", 'Page Not Found');
+define("APP_CONTENT_ERROR_INFO", 'The page you requested could not be found. It is possible that the address is incorrect, or that the page no longer exists. Please use a search engine to find what you are looking for.');
+define("APP_CONTENT_ERROR_SIGN", 'error');
+
 // formulář login do administrace
 define("ADMIN_LOGIN_HEADER", 'Login');
 define("ADMIN_LOGIN_EMAIL", 'Email');
