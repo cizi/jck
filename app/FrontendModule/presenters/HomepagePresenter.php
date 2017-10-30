@@ -23,7 +23,6 @@ class HomepagePresenter extends BasePresenter {
 	 */
 	public function renderDefault($lang, $id) {
 		$this->checkLanguage($lang);
-		$this->articleRepository->deactivateOldEvents($lang);
 		if ((empty($id) || ($id == "")) && !empty($lang) && (!isset($availableLangs[$lang]))) {
 			$id = $lang;
 		}

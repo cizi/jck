@@ -13,9 +13,6 @@ class WebPublicUtilsPresenter extends BasePresenter {
 
 	/**
 	 * generates sitemap.xml in the root of the web
-	 *
-	 * @param string|false $isRobot
-	 * for robot: http://localhost/tynim/www/admin/web-public-utils/generate-site-map/true
 	 */
 	public function actionGenerateSiteMap($lang) {
 		$categories = $this->menuRepository->findAllCategoryOrders();	// hledám ve všech kategoriích
@@ -86,6 +83,15 @@ class WebPublicUtilsPresenter extends BasePresenter {
 			$fileContent[] = '</urlset>';
 			file_put_contents(SITEMAP_PATH . 'sitemap.xml', $fileContent);
 		}
+		$this->terminate();
+	}
+
+	/**
+	 * Projde události a provede deaktivaci těch co nemají platný kalendář
+	 * @param string $lang
+	 */
+	public function actionDeactivateOldEvents($lang) {
+		$this->articleRepository->deactivateOldEvents($lang);
 		$this->terminate();
 	}
 }
