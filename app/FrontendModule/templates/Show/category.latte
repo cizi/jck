@@ -7,13 +7,16 @@
 				{if $clickedCategory->getTitle() != ""}
 					<h1 class="titles">{$clickedCategory->getTitle()}</h1>
 				{/if}
-				<div class="breadcrumb">
-					{if count($breadcrumbs) > 1}
+
+				{if count($breadcrumbs) > 1}
+					<div class="breadcrumb">
 						{foreach $breadcrumbs as $title => $link}
 							<a class="eventCalendarEvent" href={$link}>{$title}</a> {if $iterator->isLast() == false} / {/if}
 						{/foreach}
-					{/if}
-				</div>
+					</div>
+				{else}
+					<br />
+				{/if}
 
 				{form fulltextSearchForm}
 					<div class="row" style="padding: 0; margin: 0;">

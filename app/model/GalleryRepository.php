@@ -31,6 +31,30 @@ class GalleryRepository extends BaseRepository {
 	}
 
 	/**
+	 * Hledá v galerii podle fulltextu v nadpise/obsahu daného jazyka
+	 * @param string $lang
+	 * @param null $fulltextSearch
+	 * @return array
+	 */
+	public function findGalleriesInLangByQuery($lang, $fulltextSearch = null) {
+		$galleries = [];
+		$query = ["select g.* from gallery as g left join gallery_content as gc on g.id = gc.gallery_id where gc.lang = %s", $lang];
+		if (!empty($fulltextSearch)) {
+			$query[] = sprintf(" and CONCAT_WS(' ', gc.header, gc.desc) like '%%%s%%'", $fulltextSearch);
+		}
+		$result = $this->connection->query($query)->fetchAll();
+		foreach ($result as $gallery) {
+			$galleryEntity = new GalleryEntity();
+			$galleryEntity->hydrate($gallery->toArray());
+			$galleryEntity->setContents($this->findGalleryContentsInLang($galleryEntity->getId(), $lang));
+			$galleryEntity->setPics($this->findGalleryPics($galleryEntity->getId()));
+			$galleries[] = $galleryEntity;
+		}
+
+		return $galleries;
+	}
+
+	/**
 	 * @param $lang
 	 * @param bool $showOnMainPage
 	 * @return GalleryEntity[]
@@ -162,7 +186,7 @@ class GalleryRepository extends BaseRepository {
 	 */
 	private function findGalleryContentsInLang($id, $lang) {
 		$contents = [];
-		$query = ["select * from gallery_content where gallery_id = %i and lang = %s", $id, $lang];
+		$query = ["select * from gallery_content as gc where gallery_id = %i and lang = %s", $id, $lang];
 		$result = $this->connection->query($query)->fetchAll();
 		foreach($result as $content) {
 			$galleryContentEntity = new GalleryContentEntity();

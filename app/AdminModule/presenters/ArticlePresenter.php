@@ -279,8 +279,8 @@ class ArticlePresenter extends SignPresenter {
 		$renderer->wrappers['controls']['container'] = NULL;
 		$renderer->wrappers['pair']['container'] = 'div class=form-group';
 		$renderer->wrappers['pair']['.error'] = 'has-error';
-		$renderer->wrappers['control']['container'] = 'div class=col-md-3';
-		$renderer->wrappers['label']['container'] = 'div class="col-md-1 control-label margin5"';
+		$renderer->wrappers['control']['container'] = 'div class="col-xs-6 col-sm-3 col-md-3 col-lg-4"';
+		$renderer->wrappers['label']['container'] = 'div class="col-xs-6 col-sm-3 col-md-3 col-lg-2 control-label"';
 		$renderer->wrappers['control']['description'] = 'span class=help-block';
 		$renderer->wrappers['control']['errorcontainer'] = 'span class=help-block';
 
