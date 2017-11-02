@@ -245,8 +245,8 @@ define("PIC_NOT_POSSIBLE_DELETE", 'File is not possible to delete. The picture i
 define("PIC_DELETE_DELETED", 'File has been successfully deleted. ');
 
 // homepage
-define("HP_ARTICLE_TEXT", 'Lastest articles');
-define("HP_ARTICLE_GALLERY", 'Lastest galleries');
+define("HP_ARTICLE_TEXT", 'Latest articles');
+define("HP_ARTICLE_GALLERY", 'Latest galleries');
 
 // bannery
 define("BANNER_TITLE", 'Banners settings');

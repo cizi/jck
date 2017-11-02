@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} southbohemiaeventscalendar\.com$
+RewriteRule (.*) http://www.jihoceskykalendar.cz/en/ [R=301,L]
+RewriteCond %{REQUEST_URI} cs-cz/$
+RewriteRule (.*) http://www.jihoceskykalendar.cz/cs/ [R=301,L]
+RewriteRule (.*) www/$1 [L]
