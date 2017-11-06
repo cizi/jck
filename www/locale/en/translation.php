@@ -172,6 +172,7 @@ define("ARTICLE_EVENT_INFO", 'Info');
 define("ARTICLE_EVENT_CITIES", 'City');
 define("ARTICLE_EVENT_CITIES_TIP", 'Place tips');
 define("ARTICLE_EVENT_PLACES", 'Place');
+define("ARTICLE_PARTNER_PLACES", "Partner's places");
 define("ARTICLE_EVENT_DOCS", 'Files');
 define("ARTICLE_EVENT_PLACE_EVENTS", 'Events');
 define("ARTICLE_EVENT_PLACE_ARTICLES", 'Articles');

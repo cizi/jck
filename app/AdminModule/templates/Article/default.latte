@@ -37,6 +37,7 @@
 										<th>{=ARTICLE_VIEWS_COUNT}</th>
 										<th>{=ARTICLE_BY}</th>
 										<th>{=ARTICLE_TIMESTAMP}</th>
+										<th>{=ARTICLE_CONTACT_EMAIL|replace:' ':'<br />'|noescape}</th>
 										<th class="alignRight">
 											<button type="button" class="btn btn-success" onclick="window.location.assign({link Article:Edit});">
 												<span class="glyphicon glyphicon-plus"></span>	{=MENU_SETTINGS_ADD}
@@ -106,6 +107,8 @@
 													{$articleEntity->getInsertedTimestamp()->format("d.m.Y")}
 													{/if}
 												</td>
+
+												<td>{$articleEntity->getContactEmail()|replace:'@':'<br />@'|noescape}</td>
 
 												<td class="alignRight">
 													{if $articleEntity->getType() == $typPrispevkuAkceOrder}

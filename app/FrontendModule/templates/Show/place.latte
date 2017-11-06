@@ -44,6 +44,7 @@
 			<ul id = "myTab" class = "nav nav-tabs">
 				<li class="active"><a href="#info" data-toggle="tab">{=ARTICLE_EVENT_INFO}</a></li>
 				{if count($articles)}<li><a href="#events" data-toggle="tab">{=ARTICLE_EVENT_PLACE_EVENTS} ({count($articles)})</a></li>{/if}
+				{if count($places)}<li><a href="#places" data-toggle="tab">{=ARTICLE_PARTNER_PLACES} ({count($places)})</a></li>{/if}
 				{if count($textArticles)}<li><a href="#articles" data-toggle="tab">{=ARTICLE_EVENT_PLACE_ARTICLES} ({count($textArticles)})</a></li>{/if}
 				{if count($docsUploaded)}<li><a href="#uploadedDocs" data-toggle="tab">{=ARTICLE_EVENT_DOCS} ({count($docsUploaded)})</a></li>{/if}
 			</ul>
@@ -51,11 +52,39 @@
 			<div id = "myTabContent" class = "tab-content">
 				<div class="tab-pane fade in active" id="info">
 					{$place->getContents()[$currentLang]->getContent()|noescape}
+					<div class="dottedBorderBottom" style="width: 100%;"></div>
 				</div>
 
 				{if count($articles)}
 					<div class="tab-pane fade" id="events">
 						{include "../@articleListing.latte", $articles}
+					</div>
+				{/if}
+
+				{if count($places)}
+					<div class="tab-pane fade" id="places">
+						{foreach $places as $place}
+							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()|noescape}" />
+							<div>
+								<a href={link Show:Place $currentLang, $place->getId(), $place->getContents()[$currentLang]->getHeader()} class="title">
+									{$place->getContents()[$currentLang]->getHeader()}
+								</a>
+								<span class="floatRight">
+									{if $place->getPlace() != null}
+										<a class="ev ev_link" href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())}>
+											<i class="fa fa-calendar-o" aria-hidden="true"></i>{=ARTICLE_EVENT_PLACES|upper}
+										</a>
+									{/if}
+
+									{if $place->getAddress() != null}
+										<a class="ev ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}"><i class="fa fa-location-arrow" aria-hidden="true"></i>{=ARTICLE_MAP|upper}</a>
+									{/if}
+								</span>
+							</div>
+							<span class="eventPlaces colorGrey">{$place->getAddress()|noescape}</span><br />
+							<p class="shrunkContent">{$place->getContents()[$currentLang]->getContent()|noescape|striptags|truncate:260}</p>
+							<div class="dottedBorderBottom" style="width: 100%; height: 1px;"></div>
+						{/foreach}
 					</div>
 				{/if}
 
@@ -96,7 +125,6 @@
 					$('#myTab li:eq(0) a').tab('show');
 				});
 			</script>
-			<div class="dottedBorderBottom" style="width: 100%;"></div>
 		</div>
 
 		<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-12">

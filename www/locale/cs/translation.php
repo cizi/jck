@@ -174,6 +174,7 @@ define("ARTICLE_EVENT_INFO", 'Informace');
 define("ARTICLE_EVENT_CITIES", 'Město');
 define("ARTICLE_EVENT_CITIES_TIP", 'Tipy na místa');
 define("ARTICLE_EVENT_PLACES", 'Místo');
+define("ARTICLE_PARTNER_PLACES", 'Partnerská místa');
 define("ARTICLE_EVENT_DOCS", 'Soubory');
 define("ARTICLE_EVENT_PLACE_EVENTS", 'Události');
 define("ARTICLE_EVENT_PLACE_ARTICLES", 'Články');

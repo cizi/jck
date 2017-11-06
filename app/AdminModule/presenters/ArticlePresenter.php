@@ -142,7 +142,6 @@ class ArticlePresenter extends SignPresenter {
 
 	public function createComponentArticleForm() {
 		$form = $this->articleForm->create($this->langRepository->getCurrentLang($this->session));
-		unset($form['contact_email']);
 		$form->onSuccess[] = $this->articleFormSubmit;
 
 		$renderer = $form->getRenderer();
