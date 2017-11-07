@@ -231,6 +231,8 @@
 				"</ul>"
 			);
 
+			$("#frm-articleForm-contact_email").removeClass("tinym_required_field").removeAttr("validation");
+
 			{if isset($article)}
 				{if count($article->getCategories()) == 0}
 					$("#frm-articleForm-type").trigger("change");

@@ -15,6 +15,7 @@ use App\Model\Entity\PicEntity;
 use App\Model\EnumerationRepository;
 use App\Model\MenuRepository;
 use App\Model\UserRepository;
+use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 use Nette\Utils\ArrayHash;

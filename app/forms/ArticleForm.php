@@ -112,7 +112,6 @@ class ArticleForm extends Nette\Object {
 			->setAttribute("class", "form-control tinym_required_field")
 			->setAttribute("placeholder", ARTICLE_CONTACT_EMAIL)
 			->setAttribute("validation", ARTICLE_CONTACT_EMAIL_REQ)
-			->addRule(Form::EMAIL, ARTICLE_CONTACT_EMAIL_FORMAT)
 			->setAttribute("tabindex", $i+1);
 
 		$form->addCheckbox("active", " " . ARTICLE_ACTIVE)

@@ -127,7 +127,7 @@ class ShowPresenter extends BasePresenter {
 		if ($article != null) {
 			$this->articleRepository->articleClicked($article->getId());
 			$places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $article->getPlace(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
-			$this->template->eventPlace = reset($places);
+			$this->template->eventPlace = (count($places) ? reset($places) : new ArticleEntity());
 			$this->template->article = $article;
 			$this->template->places = $places;
 			$this->template->cities = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);

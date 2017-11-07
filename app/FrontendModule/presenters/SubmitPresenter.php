@@ -16,6 +16,7 @@ use App\Model\EnumerationRepository;
 use App\Model\MenuRepository;
 use App\Model\WebconfigRepository;
 use Nette\Forms\Container;
+use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 use Nette\Utils\ArrayHash;
@@ -96,6 +97,11 @@ class SubmitPresenter extends BasePresenter {
 		unset($form['rewriteCsToEn']);	// konec mazání jazykových dat
 
 		$form['confirm']->caption = SUBMIT_OWN_BUTTON;
+		if (isset($form->getComponents()["contact_email"])) {	// přidání rule na povinný email
+			/** @var TextInput $textInput */
+			$textInput = $form->getComponents()["contact_email"];
+			$textInput->addRule(Form::EMAIL, ARTICLE_CONTACT_EMAIL_FORMAT);
+		}
 		$form->onSuccess[] = $this->submitFormSubmit;
 
 		$renderer = $form->getRenderer();

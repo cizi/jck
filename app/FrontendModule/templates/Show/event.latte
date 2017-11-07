@@ -18,7 +18,7 @@
 		</div>
 
 		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			{if !empty($article->getAddress()) || !empty($eventPlace)}
+			{if !empty($article->getAddress()) || !empty($eventPlace) || !empty($article->getPlaceText())}
 				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
 				{if !empty($article->getAddress())}
 					{var address =  $article->getAddress() . " " . $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
@@ -26,6 +26,8 @@
 				{elseif !empty($eventPlace->getAddress())}
 					{var address = $eventPlace->getAddress() . " " . $enumRepo->getEnumItemByOrder($currentLang, $eventPlace->getSublocation())}
 					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$address|noescape}">{$address|noescape}</a>
+				{else}
+					{$article->getPlaceText()}
 				{/if}
 			{/if}
 			<p>
