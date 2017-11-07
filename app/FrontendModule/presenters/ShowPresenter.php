@@ -156,7 +156,15 @@ class ShowPresenter extends BasePresenter {
 			$this->articleRepository->articleClicked($place->getId());
 			$this->template->place = (empty($place) ? new ArticleEntity() : $place);
 			$this->template->article = $this->template->place;	// dávám do proměnné article kvůli generování link rel jazykového nastavení
-			$this->template->places = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
+			$partnersPlaces = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
+			$partnersPlacesFiltered = [];
+			/** @var ArticleEntity $pp */
+			foreach ($partnersPlaces as $pp) {
+				if ($pp->getId() != $place->getId()) {
+					$partnersPlacesFiltered[] = $pp;
+				}
+			}
+			$this->template->places = $partnersPlacesFiltered;
 			$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 			$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
