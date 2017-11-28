@@ -13,6 +13,16 @@
 	<meta name="robots" content="index,follow">
 	<meta name="googlebot" content="snippet,archive">
 	<meta name="author" content="Jan Cimler">
+
+	{* sdílení na FB a Twitter *}
+	{if (isset($sharePage) && ($sharePage))}
+		<meta property="og:url" content={$socialUrl}>
+		<meta property="og:title" content={$socialTitle}>
+		<meta property="og:description" content={$socialDesc}>
+		<meta property="og:image" content={$socialImage}>
+	{/if}
+	{* konec sdílení na FB a Twitteru *}
+
 	{if $favicon != ""}
 		<link rel='shortcut icon' type='image/x-icon' href="{$favicon}" />
 	{/if}

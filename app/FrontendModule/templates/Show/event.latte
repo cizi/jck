@@ -124,12 +124,13 @@
 						{foreach $places as $place}
 							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()|noescape}" />
 							<div>
-								<a href={link Show:Place $currentLang, $place->getId(), $place->getContents()[$currentLang]->getHeader()} class="title">
+								{var urlTitle = Nette\Utils\Strings::webalize($place->getContents()[$currentLang]->getHeader())}
+								<a href={link Show:Place $currentLang, $place->getId(), $urlTitle} class="title">
 									{$place->getContents()[$currentLang]->getHeader()}
 								</a>
 								<span class="floatRight">
 									{if $place->getPlace() != null}
-										<a class="ev ev_link" href={link Show:Place $currentLang, $place->getId(), $enumRepo->getEnumItemByOrder($currentLang, $place->getPlace())}>
+										<a class="ev ev_link" href={link Show:Place $currentLang, $place->getId(), $urlTitle}>
 											<i class="fa fa-calendar-o" aria-hidden="true"></i>{=ARTICLE_EVENT_PLACES|upper}
 										</a>
 									{/if}
@@ -157,7 +158,7 @@
 							{/if}
 							<img class="detailsView" alt={$city->getContents()[$currentLang]->getHeader()} src="{$picUrl}" />
 							<div>
-								{var urlTitle = Nette\Utils\Strings::webalize($enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation()))}
+								{var urlTitle = Nette\Utils\Strings::webalize($city->getContents()[$currentLang]->getHeader())}
 								<a href={link Show:City $currentLang, $city->getId(), $urlTitle} class="title">
 									{*$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())*}
 									{$city->getContents()[$currentLang]->getHeader()}

@@ -10,6 +10,7 @@ use App\Model\Entity\MenuEntity;
 use App\Model\EnumerationRepository;
 use Nette\Forms\Form;
 use Nette\Utils\Paginator;
+use Nette\Utils\Strings;
 
 class ShowPresenter extends BasePresenter {
 
@@ -34,11 +35,13 @@ class ShowPresenter extends BasePresenter {
 			$this->template->article = $articleEntity;
 			$this->template->docsUploaded = $this->picRepository->loadDocs($articleEntity->getId());
 
-			$this->template->sliderGalleryPics = $this->findFlexSliderPics($articleEntity);
+			$sliderGalleryPics = $this->findFlexSliderPics($articleEntity);
+			$this->template->sliderGalleryPics = $sliderGalleryPics;
 			$articlesCategories = $articleEntity->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 			$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
+			$this->configureSocialSharing($articleEntity->getContents()[$lang]->getHeader(), $articleEntity->getContents()[$lang]->getContent(), reset($sliderGalleryPics));
 		} else {
 			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
 			$this->redirect("Homepage:default");
@@ -84,6 +87,14 @@ class ShowPresenter extends BasePresenter {
 			$articlesCategories = [];
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
+			if (reset($galleryEntity->getPics()) != false) {
+				$picId = reset($galleryEntity->getPics())->getSharedPicId();
+				$picEntity = $this->picRepository->getById($picId);
+				$socialPic = $picEntity->getPath();
+			} else {
+				$socialPic = "";
+			}
+			$this->configureSocialSharing($galleryEntity->getContents()[$lang]->getHeader(), "", $socialPic);
 		} else {
 			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
 			$this->redirect("Homepage:default");
@@ -132,12 +143,15 @@ class ShowPresenter extends BasePresenter {
 			$this->template->places = $places;
 			$this->template->cities = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $article->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_MISTO_ORDER);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($article->getId());
-			$this->template->sliderGalleryPics = $this->findFlexSliderPics($article);
+
+			$sliderGalleryPics = $this->findFlexSliderPics($article);
+			$this->template->sliderGalleryPics = $sliderGalleryPics;
 
 			$articlesCategories = $article->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 			$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
+			$this->configureSocialSharing($article->getContents()[$lang]->getHeader(), $article->getContents()[$lang]->getContent(), reset($sliderGalleryPics));
 		} else {
 			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
 			$this->redirect("Homepage:default");
@@ -168,12 +182,15 @@ class ShowPresenter extends BasePresenter {
 			$this->template->textArticles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 			$this->template->articles = $this->articleRepository->findActiveArticleByPlaceInLang($lang, $place->getPlace(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
-			$this->template->sliderGalleryPics = $this->findFlexSliderPics($place);
+
+			$sliderGalleryPics = $this->findFlexSliderPics($place);
+			$this->template->sliderGalleryPics = $sliderGalleryPics;
 
 			$articlesCategories = $place->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 			$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
+			$this->configureSocialSharing($place->getContents()[$lang]->getHeader(), $place->getContents()[$lang]->getContent(), reset($sliderGalleryPics));
 		} else {
 			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
 			$this->redirect("Homepage:default");
@@ -195,12 +212,15 @@ class ShowPresenter extends BasePresenter {
 			$this->template->textArticles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);;
 			$this->template->articles = $this->articleRepository->findActiveArticleBySublocationInLang($lang, $place->getSublocation(), EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER, false);
 			$this->template->docsUploaded = $this->picRepository->loadDocs($place->getId());
-			$this->template->sliderGalleryPics = $this->findFlexSliderPics($place);
+
+			$sliderGalleryPics = $this->findFlexSliderPics($place);
+			$this->template->sliderGalleryPics = $sliderGalleryPics;
 
 			$articlesCategories = $place->getCategories();
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
 			$this->template->halfBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_HALFBANNER, false, $articlesCategories);
+			$this->configureSocialSharing($place->getContents()[$lang]->getHeader(), $place->getContents()[$lang]->getContent(), reset($sliderGalleryPics));
 		} else {
 			$this->flashMessage(ARTICLE_NOT_FOUND, "alert-danger");
 			$this->redirect("Homepage:default");
@@ -420,5 +440,28 @@ class ShowPresenter extends BasePresenter {
 		}
 
 		return $pics;
+	}
+
+	/**
+	 * @param string $title
+	 * @param string $desc
+	 * @param string|bool $imageUrl - záleží co vrátí funkce reset na pole obrázků
+	 */
+	private function configureSocialSharing($title, $desc, $imageUrl) {
+		$this->template->sharePage = true;
+		$this->template->socialUrl = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		//$this->template->socialTitle = $this->template->title . " - " . $title;
+		$this->template->socialTitle = $title;
+		if (strlen($desc) > 200) {
+			$this->template->socialDesc = substr(strip_tags($desc), 0, 200) . "...";
+		} else {
+			$this->template->socialDesc = $desc;
+		}
+
+		if (!empty($imageUrl) && ($imageUrl != false)) {
+			$this->template->socialImage = $imageUrl;
+		} else {
+			$this->template->socialImage = "";
+		}
 	}
 }
