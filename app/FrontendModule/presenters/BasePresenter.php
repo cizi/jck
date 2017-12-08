@@ -120,12 +120,12 @@ abstract class BasePresenter extends Presenter {
 
 		// language setting
 		$lang = $this->langRepository->getCurrentLang($this->session);
-		if (!isset($lang) || $lang == "") {
+		$availableLangs = $this->langRepository->findLanguages();
+		if (!isset($lang) || $lang == "" || (isset($availableLangs[$lang]) == false)) {
 			$lang = $this->context->parameters['language']['default'];
 			$this->langRepository->switchToLanguage($this->session, $lang);
 		}
 		$this->langRepository->loadLanguageMutation($lang);
-
 		$lang = $this->langRepository->getCurrentLang($this->session);
 
 		// load another page settings
@@ -135,7 +135,6 @@ abstract class BasePresenter extends Presenter {
 		$this->loadSliderConfig();
 		$this->loadFooterConfig();
 
-		$availableLangs = $this->langRepository->findLanguages();
 		$this->template->requestedAction = $this->getPresenter()->getAction();
 		$this->template->webAvailebleLangs = $availableLangs;
 		$this->template->currentLang = $lang;
@@ -156,11 +155,11 @@ abstract class BasePresenter extends Presenter {
 	}
 
 	public function checkLanguage($lang) {
-		if (empty($lang)) {
+		$availableLangs = $this->langRepository->findLanguages();
+		if (empty($lang) || (isset($availableLangs[$lang]) == false)) {
 			$lang = $this->langRepository->getCurrentLang($this->session);
 			$this->redirect("Homepage:Default", [ 'lang' => $lang]);
 		}
-		$availableLangs = $this->langRepository->findLanguages();
 		if (isset($availableLangs[$lang]) && ($lang != $this->langRepository->getCurrentLang($this->session))) {
 			$this->langRepository->switchToLanguage($this->session, $lang);
 			$redir = $this->getHttpRequest()->getUrl() . "";

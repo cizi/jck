@@ -140,11 +140,12 @@
 			{for $i=0; $i < $maxGalleries; $i++}
 				{if isset($galleries[$i])}
 					{var gallery = $galleries[$i]}
-					{var urlTitle = Nette\Utils\Strings::webalize($gallery->getContents()[$currentLang]->getHeader())}
+					{var galleryHeader = (isset($gallery->getContents()[$currentLang]) ? $gallery->getContents()[$currentLang]->getHeader() : "")}
+					{var urlTitle = Nette\Utils\Strings::webalize($galleryHeader)}
 					<div class="hp_2_cols">
-						<h1 class="seo">{$gallery->getContents()[$currentLang]->getHeader()}</h1>
+						<h1 class="seo">{$galleryHeader}</h1>
 						<a href={link "Show:Gallery", $currentLang, $gallery->getId(), $urlTitle}>
-							<h3>{$gallery->getContents()[$currentLang]->getHeader()} ({count($gallery->getPics())})</h3>
+							<h3>{$galleryHeader} ({count($gallery->getPics())})</h3>
 						</a>
 						{if count($gallery->getPics())}
 							{var images = $gallery->getPics()}
