@@ -69,6 +69,7 @@ define("SUBMIT_OWN_EVENT", 'Submit own event');
 define("SUBMIT_OWN_EVENT_TEXT", 'If you would like an event to be considered for inclusion, please fill in the form below, making sure you provide 
 all the information requested. This will be passed on to our editorial team. Please note this form is for events only. Any other content - such as 
 tours, airport facilities or attractions - should be submitted using our feedback form.');
+define("SUBMIT_OWN_BUTTON", 'Send for approval');
 define("SUBMIT_OWN_SAVED", 'Event has benn send for submitting');
 define("SUBMIT_OWN_FAILED", 'Event saved failed, please try again later');
 define("SUBMIT_OWN_MAIL_SUBJECT", 'JCK - new FREE EVENT has been inserted');

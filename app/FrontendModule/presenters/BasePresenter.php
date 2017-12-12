@@ -120,8 +120,7 @@ abstract class BasePresenter extends Presenter {
 
 		// language setting
 		$lang = $this->langRepository->getCurrentLang($this->session);
-		$availableLangs = $this->langRepository->findLanguages();
-		if (!isset($lang) || $lang == "" || (isset($availableLangs[$lang]) == false)) {
+		if (!isset($lang) || $lang == "") {
 			$lang = $this->context->parameters['language']['default'];
 			$this->langRepository->switchToLanguage($this->session, $lang);
 		}
@@ -135,6 +134,7 @@ abstract class BasePresenter extends Presenter {
 		$this->loadSliderConfig();
 		$this->loadFooterConfig();
 
+		$availableLangs = $this->langRepository->findLanguages();
 		$this->template->requestedAction = $this->getPresenter()->getAction();
 		$this->template->webAvailebleLangs = $availableLangs;
 		$this->template->currentLang = $lang;
