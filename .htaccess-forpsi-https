@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} southbohemiaeventscalendar\.com$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/en/ [R=301,L]
+RewriteCond %{HTTP_HOST} southbohemiaeventscalendar\.com/en-gb/$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/en/ [R=301,L]
+RewriteCond %{REQUEST_URI} cs-cz/$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/cs/ [R=301,L]
+RewriteCond %{REQUEST_URI} cs-cz/events$
+RewriteRule (.*) https://jihoceskykalendar.cz/cs/show/category/1/akce [R=301,L]
+RewriteCond %{REQUEST_URI} en-gb/$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/en/ [R=301,L]
+RewriteCond %{REQUEST_URI} de-at/$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/en/ [R=301,L]
+RewriteRule (.*) www/$1 [L]
