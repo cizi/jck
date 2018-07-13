@@ -1,3 +1,6 @@
+.idea/*
 log/
 www/log.sql
 temp/cache/
+app/config/config.neon
+vendor/*

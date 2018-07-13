@@ -124,7 +124,7 @@ class ArticleRepository extends BaseRepository {
 	 */
 	public function findActiveArticlesInLang($lang, $type = null, $paginatorLength = 0, $offset = 0) {
 		if ($type == EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER) {
-			$query = ["select distinct a.id, a.*, `at`.id as atId  
+			$query = ["select distinct a.id, a.*, `at`.id as atId, `at`.time   
 						from article_timetable as `at`
 							left join article as a on `at`.article_id = a.id
 							left join article_content as ac on `at`.article_id = ac.article_id
