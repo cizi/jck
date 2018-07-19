@@ -183,7 +183,7 @@ class SubmitPresenter extends BasePresenter {
 			} else {
 				$emailTo = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_RECIPIENT, WebconfigRepository::KEY_LANG_FOR_COMMON);
 				$emailFrom = "admin@jihoceskykalendar.cz";
-				$body = sprintf(SUBMIT_OWN_MAIL_BODY, "http://{$_SERVER['HTTP_HOST']}/admin/article/edit/" . $articleEntity->getId());
+				$body = sprintf(SUBMIT_OWN_MAIL_BODY, "https://{$_SERVER['HTTP_HOST']}/admin/article/edit/" . $articleEntity->getId());
 				EmailController::SendPlainEmail($emailFrom, $emailTo, SUBMIT_OWN_MAIL_SUBJECT, $body);
 			}
 		}

@@ -140,7 +140,7 @@ abstract class BasePresenter extends Presenter {
 		$this->template->currentLang = $lang;
 		$this->template->menuHtml = $this->menuController->renderMenuInFrontend($lang, $this->presenter);
 		$this->template->contactFormId = BlockContentPresenter::CONTACT_FORM_ID_AS_BLOCK;
-		$this->template->currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		$this->template->currentUrl = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 		$this->template->eventOrder = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 		$this->template->textArticleOrder = EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER;

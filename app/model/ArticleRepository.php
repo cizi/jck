@@ -756,7 +756,7 @@ class ArticleRepository extends BaseRepository {
 	 * @return array
 	 */
 	public function findEmailFromView() {
-		$query = "select contact_email from article where contact_email is not null";
+		$query = "select contact_email from article where contact_email is not null and contact_email <> ''";
 		$result = $this->connection->query($query)->fetchAll();
 
 		$emails = [];
