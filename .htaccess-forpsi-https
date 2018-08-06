@@ -11,4 +11,12 @@ RewriteCond %{REQUEST_URI} en-gb/$
 RewriteRule (.*) https://www.jihoceskykalendar.cz/en/ [R=301,L]
 RewriteCond %{REQUEST_URI} de-at/$
 RewriteRule (.*) https://www.jihoceskykalendar.cz/en/ [R=301,L]
+RewriteCond %{HTTP_HOST} budejovickykalendar\.cz$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/cs/ [R=301,L]
+RewriteCond %{HTTP_HOST} jihoceskenoviny\.cz$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/cs/ [R=301,L]
+RewriteCond %{HTTP_HOST} jihoceskykalendarakci\.cz$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/cs/ [R=301,L]
+RewriteCond %{HTTP_HOST} kalendarakcijiznicechy\.cz$
+RewriteRule (.*) https://www.jihoceskykalendar.cz/cs/ [R=301,L]
 RewriteRule (.*) www/$1 [L]
