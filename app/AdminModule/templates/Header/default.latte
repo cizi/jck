@@ -62,6 +62,39 @@
 								</div>
 								<div class="col-sm-10 field_info"></div>
 
+								<div class="col-sm-10"><hr /></div>
+								<div class="col-sm-10">
+									<label>{=HEADER_ARTICLES_COLOR}</label>
+									{input HEADER_ARTICLES_COLOR}
+								</div>
+								<div class="col-sm-10 field_info"></div>
+
+								<div class="col-sm-10">
+									<label>{=HEADER_ARTICLES_BG_COLOR}</label>
+									{input HEADER_ARTICLES_BG_COLOR}
+								</div>
+								<div class="col-sm-10 field_info"></div>
+
+								<div class="col-sm-10">
+									<label>{=HEADER_ARTICLES_COUNT}</label>
+									{input HEADER_ARTICLES_COUNT}
+								</div>
+								<div class="col-sm-10 field_info">
+									{=HEADER_ARTICLES_COUNT_TEXT}
+								</div>
+
+								<div class="col-sm-10">
+									<label>{=HEADER_ARTICLES_TIMING}</label>
+									{input HEADER_ARTICLES_TIMING}
+								</div>
+								<div class="col-sm-10 field_info"></div>
+
+								<div class="col-sm-10">
+									<label>{=HEADER_ARTICLES_HEADER}</label>
+									{input HEADER_ARTICLES_HEADER}
+								</div>
+								<div class="col-sm-10 field_info"></div>
+
 								{* <div class="col-sm-10">
 									{label HEADER_CONTENT/}
 									{input HEADER_CONTENT}
@@ -166,6 +199,53 @@
 			theme: 'bootstrap'
 		});
 
+		$("#frm-headerForm-HEADER_ARTICLES_COLOR").minicolors({
+			control: $(this).attr('data-control') || 'hue',
+			defaultValue: $(this).attr('data-defaultValue') || '',
+			format: $(this).attr('data-format') || 'hex',
+			keywords: $(this).attr('data-keywords') || '',
+			inline: $(this).attr('data-inline') === 'true',
+			letterCase: $(this).attr('data-letterCase') || 'lowercase',
+			opacity: $(this).attr('data-opacity'),
+			position: $(this).attr('data-position') || 'bottom left',
+			swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+			theme: 'bootstrap'
+		});
+
+		$("#frm-headerForm-HEADER_ARTICLES_BG_COLOR").minicolors({
+			control: $(this).attr('data-control') || 'hue',
+			defaultValue: $(this).attr('data-defaultValue') || '',
+			format: $(this).attr('data-format') || 'hex',
+			keywords: $(this).attr('data-keywords') || '',
+			inline: $(this).attr('data-inline') === 'true',
+			letterCase: $(this).attr('data-letterCase') || 'lowercase',
+			opacity: $(this).attr('data-opacity'),
+			position: $(this).attr('data-position') || 'bottom left',
+			swatches: $(this).attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+			theme: 'bootstrap'
+		});
+
+		$(function() {
+			$("#frm-headerForm-HEADER_ARTICLES_COUNT").keypress(function (e) {
+				//if the letter is not digit then display error and don't type anything
+				if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+					return false;
+					//display error message
+					//$("#errmsg").html("Digits Only").show().fadeOut("slow");
+				}
+			})
+		});
+
+		$(function() {
+			$("#frm-headerForm-HEADER_ARTICLES_TIMING").keypress(function (e) {
+				//if the letter is not digit then display error and don't type anything
+				if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+					return false;
+					//display error message
+					//$("#errmsg").html("Digits Only").show().fadeOut("slow");
+				}
+			})
+		})
 	</script>
 {/block}
 
