@@ -572,6 +572,12 @@ define("LANG_CONFIRM_MODAL_CANCEL", 'Cancel');
 // header
 define("HEADER_SETTING_SAVED", 'Header settings have been successfully saved');
 define("HEADER_SETTING_COLOR", 'Font colour');
+define("HEADER_ARTICLES_COLOR", 'Articles font colour');
+define("HEADER_ARTICLES_BG_COLOR", 'Articles background colour');
+define("HEADER_ARTICLES_COUNT", 'Articles count');
+define("HEADER_ARTICLES_COUNT_TEXT", 'Type number of last articles which will be visible here. If you want to disable this banner, type 0 (zero).');
+define("HEADER_ARTICLES_TIMING", 'Articles change timing');
+define("HEADER_ARTICLES_HEADER", 'Articles header');
 define("HEADER_HEIGHT", 'Height of the header');
 define("HEADER_HEIGHT_INFO", 'Fill height of the header i pixels');
 define("HEADER_BACKGROUND_COLOR", 'Header background colour');
