@@ -239,6 +239,13 @@ abstract class BasePresenter extends Presenter {
 			$this->template->headerWidth = $widthEnum->getValueByKey($this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_WIDTH, $langCommon));
 			$this->template->headerHeight = (int)$this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_HEIGHT, $langCommon);
 
+			// articles in header
+			$this->template->headerArticleColor = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_COLOR, $langCommon);
+			$this->template->headerArticleBgColor = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_BG_COLOR, $langCommon);
+			$this->template->headerArticleCount = intval($this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_COUNT, $langCommon));
+			$this->template->headerArticleTiming = intval($this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_TIMING, $langCommon));
+			$this->template->headerArticleHeader = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_HEADER, $langCommon);
+
 			// img path fixing
 			$headerContent = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_CONTENT, $this->langRepository->getCurrentLang($this->session));
 			$this->template->headerContent = str_replace("../../upload/", "./upload/", $headerContent);
