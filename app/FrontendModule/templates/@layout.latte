@@ -183,7 +183,7 @@
 	{if $headerArticleCount > 0}
 		<div class="row pageArticleNewsletter" style="width: {!$headerWidth}; background-color: {!$headerArticleBgColor}; color: {!$headerArticleColor};">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div id="example1" class="newArticlesRotate" data-rotate-interval={($headerArticleTiming * 1000)} data-rotate-animate="fadeToogle,zoomOut">
+				<div id="example1" class="newArticlesRotate" data-rotate-interval={($headerArticleTiming * 1000)} data-rotate-animate="fadeIn,zoomOut">
 					<h1>{$headerArticleHeader} &nbsp;<span class="rotate-arena"></span></h1>
 					<ul>
 						{for $i = 0; $i < $headerArticleCount; $i++}
