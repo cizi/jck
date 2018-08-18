@@ -586,6 +586,12 @@ define("LANG_CONFIRM_MODAL_CANCEL", 'Zpět');
 // header
 define("HEADER_SETTING_SAVED", 'Nastavení hlavičky uloženo');
 define("HEADER_SETTING_COLOR", 'Barva textu hlavičky');
+define("HEADER_ARTICLES_COLOR", 'Barva textu článků');
+define("HEADER_ARTICLES_BG_COLOR", 'Barva pozadí článků');
+define("HEADER_ARTICLES_COUNT", 'Počet střídaných článků');
+define("HEADER_ARTICLES_COUNT_TEXT", 'Zadejte počet střídaných článků v hlavičce stránek. Pokud chcete banner se články vypnout, zadejte hodnutu 0 (nula).');
+define("HEADER_ARTICLES_TIMING", 'Čas střídání [sekundy]');
+define("HEADER_ARTICLES_HEADER", 'Nadpis posledních článků');
 define("HEADER_HEIGHT", 'Výška hlavičky');
 define("HEADER_HEIGHT_INFO", 'Uveďte jak vysoká má být hlavička [pixel]');
 define("HEADER_BACKGROUND_COLOR", 'Barva pozadí hlavičky');
