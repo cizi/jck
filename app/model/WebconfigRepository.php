@@ -85,6 +85,13 @@ class WebconfigRepository extends BaseRepository{
 	/** @const for header background color */
 	const KEY_HEADER_BACKGROUND_COLOR = "HEADER_BACKGROUND_COLOR";
 
+	/** @var string articles in header  */
+	const KEY_HEADER_ARTICLES_COLOR = "HEADER_ARTICLES_COLOR";
+	const KEY_HEADER_ARTICLES_BG_COLOR = "HEADER_ARTICLES_BG_COLOR";
+	const KEY_HEADER_ARTICLES_COUNT = "HEADER_ARTICLES_COUNT";
+	const KEY_HEADER_ARTICLES_TIMING = "HEADER_ARTICLES_TIMING";
+	const KEY_HEADER_ARTICLES_HEADER = "HEADER_ARTICLES_HEADER";
+
 	/** @const for header height */
 	const KEY_HEADER_HEIGHT = "HEADER_HEIGHT";
 
