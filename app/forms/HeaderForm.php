@@ -78,6 +78,26 @@ class HeaderForm extends Nette\Object {
 			->setAttribute("class", "form-control")
 			->setAttribute("tabindex", $i++);
 
+		$form->addText(WebconfigRepository::KEY_HEADER_ARTICLES_COLOR, HEADER_ARTICLES_COLOR)
+			->setAttribute("class", "form-control minicolors-input")
+			->setAttribute("tabindex", $i++);
+
+		$form->addText(WebconfigRepository::KEY_HEADER_ARTICLES_BG_COLOR, HEADER_ARTICLES_BG_COLOR)
+			->setAttribute("class", "form-control minicolors-input")
+			->setAttribute("tabindex", $i++);
+
+		$form->addText(WebconfigRepository::KEY_HEADER_ARTICLES_COUNT, HEADER_ARTICLES_COUNT)
+			->setAttribute("class", "form-control minicolors-input")
+			->setAttribute("tabindex", $i++);
+
+		$form->addText(WebconfigRepository::KEY_HEADER_ARTICLES_TIMING, HEADER_ARTICLES_TIMING)
+			->setAttribute("class", "form-control minicolors-input")
+			->setAttribute("tabindex", $i++);
+
+		$form->addText(WebconfigRepository::KEY_HEADER_ARTICLES_HEADER, HEADER_ARTICLES_HEADER)
+			->setAttribute("class", "form-control minicolors-input")
+			->setAttribute("tabindex", $i++);
+
 		$form->addSubmit("confirm", HEADER_BUTTON_SAVE)
 			->setAttribute("class","btn btn-primary")
 			->setAttribute("tabindex", "8");
