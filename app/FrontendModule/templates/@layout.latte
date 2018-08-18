@@ -39,6 +39,31 @@
 	<link rel="stylesheet" href="{$basePath}/css/shadowbox-video.css">
 	<link rel="stylesheet" href="{$basePath}/css/font-awesome.min.css">
 	<link rel="stylesheet" href="{$basePath}/css/flexslider.css">
+	<link rel="stylesheet" href="{$basePath}/css/animate.css">
+	<link rel="stylesheet" href="{$basePath}/css/rotator.css">
+
+	{block scripts}
+		<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+		<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+		<script src="{$basePath}/js/main.js"></script>
+		<script src="{$basePath}/boostrap/js/bootstrap.js"></script>
+
+		<script src="{$basePath}/js/jquery.easing.1.3.js"></script>
+		<script src="{$basePath}/js/jquery.fitvids.js"></script>
+		<script src="{$basePath}/js/jquery.bxslider.min.js"></script>
+		<script src="{$basePath}/js/bootstrap-datetimepicker.min.js"></script>
+		<script src="{$basePath}/js/datetimepicker-locales/bootstrap-datetimepicker.cs.js"></script>
+		<script src="{$basePath}/js/jquery.timepicker.min.js"></script>
+		<script src="{$basePath}/js/chosen.jquery.min.js"></script>
+		<script src="{$basePath}/js/shadowbox.js"></script>
+		<script src="{$basePath}/js/shadowbox-flash.js"></script>
+		<script src="{$basePath}/js/shadowbox-flash.js"></script>
+		<script src="{$basePath}/js/shadowbox-flash.js"></script>
+		<script src="{$basePath}/js/shadowbox-video.js"></script>
+		<script src="{$basePath}/js/jquery-paginate.min.js"></script>
+		<script src="{$basePath}/js/jquery.flexslider-min.js"></script>
+		<script src="{$basePath}/js/jquery.rotator.min.js"></script>
+	{/block}
 
 	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
 
@@ -154,14 +179,34 @@
 
 	{/if}
 	{* static header end *}
-	{* articlec in header *}
+	{* articles in header *}
 	{if $headerArticleCount > 0}
-		<div class="row" style="width: {!$headerWidth}; background-color: {!$headerArticleBgColor}; color: {!$headerArticleColor};">
-			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 col-xs-12"><strong>{$headerArticleHeader}</strong></div>
-			<div class="col-xl-10 col-lg-9 col-md-8 col-sm-12 col-xs-12">
-
+		<div class="row pageArticleNewsletter" style="width: {!$headerWidth}; background-color: {!$headerArticleBgColor}; color: {!$headerArticleColor};">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div id="example1" class="newArticlesRotate" data-rotate-interval={($headerArticleTiming * 1000)} data-rotate-animate="fadeToogle,zoomOut">
+					<h1>{$headerArticleHeader} &nbsp;<span class="rotate-arena"></span></h1>
+					<ul>
+						{for $i = 0; $i < $headerArticleCount; $i++}
+							{if (isset($newestArticles[$i]))}
+								<li class="hidden">
+									<span>{$newestArticles[$i]->getInsertedTimestamp()->format('j.n.Y')}&nbsp;</span>
+									{var urlTitle = Nette\Utils\Strings::webalize($newestArticles[$i]->getContents()[$currentLang]->getHeader())}
+									<a href={link "Show:Detail", $currentLang, $newestArticles[$i]->getId(), $urlTitle}
+									   title={$newestArticles[$i]->getContents()[$currentLang]->getHeader()}
+									   style="color: {!$headerArticleColor};"
+									>
+										{$newestArticles[$i]->getContents()[$currentLang]->getHeader()}
+									</a>
+								</li>
+							{/if}
+						{/for}
+					</ul>
+				</div>
 			</div>
 		</div>
+		<script>
+			$(".newArticlesRotate").rotator();
+		</script>
 	{/if}
 	{* articlec in header end *}
 
@@ -195,28 +240,6 @@
 			</div><!-- /.container-fluid -->
 		</nav>
 		{* menu end *}
-
-		{block scripts}
-			<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-			<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-			<script src="{$basePath}/js/main.js"></script>
-			<script src="{$basePath}/boostrap/js/bootstrap.js"></script>
-
-			<script src="{$basePath}/js/jquery.easing.1.3.js"></script>
-			<script src="{$basePath}/js/jquery.fitvids.js"></script>
-			<script src="{$basePath}/js/jquery.bxslider.min.js"></script>
-			<script src="{$basePath}/js/bootstrap-datetimepicker.min.js"></script>
-			<script src="{$basePath}/js/datetimepicker-locales/bootstrap-datetimepicker.cs.js"></script>
-			<script src="{$basePath}/js/jquery.timepicker.min.js"></script>
-			<script src="{$basePath}/js/chosen.jquery.min.js"></script>
-			<script src="{$basePath}/js/shadowbox.js"></script>
-			<script src="{$basePath}/js/shadowbox-flash.js"></script>
-			<script src="{$basePath}/js/shadowbox-flash.js"></script>
-			<script src="{$basePath}/js/shadowbox-flash.js"></script>
-			<script src="{$basePath}/js/shadowbox-video.js"></script>
-			<script src="{$basePath}/js/jquery-paginate.min.js"></script>
-			<script src="{$basePath}/js/jquery.flexslider-min.js"></script>
-		{/block}
 
 		{if $googleAnalytics != ""}
 			{!$googleAnalytics}

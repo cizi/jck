@@ -129,7 +129,7 @@ abstract class BasePresenter extends Presenter {
 
 		// load another page settings
 		$this->loadWebConfig($lang);
-		$this->loadHeaderConfig();
+		$this->loadHeaderConfig($lang);
 		$this->loadLanguageStrap();
 		$this->loadSliderConfig();
 		$this->loadFooterConfig();
@@ -227,7 +227,7 @@ abstract class BasePresenter extends Presenter {
 	/**
 	 * Loads configuration for static header
 	 */
-	private function loadHeaderConfig() {
+	private function loadHeaderConfig($lang) {
 		// language free
 		$langCommon = WebconfigRepository::KEY_LANG_FOR_COMMON;
 		$this->template->showHeader = $showHeader = ($this->webconfigRepository->getByKey(WebconfigRepository::KEY_SHOW_HEADER, $langCommon) == 1 ? true : false);
@@ -244,8 +244,10 @@ abstract class BasePresenter extends Presenter {
 			$this->template->headerArticleBgColor = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_BG_COLOR, $langCommon);
 			$this->template->headerArticleCount = intval($this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_COUNT, $langCommon));
 			$this->template->headerArticleTiming = intval($this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_TIMING, $langCommon));
-			$this->template->headerArticleHeader = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_HEADER, $langCommon);
-
+			$this->template->headerArticleHeader = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_ARTICLES_HEADER, $lang);
+			if ($this->template->headerArticleCount > 0) {
+				$this->template->newestArticles = $this->articleRepository->findActiveArticlesInLang($lang, EnumerationRepository::TYP_PRISPEVKU_CLANEK_ORDER);
+			}
 			// img path fixing
 			$headerContent = $this->webconfigRepository->getByKey(WebconfigRepository::KEY_HEADER_CONTENT, $this->langRepository->getCurrentLang($this->session));
 			$this->template->headerContent = str_replace("../../upload/", "./upload/", $headerContent);

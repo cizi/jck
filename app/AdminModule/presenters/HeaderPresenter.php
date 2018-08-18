@@ -15,7 +15,7 @@ use App\Model\PicRepository;
 class HeaderPresenter extends SignPresenter {
 
 	/** @consts depends on language */
-	private $LANG_DEPENDS = [WebconfigRepository::KEY_HEADER_CONTENT];
+	private $LANG_DEPENDS = [WebconfigRepository::KEY_HEADER_CONTENT, WebconfigRepository::KEY_HEADER_ARTICLES_HEADER];
 
 	/** @var HeaderForm */
 	private $headerForm;
