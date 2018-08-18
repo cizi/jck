@@ -154,6 +154,16 @@
 
 	{/if}
 	{* static header end *}
+	{* articlec in header *}
+	{if $headerArticleCount > 0}
+		<div class="row" style="width: {!$headerWidth}; background-color: {!$headerArticleBgColor}; color: {!$headerArticleColor};">
+			<div class="col-xl-2 col-lg-3 col-md-4 col-sm-12 col-xs-12"><strong>{$headerArticleHeader}</strong></div>
+			<div class="col-xl-10 col-lg-9 col-md-8 col-sm-12 col-xs-12">
+
+			</div>
+		</div>
+	{/if}
+	{* articlec in header end *}
 
 	<div class="webMenu" style="{if $bodyWidth != ""}width: {!$bodyWidth};{/if} margin: 0 auto;">
 		{* menu *}
