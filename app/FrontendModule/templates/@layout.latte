@@ -195,7 +195,7 @@
 									   title={$newestArticles[$i]->getContents()[$currentLang]->getHeader()}
 									   style="color: {!$headerArticleColor};"
 									>
-										{$newestArticles[$i]->getContents()[$currentLang]->getHeader()}
+										{$newestArticles[$i]->getContents()[$currentLang]->getHeader()|truncate:95}
 									</a>
 								</li>
 							{/if}
