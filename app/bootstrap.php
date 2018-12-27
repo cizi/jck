@@ -3,12 +3,9 @@
 $paths = __DIR__ . DIRECTORY_SEPARATOR . 'path.php';
 require_once $paths;
 
-require_once(__DIR__ . '/../vendor/PHPMailer-master/PHPMailerAutoload.php');
-require_once(__DIR__ . '/../vendor/ImageManipulator/ImageManipulator.php');
+require_once(__DIR__ . '/../3rd/ImageManipulator/ImageManipulator.php');
 
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../vendor/Kdyby/forms-replicator/src/Kdyby/Replicator/Container.php';				// nevím roč to autoload nenajde tak udělám require
-require __DIR__ . '/../vendor/Kdyby/forms-replicator/src/Kdyby/Replicator/DI/ReplicatorExtension.php';	// nevím roč to autoload nenajde tak udělám require
 
 $configurator = new Nette\Configurator;
 
