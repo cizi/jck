@@ -102,7 +102,7 @@ class SubmitPresenter extends BasePresenter {
 			$textInput = $form->getComponents()["contact_email"];
 			$textInput->addRule(Form::EMAIL, ARTICLE_CONTACT_EMAIL_FORMAT);
 		}
-		$form->onSuccess[] = $this->submitFormSubmit;
+		$form->onSuccess[] = [$this, 'submitFormSubmit'];
 
 		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;

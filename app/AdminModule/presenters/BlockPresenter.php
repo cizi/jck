@@ -53,7 +53,7 @@ class BlockPresenter extends SignPresenter {
 	 */
 	public function createComponentBlockForm() {
 		$form = $this->blockForm->create();
-		$form->onSuccess[] = $this->saveBlock;
+		$form->onSuccess[] = [$this, 'saveBlock'];
 
 		return $form;
 	}

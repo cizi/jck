@@ -15,7 +15,7 @@
 					<div class="row">
 						<div class="col-lg-10 col-md-10 col-sm-12">
 							<h1>{=GALLERY_TITLE}</h1>
-							<span>{!=GALLERY_TITLE_DESC}</span>
+							<span>{=GALLERY_TITLE_DESC|noescape}</span>
 							<br /><br />
 
 							<div class="container userTable">
@@ -41,8 +41,8 @@
 									<tbody>
 										{foreach $galleries as $gellery}
 											<tr>
-												<td>{!$gellery->getContents()[$currentLang]->getHeader()}</td>
-												<td>{!$gellery->getContents()[$currentLang]->getDesc()}</td>
+												<td>{$gellery->getContents()|noescape[$currentLang]->getHeader()}</td>
+												<td>{$gellery->getContents()|noescape[$currentLang]->getDesc()}</td>
 												<td>{count($gellery->getPics())}</td>
 												<td>
 													{if $gellery->getOnMainPage() == 1}

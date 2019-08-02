@@ -59,7 +59,7 @@ class HomepagePresenter extends BasePresenter {
 	 */
 	public function createComponentMainPageSearchForm() {
 		$form = $this->mainPageSearchForm->create($this, $this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess[] = $this->mainPageSearchFormSubmit;
+		$form->onSuccess[] = [$this, 'mainPageSearchFormSubmit'];
 
 		return $form;
 	}

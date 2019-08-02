@@ -327,7 +327,7 @@ abstract class BasePresenter extends Presenter {
 		if ($this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_RECIPIENT, WebconfigRepository::KEY_LANG_FOR_COMMON) == "") {
 			$form["confirm"]->setDisabled();
 		}
-		$form->onSuccess[] = $this->contactFormSubmitted;
+		$form->onSuccess[] = [$this, 'contactFormSubmitted'];
 		return $form;
 	}
 
@@ -336,7 +336,7 @@ abstract class BasePresenter extends Presenter {
 	 */
 	protected function createComponentSearchForm() {
 		$form = $this->searchForm->create($this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess[] = $this->searchFormSubmit;
+		$form->onSuccess[] = [$this, 'searchFormSubmit'];
 
 		return $form;
 	}

@@ -26,7 +26,7 @@ class PicPresenter extends SignPresenter {
 
 	public function createComponentPicForm() {
 		$form = $this->picForm->create();
-		$form->onSuccess[] = $this->picFormSubmit;
+		$form->onSuccess[] = [$this, 'picFormSubmit'];
 
 		return $form;
 	}

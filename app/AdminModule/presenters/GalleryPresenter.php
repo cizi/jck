@@ -67,7 +67,7 @@ class GalleryPresenter extends SignPresenter {
 
 	public function createComponentGalleryForm() {
 		$form = $this->galleryForm->create();
-		$form->onSuccess[] = $this->galleryFormSubmit;
+		$form->onSuccess[] = [$this, 'galleryFormSubmit'];
 
 		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;
@@ -84,7 +84,7 @@ class GalleryPresenter extends SignPresenter {
 
 	public function createComponentGalleryFilterForm() {
 		$form = $this->galleryFilterForm->create();
-		$form->onSuccess[] = $this->galleryFilterFormSubmit;
+		$form->onSuccess[] = [$this, 'galleryFilterFormSubmit'];
 
 		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;

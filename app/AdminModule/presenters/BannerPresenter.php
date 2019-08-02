@@ -64,7 +64,7 @@ class BannerPresenter extends SignPresenter {
 
 	public function createComponentBannerForm() {
 		$form = $this->bannerForm->create($this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess[] = $this->bannerFormSubmit;
+		$form->onSuccess[] = [$this, 'bannerFormSubmit'];
 
 		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;

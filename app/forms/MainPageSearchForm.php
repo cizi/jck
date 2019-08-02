@@ -6,7 +6,9 @@ use App\Model\EnumerationRepository;
 use Nette;
 use Nette\Application\UI\Form;
 
-class MainPageSearchForm extends Nette\Object {
+class MainPageSearchForm {
+
+    use Nette\SmartObject;
 
 	/** @const formát data hledání */
 	const SEARCH_DATE_FORMAT = 'd.m.Y';

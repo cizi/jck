@@ -70,7 +70,7 @@ class CalendarPresenter extends BasePresenter {
 		$form->addHidden("startDate" );
 		$form['destination']->setAttribute("onchange", "this.form.submit();");
 
-		$form->onSuccess[] = $this->destinationCalendar;
+		$form->onSuccess[] = [$this, 'destinationCalendar'];
 
 		return $form;
 	}

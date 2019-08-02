@@ -16,7 +16,7 @@
 					<div class="row">
 						<div class="col-lg-6 col-md-8 col-sm-12">
 							<h1>{=SLIDER_SETTINGS}</h1>
-							<span>{!=SLIDER_SETTINGS_INFO}</span>
+							<span>{=SLIDER_SETTINGS_INFO|noescape}</span>
 							<br /><br />
 
 							<form>
@@ -26,7 +26,7 @@
 										{input SLIDER_FILES_UPLOAD}
 									</div>
 									<div class="col-sm-10 field_info">
-										{!=SLIDER_SETTINGS_PICS_INFO}
+										{=SLIDER_SETTINGS_PICS_INFO|noescape}
 									</div>
 								</div>
 
@@ -36,7 +36,7 @@
 									</div><br />
 									{foreach $sliderPics as $sliderPic}
 										<a href="#" data-href={link Slider:PicDelete, $sliderPic->getId()} class="sliderPicDelete" data-toggle="modal" data-target="#confirm-delete" title={=SLIDER_SETTINGS_DELETE_TITLE}>
-											<img src="{!$sliderPic->getPath()}" class="sliderPic"  />
+											<img src="{$sliderPic->getPath()|noescape}" class="sliderPic"  />
 										</a>
 									{/foreach}
 								</div>
@@ -48,7 +48,7 @@
 										{input SLIDER_ON}
 									</div>
 									<div class="col-sm-10 field_info">
-										{!=SLIDER_SETTINGS_SLIDER_ACTIVE_INFO}
+										{=SLIDER_SETTINGS_SLIDER_ACTIVE_INFO|noescape}
 									</div>
 								</div>
 
@@ -58,7 +58,7 @@
 										{input SLIDER_SLIDE_SHOW}
 									</div>
 									<div class="col-sm-10 field_info">
-										{!=SLIDER_SETTINGS_SLIDER_SLIDING_INFO}
+										{=SLIDER_SETTINGS_SLIDER_SLIDING_INFO|noescape}
 									</div>
 								</div>
 
@@ -68,7 +68,7 @@
 										{input SLIDER_CONTROLS}
 									</div>
 									<div class="col-sm-10 field_info">
-										{!=SLIDER_SETTINGS_SLIDER_ARROWS_INFO}
+										{=SLIDER_SETTINGS_SLIDER_ARROWS_INFO|noescape}
 									</div>
 								</div>
 
@@ -78,7 +78,7 @@
 										{input SLIDER_WIDTH}
 									</div>
 									<div class="col-sm-10 field_info">
-										{!=SLIDER_SETTINGS_SLIDER_WITDH_INFO}
+										{=SLIDER_SETTINGS_SLIDER_WITDH_INFO|noescape}
 									</div>
 								</div>
 
@@ -88,7 +88,7 @@
 										{input SLIDER_TIMING}
 									</div>
 									<div class="col-sm-10 field_info">
-										{!=SLIDER_SETTINGS_TIMING_INFO}
+										{=SLIDER_SETTINGS_TIMING_INFO|noescape}
 									</div>
 								</div>
 

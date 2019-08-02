@@ -11,7 +11,9 @@ use App\Model\PicRepository;
 use Nette;
 use Nette\Application\UI\Form;
 
-class SearchForm extends Nette\Object {
+class SearchForm {
+
+    use Nette\SmartObject;
 
 	/** @var FormFactory */
 	private $factory;

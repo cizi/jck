@@ -12,7 +12,9 @@ use App\Model\PicRepository;
 use Nette;
 use Nette\Application\UI\Form;
 
-class ArticleForm extends Nette\Object {
+class ArticleForm {
+
+    use Nette\SmartObject;
 
 	/** @var FormFactory */
 	private $factory;

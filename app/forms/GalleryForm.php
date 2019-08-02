@@ -9,7 +9,9 @@ use App\Model\PicRepository;
 use Nette;
 use Nette\Application\UI\Form;
 
-class GalleryForm extends Nette\Object {
+class GalleryForm {
+
+    use Nette\SmartObject;
 
 	/** @var FormFactory */
 	private $factory;

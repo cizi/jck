@@ -80,7 +80,7 @@ class UserPresenter extends SignPresenter {
 
 	public function createComponentEditForm() {
 		$form = $this->userForm->create($this);
-		$form->onSuccess[] = $this->saveUser;
+		$form->onSuccess[] = [$this, 'saveUser'];
 
 		return $form;
 	}
@@ -147,7 +147,7 @@ class UserPresenter extends SignPresenter {
 
 	public function createComponentUserFilterForm() {
 		$form = $this->userFilterForm->create();
-		$form->onSubmit[] = $this->submitUserFilterForm;
+		$form->onSubmit[] = [$this, 'submitUserFilterForm'];
 
 		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;

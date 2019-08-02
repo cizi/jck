@@ -18,11 +18,11 @@
 							<div class="form-group row">
 								{control articleForm}
 								<h3 class="blockHeader">{=BLOCK_SETTING_PICS}</h3>
-								<p class="blockHeader">{!=BLOCK_SETTING_PICS_INFO}</p>
+								<p class="blockHeader">{=BLOCK_SETTING_PICS_INFO|noescape}</p>
 								<table class="footerPic">
 								{foreach $blockPics as $pic}
 									<tr>
-										<td style="width: 100px"><img src="{!$pic->getPath()}" class="footerList"/><td>
+										<td style="width: 100px"><img src="{$pic->getPath()|noescape}" class="footerList"/><td>
 										<td>{* articleId goes from presenter *}
 											<a href="#" data-href={link Article:DeletePic, $articleId, $pic->getId()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=BLOCK_SETTING_PIC_WILL_DELETE}><span class="glyphicon glyphicon-remove"></span></a>
 											<pre style="width: 100%">{$pic->getPath()}</pre>

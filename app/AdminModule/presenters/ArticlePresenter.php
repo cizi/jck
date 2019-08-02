@@ -143,7 +143,7 @@ class ArticlePresenter extends SignPresenter {
 
 	public function createComponentArticleForm() {
 		$form = $this->articleForm->create($this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess[] = $this->articleFormSubmit;
+		$form->onSuccess[] = [$this, 'articleFormSubmit'];
 
 		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;
@@ -273,7 +273,7 @@ class ArticlePresenter extends SignPresenter {
 
 	public function createComponentArticleFilterForm() {
 		$form = $this->articleFilterForm->create($this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess[] = $this->articleFilterFormSubmit;
+		$form->onSuccess[] = [$this, 'articleFilterFormSubmit'];
 
 		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;

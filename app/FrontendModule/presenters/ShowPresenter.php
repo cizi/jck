@@ -87,8 +87,11 @@ class ShowPresenter extends BasePresenter {
 			$articlesCategories = [];
 			$this->template->wallpaperBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_WALLPAPER, false, $articlesCategories);
 			$this->template->fullBanner = $this->bannerRepository->getBannerByType(EnumerationRepository::TYP_BANNERU_FULL_BANNER, false, $articlesCategories);
-			if (reset($galleryEntity->getPics()) != false) {
-				$picId = reset($galleryEntity->getPics())->getSharedPicId();
+			$allGalleryPics = $galleryEntity->getPics();
+			$firstGalleryPic = reset($allGalleryPics);
+			if ($firstGalleryPic != false) {
+			    $sharedPicId =
+				$picId = reset($allGalleryPics)->getSharedPicId();
 				$picEntity = $this->picRepository->getById($picId);
 				$socialPic = $picEntity->getPath();
 			} else {
@@ -280,7 +283,7 @@ class ShowPresenter extends BasePresenter {
 
 	public function createComponentFulltextSearchForm() {
 		$form = $this->fulltextSearchForm->create($this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess[] = $this->submitFulltextSearchForm;
+		$form->onSuccess[] = [$this, 'submitFulltextSearchForm'];
 
 		$renderer = $form->getRenderer();
 		$renderer->wrappers['controls']['container'] = NULL;
@@ -354,7 +357,7 @@ class ShowPresenter extends BasePresenter {
 	 */
 	public function createComponentMainPageSearchForm() {
 		$form = $this->mainPageSearchForm->create($this, $this->langRepository->getCurrentLang($this->session));
-		$form->onSuccess[] = $this->mainPageSearchFormSubmit;
+		$form->onSuccess[] = [$this, 'mainPageSearchFormSubmit'];
 
 		return $form;
 	}

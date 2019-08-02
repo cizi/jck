@@ -64,7 +64,7 @@ class DefaultPresenter extends BasePresenter {
 			$form['lang']->setItems($langs);
 		}
 
-		$form->onSuccess[] = $this->formSucceeded;
+		$form->onSuccess[] = [$this, 'formSucceeded'];
 
 		return $form;
 	}
@@ -98,7 +98,7 @@ class DefaultPresenter extends BasePresenter {
 
 	public function createComponentPasswordResetForm() {
 		$form = $this->passwordResetForm->create();
-		$form->onSubmit[] = $this->resetUserPassword;
+		$form->onSubmit[] = [$this, 'resetUserPassword'];
 
 		return $form;
 	}
