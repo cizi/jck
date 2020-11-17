@@ -21,6 +21,9 @@
 							<div class="container userTable">
 								<div class="dottedBorderTop">
 									{control articleFilterForm}
+									<div class="paginatorBackend">
+								    {include "../@paginator.latte", $paginator}
+							</div>
 								</div>
 
 								<table class="table table-striped dottedBorderTop">
@@ -115,7 +118,7 @@
 														<a href={link Article:CopyArticle, $articleEntity->getId()} title={=ARTICLE_DUPLICATE}><span class="glyphicon glyphicon-duplicate colorGrey"></span></a> &nbsp;&nbsp;
 													{/if}
 													<a href={link Article:Edit, $articleEntity->getId()} title={=ARTICLE_EDIT}><span class="glyphicon glyphicon-pencil"></span></a> &nbsp;&nbsp;
-													<a href="#" data-href={link Article:Delete, $articleEntity->getId()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=ARTICLE_DELETE}><span class="glyphicon glyphicon-remove"></span></a>
+													<a href="#" data-href={link Article:Delete, $articleEntity->getId(), $paginator->getPage()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=ARTICLE_DELETE}><span class="glyphicon glyphicon-remove"></span></a>
 												</td>
 											</tr>
 										{/foreach}

@@ -380,6 +380,7 @@ abstract class BasePresenter extends Presenter {
 					&& ($filterPiece[0] != "filter")
 					&& ($filterPiece[0] != "confirm")
 					&& ($filterPiece[0] != "do")
+					&& ($filterPiece[0] != "_do")
 					&& ($filterPiece[1] != "0")
 				) {
 					if ($filterPiece[0] == "menuOrders") {

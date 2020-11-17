@@ -19,6 +19,7 @@ use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 use Nette\Utils\ArrayHash;
+use Nette\Utils\Paginator;
 
 class ArticlePresenter extends SignPresenter {
 
@@ -52,13 +53,20 @@ class ArticlePresenter extends SignPresenter {
 	public function actionDefault($id) {
 		$filter = $this->decodeFilterFromQuery();
 		$this['articleFilterForm']->setDefaults($filter);
+        $currentLang = $this->langRepository->getCurrentLang($this->session);
 
-		$currentLang = $this->langRepository->getCurrentLang($this->session);
-		$this->template->currentLang = $currentLang;
+        $page = (empty($id) ? 1 : intval($id));
+        $paginator = new Paginator();
+        $paginator->setItemCount($this->articleRepository->getArticlesCount($filter, $currentLang)); // celkový počet položek
+        $paginator->setItemsPerPage(50); // počet položek na stránce
+        $paginator->setPage($page); // číslo aktuální stránky, číslováno od 1
+
+        $this->template->paginator = $paginator;
+        $this->template->currentLang = $currentLang;
 		$this->template->userRepo = $this->userRepository;
 		$this->template->enumRepo = $this->enumerationRepository;
 		$this->template->menuRepo = $this->menuRepository;
-		$this->template->articles = $this->articleRepository->findArticlesInLang($currentLang, null, $filter);
+		$this->template->articles = $this->articleRepository->findArticlesInLang($paginator, $currentLang, null, $filter);
 		$this->template->typPrispevkuAkceOrder = EnumerationRepository::TYP_PRISPEVKU_AKCE_ORDER;
 	}
 
@@ -101,9 +109,9 @@ class ArticlePresenter extends SignPresenter {
 	/**
 	 * @param int $id
 	 */
-	public function actionDelete($id) {
+	public function actionDelete($id, $page) {
 		$this->articleRepository->deleteArticle($id);
-		$this->redirect("default");
+		$this->redirect("default", $page);
 	}
 
 	/**
@@ -293,7 +301,7 @@ class ArticlePresenter extends SignPresenter {
 	 */
 	public function articleFilterFormSubmit(Form $form) {
 		$filter = "1&";
-		$data = $form->getHttpData();
+        $data = $form->getHttpData();
 
 		foreach ($data as $key => $value) {
 			if (is_array($value)) {	// kategorie

@@ -9,7 +9,7 @@ use App\Model\Entity\ArticleTimetableEntity;
 use App\Model\Entity\PicEntity;
 use Dibi\Connection;
 use Dibi\DateTime;
-use Dibi\Row;
+use Nette\Utils\Paginator;
 
 class ArticleRepository extends BaseRepository {
 
@@ -53,12 +53,51 @@ class ArticleRepository extends BaseRepository {
 		$this->menuRepository = $menuRepository;
 	}
 
+    /**
+     * @param $filter
+     * @param $lang
+     * @return int|mixed
+     */
+    public function getArticlesCount($filter, $lang) {
+        if ($filter == null) {
+            $query = ["select count(a.id) as pocet from article as a "];
+        } else {
+            if (isset($filter['active']) && ($filter['active'] == 2)) {
+                $filter['active'] = 0;
+            }
+            if (isset($filter['fulltext'])) {
+                $fulltext = $filter['fulltext'];
+                unset($filter['fulltext']);
+            }
+
+            if (isset($filter['menuOrders'])) {
+                $menuOrders = $filter['menuOrders'];
+                unset($filter['menuOrders']);
+                $query = ["select count(a.id) as pocet from article as a 
+							left join article_category as ac on a.id = ac.article_id 
+							left join article_content as aco on `a`.id = aco.article_id
+						where menu_order in %in and %and and aco.lang = %s", $menuOrders, $filter, $lang];
+            } else {
+                $query = ["select count(a.id) as pocet from article as a 
+							left join article_content as aco on `a`.id = aco.article_id
+ 							where aco.lang = %s and %and", $lang, $filter];
+            }
+
+            if (isset($fulltext)) {
+                $query[] = $query[] = sprintf(" and CONCAT_WS(' ', aco.header, aco.content) like  '%%%s%%'", $fulltext);
+            }
+        }
+        $row = $this->connection->query($query);
+
+        return ($row ? $row->fetch()['pocet'] : 0);
+    }
+
 	/**
 	 * @param string $lang
 	 * @param null $type
 	 * @return array
 	 */
-	public function findArticlesInLang($lang, $type = null, $filter = null) {
+	public function findArticlesInLang(Paginator $paginator, $lang, $type = null, $filter = null) {
 		if ($filter == null) {
 			$query = ["select * from article as a "];
 		} else {
@@ -86,10 +125,11 @@ class ArticleRepository extends BaseRepository {
 			if (isset($fulltext)) {
 				$query[] = $query[] = sprintf(" and CONCAT_WS(' ', aco.header, aco.content) like  '%%%s%%'", $fulltext);
 			}
-		}
-		$query[] = " order by inserted_timestamp desc";
+        }
+        $query[] = " order by inserted_timestamp desc ";
+        $query[] = sprintf("limit %d , %d", $paginator->getOffset(), $paginator->getLength());
 
-		$result = $this->connection->query($query)->fetchAll();
+        $result = $this->connection->query($query)->fetchAll();
 		$articles = [];
 		foreach ($result as $item) {
 			$articleEntity = new ArticleEntity();
