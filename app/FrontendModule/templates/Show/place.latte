@@ -66,7 +66,7 @@
 						{foreach $places as $place}
 							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()|noescape}" />
 							<div>
-								{var urlTitle = Nette\Utils\Strings::webalize($place->getContents()[$currentLang]->getHeader())}
+								{var $urlTitle = Nette\Utils\Strings::webalize($place->getContents()[$currentLang]->getHeader())}
 								<a href={link Show:Place $currentLang, $place->getId(), $urlTitle} class="title">
 									{$place->getContents()[$currentLang]->getHeader()}
 								</a>
@@ -94,10 +94,10 @@
 						{foreach $textArticles as $article}
 							<div class="hp_2_cols">
 								<h1 class="seo">{$article->getContents()[$currentLang]->getHeader()}</h1>
-								{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+								{var $urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 								{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
 								{if $article->getPicId() != null}
-									{var picUrl = $picRepo->getById($article->getPicId())}
+									{var $picUrl = $picRepo->getById($article->getPicId())}
 									<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
 								{/if}
 								<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>

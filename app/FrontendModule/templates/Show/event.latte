@@ -5,8 +5,8 @@
 			<h1 class="titles">{$article->getContents()[$currentLang]->getHeader()}</h1>
 			{if count($article->getTimetables())}
 				<div class="eventTitle">
-					{var timetables = $article->getTimetables()}
-					{var timetable = reset($timetables)}
+					{var $timetables = $article->getTimetables()}
+					{var $timetable = reset($timetables)}
 					{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
 					{if ($article->getLastTimetableDate() != $minDate) && ($timetable->getDateFrom() != $article->getLastTimetableDate())}
 						- {$article->getLastTimetableDate()->format('d.m.Y')}
@@ -124,7 +124,7 @@
 						{foreach $places as $place}
 							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()|noescape}" />
 							<div>
-								{var urlTitle = Nette\Utils\Strings::webalize($place->getContents()[$currentLang]->getHeader())}
+								{var $urlTitle = Nette\Utils\Strings::webalize($place->getContents()[$currentLang]->getHeader())}
 								<a href={link Show:Place $currentLang, $place->getId(), $urlTitle} class="title">
 									{$place->getContents()[$currentLang]->getHeader()}
 								</a>
@@ -150,15 +150,15 @@
 				{if count($cities)}
 					<div class="tab-pane fade" id="cities">
 						{foreach $cities as $city}
-							{var picUrl = "../../../../../www/images/not-available.png"}
+							{var $picUrl = "../../../../../www/images/not-available.png"}
 							{if !empty($city->getPicId())}
-								{var picUrl = $picRepo->getById($city->getPicId())->getPath()|noescape}
+								{var $picUrl = $picRepo->getById($city->getPicId())->getPath()|noescape}
 							{elseif !empty($city->getPicUrl())}
-								{var picUrl = $city->getPicUrl()|noescape}
+								{var $picUrl = $city->getPicUrl()|noescape}
 							{/if}
 							<img class="detailsView" alt={$city->getContents()[$currentLang]->getHeader()} src="{$picUrl}" />
 							<div>
-								{var urlTitle = Nette\Utils\Strings::webalize($city->getContents()[$currentLang]->getHeader())}
+								{var $urlTitle = Nette\Utils\Strings::webalize($city->getContents()[$currentLang]->getHeader())}
 								<a href={link Show:City $currentLang, $city->getId(), $urlTitle} class="title">
 									{*$enumRepo->getEnumItemByOrder($currentLang, $city->getSublocation())*}
 									{$city->getContents()[$currentLang]->getHeader()}

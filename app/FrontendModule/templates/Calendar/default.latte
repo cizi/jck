@@ -63,7 +63,7 @@
 			var curr_year = ev.date.getFullYear();
 			var formattedDate =  curr_year + "-" + curr_month + "-" +curr_date;
 			{if (strpos($currentUrl, 'startDate') !== false)}
-				{var target = substr($currentUrl, 0, strpos($currentUrl, "startDate"))}
+				{var $target = substr($currentUrl, 0, strpos($currentUrl, "startDate"))}
 				window.location.href = {$target} + 'startDate=' + formattedDate;
 			{else}
 				window.location.href = '{$currentUrl|noescape}' + 'default/' + formattedDate + '/?startDate=' + formattedDate;

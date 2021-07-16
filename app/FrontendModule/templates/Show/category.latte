@@ -10,8 +10,8 @@
 
 				{if count($breadcrumbs) > 1}
 					<div class="breadcrumb">
-						{foreach $breadcrumbs as $title => $link}
-							<a class="eventCalendarEvent" href={$link}>{$title}</a> {if $iterator->isLast() == false} / {/if}
+						{foreach $breadcrumbs as $titleForEach => $link}
+							<a class="eventCalendarEvent" href={$link}>{$titleForEach}</a> {if $iterator->isLast() == false} / {/if}
 						{/foreach}
 					</div>
 				{else}

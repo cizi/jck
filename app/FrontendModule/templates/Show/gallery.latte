@@ -10,7 +10,7 @@
 
 			<ul class="row">
 				{foreach $gallery->getPics() as $pic}
-					{var picUrl = $picRepo->getById($pic->getSharedPicId())}
+					{var $picUrl = $picRepo->getById($pic->getSharedPicId())}
 					{* <a href={$picUrl->getPath()} rel="shadowbox[gallery]"><img class="img-fluid gallery" src={$picUrl->getPath()} /></a> *}
 					<li class="col-lg-4 col-md-4 col-sm-6">
 						<a href={$picUrl->getPath()} rel="shadowbox[gallery]">

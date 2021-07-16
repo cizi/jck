@@ -69,7 +69,7 @@
 
 	{if isset($article)}	{* probably any page absolutelly not root *}
 		{foreach $webAvailebleLangs as $landShortcut}
-			{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$landShortcut]->getHeader())}
+			{var $urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$landShortcut]->getHeader())}
 			<link rel="alternate" href="{$baseUrl}/{$landShortcut}/show/{$requestedAction}/{$article->getId()}/{$urlTitle}" hreflang="{$landShortcut}" />
 		{/foreach}
 	{else}						{* root because link is not specified *}
@@ -190,7 +190,7 @@
 							{if (isset($newestArticles[$i]))}
 								<li class="hidden">
 									<span>{$newestArticles[$i]->getInsertedTimestamp()->format('j.n.Y')}&nbsp;</span>
-									{var urlTitle = Nette\Utils\Strings::webalize($newestArticles[$i]->getContents()[$currentLang]->getHeader())}
+									{var $urlTitle = Nette\Utils\Strings::webalize($newestArticles[$i]->getContents()[$currentLang]->getHeader())}
 									<a href={link "Show:Detail", $currentLang, $newestArticles[$i]->getId(), $urlTitle}
 									   title={$newestArticles[$i]->getContents()[$currentLang]->getHeader()}
 									   style="color: {$headerArticleColor|noescape};"

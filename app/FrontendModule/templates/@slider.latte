@@ -7,14 +7,14 @@
 						{if !empty($article->getPicUrl())}
 							{switch $article->getType()}
 							{case $eventOrder}
-							{var target = "Show:Event"}
+							{var $target = "Show:Event"}
 							{case $textArticleOrder}
-							{var target = "Show:Detail"}
+							{var $target = "Show:Detail"}
 							{case $placeOrder}
-							{var target = "Show:Place"}
+							{var $target = "Show:Place"}
 							{/switch}
 							<li>
-								{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+								{var $urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 								<a href={link $target $currentLang, $article->getId(), $urlTitle} target="_blank">
 									<img class="sliderSlidePic" alt={$article->getContents()[$currentLang]->getHeader()} src="{$article->getPicUrl()}" />
 									<div class="caption1">
@@ -23,8 +23,8 @@
 										</div>
 										<span>
 											{if count($article->getTimetables())}
-												{var timetables = $article->getTimetables()}
-												{var timetable = reset($timetables)}
+												{var $timetables = $article->getTimetables()}
+												{var $timetable = reset($timetables)}
 												{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('j.m.Y')}{/if}
 												{if ($article->getLastTimetableDate() != $minDate) && ($timetable->getDateFrom() != $article->getLastTimetableDate())}
 													- {$article->getLastTimetableDate()->format('d.m.Y')}

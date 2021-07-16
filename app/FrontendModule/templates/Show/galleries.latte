@@ -4,11 +4,11 @@
 		<div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-12">
 			<ul class="row">
 			{foreach $galleries as $gallery}
-					{var urlTitle = Nette\Utils\Strings::webalize($gallery->getContents()[$currentLang]->getHeader())}
+					{var $urlTitle = Nette\Utils\Strings::webalize($gallery->getContents()[$currentLang]->getHeader())}
 					{if count($gallery->getPics())}
-						{var images = $gallery->getPics()}
-						{var galleryImage = reset($images)}
-						{var picUrl = $picRepo->getById($galleryImage->getSharedPicId())}
+						{var $images = $gallery->getPics()}
+						{var $galleryImage = reset($images)}
+						{var $picUrl = $picRepo->getById($galleryImage->getSharedPicId())}
 						<li class="col-lg-4 col-md-4 col-sm-6">
 							<a href={link "Show:Gallery", $currentLang, $gallery->getId(), $urlTitle}>
 								<h4 class="galleriesTitle">{$gallery->getContents()[$currentLang]->getHeader()} <span>({count($gallery->getPics())})</span></h4>

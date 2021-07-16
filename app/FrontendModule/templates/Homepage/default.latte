@@ -40,14 +40,14 @@
 				</div>
 			{/form}
 			<h2 class="title">{=ARTICLE_TOP_EVENTS}</h2>
-			{var randArticles = array_slice ($topRandomEvents, 0, min(8, count($topRandomEvents)))}
-			{var rower = 0}
+			{var $randArticles = array_slice ($topRandomEvents, 0, min(8, count($topRandomEvents)))}
+			{var $rower = 0}
 			{foreach $randArticles as $article}
-				{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+				{var $urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 				{if count($article->getTimetables())}
-					{var timetables = $article->getTimetables()}
-					{var timetable = reset($timetables)}
-					{if $rower % 2 == 0}<div class="row">{var zaviraciRowerVypsan = false}{/if}
+					{var $timetables = $article->getTimetables()}
+					{var $timetable = reset($timetables)}
+					{if $rower % 2 == 0}<div class="row">{var $zaviraciRowerVypsan = false}{/if}
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
 							<div class="dottedBorderBottom">
 								<div class="date">
@@ -58,8 +58,8 @@
 
 								<a class="eventCalendarEvent" href={link Show:Event $currentLang, $article->getId(), $urlTitle}>{$article->getContents()[$currentLang]->getHeader()|upper}</a><br />
 								<small class="calendar">
-									{var timetables = $article->getTimetables()}
-									{var timetable = reset($timetables)}
+									{var $timetables = $article->getTimetables()}
+									{var $timetable = reset($timetables)}
 									{if $timetable->getDateFrom() != null}{$timetable->getDateFrom()->format('d.m.Y')}{/if}
 									{if ($article->getLastTimetableDate() != $minDate) && ($timetable->getDateFrom() != $article->getLastTimetableDate())}
 										- {$article->getLastTimetableDate()->format('d.m.Y')}
@@ -71,9 +71,9 @@
 								</small>
 							</div>
 						</div>
-					{if $rower % 2 == 1}</div>{var zaviraciRowerVypsan = true}{/if}
+					{if $rower % 2 == 1}</div>{var $zaviraciRowerVypsan = true}{/if}
 				{/if}
-				{var rower = $rower + 1}
+				{var $rower = $rower + 1}
 			{/foreach}
 			{if isset($zaviraciRowerVypsan) && ($zaviraciRowerVypsan == false)}</div>{/if} {* pokud budu mít lichý výpis akcí je třeba ověřit zda byl DIV zavřebý *}
 		</div>
@@ -110,19 +110,19 @@
 			<div class="title"><h2><a class="title" href={link Show:Details $currentLang}>{=HP_ARTICLE_TEXT}</a></h2></div>
 			{for $i=0; $i< $maxTextArticles; $i++}
 				{if isset($textArticles[$i])}
-				{var article = $textArticles[$i]}
+				{var $article = $textArticles[$i]}
 					<div class="hp_2_cols">
 						<h1 class="seo">{$article->getContents()[$currentLang]->getHeader()}</h1>
-						{var urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
+						{var $urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
 						{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
 						<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
 							<h3>{$article->getContents()[$currentLang]->getHeader()}</h3>
 						</a>
-						{var picUrl = "../../../../../www/images/not-available.png"}
+						{var $picUrl = "../../../../../www/images/not-available.png"}
 						{if $article->getPicId() != null}
-							{var picUrl = $picRepo->getById($article->getPicId())->getPath()}
+							{var $picUrl = $picRepo->getById($article->getPicId())->getPath()}
 						{elseif !empty($article->getPicUrl())}
-							{var picUrl = $article->getPicUrl()}
+							{var $picUrl = $article->getPicUrl()}
 						{/if}
 						<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
 							<img src={$picUrl} />
@@ -139,18 +139,18 @@
 			<div class="title"><h2><a class="title" href={link Show:Galleries $currentLang}>{=HP_ARTICLE_GALLERY}</a></h2></div>
 			{for $i=0; $i < $maxGalleries; $i++}
 				{if isset($galleries[$i])}
-					{var gallery = $galleries[$i]}
-					{var galleryHeader = (isset($gallery->getContents()[$currentLang]) ? $gallery->getContents()[$currentLang]->getHeader() : "")}
-					{var urlTitle = Nette\Utils\Strings::webalize($galleryHeader)}
+					{var $gallery = $galleries[$i]}
+					{var $galleryHeader = (isset($gallery->getContents()[$currentLang]) ? $gallery->getContents()[$currentLang]->getHeader() : "")}
+					{var $urlTitle = Nette\Utils\Strings::webalize($galleryHeader)}
 					<div class="hp_2_cols">
 						<h1 class="seo">{$galleryHeader}</h1>
 						<a href={link "Show:Gallery", $currentLang, $gallery->getId(), $urlTitle}>
 							<h3>{$galleryHeader} ({count($gallery->getPics())})</h3>
 						</a>
 						{if count($gallery->getPics())}
-							{var images = $gallery->getPics()}
-							{var galleryImage = reset($images)}
-							{var picUrl = $picRepo->getById($galleryImage->getSharedPicId())}
+							{var $images = $gallery->getPics()}
+							{var $galleryImage = reset($images)}
+							{var $picUrl = $picRepo->getById($galleryImage->getSharedPicId())}
 							<a href={link "Show:Gallery", $currentLang, $gallery->getId(), $urlTitle}><img class="gallery" src={$picUrl->getPath()} /></a>
 						{/if}
 					</div>
