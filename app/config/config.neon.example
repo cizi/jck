@@ -16,6 +16,11 @@ application:
 
 extensions:
 	replicator: Kdyby\Replicator\DI\ReplicatorExtension
+	recaptcha: Minetro\ReCaptcha\DI\ReCaptchaExtension
+
+recaptcha:
+	secretKey: ***
+	siteKey: ***
 
 session:
 	expiration: 14 days

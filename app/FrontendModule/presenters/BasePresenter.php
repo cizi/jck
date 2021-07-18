@@ -327,8 +327,18 @@ abstract class BasePresenter extends Presenter {
 		if ($this->webconfigRepository->getByKey(WebconfigRepository::KEY_CONTACT_FORM_RECIPIENT, WebconfigRepository::KEY_LANG_FOR_COMMON) == "") {
 			$form["confirm"]->setDisabled();
 		}
-		$form->onSuccess[] = [$this, 'contactFormSubmitted'];
-		return $form;
+
+        $form->addReCaptcha('recaptcha', $label = 'Captcha')
+            ->setMessage(RECAPTCHA_NOT_A_BOT);
+
+//        $form->addReCaptcha('recaptcha', $label = 'Captcha', $required = FALSE)
+//            ->setMessage('Are you bot?');
+//
+//        $form->addReCaptcha('recaptcha', $label = 'Captcha', $required = TRUE, $message = 'Are you bot?');
+
+        $form->onSuccess[] = [$this, 'contactFormSubmitted'];
+
+        return $form;
 	}
 
 	/**

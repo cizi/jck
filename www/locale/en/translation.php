@@ -599,3 +599,4 @@ define("HEADER_BUTTON_SAVE", 'Save header setting');
 
 // common
 define("UNSUPPORTED_UPLOAD_FORMAT", " You are trying to upload unsupported format. Supported formats are %s.");
+define("RECAPTCHA_NOT_A_BOT", "Not a bot?");

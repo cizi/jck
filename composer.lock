@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02ace208cf7bbb1217769cee5979d927",
+    "content-hash": "6457d3a196db82544f18b83f129e8855",
     "packages": [
         {
             "name": "dg/adminer-custom",
@@ -268,6 +268,94 @@
                 "source": "https://github.com/nette/latte/tree/v2.10.3"
             },
             "time": "2021-02-22T11:17:13+00:00"
+        },
+        {
+            "name": "minetro/recaptcha",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/contributte/reCAPTCHA.git",
+                "reference": "ee4cb74fc8e6b077789f6c9b721d900dfce35b43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/contributte/reCAPTCHA/zipball/ee4cb74fc8e6b077789f6c9b721d900dfce35b43",
+                "reference": "ee4cb74fc8e6b077789f6c9b721d900dfce35b43",
+                "shasum": ""
+            },
+            "require": {
+                "nette/di": "~2.4.0",
+                "nette/forms": "~2.4.0",
+                "nette/utils": "~2.5.0",
+                "php": ">= 5.6"
+            },
+            "require-dev": {
+                "ninjify/nunjuck": "^0.1.4",
+                "ninjify/qa": "^0.3.3"
+            },
+            "suggest": {
+                "ext-openssl": "To make requests via https"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                },
+                "ninjify": {
+                    "qa": {
+                        "codesniffer": {
+                            "ruleset": "nette",
+                            "folders": [
+                                "src",
+                                "tests"
+                            ]
+                        },
+                        "codefixer": {
+                            "ruleset": "nette",
+                            "folders": [
+                                "src",
+                                "tests"
+                            ]
+                        },
+                        "linter": {
+                            "folders": [
+                                "src",
+                                "tests"
+                            ]
+                        }
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Minetro\\ReCaptcha\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Milan Felix Sulc",
+                    "homepage": "https://jfx.cz"
+                }
+            ],
+            "description": "Google reCAPTCHA for Nette - Forms",
+            "homepage": "https://github.com/minetro/reCAPTCHA",
+            "keywords": [
+                "Forms",
+                "captcha",
+                "google",
+                "nette",
+                "recaptcha"
+            ],
+            "support": {
+                "issues": "https://github.com/contributte/reCAPTCHA/issues",
+                "source": "https://github.com/contributte/reCAPTCHA/tree/2.1.1"
+            },
+            "abandoned": "contributte/reCAPTCHA",
+            "time": "2018-04-06T17:27:33+00:00"
         },
         {
             "name": "nette/application",
