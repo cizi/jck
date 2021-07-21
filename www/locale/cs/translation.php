@@ -614,3 +614,4 @@ define("HEADER_BUTTON_SAVE", 'Uložit hlavičku');
 // common
 define("UNSUPPORTED_UPLOAD_FORMAT", "Pokoušíte se nahrát nepodporovaný formát. Podporované formáty jsou %s.");
 define("RECAPTCHA_NOT_A_BOT", "Nejsem robot?");
+define("RECAPTCHA_CHECK_IT", "Prosím, potvrďte, že nejste robot!");

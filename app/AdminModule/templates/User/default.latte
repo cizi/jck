@@ -36,34 +36,34 @@
 									</tr>
 								</thead>
 								<tbody>
-								{foreach $users as $user}
+								{foreach $users as $userForeach}
 									<tr>
-										<td>{$user->getEmail()}</td>
-										<td>{$user->getRealName()}</td>
-										<td>{$user->getPhone()}</td>
+										<td>{$userForeach->getEmail()}</td>
+										<td>{$userForeach->getRealName()}</td>
+										<td>{$userForeach->getPhone()}</td>
 										<td>
-											{if isset($roles[$user->getRole()])}
-											{$roles[$user->getRole()]}
+											{if isset($roles[$userForeach->getRole()])}
+											{$roles[$userForeach->getRole()]}
 											{else}
 											""
 											{/if}
 										</td>
 										<td>
-											{if $user->isActive()}
+											{if $userForeach->isActive()}
 												<label class="checkbox-inline">
-													<input class="activeToggleEvent" user-data={$user->getId()} type="checkbox" checked data-toggle="toggle" data-height="25" data-width="50">
+													<input class="activeToggleEvent" user-data={$userForeach->getId()} type="checkbox" checked data-toggle="toggle" data-height="25" data-width="50">
 												</label>
 											{else}
 												<label class="checkbox-inline">
-													<input class="activeToggleEvent" user-data={$user->getId()} type="checkbox" data-toggle="toggle" data-height="25" data-width="50">
+													<input class="activeToggleEvent" user-data={$userForeach->getId()} type="checkbox" data-toggle="toggle" data-height="25" data-width="50">
 												</label>
 											{/if}
 										</td>
-										<td>{$user->getRegisterTimestamp()|date: 'j.n.Y G:i:s'}</td>
-										<td>{$user->getLastLogin()|date: 'j.n.Y G:i:s'}</td>
+										<td>{$userForeach->getRegisterTimestamp()|date: 'j.n.Y G:i:s'}</td>
+										<td>{$userForeach->getLastLogin()|date: 'j.n.Y G:i:s'}</td>
 										<td class="alignRight">
-											<a href={link User:Edit, $user->getId()} title={=USER_EDIT}><span class="glyphicon glyphicon-pencil"></span></a> &nbsp;&nbsp;
-											<a href="#" data-href={link User:DeleteUser, $user->getId()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=USER_DELETE}><span class="glyphicon glyphicon-remove"></span></a>
+											<a href={link User:Edit, $userForeach->getId()} title={=USER_EDIT}><span class="glyphicon glyphicon-pencil"></span></a> &nbsp;&nbsp;
+											<a href="#" data-href={link User:DeleteUser, $userForeach->getId()} class="colorRed" data-toggle="modal" data-target="#confirm-delete" title={=USER_DELETE}><span class="glyphicon glyphicon-remove"></span></a>
 										</td>
 									</tr>
 								{/foreach}

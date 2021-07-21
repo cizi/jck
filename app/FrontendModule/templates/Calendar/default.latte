@@ -17,10 +17,10 @@
 							{input destination}
 						{/form}
 					</td>
-					{var begin = $startDate}
-					{var end = $endDate}
-					{var interval = DateInterval::createFromDateString('1 day')}
-					{var period = new DatePeriod($begin, $interval, $end)}
+					{var $begin = $startDate}
+					{var $end = $endDate}
+					{var $interval = DateInterval::createFromDateString('1 day')}
+					{var $period = new DatePeriod($begin, $interval, $end)}
 					{foreach $period as $dt}
 						<td>
 							{if $iterator->isFirst()}

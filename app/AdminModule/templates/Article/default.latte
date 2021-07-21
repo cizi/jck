@@ -52,7 +52,7 @@
 										{foreach $articles as $articleEntity}
 											<tr>
 												<td>
-													{var content = $articleEntity->getContents()}
+													{var $content = $articleEntity->getContents()}
 													{if isset($content[$currentLang])}
 														<a href={link Article:Edit, $articleEntity->getId()} title={=ARTICLE_EDIT}>
 															{$content[$currentLang]->getHeader()}

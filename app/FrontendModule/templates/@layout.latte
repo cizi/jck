@@ -330,5 +330,35 @@
 
 <!-- re-Captcha -->
 <script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+	var contactForm = document.getElementById("frm-contactForm");
+	if(typeof(contactForm) != 'undefined' && contactForm != null){
+		document.getElementById("frm-contactForm").addEventListener("submit",function(evt)
+		{
+			var response = grecaptcha.getResponse();
+			if(response.length == 0)
+			{
+				//reCaptcha not verified
+				alert({=RECAPTCHA_CHECK_IT});
+				evt.preventDefault();
+				return false;
+			}
+		});
+	}
+
+	var submitForm = document.getElementById("frm-submitForm");
+	if(typeof(submitForm) != 'undefined' && submitForm != null){
+		document.getElementById("frm-submitForm").addEventListener("submit", function (evt) {
+			var response = grecaptcha.getResponse();
+			if (response.length == 0) {
+				//reCaptcha not verified
+				alert({=RECAPTCHA_CHECK_IT});
+				evt.preventDefault();
+				return false;
+			}
+		});
+	}
+</script>
+
 </body>
 </html>

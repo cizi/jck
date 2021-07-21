@@ -21,10 +21,10 @@
 			{if !empty($article->getAddress()) || !empty($eventPlace) || !empty($article->getPlaceText())}
 				<h4 class="addressHeader">{=ARTICLE_ADDRESS}</h4>
 				{if !empty($article->getAddress())}
-					{var address =  $article->getAddress() . " " . $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
+					{var $address =  $article->getAddress() . " " . $enumRepo->getEnumItemByOrder($currentLang, $article->getSublocation())}
 					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$address|noescape}">{$address|noescape}</a>
 				{elseif !empty($eventPlace->getAddress())}
-					{var address = $eventPlace->getAddress() . " " . $enumRepo->getEnumItemByOrder($currentLang, $eventPlace->getSublocation())}
+					{var $address = $eventPlace->getAddress() . " " . $enumRepo->getEnumItemByOrder($currentLang, $eventPlace->getSublocation())}
 					<a class="eventPlace" target="_blank" href="https://maps.google.com/?q={$address|noescape}">{$address|noescape}</a>
 				{else}
 					{$article->getPlaceText()}
@@ -56,10 +56,10 @@
 			{foreach $article->getTimetables() as $timetable}
 
 				{if ($timetable->getDateTo() != null) && ($timetable->getDateTo() != '0000-00-00')}
-					{var begin = $timetable->getDateFrom()}
-					{var end = $timetable->getDateTo()->modify( '+1 day' )}
-					{var interval = DateInterval::createFromDateString('1 day')}
-					{var period = new DatePeriod($begin, $interval, $end)}
+					{var $begin = $timetable->getDateFrom()}
+					{var $end = $timetable->getDateTo()->modify( '+1 day' )}
+					{var $interval = DateInterval::createFromDateString('1 day')}
+					{var $period = new DatePeriod($begin, $interval, $end)}
 					{foreach $period as $dt}
 						<tr><td>
 							<div class="date">

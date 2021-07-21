@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use PHPMailer\PHPMailer\PHPMailer;
+
 class EmailController {
 
 	/**
@@ -15,7 +17,7 @@ class EmailController {
 	 * @throws \phpmailerException
 	 */
 	public static function SendPlainEmail($emailFrom, $emailTo, $subject, $body) {
-		$email = new \PHPMailer();
+		$email = new PHPMailer();
 		$email->CharSet = "UTF-8";
 		$email->From = $emailFrom;
 		$email->FromName = $emailFrom;

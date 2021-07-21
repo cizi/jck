@@ -41,8 +41,8 @@
 									<tbody>
 										{foreach $galleries as $gellery}
 											<tr>
-												<td>{$gellery->getContents()|noescape[$currentLang]->getHeader()}</td>
-												<td>{$gellery->getContents()|noescape[$currentLang]->getDesc()}</td>
+												<td>{$gellery->getContents()[$currentLang]->getHeader()}</td>
+												<td>{$gellery->getContents()[$currentLang]->getDesc()}</td>
 												<td>{count($gellery->getPics())}</td>
 												<td>
 													{if $gellery->getOnMainPage() == 1}

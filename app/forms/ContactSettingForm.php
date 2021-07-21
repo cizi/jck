@@ -66,7 +66,8 @@ class ContactSettingForm  {
 			->setAttribute("id", "contactFormRecipient")
 			->setAttribute("class", "form-control minicolors-input")
 			->addRule(Form::EMAIL, CONTACT_FORM_SETTING_RECIPIENT_VALIDATION)
-			->setAttribute("tabindex", $i++);
+			->setAttribute("tabindex", $i++)
+            ->setRequired();
 
 		$form->addCheckbox(WebconfigRepository::KEY_CONTACT_FORM_ATTACHMENT)
 			->setAttribute("data-toggle", "toggle")

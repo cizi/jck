@@ -63,27 +63,27 @@
 
 				{if count($places)}
 					<div class="tab-pane fade" id="places">
-						{foreach $places as $place}
-							<img class="detailsView" alt={$place->getContents()[$currentLang]->getHeader()} src="{$place->getPicUrl()|noescape}" />
+						{foreach $placeForeachs as $placeForeach}
+							<img class="detailsView" alt={$placeForeach->getContents()[$currentLang]->getHeader()} src="{$placeForeach->getPicUrl()|noescape}" />
 							<div>
-								{var $urlTitle = Nette\Utils\Strings::webalize($place->getContents()[$currentLang]->getHeader())}
-								<a href={link Show:Place $currentLang, $place->getId(), $urlTitle} class="title">
-									{$place->getContents()[$currentLang]->getHeader()}
+								{var $urlTitle = Nette\Utils\Strings::webalize($placeForeach->getContents()[$currentLang]->getHeader())}
+								<a href={link Show:Place $currentLang, $placeForeach->getId(), $urlTitle} class="title">
+									{$placeForeach->getContents()[$currentLang]->getHeader()}
 								</a>
 								<span class="floatRight">
-									{if $place->getPlace() != null}
-										<a class="ev ev_link" href={link Show:Place $currentLang, $place->getId(), $urlTitle}>
+									{if $placeForeach->getPlace() != null}
+										<a class="ev ev_link" href={link Show:Place $currentLang, $placeForeach->getId(), $urlTitle}>
 											<i class="fa fa-calendar-o" aria-hidden="true"></i>{=ARTICLE_EVENT_PLACES|upper}
 										</a>
 									{/if}
 
-									{if $place->getAddress() != null}
-										<a class="ev ev_map" target="_blank" href="https://maps.google.com/?q={$place->getAddress()|noescape}"><i class="fa fa-location-arrow" aria-hidden="true"></i>{=ARTICLE_MAP|upper}</a>
+									{if $placeForeach->getAddress() != null}
+										<a class="ev ev_map" target="_blank" href="https://maps.google.com/?q={$placeForeach->getAddress()|noescape}"><i class="fa fa-location-arrow" aria-hidden="true"></i>{=ARTICLE_MAP|upper}</a>
 									{/if}
 								</span>
 							</div>
-							<span class="eventPlaces colorGrey">{$place->getAddress()|noescape}</span><br />
-							<p class="shrunkContent">{$place->getContents()[$currentLang]->getContent()|noescape|striptags|truncate:260}</p>
+							<span class="eventPlaces colorGrey">{$placeForeach->getAddress()|noescape}</span><br />
+							<p class="shrunkContent">{$placeForeach->getContents()[$currentLang]->getContent()|noescape|striptags|truncate:260}</p>
 							<div class="dottedBorderBottom" style="width: 100%; height: 1px;"></div>
 						{/foreach}
 					</div>
@@ -91,23 +91,23 @@
 
 				{if count($textArticles)}
 					<div class="tab-pane fade" id="articles">
-						{foreach $textArticles as $article}
+						{foreach $textArticles as $placeForeach}
 							<div class="hp_2_cols">
-								<h1 class="seo">{$article->getContents()[$currentLang]->getHeader()}</h1>
-								{var $urlTitle = Nette\Utils\Strings::webalize($article->getContents()[$currentLang]->getHeader())}
-								{*<a href={link "Detail", $currentLang, $article->getId(), $urlTitle}>*}
-								{if $article->getPicId() != null}
-									{var $picUrl = $picRepo->getById($article->getPicId())}
-									<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
+								<h1 class="seo">{$placeForeach->getContents()[$currentLang]->getHeader()}</h1>
+								{var $urlTitle = Nette\Utils\Strings::webalize($placeForeach->getContents()[$currentLang]->getHeader())}
+								{*<a href={link "Detail", $currentLang, $placeForeach->getId(), $urlTitle}>*}
+								{if $placeForeach->getPicId() != null}
+									{var $picUrl = $picRepo->getById($placeForeach->getPicId())}
+									<a href={link "Show:Detail", $currentLang, $placeForeach->getId(), $urlTitle}><img class="detailsView" src={$picUrl->getPath()} /></a>
 								{/if}
-								<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle}>
-									<h3>{$article->getContents()[$currentLang]->getHeader()}</h3>
+								<a href={link "Show:Detail", $currentLang, $placeForeach->getId(), $urlTitle}>
+									<h3>{$placeForeach->getContents()[$currentLang]->getHeader()}</h3>
 								</a>
 								<div>
-									{strip_tags($article->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
+									{strip_tags($placeForeach->getContents()[$currentLang]->getContent())|noescape|substr:0:500}
 									<div>
-										<span>{$article->getInsertedTimestamp()->format('d.m.Y')}</span>
-										<a href={link "Show:Detail", $currentLang, $article->getId(), $urlTitle} class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</a>
+										<span>{$placeForeach->getInsertedTimestamp()->format('d.m.Y')}</span>
+										<a href={link "Show:Detail", $currentLang, $placeForeach->getId(), $urlTitle} class="btn btn-info btnShowDetail">{=ARTICLE_VIEW_DETAIL}</a>
 									</div>
 								</div>
 							</div>
