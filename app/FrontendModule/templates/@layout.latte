@@ -125,7 +125,7 @@
 
 	{* language strap *}
 	{if ($languageStrapShow)}
-		<div class="langStrap" style="width: {$languageStrapWidth|noescape}; background-color: {!$languageStrapBgColor}; color: {!$languageStrapFontColor}">
+		<div class="langStrap" style="width: {$languageStrapWidth|noescape}; background-color: {$languageStrapBgColor|noescape}; color: {$languageStrapFontColor|noescape}">
 			<div class="row mainPageSearch">
 				{form searchForm}
 					<div class="col-lg-1 col-md-1 col-sm-1"></div>
@@ -162,7 +162,7 @@
 	{* static header *}
 	{if ($showHeader)}
 			{* !$headerContent *}
-		<div class="row pageStaticHeader" style="width: {$headerWidth|noescape}; background-color: {!$headerBg}; color: {!$headerColor}; height: {!$headerHeight}px;">
+		<div class="row pageStaticHeader" style="width: {$headerWidth|noescape}; background-color: {$headerBg|noescape}; color: {$headerColor|noescape}; height: {$headerHeight|noescape}px;">
 			<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 fullBanner">
 				{if !empty($fullBanner)}
 					{if ($fullBanner->getUrl() != null) && ($fullBanner->getUrl() != "")}
@@ -181,7 +181,7 @@
 	{* static header end *}
 	{* articles in header *}
 	{if $headerArticleCount > 0}
-		<div class="row pageArticleNewsletter" style="width: {$headerWidth|noescape}; background-color: {!$headerArticleBgColor}; color: {!$headerArticleColor};">
+		<div class="row pageArticleNewsletter" style="width: {$headerWidth|noescape}; background-color: {$headerArticleBgColor|noescape}; color: {$headerArticleColor|noescape};">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div id="example1" class="newArticlesRotate" data-rotate-interval={($headerArticleTiming * 1000)} data-rotate-animate="fadeIn,zoomOut">
 					<h1>{$headerArticleHeader} &nbsp;<span class="rotate-arena"></span></h1>
@@ -214,7 +214,7 @@
 		{* menu *}
 		<nav class="navbar navbar-default" style="
 			{if $showMenu == false} display: none;{/if}
-			{if $menuColor != ""}background-color: {$menuColor|noescape}; border: 2px solid {!$menuColor};{/if}
+			{if $menuColor != ""}background-color: {$menuColor|noescape}; border: 2px solid {$menuColor|noescape};{/if}
 		">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
