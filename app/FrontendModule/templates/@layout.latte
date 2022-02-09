@@ -241,7 +241,7 @@
 		</nav>
 		{* menu end *}
 
-		{if $googleAnalytics != ""}
+		{if $googleAnalytics != "" && !empty($_COOKIE[eu-cookies])}
 			{$googleAnalytics|noescape}
 		{/if}
 
@@ -360,5 +360,23 @@
 	}
 </script>
 
+<!-- COKKIES END -->
+<div class="eu-cookies" n:if="empty($_COOKIE[eu-cookies])">
+	Tento web používá k poskytování služeb, personalizaci reklam a analýze
+	návštěvnosti soubory cookie. Používáním tohoto webu s tím souhlasíte.
+	<button class="btn btn-success">V pořádku</button>
+	<a class="cookie-eu-link" href="https://www.google.com/policies/technologies/cookies/">Další informace</a>
+</div>
+
+<script>
+	$('.eu-cookies button').click(function() {
+		var date = new Date();
+		date.setFullYear(date.getFullYear() + 10);
+		document.cookie = 'eu-cookies=1; path=/; expires=' + date.toGMTString();
+		$('.eu-cookies').hide();
+	});
+</script>
+
+<noscript><style>.eu-cookies { display:none }</style></noscript>
 </body>
 </html>
