@@ -362,10 +362,9 @@
 
 <!-- COKKIES END -->
 <div class="eu-cookies" n:if="empty($_COOKIE[eu-cookies])">
-	Tento web používá k poskytování služeb, personalizaci reklam a analýze
-	návštěvnosti soubory cookie. Používáním tohoto webu s tím souhlasíte.
-	<button class="btn btn-success">V pořádku</button>
-	<a class="cookie-eu-link" href="https://www.google.com/policies/technologies/cookies/">Další informace</a>
+	{=COOKIE_SUBMIT_TEXT}
+	<button class="btn btn-success">{=COOKIE_SUBMIT_OK}</button>
+	<a class="cookie-eu-link" href="https://www.google.com/policies/technologies/cookies/">{=COOKIE_SUBMIT_MORE_INFO}</a>
 </div>
 
 <script>

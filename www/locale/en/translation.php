@@ -601,3 +601,7 @@ define("HEADER_BUTTON_SAVE", 'Save header setting');
 define("UNSUPPORTED_UPLOAD_FORMAT", " You are trying to upload unsupported format. Supported formats are %s.");
 define("RECAPTCHA_NOT_A_BOT", "Not a bot?");
 define("RECAPTCHA_CHECK_IT", "Please, verify that you are a human!");
+
+define("COOKIE_SUBMIT_TEXT", "This website uses cookies to provide services, personalize ads and analyze traffic. By using this website, you agree to this.");
+define("COOKIE_SUBMIT_OK", "OK");
+define("COOKIE_SUBMIT_MORE_INFO", "More information");

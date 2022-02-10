@@ -615,3 +615,7 @@ define("HEADER_BUTTON_SAVE", 'Uložit hlavičku');
 define("UNSUPPORTED_UPLOAD_FORMAT", "Pokoušíte se nahrát nepodporovaný formát. Podporované formáty jsou %s.");
 define("RECAPTCHA_NOT_A_BOT", "Nejsem robot?");
 define("RECAPTCHA_CHECK_IT", "Prosím, potvrďte, že nejste robot!");
+
+define("COOKIE_SUBMIT_TEXT", "Tento web používá k poskytování služeb, personalizaci reklam a analýze návštěvnosti soubory cookie. Používáním tohoto webu s tím souhlasíte.");
+define("COOKIE_SUBMIT_OK", "V pořádku");
+define("COOKIE_SUBMIT_MORE_INFO", "Další informace");
